@@ -1,0 +1,23 @@
+{
+  "name": "hotkeys-js",
+  "main": "src/hotkeys.js",
+  "version": "1.0.0",
+  "homepage": "https://github.com/jaywcjlove/hotkeys",
+  "authors": [
+    "jaywcjlove <398188662@qq.com>"
+  ],
+  "license": "MIT",
+  "keywords": [
+    "key",
+    "keys",
+    "keyboard",
+    "shortcuts"
+  ],
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}
