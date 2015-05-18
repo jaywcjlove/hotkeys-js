@@ -8,7 +8,11 @@
 
 ### bower
 Run `bower info hotkeysjs` to list the available versions.  
-安装 `bower install hotkeysjs`  
+下载 `bower install hotkeysjs`  
+
+### npm
+
+下载 `npm install hotkeys-js`
 
 
 ## 定义快捷键
@@ -65,5 +69,8 @@ k('a', function() {
 });
 
 hotkeys()
-// -->Uncaught TypeError: hotkeys is not a function(anonymous function) @ VM2170:2InjectedScript._evaluateOn @ VM2165:883InjectedScript._evaluateAndWrap @ VM2165:816InjectedScript.evaluate @ VM2165:682
+// -->Uncaught TypeError: hotkeys is not a function(anonymous function) 
+// @ VM2170:2InjectedScript._evaluateOn 
+// @ VM2165:883InjectedScript._evaluateAndWrap 
+// @ VM2165:816InjectedScript.evaluate @ VM2165:682
 ```
