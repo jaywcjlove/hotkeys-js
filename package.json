@@ -1,0 +1,20 @@
+{
+  "name": "hotkeys",
+  "version": "1.0.0",
+  "description": "A simple micro-library for defining and dispatching keyboard shortcuts. It has no dependencies.",
+  "keywords": [
+    "hotkeys",
+    "key",
+    "keys"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/jaywcjlove/hotkeys.git"
+  },
+  "devDependencies": {
+    "grunt": "^0.4.5",
+    "grunt-contrib-jshint": "^0.11.2",
+    "grunt-contrib-uglify": "^0.9.1",
+    "grunt-contrib-watch": "^0.6.1"
+  }
+}
