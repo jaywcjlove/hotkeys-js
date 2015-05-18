@@ -1,5 +1,13 @@
 # 设置快捷键
 
+这又是在重复造轮子，呵呵~！！
+
+## 下载
+
+### bower
+Run `bower info hotkeysjs` to list the available versions.  
+安装 `bower install hotkeysjs`  
+
 
 ## 定义快捷键
 
