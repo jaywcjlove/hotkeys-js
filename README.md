@@ -42,7 +42,7 @@ hotkeys('⌘+r, ctrl+r', function(){ });
 `fn` 功能键就是fn  
 `↩︎` return/Enter
 
-## 修时键判断
+## 修饰键判断
 可以对下面的修饰键判断 `shift` `alt` `option` `ctrl` `control` `command`
 
 ```js
@@ -53,12 +53,42 @@ if(hotkeys.shift) console.log('大哥你摁下了shift键！');
 
 ```js
 // 一个快捷键，有可能干的活儿不一样哦
-hotkeys('o, enter', 'issues', function(){ /* 干点活儿 */ });
-hotkeys('o, enter', 'files', function(){ /* 另一种活儿 */ });
+hotkeys('ctrl+o, ctrl+alt+enter', 'issues', function(){
+    console.log('干点活儿');
+});
+hotkeys('o, enter', 'files', function(){ 
+    console.log('另一种活儿');
+});
 
 // 设定范围scope 
 hotkeys.setScope('issues'); // 默认所有事儿都干哦 
 ```
+
+## 解除绑定
+
+`hotkeys.unbind("ctrl+o, ctrl+alt+enter")` 解除绑定两组快捷键  
+`hotkeys.unbind("ctrl+o","files")` 解除绑定名字叫files钟的一组快捷键  
+
+
+## 键判断
+判断摁下的键是否为某个键
+
+```js
+hotkeys('a', function(){
+    console.log(hotkeys.isPressed("A")); //=> true
+    console.log(hotkeys.isPressed(65)); //=> true
+});
+```
+
+## 获取摁下键值
+获取摁下绑定键的键值
+
+```js
+hotkeys('command+ctrl+shift+a,f', function(){
+    console.log(hotkeys.getPressedKeyCodes()); //=> [17, 65] 或者 [70]
+})
+```
+
 
 ## 兼容模式
 
