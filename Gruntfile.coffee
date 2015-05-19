@@ -8,7 +8,7 @@ module.exports = (grunt) ->
             app_task: 
                 options: 
                     beautify: false
-                    mangle: false #不混淆变量名
+                    mangle: true #不混淆变量名
                     compress:false #打开或关闭使用默认选项源压缩。
                 files:
                     'build/hotkeys.min.js': [
