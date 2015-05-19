@@ -19,7 +19,7 @@
     }
 }(this, function(root, undefined) {
     var _api,//对外API
-        _keyMap = {//特殊键
+    _keyMap = {//特殊键
         backspace: 8, tab: 9, clear: 12,
         enter: 13, 'return': 13,
         esc: 27, escape: 27, space: 32,
@@ -39,6 +39,7 @@
         '⌃': 17, ctrl: 17, control: 17,
         '⌘': 91, command: 91
     },
+    _downKeys=[],//记录绑定的键
     modifierMap = {
         16:'shiftKey',
         18:'altKey',
@@ -67,9 +68,20 @@
             object.attachEvent('on'+event, function(){ method(window.event); });
         }
     }
+    //判断摁下的键是否为某个键，返回true或者false
+    function isPressed(keyCode) {
+        if(typeof(keyCode) === 'string'){
+            keyCode = code(keyCode);//转换成键码
+        }
+        return _downKeys.indexOf(keyCode) !==-1;
+    }
     //处理keydown事件
     function dispatch (event) {
         var key = event.keyCode,modifiersMatch,scope,handler;
+
+        //搜集绑定的键
+        if(_downKeys.indexOf(key)===-1) _downKeys.push(key);
+
         //Gecko(Friefox)的command键值224，在Webkit(Chrome)中保持一致
         //Webkit左右command键值不一样
         if(key === 93 || key === 224) key = 91;
@@ -151,7 +163,8 @@
     }
     _api = {
         setScope:setScope,
-        getScope:getScope
+        getScope:getScope,
+        isPressed:isPressed
     };
     for (var a in _api) hotkeys[a] = _api[a];
     return hotkeys;
