@@ -39,7 +39,7 @@
         '⌃': 17, ctrl: 17, control: 17,
         '⌘': 91, command: 91
     },
-    _downKeys=[],//记录绑定的键
+    _downKeys=[],//记录摁下的绑定键
     modifierMap = {
         16:'shiftKey',
         18:'altKey',
@@ -75,6 +75,8 @@
         }
         return _downKeys.indexOf(keyCode) !==-1;
     }
+    //获取摁下绑定键的键值
+    function getPressedKeyCodes (argument) { return _downKeys.slice(0);}
     //处理keydown事件
     function dispatch (event) {
         var key = event.keyCode,modifiersMatch,scope,handler;
@@ -119,9 +121,6 @@
             }
         }
     }
-    addEvent(document, 'keydown', function(event) {
-         dispatch(event);
-    });
     //修饰键转换成对应的键码
     function getMods (key) {
         var mods = key.slice(0, key.length - 1);
@@ -136,6 +135,16 @@
         if ((keys[keys.length - 1]) === '') keys[keys.length - 2] += ',';
         return keys;
     }
+    //在全局document上设置快捷键
+    addEvent(document, 'keydown', function(event) {
+         dispatch(event);
+    });
+    //清除修改
+    addEvent(document, 'keyup',function(event){
+        var key = event.keyCode,
+            i = _downKeys.indexOf(key);
+        if(i>=0) _downKeys.splice(i,1);
+    });
     //主体hotkeys函数
     function hotkeys(key,scope,method){
         var keys = getKeys(key), mods=[],i=0;
@@ -164,6 +173,7 @@
     _api = {
         setScope:setScope,
         getScope:getScope,
+        getPressedKeyCodes:getPressedKeyCodes,
         isPressed:isPressed
     };
     for (var a in _api) hotkeys[a] = _api[a];
