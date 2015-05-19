@@ -121,6 +121,47 @@
             }
         }
     }
+    //解除绑定某个范围的快捷键
+    function unbind (key,scope) {
+        var multipleKeys = getKeys(key),keys,mods = [],obj;
+        console.log( multipleKeys.length);
+        for (var i = 0; i < multipleKeys.length; i++) {
+            
+            //将组合快捷键拆分为数组
+            keys =multipleKeys[i].split('+');
+            
+            //记录每个组合键中的修饰键的键码 返回数组
+            if(keys.length > 1) mods=getMods(keys);
+            
+            //获取除修饰键外的键值key
+            key = keys[keys.length - 1];
+            key = code(key);
+
+            //判断是否传入范围，没有就获取范围
+            if(scope === undefined) scope = getScope();
+
+            //如何key不在 _handlers 中返回不做处理
+            if (!_handlers[key]) return;
+
+            //清空 handlers 中数据，
+            //让触发快捷键键之后没有事件执行到达解除快捷键绑定的目的
+            for (var r = 0; r < _handlers[key].length; r++) {
+                obj = _handlers[key][r];
+                //判断是否在范围内并且键值相同
+                if (obj.scope === scope && compareArray(obj.mods, mods)) {
+                  _handlers[key][r] = {};
+                }
+            }
+        }
+    }
+    //比较修饰键的数组
+    function compareArray(a1, a2) {
+        if (a1.length !== a2.length) return false;
+        for (var i = 0; i < a1.length; i++) {
+            if (a1[i] !== a2[i]) return false;
+        }
+        return true;
+    }
     //修饰键转换成对应的键码
     function getMods (key) {
         var mods = key.slice(0, key.length - 1);
@@ -174,7 +215,8 @@
         setScope:setScope,
         getScope:getScope,
         getPressedKeyCodes:getPressedKeyCodes,
-        isPressed:isPressed
+        isPressed:isPressed,
+        unbind:unbind
     };
     for (var a in _api) hotkeys[a] = _api[a];
     return hotkeys;
