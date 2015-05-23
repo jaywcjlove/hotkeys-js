@@ -103,6 +103,8 @@ if(!Array.indexOf){
         }
         //将modifierMap里面的修饰键绑定到event中
         for(var e in _mods) _mods[e] = event[modifierMap[e]];
+        //表单控件控件过滤 默认表单控件不触发快捷键
+        if(!hotkeys.filter.call(this,event)) return;
         // key 不在_handlers中返回
         if (!(key in _handlers)) return;
         //获取范围 默认为all
@@ -132,7 +134,6 @@ if(!Array.indexOf){
     //解除绑定某个范围的快捷键
     function unbind (key,scope) {
         var multipleKeys = getKeys(key),keys,mods = [],obj;
-        console.log( multipleKeys.length);
         for (var i = 0; i < multipleKeys.length; i++) {
             
             //将组合快捷键拆分为数组
@@ -169,6 +170,12 @@ if(!Array.indexOf){
             if (a1[i] !== a2[i]) return false;
         }
         return true;
+    }
+    //表单控件控件判断 返回 Boolean
+    function filter(event){
+        var tagName = (event.target || event.srcElement).tagName;
+        //忽略这些标签情况下快捷键无效
+        return !(tagName === 'INPUT' || tagName === 'SELECT' || tagName === 'TEXTAREA');
     }
     //修饰键转换成对应的键码
     function getMods (key) {
@@ -224,6 +231,7 @@ if(!Array.indexOf){
         getScope:getScope,
         getPressedKeyCodes:getPressedKeyCodes,
         isPressed:isPressed,
+        filter:filter,
         unbind:unbind
     };
     for (var a in _api) hotkeys[a] = _api[a];
