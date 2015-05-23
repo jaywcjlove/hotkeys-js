@@ -19,14 +19,20 @@ Run `bower info hotkeysjs` to list the available versions.
 
 ```js
 // 定义a快捷键
-hotkeys('a', function(){ alert('你按下了 a!') });
+hotkeys('a', function(event){
+    //event.srcElement: input 
+    //event.target: input
+    if(event.target === "input"){
+        alert('你在输入框中按下了 a!')
+    }
+    alert('你按下了 a!') 
+ });
 
 // 返回false将停止活动，并阻止默认浏览器事件
 hotkeys('ctrl+r', function(){ alert('停止刷新!'); return false });
 
 // 多个快捷方式做同样的事情
 hotkeys('⌘+r, ctrl+r', function(){ });
-
 ```
 
 
@@ -89,6 +95,16 @@ hotkeys('command+ctrl+shift+a,f', function(){
 })
 ```
 
+
+## 过滤
+`INPUT`  `SELECT` `TEXTAREA` 默认不处理。  
+`key.filter` 返回 `true` 快捷键设置才会起作用，`flase` 快捷键设置失效。   
+
+```javascript
+key.filter = function(event){
+  return true;
+}
+```
 
 ## 兼容模式
 
