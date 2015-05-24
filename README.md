@@ -19,14 +19,25 @@ Run `bower info hotkeysjs` to list the available versions.
 
 ```js
 // 定义a快捷键
-hotkeys('a', function(event){
+hotkeys('a', function(event,handler){
     //event.srcElement: input 
     //event.target: input
     if(event.target === "input"){
         alert('你在输入框中按下了 a!')
     }
     alert('你按下了 a!') 
- });
+});
+
+// 定义a快捷键
+hotkeys('ctrl+a,ctrl+b,r,f', function(event,handler){
+    switch(handler.key){
+        case "ctrl+a":alert('你按下了ctrl+a!');break;
+        case "ctrl+b":alert('你按下了ctrl+b!');break;
+        case "r":alert('你按下了r!');break;
+        case "f":alert('你按下了f!');break;
+    }
+    //handler.scope 范围
+});
 
 // 返回false将停止活动，并阻止默认浏览器事件
 hotkeys('ctrl+r', function(){ alert('停止刷新!'); return false });
@@ -98,11 +109,18 @@ hotkeys('command+ctrl+shift+a,f', function(){
 
 ## 过滤
 `INPUT`  `SELECT` `TEXTAREA` 默认不处理。  
-`key.filter` 返回 `true` 快捷键设置才会起作用，`flase` 快捷键设置失效。   
+`hotkeys.filter` 返回 `true` 快捷键设置才会起作用，`flase` 快捷键设置失效。   
 
 ```javascript
-key.filter = function(event){
+hotkeys.filter = function(event){
   return true;
+}
+//如何增加过滤可编辑标签 <div contentEditable="true"></div>
+//contentEditable老浏览器不支持滴 
+hotkeys.filter = function(event) {
+  var el = event.target || event.srcElement;
+  return !(el.isContentEditable || el.tagName == 'INPUT' ||
+           el.tagName == 'SELECT' || el.tagName == 'TEXTAREA');
 }
 ```
 
