@@ -191,16 +191,28 @@ if(!Array.indexOf){
         if ((keys[keys.length - 1]) === '') keys[keys.length - 2] += ',';
         return keys;
     }
+
     //在全局document上设置快捷键
     addEvent(document, 'keydown', function(event) {
-         dispatch(event);
+        dispatch(event);
     });
-    //清除修改
     addEvent(document, 'keyup',function(event){
+        clearModifier(event);
+    });
+    //清除修饰键
+    function clearModifier(event){
         var key = event.keyCode,
             i = _downKeys.indexOf(key);
+
         if(i>=0) _downKeys.splice(i,1);
-    });
+
+        //修饰键 shiftKey altKey ctrlKey (command||metaKey) 清除
+        if(key == 93 || key == 224) key = 91;
+        if(key in _mods) {
+            _mods[key] = false;
+            for(k in _modifier) if(_modifier[k] == key) hotkeys[k] = false;
+        }
+    }
     //主体hotkeys函数
     function hotkeys(key,scope,method){
         var keys = getKeys(key), mods=[],i=0;
