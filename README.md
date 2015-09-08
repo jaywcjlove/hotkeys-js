@@ -63,8 +63,16 @@ hotkeys('ctrl+r', function(){ alert('停止刷新!'); return false });
 
 // 多个快捷方式做同样的事情
 hotkeys('⌘+r, ctrl+r', function(){ });
-```
 
+// 对所有摁键执行任务
+hotkeys('*','wcj', function(e){
+    console.log('干点活儿',e);
+    console.log("key.getScope()::",hotkeys.getScope());
+    if(hotkeys.shift) console.log('大哥你摁下了 shift 键！');
+    if(hotkeys.ctrl) console.log('大哥你摁下了 ctrl 键！');
+    if(hotkeys.alt) console.log('大哥你摁下了 alt 键！');
+});
+```
 
 ## 支持的键
 
