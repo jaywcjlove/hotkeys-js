@@ -4,6 +4,15 @@
 
 自定义快捷键没有依赖。这又是在重复造轮子，呵呵~！！
 
+
+```
+  __            __    __                         
+ |  |--..-----.|  |_ |  |--..-----..--.--..-----.
+ |     ||  _  ||   _||    < |  -__||  |  ||__ --|
+ |__|__||_____||____||__|__||_____||___  ||_____|
+                                   |_____|   
+```
+
 ## 创建
 
 您将需要在您的系统上安装的 Node.js。
@@ -23,8 +32,6 @@ $ grunt dist
 # dist/hotkeys.min.js
 # dist/hotkeys.min.map
 ```
-
-
 
 
 ## 定义快捷键
@@ -70,15 +77,23 @@ hotkeys('⌘+r, ctrl+r', function(){ });
 `⇪` Caps Lock(大写)   
 `fn` 功能键就是fn  
 `↩︎` return/Enter
+`space` 空格键
 
 ## 修饰键判断
 可以对下面的修饰键判断 `shift` `alt` `option` `ctrl` `control` `command`
 
 ```js
-if(hotkeys.shift) console.log('大哥你摁下了shift键！');
+hotkeys('shift+a,alt+d, w', function(e){
+    console.log('干点活儿',e);
+    if(hotkeys.shift) console.log('大哥你摁下了 shift 键！');
+    if(hotkeys.ctrl) console.log('大哥你摁下了 ctrl 键！');
+    if(hotkeys.alt) console.log('大哥你摁下了 alt 键！');
+});
 ```
 
 ## 切换快捷键
+
+如果在单页面在不同的区域，相同的快捷键，干不同的事儿，之间来回切换。O(∩_∩)O ！
 
 ```js
 // 一个快捷键，有可能干的活儿不一样哦
@@ -91,6 +106,14 @@ hotkeys('o, enter', 'files', function(){
 
 // 设定范围scope 
 hotkeys.setScope('issues'); // 默认所有事儿都干哦 
+```
+
+## 删除标记快捷键
+
+删除区域范围标记
+
+```js
+hotkeys.deleteScope('issues');
 ```
 
 ## 解除绑定
@@ -110,7 +133,7 @@ hotkeys('a', function(){
 ```
 
 ## 获取摁下键值
-获取摁下绑定键的键值
+获取摁下绑定键的键值 `hotkeys.getPressedKeyCodes()`
 
 ```js
 hotkeys('command+ctrl+shift+a,f', function(){
@@ -130,9 +153,15 @@ hotkeys.filter = function(event){
 //如何增加过滤可编辑标签 <div contentEditable="true"></div>
 //contentEditable老浏览器不支持滴 
 hotkeys.filter = function(event) {
-  var el = event.target || event.srcElement;
-  return !(el.isContentEditable || el.tagName == 'INPUT' ||
-           el.tagName == 'SELECT' || el.tagName == 'TEXTAREA');
+    var tagName = (event.target || event.srcElement).tagName;
+    return !(tagName.isContentEditable || tagName == 'INPUT' || tagName == 'SELECT' || tagName == 'TEXTAREA');
+}
+
+//
+hotkeys.filter = function(event){
+    var tagName = (event.target || event.srcElement).tagName;
+    hotkeys.setScope(/^(INPUT|TEXTAREA|SELECT)$/.test(tagName) ? 'input' : 'other');
+    return true;
 }
 ```
 
