@@ -2,17 +2,29 @@
 
 [![](https://img.shields.io/github/issues/jaywcjlove/hotkeys.svg)](https://github.com/jaywcjlove/hotkeys/issues) [![](https://img.shields.io/github/forks/jaywcjlove/hotkeys.svg)](https://github.com/jaywcjlove/hotkeys/network) [![](https://img.shields.io/github/stars/jaywcjlove/hotkeys.svg)](https://github.com/jaywcjlove/hotkeys/stargazers) [![](https://img.shields.io/github/release/jaywcjlove/hotkeys.svg)](https://github.com/jaywcjlove/hotkeys/releases)
 
-这又是在重复造轮子，呵呵~！！
+自定义快捷键没有依赖。这又是在重复造轮子，呵呵~！！
 
-## 下载
+## 创建
 
-### bower
-Run `bower info hotkeysjs` to list the available versions.  
-下载 `bower install hotkeysjs`  
+您将需要在您的系统上安装的 Node.js。
 
-### npm
+```sh
+# npm 安装
+$ bower install hotkeysjs
 
-下载 `npm install hotkeys-js`
+# npm 安装
+$ npm install hotkeys-js
+
+# 在页面上引用需要压缩的话，运行
+$ grunt dist
+
+# 在dist目录中生成下列文件：
+# dist/hotkeys.js
+# dist/hotkeys.min.js
+# dist/hotkeys.min.map
+```
+
+
 
 
 ## 定义快捷键

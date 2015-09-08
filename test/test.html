@@ -6,6 +6,21 @@
     <script type="text/javascript" src="../src/hotkeys.js"></script>
 </head>
 <body>
-    
+    <textarea></textarea>
+    <div contentEditable="true" style="height: 200px;width: 400px;border: 1px solid red;"></div>
+<script type="text/javascript">
+
+    hotkeys.filter = function(event){
+        console.log("message123123123",event.target);
+        return true;
+    }
+    // 定义a快捷键
+    hotkeys('*',function(event,handler){
+        //event.srcElement: input 
+        //event.target: input
+        console.log("message22323:",event.target);
+    });
+
+</script>
 </body>
 </html>

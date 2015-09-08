@@ -2,6 +2,7 @@ module.exports = (grunt) ->
     grunt.loadNpmTasks 'grunt-contrib-watch'
     grunt.loadNpmTasks 'grunt-contrib-uglify'
     grunt.loadNpmTasks 'grunt-contrib-jshint'
+    grunt.loadNpmTasks 'grunt-dist'
     grunt.initConfig(
         pkg: grunt.file.readJSON 'package.json' 
         uglify:
@@ -19,6 +20,10 @@ module.exports = (grunt) ->
                 eqeqeq: true
                 trailing: true 
             files: ['src/hotkeys.js']
+        dist: 
+            default_options: 
+                files: 
+                    "dist":['src/hotkeys.js']
         watch: 
             another: 
                 files: ['src/*.js']
