@@ -103,6 +103,7 @@ if(!Array.indexOf){
         }
         //将modifierMap里面的修饰键绑定到event中
         for(var e in _mods) _mods[e] = event[modifierMap[e]];
+
         //表单控件控件过滤 默认表单控件不触发快捷键
         if(!hotkeys.filter.call(this,event)) return;
         // key 不在_handlers中返回
@@ -114,6 +115,7 @@ if(!Array.indexOf){
             handler = _handlers[key][i];
             //看它是否在当前范围
             if(handler.scope === scope || handler.scope === 'all'){
+                //检查是否匹配修饰符（如果有返回true）
                 modifiersMatch = handler.mods.length > 0;
                 for(var y in _mods){
                     if((!_mods[y] && handler.mods.indexOf(+y) > -1) ||
@@ -160,6 +162,17 @@ if(!Array.indexOf){
                 if (obj.scope === scope && compareArray(obj.mods, mods)) {
                   _handlers[key][r] = {};
                 }
+            }
+        }
+    }
+    //循环删除handlers中的所有 scope(范围)
+    function deleteScope(scope){
+        var key, handlers, i;
+        for (key in _handlers) {
+            handlers = _handlers[key];
+            for (i = 0; i < handlers.length; ) {
+                if (handlers[i].scope === scope) handlers.splice(i, 1);
+                else i++;
             }
         }
     }
