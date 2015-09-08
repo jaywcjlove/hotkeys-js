@@ -57,6 +57,7 @@ if(!Array.indexOf){
     _mods = { 16: false, 18: false, 17: false, 91: false },
     //返回键码
     code = function(x){ 
+        console.log();
       return _keyMap[x] || x.toUpperCase().charCodeAt(0);
     },
     _handlers={};
@@ -87,11 +88,10 @@ if(!Array.indexOf){
     function getPressedKeyCodes (argument) { return _downKeys.slice(0);}
     //处理keydown事件
     function dispatch (event) {
-        var key = event.keyCode,modifiersMatch,scope,handler;
+        var key = event.keyCode,scope,asterisk = _handlers['*'];
 
         //搜集绑定的键
         if(_downKeys.indexOf(key)===-1) _downKeys.push(key);
-
         //Gecko(Friefox)的command键值224，在Webkit(Chrome)中保持一致
         //Webkit左右command键值不一样
         if(key === 93 || key === 224) key = 91;
@@ -99,40 +99,52 @@ if(!Array.indexOf){
             _mods[key] = true;
             // 将特殊字符的key注册到 hotkeys 上
             for(var k in _modifier)if(_modifier[k] === key) hotkeys[k] = true; 
-            return;
+            if(!asterisk) return;
         }
         //将modifierMap里面的修饰键绑定到event中
         for(var e in _mods) _mods[e] = event[modifierMap[e]];
 
         //表单控件控件过滤 默认表单控件不触发快捷键
         if(!hotkeys.filter.call(this,event)) return;
-        // key 不在_handlers中返回
-        if (!(key in _handlers)) return;
         //获取范围 默认为all
         scope = getScope();
+
+        //对任何按键做处理
+        if(asterisk) for (i = 0; i < asterisk.length; i++) {
+            if(asterisk[i].scope === scope) eventHandler(asterisk[i],scope);
+        }
+
+        // key 不在_handlers中返回
+        if (!(key in _handlers)) return;
+
         for (i = 0; i < _handlers[key].length; i++) {
             //找到处理内容
-            handler = _handlers[key][i];
-            //看它是否在当前范围
-            if(handler.scope === scope || handler.scope === 'all'){
-                //检查是否匹配修饰符（如果有返回true）
-                modifiersMatch = handler.mods.length > 0;
-                for(var y in _mods){
-                    if((!_mods[y] && handler.mods.indexOf(+y) > -1) ||
-                        (_mods[y] && handler.mods.indexOf(+y) === -1)) modifiersMatch = false;
-                }
-                // 调用处理程序，如果是修饰键不做处理
-                if((handler.mods.length === 0 && !_mods[16] && !_mods[18] && !_mods[17] && !_mods[91]) || modifiersMatch){
-                    if(handler.method(event, handler)===false){
-                        if(event.preventDefault) event.preventDefault();
-                        else event.returnValue = false;
-                        if(event.stopPropagation) event.stopPropagation();
-                        if(event.cancelBubble) event.cancelBubble = true;
-                    }
+            eventHandler(_handlers[key][i],scope);
+        }
+    }
+
+    function eventHandler(handler,scope){
+        var modifiersMatch;
+        //看它是否在当前范围
+        if(handler.scope === scope || handler.scope === 'all'){
+            //检查是否匹配修饰符（如果有返回true）
+            modifiersMatch = handler.mods.length > 0;
+            for(var y in _mods){
+                if((!_mods[y] && handler.mods.indexOf(+y) > -1) ||
+                    (_mods[y] && handler.mods.indexOf(+y) === -1)) modifiersMatch = false;
+            }
+            // 调用处理程序，如果是修饰键不做处理
+            if((handler.mods.length === 0 && !_mods[16] && !_mods[18] && !_mods[17] && !_mods[91]) || modifiersMatch || handler.shortcut === '*'){
+                if(handler.method(event, handler)===false){
+                    if(event.preventDefault) event.preventDefault();
+                    else event.returnValue = false;
+                    if(event.stopPropagation) event.stopPropagation();
+                    if(event.cancelBubble) event.cancelBubble = true;
                 }
             }
         }
     }
+
     //解除绑定某个范围的快捷键
     function unbind (key,scope) {
         var multipleKeys = getKeys(key),keys,mods = [],obj;
@@ -220,10 +232,10 @@ if(!Array.indexOf){
         if(i>=0) _downKeys.splice(i,1);
 
         //修饰键 shiftKey altKey ctrlKey (command||metaKey) 清除
-        if(key == 93 || key == 224) key = 91;
+        if(key === 93 || key === 224) key = 91;
         if(key in _mods) {
             _mods[key] = false;
-            for(k in _modifier) if(_modifier[k] == key) hotkeys[k] = false;
+            for(var k in _modifier) if(_modifier[k] === key) hotkeys[k] = false;
         }
     }
     //主体hotkeys函数
@@ -245,7 +257,7 @@ if(!Array.indexOf){
             }
             //转换成键码
             key = key[0];
-            key = code(key);
+            key = key === '*' ? '*' : code(key);
             //判断key是否在_handlers中，不在就赋一个空数组
             if (!(key in _handlers)) _handlers[key] = [];
             _handlers[key].push({shortcut: keys[i], scope: scope, method: method, key: keys[i], mods: mods});
