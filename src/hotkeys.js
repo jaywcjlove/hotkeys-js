@@ -111,7 +111,7 @@ if(!Array.indexOf){
 
         //对任何按键做处理
         if(asterisk) for (i = 0; i < asterisk.length; i++) {
-            if(asterisk[i].scope === scope) eventHandler(asterisk[i],scope);
+            if(asterisk[i].scope === scope) eventHandler(event,asterisk[i],scope);
         }
 
         // key 不在_handlers中返回
@@ -119,11 +119,11 @@ if(!Array.indexOf){
 
         for (i = 0; i < _handlers[key].length; i++) {
             //找到处理内容
-            eventHandler(_handlers[key][i],scope);
+            eventHandler(event,_handlers[key][i],scope);
         }
     }
 
-    function eventHandler(handler,scope){
+    function eventHandler(event,handler,scope){
         var modifiersMatch;
         //看它是否在当前范围
         if(handler.scope === scope || handler.scope === 'all'){
