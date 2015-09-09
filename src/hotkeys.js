@@ -266,6 +266,7 @@ if(!Array.indexOf){
     _api = {
         setScope:setScope,
         getScope:getScope,
+        deleteScope:deleteScope,
         getPressedKeyCodes:getPressedKeyCodes,
         isPressed:isPressed,
         filter:filter,
