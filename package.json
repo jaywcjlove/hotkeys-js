@@ -3,7 +3,10 @@
   "version": "1.0.2",
   "description": "A simple micro-library for defining and dispatching keyboard shortcuts. It has no dependencies.",
   "keywords": [
+    "hotkey",
     "hotkeys",
+    "hotkeys-js",
+    "hotkeysjs",
     "key",
     "keys",
     "keyboard",
