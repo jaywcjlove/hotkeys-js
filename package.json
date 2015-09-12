@@ -1,6 +1,6 @@
 {
   "name": "hotkeys-js",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "A simple micro-library for defining and dispatching keyboard shortcuts. It has no dependencies.",
   "keywords": [
     "hotkey",

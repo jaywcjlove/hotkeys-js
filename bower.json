@@ -1,7 +1,7 @@
 {
   "name": "hotkeys-js",
   "main": "src/hotkeys.js",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "homepage": "https://github.com/jaywcjlove/hotkeys",
   "authors": [
     "jaywcjlove <398188662@qq.com>"
