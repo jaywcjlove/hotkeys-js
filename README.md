@@ -2,7 +2,7 @@
 
 [![](https://img.shields.io/github/issues/jaywcjlove/hotkeys.svg)](https://github.com/jaywcjlove/hotkeys/issues) [![](https://img.shields.io/github/forks/jaywcjlove/hotkeys.svg)](https://github.com/jaywcjlove/hotkeys/network) [![](https://img.shields.io/github/stars/jaywcjlove/hotkeys.svg)](https://github.com/jaywcjlove/hotkeys/stargazers) [![](https://img.shields.io/github/release/jaywcjlove/hotkeys.svg)](https://github.com/jaywcjlove/hotkeys/releases)
 
-自定义快捷键没有依赖。这又是在重复造轮子，呵呵~！！
+这是一个强健的 Javascript 库用于捕获键盘输入和输入的组合键，它没有依赖，压缩只有只有(~3kb)。
 
 
 ```
@@ -18,7 +18,7 @@
 您将需要在您的系统上安装的 Node.js。
 
 ```sh
-# npm 安装
+# bower 安装
 $ bower install hotkeysjs
 
 # npm 安装
@@ -83,7 +83,7 @@ hotkeys('*','wcj', function(e){
 `⌥` Option(alt)  
 `⇧` Shift  
 `⇪` Caps Lock(大写)   
-`fn` 功能键就是fn  
+`fn` 功能键就是fn(不支持)  
 `↩︎` return/Enter
 `space` 空格键
 
