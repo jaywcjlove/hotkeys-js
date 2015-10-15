@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>hotkeys</title>
+    <link rel="stylesheet" type="text/css" href="src/style.css">
+    <script type="text/javascript" src="https://rawgit.com/jaywcjlove/hotkeys/master/src/hotkeys.js"></script>
+</head>
+<body>
+<div class="title">HotKeys</div>
+
+<div class="warpper">
+
+    <div class="github_wrapper">
+        <a href="https://github.com/jaywcjlove/hotkeys/zipball/master">
+            <button class="github_style">Download as zip</button>
+        </a> 
+        <a href="https://github.com/jaywcjlove/hotkeys/tarball/master">
+            <button class="github_style">Download as tar.gz</button>
+        </a> 
+        <a href="https://github.com/jaywcjlove/hotkeys/">
+            <button class="github_style">Fork on Github</button>
+        </a> 
+        <a href="https://github.com/jaywcjlove/hotkeys/">
+            <button class="github_style">Doc on Github</button>
+        </a> 
+    </div>
+    <div class="info">A robust Javascript library for capturing keyboard input and key combinations entered. It has no dependencies. Try to press your keyboard, The following button will highlight.</div>
+    <div class="key_info" id="key_info"></div>
+    <div class="board">
+        <div class="keyboard" id="keyboard">
+            <ul>
+                <li data-keycode="27">esc</li>
+                <li data-keycode="112">F1</li>
+                <li data-keycode="113">F2</li>
+                <li data-keycode="114">F3</li>
+                <li data-keycode="115">F4</li>
+                <li data-keycode="116">F5</li>
+                <li data-keycode="117">F6</li>
+                <li data-keycode="118">F7</li>
+                <li data-keycode="119">F8</li>
+                <li data-keycode="120">F9</li>
+                <li data-keycode="121">F10</li>
+                <li data-keycode="122">F11</li>
+                <li data-keycode="123">F12</li>
+                <li data-keycode="-1">〇</li>
+                <li data-keycode="192"><span>~</span><span>`</span></li>
+                <li data-keycode="49"><span>!</span><span>1</span></li>
+                <li data-keycode="50"><span>@</span><span>2</span></li>
+                <li data-keycode="51"><span>#</span><span>3</span></li>
+                <li data-keycode="52"><span>$</span><span>4</span></li>
+                <li data-keycode="53"><span>%</span><span>5</span></li>
+                <li data-keycode="54"><span>^</span><span>6</span></li>
+                <li data-keycode="55"><span>&</span><span>7</span></li>
+                <li data-keycode="56"><span>*</span><span>8</span></li>
+                <li data-keycode="57"><span>(</span><span>9</span></li>
+                <li data-keycode="48"><span>)</span><span>0</span></li>
+                <li data-keycode="189"><span>＿</span><span>-</span></li>
+                <li data-keycode="187"><span>＋</span><span>=</span></li>
+                <li data-keycode="8"><span>delete</span></li>
+                <li data-keycode="9"><span>tab</span></li>
+                <li data-keycode="81">Q</li>
+                <li data-keycode="87">W</li>
+                <li data-keycode="69">E</li>
+                <li data-keycode="82">R</li>
+                <li data-keycode="84">T</li>
+                <li data-keycode="89">Y</li>
+                <li data-keycode="85">U</li>
+                <li data-keycode="73">I</li>
+                <li data-keycode="79">O</li>
+                <li data-keycode="80">P</li>
+                <li data-keycode="219"><span>{</span><span>[</span></li>
+                <li data-keycode="221"><span>}</span><span>]</span></li>
+                <li data-keycode="220"><span>|</span><span>\</span></li>
+                <li data-keycode="20"><i></i><span>CapsLock</span></li>
+                <li data-keycode="65">A</li>
+                <li data-keycode="83">S</li>
+                <li data-keycode="68">D</li>
+                <li data-keycode="70">F</li>
+                <li data-keycode="71">G</li>
+                <li data-keycode="72">H</li>
+                <li data-keycode="74">J</li>
+                <li data-keycode="75">K</li>
+                <li data-keycode="76">L</li>
+                <li data-keycode="186"><span>:</span><span>;</span></li>
+                <li data-keycode="222"><span>"</span><span>'</span></li>
+                <li data-keycode="13"><i>enter</i><span>return</span></li>
+                <li data-keycode="16"><span>shift</span></li>
+                <li data-keycode="90">Z</li>
+                <li data-keycode="88">X</li>
+                <li data-keycode="67">C</li>
+                <li data-keycode="86">V</li>
+                <li data-keycode="66">B</li>
+                <li data-keycode="78">N</li>
+                <li data-keycode="77">M</li>
+                <li data-keycode="188"><span>&lt;</span><span>,</span></li>
+                <li data-keycode="190"><span>&gt;</span><span>.</span></li>
+                <li data-keycode="191"><span>?</span><span>/</span></li>
+                <li data-keycode="16"><span>shift</span></li>
+                <li data-keycode="-1"><span>fn</span></li>
+                <li data-keycode="17"><span>control</span></li>
+                <li data-keycode="18"><i>alt</i><span>option</span></li>
+                <li data-keycode="91"><span>command</span></li>
+                <li data-keycode="32"></li>
+                <li data-keycode="93"><span>command</span></li>
+                <li data-keycode="18"><i>alt</i><span>option</span></li>
+                <li data-keycode="37">◀</li>
+                <li data-keycode="38">▲</li>
+                <li data-keycode="39">▶</li>
+                <li data-keycode="40">▼</li>
+            </ul>
+        </div>
+    </div>
+    <br/>
+    <br/>
+    <p>HotKeys is an input capture library with some very special features, it is easy to pick up and use, has a reasonable footprint (~3kb), and has no dependencies. It should not interfere with any JavaScript libraries or frameworks.</p>
+
+
+
+
+    <h1>USAGE</h1>
+    <p>Include hotkeys.js in your web app.</p>
+    <pre>
+<code class="html">
+  &lt;script type=&quot;text/javascript&quot; src=&quot;hotkeys.js&quot;&gt;&lt;/script&gt;
+
+</code>
+    </pre>
+
+
+
+
+
+    <h2>Browser Support</h2>
+    <p>Mousetrap has been tested and should work in</p>
+
+    <pre>
+<code class="sh">
+    Internet Explorer 6+
+    Safari
+    Firefox
+    Chrome
+
+</code>
+    </pre>
+
+
+
+    <h1>Building</h1>
+    <p>You will need Node.js installed on your system. If you install CoffeeScript globally, you can run <code>grunt</code> directly:</p>
+    <pre>
+<code class="sh">
+  # bower install
+  $ bower install hotkeysjs
+  
+  # npm install
+  $ npm install hotkeys-js
+
+  $ grunt dist
+  
+  # The resulting files are:
+  # dist/hotkeys.js
+  # dist/hotkeys.min.js
+  # dist/hotkeys.min.map
+  
+</code>
+    </pre>
+
+
+
+
+    <h1>DEFINING SHORTCUTS</h1>
+    <p>One global method is exposed, key which defines shortcuts when called directly.</p>
+    <pre>
+<code class="js">
+  hotkeys('a', function(event,handler){
+      //event.srcElement: input 
+      //event.target: input
+      if(event.target === "input"){
+          alert('you pressed a!')
+      }
+      alert('you pressed a!') 
+  });
+
+  hotkeys('ctrl+a,ctrl+b,r,f', function(event,handler){
+      switch(handler.key){
+          case "ctrl+a":alert('you pressed ctrl+a!');break;
+          case "ctrl+b":alert('you pressed ctrl+b!');break;
+          case "r":alert('you pressed r!');break;
+          case "f":alert('you pressed f!');break;
+      }
+  });
+
+  hotkeys('*','wcj', function(e){
+      console.log('do something',e);
+  });
+
+</code>
+    </pre>
+
+
+
+
+    <h1>API REFERENCE</h1>
+
+
+    <h2>Asterisk "*"</h2>
+    <p>Modifier key judgments</p>
+    <pre>
+<code class="js">
+  hotkeys('*','wcj', function(e){
+      if(hotkeys.shift) console.log('shift is pressed！');
+      if(hotkeys.ctrl) console.log('shift is pressed! ');
+      if(hotkeys.alt) console.log('shift is pressed! ');
+  });
+
+</code>
+    </pre>
+
+
+    <h2>setScope</h2>
+    <p>Use the <code>hotkeys.setScope</code> method to set scope.</p>
+    <pre>
+<code class="js">
+  // define shortcuts with a scope
+  hotkeys('ctrl+o, ctrl+alt+enter', 'issues', function(){
+      console.log('do something');
+  });
+  hotkeys('o, enter', 'files', function(){ 
+      console.log('do something else');
+  });
+  
+  // set the scope (only 'all' and 'issues' shortcuts will be honored)
+  hotkeys.setScope('issues'); // default scope is 'all'
+
+</code>
+    </pre>
+
+
+    <h2>deleteScope</h2>
+    <p>Use the <code>hotkeys.deleteScope</code> method to delete set scope.</p>
+    <pre>
+<code class="js">
+  hotkeys.deleteScope('issues');
+
+</code>
+    </pre>
+
+
+    <h2>unbind</h2>
+    <p>Similar to defining shortcuts, they can be unbound using <code>hotkeys.unbind</code>.</p>
+    <pre>
+<code class="js">
+  // unbind 'a' handler
+  hotkeys.unbind('a');
+
+  // unbind a hotkeys only for a single scope
+  // when no scope is specified it defaults to the current scope (hotkeys.getScope())
+  hotkeys.unbind('o, enter', 'issues');
+  hotkeys.unbind('o, enter', 'files');
+
+</code>
+    </pre>
+
+
+    <h2>isPressed</h2>
+    <p>Other key queries. For example, <code>hotkeys.isPressed(77)</code> is true if the <code>M</code> key is currently pressed.</p>
+    <pre>
+<code class="js">
+  hotkeys('a', function(){
+      console.log(hotkeys.isPressed("A")); //=> true
+      console.log(hotkeys.isPressed(65)); //=> true
+  });
+
+</code>
+    </pre>
+
+
+    <h2>getPressedKeyCodes</h2>
+    <p>returns an array of key codes currently pressed</p>
+    <pre>
+<code class="js">
+  hotkeys('command+ctrl+shift+a', function(){
+      console.log(hotkeys.getPressedKeyCodes()); //=> [67, 16, 17, 91, 65] 
+  })
+
+</code>
+    </pre>
+
+
+    <h2>filter</h2>
+    <p>
+<code>INPUT</code> <code>SELECT</code> <code>TEXTAREA</code> default does not handle.<br/>
+<code>Hotkeys.filter</code> to return to the <code>true</code> shortcut keys set to play a role, <code>flase</code> shortcut keys set up failure.
+    </p>
+    <pre>
+<code class="js">
+  hotkeys.filter = function(event){
+    return true;
+  }
+  //How to add the filter to edit labels. &lt;div contentEditable=&quot;true&quot;&gt;&lt;/div&gt;
+  //"contentEditable" Older browsers that do not support drops
+  hotkeys.filter = function(event) {
+      var tagName = (event.target || event.srcElement).tagName;
+      return !(tagName.isContentEditable || tagName == 'INPUT' || tagName == 'SELECT' || tagName == 'TEXTAREA');
+  }
+  
+  hotkeys.filter = function(event){
+      var tagName = (event.target || event.srcElement).tagName;
+      hotkeys.setScope(/^(INPUT|TEXTAREA|SELECT)$/.test(tagName) ? 'input' : 'other');
+      return true;
+  }
+
+</code>
+    </pre>
+
+
+
+
+
+    <h2>noConflict</h2>
+    <p>Relinquish HotKeys’s control of the <code>hotkeys</code> variable..</p>
+    <pre>
+<code class="js">
+  var k = hotkeys.noConflict();
+  k('a', function() {
+      console.log("do something")
+  });
+  
+  hotkeys()
+  // -->Uncaught TypeError: hotkeys is not a function(anonymous function) 
+  // @ VM2170:2InjectedScript._evaluateOn 
+  // @ VM2165:883InjectedScript._evaluateAndWrap 
+  // @ VM2165:816InjectedScript.evaluate @ VM2165:682
+
+</code>
+    </pre>
+
+
+
+
+    <h1>SUPPORTED KEYS</h1>
+
+    <p>HotKeys understands the following modifiers:
+    <code>⇧</code>, <code>shift</code>, <code>option</code>, <code>⌥</code>, <code>alt</code>, <code>ctrl</code>, <code>control</code>, <code>command</code>, and <code>⌘</code>.</p>
+
+    <p>The following special keys can be used for shortcuts:
+    <code>backspace</code>, <code>tab</code>, <code>clear</code>, <code>enter</code>, <code>return</code>, <code>esc</code>, <code>escape</code>, <code>space</code>,
+    <code>up</code>, <code>down</code>, <code>left</code>, <code>right</code>, <code>home</code>, <code>end</code>, <code>pageup</code>, <code>pagedown</code>, <code>del</code>, <code>delete</code>
+    and <code>f1</code> through <code>f19</code>.</p>
+
+<p>
+<code>⌘</code> Command()<br/>
+<code>⌃</code> Control<br/>
+<code>⌥</code> Option(alt)<br/>
+<code>⇧</code> Shift<br/>
+<code>⇪</code> Caps Lock(Capital)<br/>
+<code>fn</code> Does not support fn<br/>
+<code>↩︎</code> return/Enter space <br/>
+</p>
+
+
+
+
+
+    <div class="github_shields">
+        <a href="https://github.com/jaywcjlove/hotkeys/network" target="_blank" rel="external"><img src="https://img.shields.io/github/forks/jaywcjlove/hotkeys.svg?style=social" alt=""></a> <a href="https://github.com/jaywcjlove/hotkeys/stargazers" target="_blank" rel="external"><img src="https://img.shields.io/github/stars/jaywcjlove/hotkeys.svg?style=social" alt=""></a> <a href="https://github.com/jaywcjlove/hotkeys/watchers" target="_blank" rel="external"><img src="https://img.shields.io/github/watchers/jaywcjlove/hotkeys.svg?style=social&label=Watch" alt=""></a> <a href="https://github.com/jaywcjlove/followers" target="_blank" rel="external"><img src="https://img.shields.io/github/followers/jaywcjlove.svg?style=social" alt=""></a> 
+
+    </div>
+
+    <div class="kennywang">© <a target="_blank" href="http://jaywcjlove.github.io">kenny.wang</a> 2015</div>
+
+</div>
+
+<script type="text/javascript" src="src/main.js"></script>
+<link rel="stylesheet" href="//cdn.jsdelivr.net/highlight.js/8.8.0/styles/default.min.css">
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.8.0/highlight.min.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+
+</body>
+</html>
