@@ -162,7 +162,10 @@ hotkeys.filter = function(event){
 //contentEditable老浏览器不支持滴 
 hotkeys.filter = function(event) {
     var tagName = (event.target || event.srcElement).tagName;
-    return !(tagName.isContentEditable || tagName == 'INPUT' || tagName == 'SELECT' || tagName == 'TEXTAREA');
+    return !(tagName.isContentEditable || 
+    tagName == 'INPUT' || 
+    tagName == 'SELECT' || 
+    tagName == 'TEXTAREA');
 }
 
 //
