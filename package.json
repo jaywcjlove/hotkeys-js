@@ -17,13 +17,13 @@
   },
   "homepage": "https://github.com/jaywcjlove/hotkeys",
   "devDependencies": {
-    "grunt": "^0.4.5",
-    "grunt-contrib-clean": "^0.6.0",
-    "grunt-contrib-concat": "^0.5.1",
-    "grunt-contrib-stylus": "^0.22.0",
-    "grunt-contrib-watch": "^0.6.1",
     "highlight.js": "^8.8.0",
-    "jslite": "^1.1.6",
-    "load-grunt-tasks": "^3.2.0"
+    "jslite": "^1.1.6"
+  },
+  "dependencies": {
+    "gulp": "^3.9.0",
+    "gulp-stylus": "^2.1.0",
+    "gulp-watch": "^4.3.5",
+    "nib": "^1.1.0"
   }
 }

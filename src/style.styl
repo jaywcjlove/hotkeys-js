@@ -1,5 +1,17 @@
 @charset "utf-8"
 /* http://images.apple.com/v/macbook/c/design/images/keyboard_backlight_off_large_2x.jpg */
+
+
+// 使用nib模块 和 CSS reset
+// ==================================
+@import 'nib'
+
+// CSS reset
+global-reset()
+reset-html5()
+mq_tablet = "screen and (min-width: 480px) and (max-width: 1004px)"
+mq_mobile = "screen and (max-width: 479px)"
+
 /* margin */
 body, h1, h2, h3, h4, h5, h6, hr, p, blockquote, dl, dt, dd, ul, ol, li, pre, img, form, applet, fieldset, legend, button, input, textarea, th, table, tr, td
   margin: 0
@@ -55,29 +67,110 @@ a:hover, a:active, a:focus
 
 i
   font-style: normal
-  
-.title    
-  text-align: center
-  font-size: 53px
-  padding: 74px 0 80px 0
-  font-weight: bold
-  background-color: #292929
-  height: 300px
-  color: #fff;
+
+
+auto-width()
+  width: 995px
+  margin: 0 auto 0 auto
+  @media mq_tablet
+    width: auto
+    padding 20px
+  @media mq_mobile
+    width auto
+    padding 20px
   
 
+.header
+  background-color: #292929
+  padding: 74px 0 80px 0
+  @media mq_tablet
+    padding: 64px 0 25px 0
+  @media mq_mobile
+    padding: 54px 0 15px 0
+  .info
+    padding: 25px 0 8px 0
+    text-align: center
+    font-size: 27px
+    line-height: 34px
+    color:#878787
+    auto-width()
+    @media mq_tablet
+      font-size 21px
+      line-height 24px
+    @media mq_mobile
+      font-size 14px
+      line-height 18px
+  .title    
+    text-align: center
+    font-size: 53px
+    font-weight: bold
+    color: #fff;
+  .github_wrapper 
+      text-align: center
+      padding: 80px 0 22px 0
+      @media mq_tablet
+        padding: 64px 0 15px 0
+      @media mq_mobile
+        padding: 29px 0 0 0
+        margin 10px 30px 0 30px
+      .github_style
+        position: relative
+        display: inline-block
+        border: 1px solid #ddd
+        border-bottom-color: #bbb
+        padding: 9px 15px
+        font-family: Helvetica, arial, freesans, clean, sans-serif
+        font-size: 12px
+        font-weight: bold
+        color: #666
+        text-shadow: 0 1px rgba(255, 255, 255, 0.9)
+        cursor: pointer
+        border-radius: 3px
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1)
+        background: whitesmoke
+        background-image: linear-gradient(-90deg, whitesmoke 0%, #e5e5e5 100%)
+        @media mq_mobile
+          padding: 3px 10px
+          margin-top 5px
+        &:hover
+          color: #337797;
+          border: 1px solid #CBE3EE
+          border-bottom-color: #97C7DD
+          background: #f0f7fa
+          background-image: -moz-linear-gradient(-90deg, #f0f7fa 0%, #d8eaf2 100%)
+          background-image: -webkit-linear-gradient(-90deg, #f0f7fa 0%, #d8eaf2 100%)
+          background-image: -o-linear-gradient(-90deg, #f0f7fa 0%, #d8eaf2 100%)
+          background-image: -ms-linear-gradient(-90deg, #f0f7fa 0%, #d8eaf2 100%)
+        &:active
+          border: 1px solid #2A65A0
+          border-bottom-color: #0770A0
+          color: #fff
+          text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.3)
+          background: #0770a0
+          background-image: -moz-linear-gradient(-90deg, #0770a0 0%, #0ca6dd 100%)
+          background-image: -webkit-linear-gradient(-90deg, #0770a0 0%, #0ca6dd 100%)
+          background-image: -o-linear-gradient(-90deg, #0770a0 0%, #0ca6dd 100%)
+          background-image: -ms-linear-gradient(-90deg, #0770a0 0%, #0ca6dd 100%)
+          -webkit-box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1)
+          -moz-box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1)
+          box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1)
+
+
 .warpper
-  width: 995px
-  margin: -240px auto 0 auto
   padding: 0 0 100px 0
   font-size: 16px
+  auto-width()
   code
     border-radius: 4px
     background-color:#ECECEC
     padding:1px 5px
     color:#9F0101
   pre 
+    word-wrap:break-word; 
+    word-break:normal;
     code
+      word-wrap:break-word; 
+      word-break:normal;
       color:#000
       font-family: Consolas, "Liberation Mono", Menlo, Courier, monospace
       font-size: 14px
@@ -89,60 +182,7 @@ i
     padding:15px 0 5px 15px
   h2
     padding: 15px 0 5px 15px 
-  .info
-    padding: 0 35px 36px 45px
-    text-align: center
-    font-size: 27px
-    line-height: 34px
-    color:#878787
-  .github_wrapper 
-    text-align: center
-    margin: 0 0 22px 0
-    .github_style
-      position: relative
-      display: inline-block
-      border: 1px solid #ddd
-      border-bottom-color: #bbb
-      padding: 9px 15px
-      font-family: Helvetica, arial, freesans, clean, sans-serif
-      font-size: 12px
-      font-weight: bold
-      color: #666
-      text-shadow: 0 1px rgba(255, 255, 255, 0.9)
-      cursor: pointer
-      -webkit-border-radius: 3px
-      -moz-border-radius: 3px
-      border-radius: 3px
-      -webkit-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1)
-      -moz-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1)
-      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1)
-      background: whitesmoke
-      background-image: -moz-linear-gradient(-90deg, whitesmoke 0%, #e5e5e5 100%)
-      background-image: -webkit-linear-gradient(-90deg, whitesmoke 0%, #e5e5e5 100%)
-      background-image: -o-linear-gradient(-90deg, whitesmoke 0%, #e5e5e5 100%)
-      background-image: -ms-linear-gradient(-90deg, whitesmoke 0%, #e5e5e5 100%)
-      &:hover
-        color: #337797;
-        border: 1px solid #CBE3EE
-        border-bottom-color: #97C7DD
-        background: #f0f7fa
-        background-image: -moz-linear-gradient(-90deg, #f0f7fa 0%, #d8eaf2 100%)
-        background-image: -webkit-linear-gradient(-90deg, #f0f7fa 0%, #d8eaf2 100%)
-        background-image: -o-linear-gradient(-90deg, #f0f7fa 0%, #d8eaf2 100%)
-        background-image: -ms-linear-gradient(-90deg, #f0f7fa 0%, #d8eaf2 100%)
-      &:active
-        border: 1px solid #2A65A0
-        border-bottom-color: #0770A0
-        color: #fff
-        text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.3)
-        background: #0770a0
-        background-image: -moz-linear-gradient(-90deg, #0770a0 0%, #0ca6dd 100%)
-        background-image: -webkit-linear-gradient(-90deg, #0770a0 0%, #0ca6dd 100%)
-        background-image: -o-linear-gradient(-90deg, #0770a0 0%, #0ca6dd 100%)
-        background-image: -ms-linear-gradient(-90deg, #0770a0 0%, #0ca6dd 100%)
-        -webkit-box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1)
-        -moz-box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1)
-        box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1)
+  
   .key_info
     position:fixed
     top:10px
@@ -161,10 +201,14 @@ i
   border: 1px solid #C9C9C9
   background: #F2F2F2
   box-shadow: 2px 0px 2px #E2E2E2 inset,-2px 2px 3px #E2E2E2 inset,1px -0px 0px #C1C1C1 inset,0px -2px 3px #C1C1C1 inset
-  -webkit-user-select: none
-  -moz-user-select: none
-  -ms-user-select: none
   user-select: none
+  auto-width()
+  margin-top -66px
+  @media mq_mobile
+    display none
+    height: auto
+  @media mq_tablet
+    display none
   ul
     width: 992px
     margin-top: 9px
