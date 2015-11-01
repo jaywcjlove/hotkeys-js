@@ -165,21 +165,36 @@ auto-width()
     background-color:#ECECEC
     padding:1px 5px
     color:#9F0101
+    @media mq_mobile
+      font-size: 12px;
+      line-height 14px
+      padding:0 5px
   pre 
     width auto
-    overflow auto
     code
       color:#000
       font-family: Consolas, "Liberation Mono", Menlo, Courier, monospace
       font-size: 14px
+      line-height 18px
   p 
     padding: 10px 0 8px 5px
     font-size: 14px
     line-height: 21px
+    @media mq_mobile
+      padding: 10px 0 5px 5px
+      line-height 18px
   h1 
     padding:15px 0 5px 15px
+    @media mq_mobile
+      font-weight bold
+      padding-left 5px
+      font-size 18px
   h2
     padding: 15px 0 5px 15px 
+    @media mq_mobile
+      font-weight bold
+      padding-left 5px
+      font-size 14px
   
   .key_info
     position:fixed

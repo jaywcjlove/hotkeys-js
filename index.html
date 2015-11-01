@@ -126,12 +126,10 @@
 
     <h1>USAGE</h1>
     <p>Include hotkeys.js in your web app.</p>
-    <pre>
-<code class="html">
+<pre><code class="html">
   &lt;script type=&quot;text/javascript&quot; src=&quot;hotkeys.js&quot;&gt;&lt;/script&gt;
 
-</code>
-    </pre>
+</code></pre>
 
 
 
@@ -140,15 +138,13 @@
     <h2>Browser Support</h2>
     <p>Mousetrap has been tested and should work in</p>
 
-    <pre>
-<code class="sh">
-    Internet Explorer 6+
-    Safari
-    Firefox
-    Chrome
+<pre><code class="sh">
+  Internet Explorer 6+
+  Safari
+  Firefox
+  Chrome
 
-</code>
-    </pre>
+</code></pre>
 
 
 
@@ -169,8 +165,7 @@
   # dist/hotkeys.min.js
   # dist/hotkeys.min.map
   
-</code>
-    </pre>
+</code></pre>
 
 
 
@@ -201,8 +196,7 @@
       console.log('do something',e);
   });
 
-</code>
-    </pre>
+</code></pre>
 
 
 
@@ -220,8 +214,7 @@
       if(hotkeys.alt) console.log('shift is pressed! ');
   });
 
-</code>
-    </pre>
+</code></pre>
 
 
     <h2>setScope</h2>
@@ -239,8 +232,7 @@
   // set the scope (only 'all' and 'issues' shortcuts will be honored)
   hotkeys.setScope('issues'); // default scope is 'all'
 
-</code>
-    </pre>
+</code></pre>
 
 
     <h2>deleteScope</h2>
@@ -249,8 +241,7 @@
 <code class="js">
   hotkeys.deleteScope('issues');
 
-</code>
-    </pre>
+</code></pre>
 
 
     <h2>unbind</h2>
@@ -265,8 +256,7 @@
   hotkeys.unbind('o, enter', 'issues');
   hotkeys.unbind('o, enter', 'files');
 
-</code>
-    </pre>
+</code></pre>
 
 
     <h2>isPressed</h2>
@@ -278,8 +268,7 @@
       console.log(hotkeys.isPressed(65)); //=> true
   });
 
-</code>
-    </pre>
+</code></pre>
 
 
     <h2>getPressedKeyCodes</h2>
@@ -290,8 +279,7 @@
       console.log(hotkeys.getPressedKeyCodes()); //=> [67, 16, 17, 91, 65] 
   })
 
-</code>
-    </pre>
+</code></pre>
 
 
     <h2>filter</h2>
@@ -317,8 +305,7 @@
       return true;
   }
 
-</code>
-    </pre>
+</code></pre>
 
 
 
@@ -339,8 +326,7 @@
   // @ VM2165:883InjectedScript._evaluateAndWrap 
   // @ VM2165:816InjectedScript.evaluate @ VM2165:682
 
-</code>
-    </pre>
+</code></pre>
 
 
 
