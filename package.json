@@ -20,6 +20,7 @@
   "devDependencies": {
     "gulp": "^3.9.0",
     "gulp-rename": "^1.2.2",
+    "gulp-sourcemap": "^1.0.1",
     "gulp-uglify": "^1.5.1",
     "gulp-umd": "^0.2.0",
     "gulp-util": "^3.0.7",

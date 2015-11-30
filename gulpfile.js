@@ -4,6 +4,7 @@ var rename = require("gulp-rename");
 var uglify = require('gulp-uglify');
 var umd = require('gulp-umd')
 var gutil = require('gulp-util');
+var sourcemap = require('gulp-sourcemap');
 
 
 
@@ -41,6 +42,18 @@ gulp.task('min', function (cb) {
         }))
         .pipe(rename({
             suffix:".min"
+        }))
+        .pipe(gulp.dest('./dist/'));
+
+})
+
+gulp.task('map', function (cb) {
+
+    gulp.src('dist/hotkeys.js')
+        .pipe(sourcemap({
+            outSourceMap:'hotkeys.min.map',
+            sourceRoot:"http://jslite.io",
+            write:'./dist/'
         }))
         .pipe(gulp.dest('./dist/'));
 
