@@ -9,6 +9,11 @@ var gutil = require('gulp-util');
 
 gulp.task('default',["build","min"])
 
+
+gulp.task('watch',function(){
+    gulp.watch('./src/**/*',['default'])
+})
+
 gulp.task('build', function (cb) {
 
     gulp.src('src/hotkeys.js')
