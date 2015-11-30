@@ -25,7 +25,7 @@ $ bower install hotkeysjs
 $ npm install hotkeys-js
 
 # 在页面上引用需要压缩的话，运行
-$ grunt dist
+$ gulp build && gulp min && gulp map
 
 # 在dist目录中生成下列文件：
 # dist/hotkeys.js
