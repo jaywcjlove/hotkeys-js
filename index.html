@@ -1,31 +1,35 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>hotkeys</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <link rel="stylesheet" type="text/css" href="src/style.css">
-    <script type="text/javascript" src="https://rawgit.com/jaywcjlove/hotkeys/master/src/hotkeys.js"></script>
+  <meta charset="UTF-8">
+  <title>hotkeys</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <link rel="stylesheet" type="text/css" href="src/style.css">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/highlight.js/8.8.0/styles/default.min.css">
 </head>
 <body>
 <div class="header">
   <div class="title">HotKeys</div>
+
+  <div class="lang"><a href="javascript:tran.setLang('default');">English</a><a href="javascript:tran.setLang('cn');">中文</a></div>
   
   <div class="github_wrapper">
       <a href="https://github.com/jaywcjlove/hotkeys/zipball/master">
-          <button class="github_style">Download as zip</button>
+          <button class="github_style">Download as zip <!--{cn}zip 下载--></button>
       </a> 
       <a href="https://github.com/jaywcjlove/hotkeys/tarball/master">
-          <button class="github_style">Download as tar.gz</button>
+          <button class="github_style">Download as tar.gz <!--{cn}tar.gz 下载--></button>
       </a> 
       <a href="https://github.com/jaywcjlove/hotkeys/">
-          <button class="github_style">Fork on Github</button>
+          <button class="github_style">Fork on Github <!--{cn}复制代码到Github仓库--></button>
       </a> 
       <a href="https://github.com/jaywcjlove/hotkeys/">
-          <button class="github_style">Doc on Github</button>
+          <button class="github_style">Doc on Github <!--{cn}文档在Github上--></button>
       </a> 
   </div>
-  <div class="info">A robust Javascript library for capturing keyboard input and key combinations entered. It has no dependencies. Try to press your keyboard, The following button will highlight.</div>
+  <div class="info">A robust Javascript library for capturing keyboard input and key combinations entered. It has no dependencies. Try to press your keyboard, The following button will highlight.
+    <!--{cn}捕获键盘输入和输入组合键，是一个强大的JavaScript库。它没有依赖。尝试按下你的键盘，下面的按钮将高亮显示-->
+    </div>
 
 </div>
 
@@ -119,13 +123,13 @@
 
     <div class="key_info" id="key_info"></div>
     <br/>
-    <p>HotKeys is an input capture library with some very special features, it is easy to pick up and use, has a reasonable footprint (~3kb), and has no dependencies. It should not interfere with any JavaScript libraries or frameworks.</p>
+    <p>HotKeys is an input capture library with some very special features, it is easy to pick up and use, has a reasonable footprint (~3kb), and has no dependencies. It should not interfere with any JavaScript libraries or frameworks.<!--{cn}HotKeys有一些特别的功能，输入捕获键盘的库，很容易上手使用，你有理由使用它(~3kb)，并没有依赖。它不干涉任何其它的JavaScript框架或者库--></p>
 
 
 
 
-    <h1>USAGE</h1>
-    <p>Include hotkeys.js in your web app.</p>
+    <h1>USAGE<!--{cn}用法--></h1>
+    <p>Include hotkeys.js in your web app.<!--{cn}在您的web应用中引用hotkeys.js--></p>
 <pre><code class="html">
   &lt;script type=&quot;text/javascript&quot; src=&quot;hotkeys.js&quot;&gt;&lt;/script&gt;
 
@@ -135,8 +139,8 @@
 
 
 
-    <h2>Browser Support</h2>
-    <p>Mousetrap has been tested and should work in</p>
+    <h2>Browser Support<!--{cn}浏览器支持--></h2>
+    <p>Mousetrap has been tested and should work in<!--{cn}捕获器进行了测试，应该在这些浏览器中工作--></p>
 
 <pre><code class="sh">
   Internet Explorer 6+
@@ -148,8 +152,9 @@
 
 
 
-    <h1>Building</h1>
-    <p>You will need Node.js installed on your system. If you install CoffeeScript globally, you can run <code>grunt</code> directly:</p>
+    <h1>Building<!--{cn}构建--></h1>
+    <p>You will need Node.js installed on your system. you can run gulp directly:
+    <!--{cn}您需要在系统上安装Node.js的。您可以直接运行 Gulp ：--></p>
     <pre>
 <code class="sh">
   # bower install
@@ -158,7 +163,7 @@
   # npm install
   $ npm install hotkeys-js
 
-  $ grunt dist
+  $ gulp build && gulp min && gulp map
   
   # The resulting files are:
   # dist/hotkeys.js
@@ -170,8 +175,8 @@
 
 
 
-    <h1>DEFINING SHORTCUTS</h1>
-    <p>One global method is exposed, key which defines shortcuts when called directly.</p>
+    <h1>DEFINING SHORTCUTS<!--{cn}定义快捷键--></h1>
+    <p>One global method is exposed, key which defines shortcuts when called directly.<!--{cn}一个全局的方法暴露出来，关键的时候直接调用定义的快捷键。--></p>
     <pre>
 <code class="js">
   hotkeys('a', function(event,handler){
@@ -201,11 +206,11 @@
 
 
 
-    <h1>API REFERENCE</h1>
+    <h1>API REFERENCE<!--{cn}API参考--></h1>
 
 
     <h2>Asterisk "*"</h2>
-    <p>Modifier key judgments</p>
+    <p>Modifier key judgments<!--{cn}修改关键判断--></p>
     <pre>
 <code class="js">
   hotkeys('*','wcj', function(e){
@@ -218,7 +223,7 @@
 
 
     <h2>setScope</h2>
-    <p>Use the <code>hotkeys.setScope</code> method to set scope.</p>
+    <p>Use the <!--{cn}使用--><code>hotkeys.setScope</code> method to set scope.<!--{cn}设定范围。--></p>
     <pre>
 <code class="js">
   // define shortcuts with a scope
@@ -236,7 +241,7 @@
 
 
     <h2>deleteScope</h2>
-    <p>Use the <code>hotkeys.deleteScope</code> method to delete set scope.</p>
+    <p>Use the <!--{cn}使用--><code>hotkeys.deleteScope</code> method to delete set scope.<!--{cn}删除设定范围。--></p>
     <pre>
 <code class="js">
   hotkeys.deleteScope('issues');
@@ -245,7 +250,7 @@
 
 
     <h2>unbind</h2>
-    <p>Similar to defining shortcuts, they can be unbound using <code>hotkeys.unbind</code>.</p>
+    <p>Similar to defining shortcuts, they can be unbound using <!--{cn}定义的快捷键，解除绑定可以使用它--><code>hotkeys.unbind</code>.</p>
     <pre>
 <code class="js">
   // unbind 'a' handler
@@ -260,7 +265,7 @@
 
 
     <h2>isPressed</h2>
-    <p>Other key queries. For example, <code>hotkeys.isPressed(77)</code> is true if the <code>M</code> key is currently pressed.</p>
+    <p>Other key queries. For example, <!--{cn}查询其它键。例如，--><code>hotkeys.isPressed(77)</code> is true if the <!--{cn}如果是真--><code>M</code> key is currently pressed.<!--{cn}当前按下的键。--></p>
     <pre>
 <code class="js">
   hotkeys('a', function(){
@@ -272,7 +277,7 @@
 
 
     <h2>getPressedKeyCodes</h2>
-    <p>returns an array of key codes currently pressed</p>
+    <p>returns an array of key codes currently pressed.<!--{cn}返回当前按下的键盘码。--></p>
     <pre>
 <code class="js">
   hotkeys('command+ctrl+shift+a', function(){
@@ -282,10 +287,10 @@
 </code></pre>
 
 
-    <h2>filter</h2>
+    <h2>filter<!--{cn}filter过滤--></h2>
     <p>
-<code>INPUT</code> <code>SELECT</code> <code>TEXTAREA</code> default does not handle.<br/>
-<code>Hotkeys.filter</code> to return to the <code>true</code> shortcut keys set to play a role, <code>flase</code> shortcut keys set up failure.
+<code>INPUT</code> <code>SELECT</code> <code>TEXTAREA</code> default does not handle.<!--{cn}默认不处理他们。--><br/>
+<code>Hotkeys.filter</code> to return to the <!--{cn}它返回--><code>true</code> shortcut keys set to play a role<!--{cn}设置热键发挥起作用-->, <code>flase</code> shortcut keys set up failure.<!--{cn}设置热键不起作用。-->
     </p>
     <pre>
 <code class="js">
@@ -312,7 +317,7 @@
 
 
     <h2>noConflict</h2>
-    <p>Relinquish HotKeys’s control of the <code>hotkeys</code> variable..</p>
+    <p>Relinquish HotKeys’s control of the <!--{cn}放弃在--><code>hotkeys</code> variable.<!--{cn}的全局变量--></p>
     <pre>
 <code class="js">
   var k = hotkeys.noConflict();
@@ -331,15 +336,15 @@
 
 
 
-    <h1>SUPPORTED KEYS</h1>
+    <h1>SUPPORTED KEYS<!--{cn}支持的热键--></h1>
 
-    <p>HotKeys understands the following modifiers:
+    <p>HotKeys understands the following modifiers:<!--{cn}热键支持的修饰键：-->
     <code>⇧</code>, <code>shift</code>, <code>option</code>, <code>⌥</code>, <code>alt</code>, <code>ctrl</code>, <code>control</code>, <code>command</code>, and <code>⌘</code>.</p>
 
-    <p>The following special keys can be used for shortcuts:
+    <p>The following special keys can be used for shortcuts:<!--{cn}下面的特殊键，可用于快捷键：-->
     <code>backspace</code>, <code>tab</code>, <code>clear</code>, <code>enter</code>, <code>return</code>, <code>esc</code>, <code>escape</code>, <code>space</code>,
     <code>up</code>, <code>down</code>, <code>left</code>, <code>right</code>, <code>home</code>, <code>end</code>, <code>pageup</code>, <code>pagedown</code>, <code>del</code>, <code>delete</code>
-    and <code>f1</code> through <code>f19</code>.</p>
+    and <!--{cn}和--><code>f1</code> through <!--{cn}~--><code>f19</code>.<!--{cn}。--></p>
 
 <p>
 <code>⌘</code> Command()<br/>
@@ -364,8 +369,8 @@
 
 </div>
 
+<script type="text/javascript" src="https://rawgit.com/jaywcjlove/hotkeys/master/src/hotkeys.js"></script>
 <script type="text/javascript" src="src/main.js"></script>
-<link rel="stylesheet" href="//cdn.jsdelivr.net/highlight.js/8.8.0/styles/default.min.css">
 <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.8.0/highlight.min.js"></script>
 <script>hljs.initHighlightingOnLoad();</script>
 
