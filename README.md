@@ -1,6 +1,6 @@
 # 设置快捷键
 
-[![](https://img.shields.io/github/issues/jaywcjlove/hotkeys.svg)](https://github.com/jaywcjlove/hotkeys/issues) [![](https://img.shields.io/github/forks/jaywcjlove/hotkeys.svg)](https://github.com/jaywcjlove/hotkeys/network) [![](https://img.shields.io/github/stars/jaywcjlove/hotkeys.svg)](https://github.com/jaywcjlove/hotkeys/stargazers) [![](https://img.shields.io/github/release/jaywcjlove/hotkeys.svg)](https://github.com/jaywcjlove/hotkeys/releases)
+[![](https://img.shields.io/github/issues/jaywcjlove/hotkeys.svg)](https://github.com/jaywcjlove/hotkeys/issues) [![](https://img.shields.io/github/forks/jaywcjlove/hotkeys.svg)](https://github.com/jaywcjlove/hotkeys/network) [![](https://img.shields.io/github/stars/jaywcjlove/hotkeys.svg)](https://github.com/jaywcjlove/hotkeys/stargazers) [![](https://img.shields.io/github/release/jaywcjlove/hotkeys.svg)](https://github.com/jaywcjlove/hotkeys/releases) [![jaywcjlove/sb](https://jaywcjlove.github.io/sb/lang/chinese.svg)](http://jaywcjlove.github.io/hotkeys/?lang=cn) [![jaywcjlove/sb](https://jaywcjlove.github.io/sb/lang/english.svg)](http://jaywcjlove.github.io/hotkeys/?lang=en)
 
 这是一个强健的 Javascript 库用于捕获键盘输入和输入的组合键，它没有依赖，压缩只有只有(~3kb)。`hotkey`是临摹大师[madrobby/keymaster](https://github.com/madrobby/keymaster)的作品，只是做了少许更改，添加UMD，和兼容问题。没有`fork`的原因是，不仅仅要一句一句的读懂，还要体现出临摹的作用。
 
