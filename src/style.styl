@@ -78,7 +78,47 @@ auto-width()
   @media mq_mobile
     width auto
     padding 20px
-  
+
+
+a.github-corner
+  position: fixed; 
+  top: 0; 
+  right: 0; 
+.github-corner 
+  svg
+    fill:#e1e1e1
+    color:#000
+    position:absolute
+    top:0
+    border:0
+    right:0
+    z-index:99
+    width:4.375rem
+    height:4.375rem
+.github-corner:hover 
+  .octo-arm
+    -webkit-animation:octocat-wave 560ms ease-in-out
+    animation:octocat-wave 560ms ease-in-out
+@-webkit-keyframes octocat-wave
+  0%,100%
+    -webkit-transform:rotate(0);
+    transform:rotate(0)
+  20%,60%
+    -webkit-transform:rotate(-25deg)
+    transform:rotate(-25deg)
+  40%,80%
+    -webkit-transform:rotate(10deg)
+    transform:rotate(10deg)
+@keyframes octocat-wave
+  0%,100%
+    -webkit-transform:rotate(0)
+    transform:rotate(0)
+  20%,60%
+    -webkit-transform:rotate(-25deg)
+    transform:rotate(-25deg)
+  40%,80%
+    -webkit-transform:rotate(10deg)
+    transform:rotate(10deg)
 
 .header
   background-color: #292929
