@@ -4,6 +4,8 @@ var rename = require("gulp-rename");
 var uglify = require('gulp-uglify');
 var umd = require('gulp-umd')
 var gutil = require('gulp-util');
+var banner = require('gulp-banner');
+var bannerjs = require('bannerjs');
 var sourcemap = require('gulp-sourcemap');
 
 
@@ -26,6 +28,7 @@ gulp.task('build', function (cb) {
                 return 'hotkeys';
             }
         }))
+        .pipe(banner(bannerjs.multibanner()))
         .pipe(gulp.dest('./dist/'));
 
 })
@@ -43,6 +46,7 @@ gulp.task('min', function (cb) {
         .pipe(rename({
             suffix:".min"
         }))
+        .pipe(banner(bannerjs.onebanner()))
         .pipe(gulp.dest('./dist/'));
 
 })

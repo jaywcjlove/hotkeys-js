@@ -1,3 +1,12 @@
+/*!
+ * hotkeys-js v1.0.5
+ * A simple micro-library for defining and dispatching keyboard shortcuts. It has no dependencies.
+ * 
+ * Copyright (c) 2016 undefined
+ * https://github.com/jaywcjlove/hotkeys.git
+ * 
+ * Licensed under the  license.
+ */
 ;(function(root, factory) {
   if (typeof define === 'function' && define.amd) {
     define([], factory);
