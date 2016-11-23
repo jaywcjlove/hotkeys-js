@@ -7,6 +7,7 @@ if(!Array.prototype.indexOf){
 }
 
 var _api,//对外API
+isff = navigator.userAgent.toLowerCase().indexOf('firefox') > 0,
 _keyMap = {//特殊键
     backspace: 8, tab: 9, clear: 12,
     enter: 13, 'return': 13,
@@ -16,8 +17,8 @@ _keyMap = {//特殊键
     home: 36, end: 35,
     pageup: 33, pagedown: 34,
     ',': 188, '.': 190, '/': 191,
-    '`': 192, '-': 189, '=': 187,
-    ';': 186, '\'': 222,
+    '`': 192, '-': isff?173:189, '=': isff?61:187,
+    ';': isff?59:186, '\'': 222,
     '[': 219, ']': 221, '\\': 220
 },
 _scope = 'all',//默认热键范围
@@ -25,19 +26,19 @@ _modifier = {//修饰键
     '⇧': 16, shift: 16,
     '⌥': 18, alt: 18, option: 18,
     '⌃': 17, ctrl: 17, control: 17,
-    '⌘': 91, command: 91
+    '⌘': isff?224:91, command: isff?224:91
 },
 _downKeys=[],//记录摁下的绑定键
 modifierMap = {
     16:'shiftKey',
     18:'altKey',
-    17:'ctrlKey',
-    91:'metaKey'
+    17:'ctrlKey'
 },
-_mods = { 16: false, 18: false, 17: false, 91: false },
+_mods = { 16: false, 18: false, 17: false, 
+    91: false 
+},
 //返回键码
-code = function(x){ 
-    console.log();
+code = function(x){
   return _keyMap[x] || x.toUpperCase().charCodeAt(0);
 },
 _handlers={};
@@ -45,6 +46,10 @@ _handlers={};
 for(k=1;k<20;k++) {
     _keyMap['f'+k] = 111+k;
 }
+
+// 兼容Firefox处理
+modifierMap[isff?224:91] = 'metaKey';
+_mods[isff?224:91] = false;
 
 //设置获取当前范围（默认为'所有'）
 function setScope(scope){ _scope = scope || 'all';}
