@@ -76,7 +76,7 @@ hotkeys('*','wcj', function(e){
 
 ## 支持的键
 
-`⇧`, `shift`, `option`, `⌥`, `alt`, `ctrl`, `control`, `command`, `⌘`。
+`⇧`, `shift`, `option`, `⌥`, `alt`, `ctrl`, `control`, `command`, `⌘`。 
 
 `⌘` Command()  
 `⌃` Control  
@@ -88,7 +88,7 @@ hotkeys('*','wcj', function(e){
 `space` 空格键
 
 ## 修饰键判断
-可以对下面的修饰键判断 `shift` `alt` `option` `ctrl` `control` `command`
+可以对下面的修饰键判断 `shift` `alt` `option` `ctrl` `control` `command`，特别注意`+`和`=`键值相同，组合键设置`⌘+=`
 
 ```js
 hotkeys('shift+a,alt+d, w', function(e){
