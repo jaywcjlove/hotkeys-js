@@ -105,15 +105,18 @@ hotkeys('shift+a,alt+d, w', function(e){
 
 ```js
 // 一个快捷键，有可能干的活儿不一样哦
-hotkeys('ctrl+o, ctrl+alt+enter', 'issues', function(){
-    console.log('干点活儿');
+hotkeys('ctrl+o, ctrl+alt+enter', 'scope1', function(){
+    console.log('你好看');
 });
-hotkeys('o, enter', 'files', function(){ 
-    console.log('另一种活儿');
+hotkeys('ctrl+o, enter', 'scope2', function(){ 
+    console.log('你好丑陋啊！');
 });
+// 你摁 “ctrl+o”组合键
+// 当scope等于 scope1 ，执行 回调事件打印出 “你好看”，
+// 当scope等于 scope2 ，执行 回调事件打印出 “你好丑陋啊！”，
 
-// 设定范围scope 
-hotkeys.setScope('issues'); // 默认所有事儿都干哦 
+// 通过setScope设定范围scope 
+hotkeys.setScope('scope1'); // 默认所有事儿都干哦 
 ```
 
 ## 删除标记快捷键
@@ -141,6 +144,7 @@ hotkeys('a', function(){
 ```
 
 ## 获取摁下键值
+
 获取摁下绑定键的键值 `hotkeys.getPressedKeyCodes()`
 
 ```js
