@@ -34,9 +34,7 @@ modifierMap = {
     18:'altKey',
     17:'ctrlKey'
 },
-_mods = { 16: false, 18: false, 17: false, 
-    91: false 
-},
+_mods = { 16: false, 18: false, 17: false},
 //返回键码
 code = function(x){
   return _keyMap[x] || x.toUpperCase().charCodeAt(0);
