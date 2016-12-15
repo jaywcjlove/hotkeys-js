@@ -265,4 +265,4 @@ hotkeys.noConflict = function( deep ) {
     return hotkeys;
 };
 window.hotkeys = hotkeys;
-
+return hotkeys;
