@@ -24,17 +24,20 @@ $ bower install hotkeysjs
 # npm 安装
 $ npm install hotkeys-js
 
-# 在页面上引用需要压缩的话，运行
-$ gulp build && gulp min && gulp map
-
-# 在dist目录中生成下列文件：
-# dist/hotkeys.js
-# dist/hotkeys.min.js
-# dist/hotkeys.min.map
+$ npm run build # 编译
+$ npm run watch # 开发模式
 ```
 
 
 ## 使用 
+
+传统调用
+
+```
+<script type="text/javascript" src="./js/hotkeys.js"></script>
+```
+
+包加载
 
 ```js
 import hotkeys from 'hotkeys-js';
