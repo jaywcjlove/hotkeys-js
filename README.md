@@ -34,6 +34,20 @@ $ gulp build && gulp min && gulp map
 ```
 
 
+## 使用 
+
+```js
+import hotkeys from 'hotkeys-js';
+
+hotkeys('shift+a,alt+d, w', function(e){
+    console.log('干点活儿',e);
+    if(hotkeys.shift) console.log('大哥你摁下了 shift 键！');
+    if(hotkeys.ctrl) console.log('大哥你摁下了 ctrl 键！');
+    if(hotkeys.alt) console.log('大哥你摁下了 alt 键！');
+});
+```
+
+
 ## 定义快捷键
 
 ```js
