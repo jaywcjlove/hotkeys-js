@@ -38,7 +38,7 @@ gulp.task('min', function (cb) {
     
     gulp.src('dist/hotkeys.js')
         .pipe(uglify({
-            mangle: false,
+            mangle: true,
             output:{
                 // comments:true
             }

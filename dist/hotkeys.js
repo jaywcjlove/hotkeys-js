@@ -1,5 +1,5 @@
 /*!
- * hotkeys-js v1.0.7
+ * hotkeys-js v1.0.8
  * A simple micro-library for defining and dispatching keyboard shortcuts. It has no dependencies.
  * 
  * Copyright (c) 2016 undefined
@@ -59,7 +59,7 @@ code = function(x){
 },
 _handlers={};
 // F1~F12 特殊键
-for(k=1;k<20;k++) {
+for(var k=1;k<20;k++) {
     _keyMap['f'+k] = 111+k;
 }
 
@@ -118,7 +118,7 @@ function dispatch (event) {
     // key 不在_handlers中返回
     if (!(key in _handlers)) return;
 
-    for (i = 0; i < _handlers[key].length; i++) {
+    for(var i = 0; i < _handlers[key].length; i++) {
         //找到处理内容
         eventHandler(event,_handlers[key][i],scope);
     }
