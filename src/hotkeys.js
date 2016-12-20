@@ -210,7 +210,7 @@ addEvent(document, 'keyup',function(event){
 });
 //清除修饰键
 function clearModifier(event){
-    var key = event.keyCode || e.which || e.charCode;,
+    var key = event.keyCode || e.which || e.charCode,
         i = _downKeys.indexOf(key);
 
     if(i>=0) _downKeys.splice(i,1);
