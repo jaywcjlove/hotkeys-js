@@ -1,5 +1,5 @@
 /*!
- * hotkeys-js v2.0.0
+ * hotkeys-js v2.0.1
  * A simple micro-library for defining and dispatching keyboard shortcuts. It has no dependencies.
  * 
  * Copyright (c) 2016 undefined
@@ -129,7 +129,7 @@
     }
     //处理keydown事件
     function dispatch(event) {
-        var key = event.keyCode, scope, asterisk = _handlers["*"];
+        var key = event.keyCode || e.which || e.charCode, scope, asterisk = _handlers["*"];
         //搜集绑定的键
         if (_downKeys.indexOf(key) === -1) _downKeys.push(key);
         //Gecko(Friefox)的command键值224，在Webkit(Chrome)中保持一致
@@ -251,7 +251,7 @@
     });
     //清除修饰键
     function clearModifier(event) {
-        var key = event.keyCode, i = _downKeys.indexOf(key);
+        var key = event.keyCode || e.which || e.charCode, i = _downKeys.indexOf(key);
         if (i >= 0) _downKeys.splice(i, 1);
         //修饰键 shiftKey altKey ctrlKey (command||metaKey) 清除
         if (key === 93 || key === 224) key = 91;
