@@ -71,7 +71,8 @@ function isPressed(keyCode) {
 function getPressedKeyCodes (argument) { return _downKeys.slice(0);}
 //处理keydown事件
 function dispatch (event) {
-    var key = event.keyCode,scope,asterisk = _handlers['*'];
+    var key = event.keyCode || e.which || e.charCode,
+        scope,asterisk = _handlers['*'];
 
     //搜集绑定的键
     if(_downKeys.indexOf(key)===-1) _downKeys.push(key);
@@ -209,7 +210,7 @@ addEvent(document, 'keyup',function(event){
 });
 //清除修饰键
 function clearModifier(event){
-    var key = event.keyCode,
+    var key = event.keyCode || e.which || e.charCode;,
         i = _downKeys.indexOf(key);
 
     if(i>=0) _downKeys.splice(i,1);
