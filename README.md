@@ -4,6 +4,7 @@
 
 这是一个强健的 Javascript 库用于捕获键盘输入和输入的组合键，它没有依赖，压缩只有只有(~3kb)。`hotkey`是临摹大师[madrobby/keymaster](https://github.com/madrobby/keymaster)的作品，只是做了少许更改，添加UMD，和兼容问题。没有`fork`的原因是，不仅仅要一句一句的读懂，还要体现出临摹的作用。
 
+[官方文档DEMO预览](http://jaywcjlove.github.io/hotkeys/)
 
 ```
   __            __    __                         
