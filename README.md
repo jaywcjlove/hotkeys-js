@@ -1,10 +1,10 @@
 # 设置快捷键
 
-[![](https://img.shields.io/github/issues/jaywcjlove/hotkeys.svg)](https://github.com/jaywcjlove/hotkeys/issues) [![](https://img.shields.io/github/forks/jaywcjlove/hotkeys.svg)](https://github.com/jaywcjlove/hotkeys/network) [![](https://img.shields.io/github/stars/jaywcjlove/hotkeys.svg)](https://github.com/jaywcjlove/hotkeys/stargazers) [![](https://img.shields.io/github/release/jaywcjlove/hotkeys.svg)](https://github.com/jaywcjlove/hotkeys/releases) [![jaywcjlove/sb](https://jaywcjlove.github.io/sb/lang/chinese.svg)](http://jaywcjlove.github.io/hotkeys/?lang=cn) [![jaywcjlove/sb](https://jaywcjlove.github.io/sb/lang/english.svg)](http://jaywcjlove.github.io/hotkeys/?lang=en)
+[![](https://img.shields.io/github/issues/jaywcjlove/hotkeys.svg)](https://github.com/jaywcjlove/hotkeys/issues) [![](https://img.shields.io/github/forks/jaywcjlove/hotkeys.svg)](https://github.com/jaywcjlove/hotkeys/network) [![](https://img.shields.io/github/stars/jaywcjlove/hotkeys.svg)](https://github.com/jaywcjlove/hotkeys/stargazers) [![](https://img.shields.io/github/release/jaywcjlove/hotkeys.svg)](https://github.com/jaywcjlove/hotkeys/releases)
 
-这是一个强健的 Javascript 库用于捕获键盘输入和输入的组合键，它没有依赖，压缩只有只有(~3kb)。`hotkey`是临摹大师[madrobby/keymaster](https://github.com/madrobby/keymaster)的作品，只是做了少许更改，添加UMD，和兼容问题。没有`fork`的原因是，不仅仅要一句一句的读懂，还要体现出临摹的作用。
+这是一个强健的 Javascript 库用于捕获键盘输入和输入的组合键，它没有依赖，压缩只有只有(~3kb)，gzip:1.9k。`hotkey` 可以算是临摹参考[madrobby/keymaster](https://github.com/madrobby/keymaster)的作品，重写了一遍，修复多个兼容问题，键支持，添加UMD支持和 **测试用例**，[官方文档DEMO预览](http://jaywcjlove.github.io/hotkeys/?lang=cn) [En](http://jaywcjlove.github.io/hotkeys/?lang=en)
 
-[官方文档DEMO预览](http://jaywcjlove.github.io/hotkeys/)
+[![jaywcjlove/sb](https://jaywcjlove.github.io/sb/lang/chinese.svg)](http://jaywcjlove.github.io/hotkeys/?lang=cn) [![jaywcjlove/sb](https://jaywcjlove.github.io/sb/lang/english.svg)](http://jaywcjlove.github.io/hotkeys/?lang=en)
 
 ```
   __            __    __                         
@@ -101,8 +101,8 @@ hotkeys('*','wcj', function(e){
 `⌥` Option(alt)  
 `⇧` Shift  
 `⇪` Caps Lock(大写)   
-`fn` 功能键就是fn(不支持)  
-`↩︎` return/Enter
+~~`fn` 功能键就是fn(不支持)~~  
+`↩︎` return/enter
 `space` 空格键
 
 ## 修饰键判断
@@ -152,6 +152,7 @@ hotkeys.deleteScope('issues');
 
 
 ## 键判断
+
 判断摁下的键是否为某个键
 
 ```js
