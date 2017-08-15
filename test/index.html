@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>hotkeys</title>
+    <style type="text/css">
+        * {
+            -webkit-box-sizing: border-box;
+            box-sizing: border-box;
+        }
+        body,html{margin: 0;padding: 0;}
+        body div.test{
+            margin: 0;
+            border-top: 1px dotted rgba(128, 128, 128, 0);
+        }
+        body div.test .name{
+            padding:0 10px;
+        }
+        body div.test .assert{
+            padding:0 10px;
+            line-height: 23px;
+            font-size: 12px;
+        }
+        body div.test .assert span{
+            vertical-align: middle;
+        }
+        body div.test .assert span.name{
+            max-width: inherit;
+        }
+    </style>
+</head>
+<body>
+    <div id="tests"/>
+    <script src="../dist/hotkeys.js"></script>
+    <script src="../test/hotkeys.test.js"></script>
+</body>
+</html>
