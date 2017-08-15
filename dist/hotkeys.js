@@ -2,7 +2,7 @@
  * hotkeys-js v2.0.1
  * A simple micro-library for defining and dispatching keyboard shortcuts. It has no dependencies.
  * 
- * Copyright (c) 2016 undefined
+ * Copyright (c) 2017 kenny wang <wowohoo@qq.com>
  * https://github.com/jaywcjlove/hotkeys.git
  * 
  * Licensed under the  license.
@@ -55,6 +55,8 @@
         end: 35,
         pageup: 33,
         pagedown: 34,
+        "⇪": 20,
+        CapsLock: 20,
         ",": 188,
         ".": 190,
         "/": 191,
@@ -129,7 +131,7 @@
     }
     //处理keydown事件
     function dispatch(event) {
-        var key = event.keyCode || e.which || e.charCode, scope, asterisk = _handlers["*"];
+        var key = event.keyCode || event.which || event.charCode, scope, asterisk = _handlers["*"];
         //搜集绑定的键
         if (_downKeys.indexOf(key) === -1) _downKeys.push(key);
         //Gecko(Friefox)的command键值224，在Webkit(Chrome)中保持一致
