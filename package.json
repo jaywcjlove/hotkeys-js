@@ -20,7 +20,8 @@
     "key",
     "keys",
     "keyboard",
-    "shortcuts"
+    "shortcuts",
+    "keypress"
   ],
   "repository": {
     "type": "git",
