@@ -15,7 +15,7 @@ _keyMap = {//特殊键
     left: 37, up: 38, right: 39, down: 40,
     del: 46, 'delete': 46,
     home: 36, end: 35,
-    pageup: 33, pagedown: 34,
+    pageup: 33, pagedown: 34,'⇪': 20,'CapsLock': 20,
     ',': 188, '.': 190, '/': 191,
     '`': 192, '-': isff?173:189, '=': isff?61:187,
     ';': isff?59:186, '\'': 222,
@@ -71,9 +71,8 @@ function isPressed(keyCode) {
 function getPressedKeyCodes (argument) { return _downKeys.slice(0);}
 //处理keydown事件
 function dispatch (event) {
-    var key = event.keyCode || e.which || e.charCode,
+    var key = event.keyCode || event.which || event.charCode,
         scope,asterisk = _handlers['*'];
-
     //搜集绑定的键
     if(_downKeys.indexOf(key)===-1) _downKeys.push(key);
     //Gecko(Friefox)的command键值224，在Webkit(Chrome)中保持一致
