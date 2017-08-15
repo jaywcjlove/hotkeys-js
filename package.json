@@ -37,5 +37,6 @@
     "uglify-js": "^3.0.27",
     "umd": "^3.0.1"
   },
+  "license": "MIT",
   "dependencies": {}
 }
