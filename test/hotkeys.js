@@ -238,6 +238,7 @@ tape('hotkeys 单元测试', function (t) {
   __triggerKeyboardEvent(document.body, 65,{
     ctrlKey:true
   });
+  hotkeys.unbind("⌃+a")
 
   hotkeys('⌥+a', function(e){
     t.equal(e.keyCode, 65, '组合键 ⌥+a，a验证 keyCode == 65');
@@ -254,12 +255,51 @@ tape('hotkeys 单元测试', function (t) {
   __triggerKeyboardEvent(document.body, 188, {
     ctrlKey: true
   });
+  hotkeys.unbind("ctrl+,,ctrl+d")
 
-  hotkeys('Ctrl+A, CTRL+A', function (e) {
-    t.equal(e.keyCode, 65, '大小写组合键 ctrl+a，a验证 keyCode == 65');
-    t.equal(e.ctrlKey, true, '大小写组合键 ctrl+a，ctrl验证 ctrlKey == true');
+  hotkeys('Ctrl+A', function (e) {
+    t.equal(e.keyCode, 65, '大小写组合键 Ctrl+A，A验证 keyCode == 65');
+    t.equal(e.ctrlKey, true, '大小写组合键 Ctrl+A，Ctrl验证 ctrlKey == true');
   });
   __triggerKeyboardEvent(document.body, 65, {
     ctrlKey: true
   });
+  hotkeys.unbind("Ctrl+A")
+
+  hotkeys('CTRL+A', function (e) {
+    t.equal(e.keyCode, 65, '大小写组合键 CTRL+A，A验证 keyCode == 65');
+    t.equal(e.ctrlKey, true, '大小写组合键 CTRL+A，CTRL验证 ctrlKey == true');
+  });
+  __triggerKeyboardEvent(document.body, 65, {
+    ctrlKey: true
+  });
+  hotkeys.unbind("CTRL+A")
+
+  hotkeys('⌃+a',function(){ 
+    t.equal(hotkeys.getScope(), 'all', ' 验证 getScope() == all');
+  });
+  __triggerKeyboardEvent(document.body, 65,{
+    ctrlKey:true
+  });
+  hotkeys.unbind("⌃+a")
+
+  hotkeys('⌃+a','scope1',function(){ 
+    t.equal(hotkeys.getScope(), 'scope1', ' 验证 getScope() == scope1');
+  });
+  __triggerKeyboardEvent(document.body, 65,{
+    ctrlKey:true
+  });
+
+  hotkeys('⌃+a','scope2',function(){ 
+    t.equal(hotkeys.getScope(), 'scope2', ' 验证 getScope() == scope2');
+  });
+  hotkeys.setScope('scope1');
+  __triggerKeyboardEvent(document.body, 65,{
+    ctrlKey:true
+  });
+  hotkeys.setScope('scope2');
+  __triggerKeyboardEvent(document.body, 65,{
+    ctrlKey:true
+  });
+
 });
