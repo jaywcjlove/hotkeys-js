@@ -4,3 +4,4 @@ bower.json
 .gitignore
 test
 package-lock.json
+yarn.lock
