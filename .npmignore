@@ -5,3 +5,4 @@ bower.json
 test
 package-lock.json
 yarn.lock
+src
