@@ -6,12 +6,12 @@
 
 [![jaywcjlove/sb](https://jaywcjlove.github.io/sb/lang/chinese.svg)](http://jaywcjlove.github.io/hotkeys/?lang=cn) [![jaywcjlove/sb](https://jaywcjlove.github.io/sb/lang/english.svg)](http://jaywcjlove.github.io/hotkeys/?lang=en)
 
-```
-  __            __    __                         
+```text
+  __            __    __
  |  |--..-----.|  |_ |  |--..-----..--.--..-----.
  |     ||  _  ||   _||    < |  -__||  |  ||__ --|
  |__|__||_____||____||__|__||_____||___  ||_____|
-                                   |_____|   
+                                   |_____|
 ```
 
 ## 创建
@@ -78,11 +78,11 @@ export default class HotkeysDemo extends Component {
 }
 ```
 
-## 使用 
+## 使用
 
 传统调用
 
-```
+```html
 <script type="text/javascript" src="./js/hotkeys.js"></script>
 ```
 
@@ -142,14 +142,14 @@ hotkeys('*','wcj', function(e){
 
 ## 支持的键
 
-`⇧`, `shift`, `option`, `⌥`, `alt`, `ctrl`, `control`, `command`, `⌘`。 
+`⇧`, `shift`, `option`, `⌥`, `alt`, `ctrl`, `control`, `command`, `⌘`
 
-`⌘` Command()  
-`⌃` Control  
-`⌥` Option(alt)  
-`⇧` Shift  
-`⇪` Caps Lock(大写)   
-~~`fn` 功能键就是fn(不支持)~~  
+`⌘` Command()
+`⌃` Control
+`⌥` Option(alt)
+`⇧` Shift
+`⇪` Caps Lock(大写)
+~~`fn` 功能键就是fn(不支持)~~
 `↩︎` return/enter
 `space` 空格键
 
@@ -174,15 +174,17 @@ hotkeys('shift+a,alt+d, w', function(e){
 hotkeys('ctrl+o, ctrl+alt+enter', 'scope1', function(){
     console.log('你好看');
 });
+
 hotkeys('ctrl+o, enter', 'scope2', function(){ 
     console.log('你好丑陋啊！');
 });
+
 // 你摁 “ctrl+o”组合键
 // 当scope等于 scope1 ，执行 回调事件打印出 “你好看”，
 // 当scope等于 scope2 ，执行 回调事件打印出 “你好丑陋啊！”，
 
-// 通过setScope设定范围scope 
-hotkeys.setScope('scope1'); // 默认所有事儿都干哦 
+// 通过setScope设定范围scope
+hotkeys.setScope('scope1'); // 默认所有事儿都干哦
 ```
 
 ## 删除标记快捷键
@@ -195,9 +197,8 @@ hotkeys.deleteScope('issues');
 
 ## 解除绑定
 
-`hotkeys.unbind("ctrl+o, ctrl+alt+enter")` 解除绑定两组快捷键  
-`hotkeys.unbind("ctrl+o","files")` 解除绑定名字叫files钟的一组快捷键  
-
+`hotkeys.unbind("ctrl+o, ctrl+alt+enter")` 解除绑定两组快捷键
+`hotkeys.unbind("ctrl+o","files")` 解除绑定名字叫files钟的一组快捷键
 
 ## 键判断
 
@@ -205,6 +206,7 @@ hotkeys.deleteScope('issues');
 
 ```js
 hotkeys('a', function(){
+    console.log(hotkeys.isPressed("a")); //=> true
     console.log(hotkeys.isPressed("A")); //=> true
     console.log(hotkeys.isPressed(65)); //=> true
 });
@@ -220,22 +222,22 @@ hotkeys('command+ctrl+shift+a,f', function(){
 })
 ```
 
-
 ## 过滤
-`INPUT`  `SELECT` `TEXTAREA` 默认不处理。  
-`hotkeys.filter` 返回 `true` 快捷键设置才会起作用，`flase` 快捷键设置失效。   
+
+`INPUT`  `SELECT` `TEXTAREA` 默认不处理。
+`hotkeys.filter` 返回 `true` 快捷键设置才会起作用，`false` 快捷键设置失效。
 
 ```javascript
 hotkeys.filter = function(event){
   return true;
 }
-//如何增加过滤可编辑标签 <div contentEditable="true"></div>
-//contentEditable老浏览器不支持滴 
+// 如何增加过滤可编辑标签 <div contentEditable="true"></div>
+// contentEditable老浏览器不支持滴
 hotkeys.filter = function(event) {
     var tagName = (event.target || event.srcElement).tagName;
-    return !(tagName.isContentEditable || 
-    tagName == 'INPUT' || 
-    tagName == 'SELECT' || 
+    return !(tagName.isContentEditable ||
+    tagName == 'INPUT' ||
+    tagName == 'SELECT' ||
     tagName == 'TEXTAREA');
 }
 
@@ -256,8 +258,8 @@ k('a', function() {
 });
 
 hotkeys()
-// -->Uncaught TypeError: hotkeys is not a function(anonymous function) 
-// @ VM2170:2InjectedScript._evaluateOn 
-// @ VM2165:883InjectedScript._evaluateAndWrap 
+// -->Uncaught TypeError: hotkeys is not a function(anonymous function)
+// @ VM2170:2InjectedScript._evaluateOn
+// @ VM2165:883InjectedScript._evaluateAndWrap
 // @ VM2165:816InjectedScript.evaluate @ VM2165:682
 ```
