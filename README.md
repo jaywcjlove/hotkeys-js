@@ -209,8 +209,8 @@ hotkeys.setScope('scope1');
 
 ## 解除绑定
 
-`hotkeys.unbind("ctrl+o, ctrl+alt+enter")` 解除绑定两组快捷键
-`hotkeys.unbind("ctrl+o","files")` 解除绑定名字叫files钟的一组快捷键
+`hotkeys.unbind("ctrl+o, ctrl+alt+enter")` 解除绑定两组快捷键  
+`hotkeys.unbind("ctrl+o","files")` 解除绑定名字叫files钟的一组快捷键  
 
 ## 键判断
 
