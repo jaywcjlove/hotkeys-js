@@ -187,12 +187,24 @@ hotkeys('ctrl+o, enter', 'scope2', function(){
 hotkeys.setScope('scope1'); // 默认所有事儿都干哦
 ```
 
-## 删除标记快捷键
+## 标记快捷键范围
 
-删除区域范围标记
+**删除** 区域范围标记
 
 ```js
-hotkeys.deleteScope('issues');
+hotkeys.deleteScope('scope1');
+```
+
+**获取** 区域范围标记
+
+```js
+hotkeys.getScope('scope1');
+```
+
+**设置** 区域范围标记
+
+```js
+hotkeys.setScope('scope1');
 ```
 
 ## 解除绑定
