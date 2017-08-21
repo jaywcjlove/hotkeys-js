@@ -144,14 +144,14 @@ hotkeys('*','wcj', function(e){
 
 `⇧`, `shift`, `option`, `⌥`, `alt`, `ctrl`, `control`, `command`, `⌘`
 
-`⌘` Command()
-`⌃` Control
-`⌥` Option(alt)
-`⇧` Shift
-`⇪` Caps Lock(大写)
-~~`fn` 功能键就是fn(不支持)~~
-`↩︎` return/enter
-`space` 空格键
+`⌘` Command()  
+`⌃` Control  
+`⌥` Option(alt)  
+`⇧` Shift  
+`⇪` Caps Lock(大写)  
+~~`fn` 功能键就是fn(不支持)~~  
+`↩︎` return/enter  
+`space` 空格键  
 
 ## 修饰键判断
 可以对下面的修饰键判断 `shift` `alt` `option` `ctrl` `control` `command`，特别注意`+`和`=`键值相同，组合键设置`⌘+=`
