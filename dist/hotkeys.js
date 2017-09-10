@@ -1,5 +1,5 @@
 /*!
- * hotkeys-js v2.0.3
+ * hotkeys-js v2.0.4
  * A simple micro-library for defining and dispatching keyboard shortcuts. It has no dependencies.
  * 
  * Copyright (c) 2017 kenny wang <wowohoo@qq.com>
@@ -108,7 +108,7 @@
     _mods[isff ? 224 : 91] = false;
     // 返回键码
     function code(x) {
-        return _keyMap[x.toUpperCase()] || x.toUpperCase().charCodeAt(0);
+        return _keyMap[x.toLowerCase()] || x.toUpperCase().charCodeAt(0);
     }
     // 设置获取当前范围（默认为'所有'）
     function setScope(scope) {
