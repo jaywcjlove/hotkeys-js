@@ -104,24 +104,32 @@ hotkeys('shift+a,alt+d, w', function(e){
 
 ```js
 // 定义a快捷键
+hotkeys('f5', function(event,handler){
+  //event.srcElement: input 
+  //event.target: input
+  // 阻止Widnows系统下的默认刷新事件
+  event.preventDefault() 
+  alert('你按下了 F5 键!') 
+});
+// 定义a快捷键
 hotkeys('a', function(event,handler){
-    //event.srcElement: input 
-    //event.target: input
-    if(event.target === "input"){
-        alert('你在输入框中按下了 a!')
-    }
-    alert('你按下了 a!') 
+  //event.srcElement: input 
+  //event.target: input
+  if(event.target === "input"){
+    alert('你在输入框中按下了 a!')
+  }
+  alert('你按下了 a!') 
 });
 
 // 定义a快捷键
 hotkeys('ctrl+a,ctrl+b,r,f', function(event,handler){
-    switch(handler.key){
-        case "ctrl+a":alert('你按下了ctrl+a!');break;
-        case "ctrl+b":alert('你按下了ctrl+b!');break;
-        case "r":alert('你按下了r!');break;
-        case "f":alert('你按下了f!');break;
-    }
-    //handler.scope 范围
+  switch(handler.key){
+    case "ctrl+a":alert('你按下了ctrl+a!');break;
+    case "ctrl+b":alert('你按下了ctrl+b!');break;
+    case "r":alert('你按下了r!');break;
+    case "f":alert('你按下了f!');break;
+  }
+  //handler.scope 范围
 });
 
 // 返回false将停止活动，并阻止默认浏览器事件
@@ -132,11 +140,11 @@ hotkeys('⌘+r, ctrl+r', function(){ });
 
 // 对所有摁键执行任务
 hotkeys('*','wcj', function(e){
-    console.log('干点活儿',e);
-    console.log("key.getScope()::",hotkeys.getScope());
-    if(hotkeys.shift) console.log('大哥你摁下了 shift 键！');
-    if(hotkeys.ctrl) console.log('大哥你摁下了 ctrl 键！');
-    if(hotkeys.alt) console.log('大哥你摁下了 alt 键！');
+  console.log('干点活儿',e);
+  console.log("key.getScope()::",hotkeys.getScope());
+  if(hotkeys.shift) console.log('大哥你摁下了 shift 键！');
+  if(hotkeys.ctrl) console.log('大哥你摁下了 ctrl 键！');
+  if(hotkeys.alt) console.log('大哥你摁下了 alt 键！');
 });
 ```
 
@@ -158,10 +166,10 @@ hotkeys('*','wcj', function(e){
 
 ```js
 hotkeys('shift+a,alt+d, w', function(e){
-    console.log('干点活儿',e);
-    if(hotkeys.shift) console.log('大哥你摁下了 shift 键！');
-    if(hotkeys.ctrl) console.log('大哥你摁下了 ctrl 键！');
-    if(hotkeys.alt) console.log('大哥你摁下了 alt 键！');
+  console.log('干点活儿',e);
+  if(hotkeys.shift) console.log('大哥你摁下了 shift 键！');
+  if(hotkeys.ctrl) console.log('大哥你摁下了 ctrl 键！');
+  if(hotkeys.alt) console.log('大哥你摁下了 alt 键！');
 });
 ```
 
@@ -172,11 +180,11 @@ hotkeys('shift+a,alt+d, w', function(e){
 ```js
 // 一个快捷键，有可能干的活儿不一样哦
 hotkeys('ctrl+o, ctrl+alt+enter', 'scope1', function(){
-    console.log('你好看');
+  console.log('你好看');
 });
 
 hotkeys('ctrl+o, enter', 'scope2', function(){ 
-    console.log('你好丑陋啊！');
+  console.log('你好丑陋啊！');
 });
 
 // 你摁 “ctrl+o”组合键
@@ -218,9 +226,9 @@ hotkeys.setScope('scope1');
 
 ```js
 hotkeys('a', function(){
-    console.log(hotkeys.isPressed("a")); //=> true
-    console.log(hotkeys.isPressed("A")); //=> true
-    console.log(hotkeys.isPressed(65)); //=> true
+  console.log(hotkeys.isPressed("a")); //=> true
+  console.log(hotkeys.isPressed("A")); //=> true
+  console.log(hotkeys.isPressed(65)); //=> true
 });
 ```
 
@@ -230,7 +238,7 @@ hotkeys('a', function(){
 
 ```js
 hotkeys('command+ctrl+shift+a,f', function(){
-    console.log(hotkeys.getPressedKeyCodes()); //=> [17, 65] 或者 [70]
+  console.log(hotkeys.getPressedKeyCodes()); //=> [17, 65] 或者 [70]
 })
 ```
 
@@ -246,18 +254,18 @@ hotkeys.filter = function(event){
 // 如何增加过滤可编辑标签 <div contentEditable="true"></div>
 // contentEditable老浏览器不支持滴
 hotkeys.filter = function(event) {
-    var tagName = (event.target || event.srcElement).tagName;
-    return !(tagName.isContentEditable ||
-    tagName == 'INPUT' ||
-    tagName == 'SELECT' ||
-    tagName == 'TEXTAREA');
+  var tagName = (event.target || event.srcElement).tagName;
+  return !(tagName.isContentEditable ||
+  tagName == 'INPUT' ||
+  tagName == 'SELECT' ||
+  tagName == 'TEXTAREA');
 }
 
 //
 hotkeys.filter = function(event){
-    var tagName = (event.target || event.srcElement).tagName;
-    hotkeys.setScope(/^(INPUT|TEXTAREA|SELECT)$/.test(tagName) ? 'input' : 'other');
-    return true;
+  var tagName = (event.target || event.srcElement).tagName;
+  hotkeys.setScope(/^(INPUT|TEXTAREA|SELECT)$/.test(tagName) ? 'input' : 'other');
+  return true;
 }
 ```
 
@@ -266,7 +274,7 @@ hotkeys.filter = function(event){
 ```js
 var k = hotkeys.noConflict();
 k('a', function() {
-    console.log("这里可以干一些事儿")
+  console.log("这里可以干一些事儿")
 });
 
 hotkeys()
