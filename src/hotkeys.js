@@ -17,7 +17,7 @@ if (!Array.prototype.lastIndexOf) {
 }
 
 var _api, // 对外API
-  isff = navigator.userAgent.toLowerCase().indexOf('firefox') > 0,
+  isff = typeof navigator !== 'undefined' ? navigator.userAgent.toLowerCase().indexOf('firefox') > 0 : false,
   _keyMap = { // 特殊键
     backspace: 8, tab: 9, clear: 12,
     enter: 13, 'return': 13,
