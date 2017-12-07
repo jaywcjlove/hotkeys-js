@@ -42,7 +42,7 @@
         };
     }
     var _api, // 对外API
-    isff = navigator.userAgent.toLowerCase().indexOf("firefox") > 0, _keyMap = {
+    isff = typeof navigator !== "undefined" ? navigator.userAgent.toLowerCase().indexOf("firefox") > 0 : false, _keyMap = {
         // 特殊键
         backspace: 8,
         tab: 9,
