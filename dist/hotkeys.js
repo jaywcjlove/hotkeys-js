@@ -269,12 +269,14 @@
         return keys;
     }
     // 在全局document上设置快捷键
-    addEvent(document, "keydown", function(event) {
-        dispatch(event);
-    });
-    addEvent(document, "keyup", function(event) {
-        clearModifier(event);
-    });
+    if (typeof document !== 'undefined') {
+        addEvent(document, "keydown", function(event) {
+            dispatch(event);
+        });
+        addEvent(document, "keyup", function(event) {
+            clearModifier(event);
+        });
+    }
     // 清除修饰键
     function clearModifier(event) {
         var key = event.keyCode || e.which || e.charCode, i = _downKeys.indexOf(key);
@@ -329,13 +331,15 @@
         unbind: unbind
     };
     for (var a in _api) hotkeys[a] = _api[a];
-    var _hotkeys = window.hotkeys;
-    hotkeys.noConflict = function(deep) {
-        if (deep && window.hotkeys === hotkeys) {
-            window.hotkeys = _hotkeys;
-        }
-        return hotkeys;
-    };
-    window.hotkeys = hotkeys;
+    if (typeof window !== 'undefined') {
+        var _hotkeys = window.hotkeys;
+        hotkeys.noConflict = function(deep) {
+            if (deep && window.hotkeys === hotkeys) {
+                window.hotkeys = _hotkeys;
+            }
+            return hotkeys;
+        };
+        window.hotkeys = hotkeys;
+    }
     return hotkeys;
 });
