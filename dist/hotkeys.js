@@ -1,8 +1,8 @@
 /*!
- * hotkeys-js v2.0.7
+ * hotkeys-js v2.0.8
  * A simple micro-library for defining and dispatching keyboard shortcuts. It has no dependencies.
  * 
- * Copyright (c) 2017 kenny wang <wowohoo@qq.com>
+ * Copyright (c) 2018 kenny wang <wowohoo@qq.com>
  * https://github.com/jaywcjlove/hotkeys.git
  * 
  * Licensed under the MIT license.
@@ -279,7 +279,7 @@
     }
     // 清除修饰键
     function clearModifier(event) {
-        var key = event.keyCode || e.which || e.charCode, i = _downKeys.indexOf(key);
+        var key = event.keyCode || event.which || event.charCode, i = _downKeys.indexOf(key);
         // 从列表中清除按压过的键
         if (i >= 0) _downKeys.splice(i, 1);
         // 修饰键 shiftKey altKey ctrlKey (command||metaKey) 清除
