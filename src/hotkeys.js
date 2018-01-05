@@ -285,7 +285,7 @@ if (typeof document !== 'undefined') {
 
 // 清除修饰键
 function clearModifier(event) {
-  var key = event.keyCode || e.which || e.charCode,
+  var key = event.keyCode || event.which || event.charCode,
     i = _downKeys.indexOf(key);
 
   // 从列表中清除按压过的键
