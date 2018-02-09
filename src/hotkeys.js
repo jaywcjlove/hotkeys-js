@@ -24,6 +24,7 @@ var _api, // 对外API
     esc: 27, escape: 27, space: 32,
     left: 37, up: 38, right: 39, down: 40,
     del: 46, 'delete': 46,
+    ins: 45, 'insert': 45,
     home: 36, end: 35,
     pageup: 33, pagedown: 34, '⇪': 20, 'capslock': 20,
     ',': 188, '.': 190, '/': 191,
