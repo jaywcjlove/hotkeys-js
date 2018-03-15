@@ -28,14 +28,14 @@
 })(function() {
     var define, module, exports;
     //IE对indexOf方法的支持
-    if (!Array.prototype.indexOf) {
+        if (!Array.prototype.indexOf) {
         Array.prototype.indexOf = function(obj) {
             for (var i = 0; i < this.length; i++) if (this[i] === obj) return i;
             return -1;
         };
     }
     // IE对lastIndexOf方法的支持
-    if (!Array.prototype.lastIndexOf) {
+        if (!Array.prototype.lastIndexOf) {
         Array.prototype.lastIndexOf = function(obj) {
             for (var i = this.length - 1; i >= 0; i--) if (this[i] === obj) return i;
             return -1;
@@ -58,6 +58,8 @@
         down: 40,
         del: 46,
         delete: 46,
+        ins: 45,
+        insert: 45,
         home: 36,
         end: 35,
         pageup: 33,
@@ -100,26 +102,26 @@
         17: false
     }, _handlers = {};
     // F1~F12 特殊键
-    for (var k = 1; k < 20; k++) {
+        for (var k = 1; k < 20; k++) {
         _keyMap["f" + k] = 111 + k;
     }
     // 兼容Firefox处理
-    modifierMap[isff ? 224 : 91] = "metaKey";
+        modifierMap[isff ? 224 : 91] = "metaKey";
     _mods[isff ? 224 : 91] = false;
     // 返回键码
-    function code(x) {
+        function code(x) {
         return _keyMap[x.toLowerCase()] || x.toUpperCase().charCodeAt(0);
     }
     // 设置获取当前范围（默认为'所有'）
-    function setScope(scope) {
+        function setScope(scope) {
         _scope = scope || "all";
     }
     // 获取当前范围
-    function getScope() {
+        function getScope() {
         return _scope || "all";
     }
     // 绑定事件
-    function addEvent(object, event, method) {
+        function addEvent(object, event, method) {
         if (object.addEventListener) {
             object.addEventListener(event, method, false);
         } else if (object.attachEvent) {
@@ -129,61 +131,62 @@
         }
     }
     // 判断摁下的键是否为某个键，返回true或者false
-    function isPressed(keyCode) {
+        function isPressed(keyCode) {
         if (typeof keyCode === "string") {
             keyCode = code(keyCode);
-        }
+ // 转换成键码
+                }
         return _downKeys.indexOf(keyCode) !== -1;
     }
     // 获取摁下绑定键的键值
-    function getPressedKeyCodes() {
+        function getPressedKeyCodes() {
         return _downKeys.slice(0);
     }
     // 处理keydown事件
-    function dispatch(event) {
+        function dispatch(event) {
         var key = event.keyCode || event.which || event.charCode, scope, asterisk = _handlers["*"];
         // 搜集绑定的键
-        if (_downKeys.indexOf(key) === -1) _downKeys.push(key);
+                if (_downKeys.indexOf(key) === -1) _downKeys.push(key);
         // Gecko(Firefox)的command键值224，在Webkit(Chrome)中保持一致
         // Webkit左右command键值不一样
-        if (key === 93 || key === 224) key = 91;
+                if (key === 93 || key === 224) key = 91;
         if (key in _mods) {
             _mods[key] = true;
             // 将特殊字符的key注册到 hotkeys 上
-            for (var k in _modifier) if (_modifier[k] === key) hotkeys[k] = true;
+                        for (var k in _modifier) if (_modifier[k] === key) hotkeys[k] = true;
             if (!asterisk) return;
         }
         // 将modifierMap里面的修饰键绑定到event中
-        for (var e in _mods) _mods[e] = event[modifierMap[e]];
+                for (var e in _mods) _mods[e] = event[modifierMap[e]];
         // 表单控件过滤 默认表单控件不触发快捷键
-        if (!hotkeys.filter.call(this, event)) return;
+                if (!hotkeys.filter.call(this, event)) return;
         // 获取范围 默认为all
-        scope = getScope();
+                scope = getScope();
         // 对任何快捷键都需要做的处理
-        if (asterisk) {
+                if (asterisk) {
             for (i = 0; i < asterisk.length; i++) {
                 if (asterisk[i].scope === scope) eventHandler(event, asterisk[i], scope);
             }
         }
         // key 不在_handlers中返回
-        if (!(key in _handlers)) return;
+                if (!(key in _handlers)) return;
         for (var i = 0; i < _handlers[key].length; i++) {
             // 找到处理内容
             eventHandler(event, _handlers[key][i], scope);
         }
     }
     // 对监听对应快捷键的回调函数进行处理
-    function eventHandler(event, handler, scope) {
+        function eventHandler(event, handler, scope) {
         var modifiersMatch;
         // 看它是否在当前范围
-        if (handler.scope === scope || handler.scope === "all") {
+                if (handler.scope === scope || handler.scope === "all") {
             //检查是否匹配修饰符（如果有返回true）
             modifiersMatch = handler.mods.length > 0;
             for (var y in _mods) {
                 if (!_mods[y] && handler.mods.indexOf(+y) > -1 || _mods[y] && handler.mods.indexOf(+y) === -1) modifiersMatch = false;
             }
             // 调用处理程序，如果是修饰键不做处理
-            if (handler.mods.length === 0 && !_mods[16] && !_mods[18] && !_mods[17] && !_mods[91] || modifiersMatch || handler.shortcut === "*") {
+                        if (handler.mods.length === 0 && !_mods[16] && !_mods[18] && !_mods[17] && !_mods[91] || modifiersMatch || handler.shortcut === "*") {
                 if (handler.method(event, handler) === false) {
                     if (event.preventDefault) event.preventDefault(); else event.returnValue = false;
                     if (event.stopPropagation) event.stopPropagation();
@@ -193,34 +196,34 @@
         }
     }
     // 解除绑定某个范围的快捷键
-    function unbind(key, scope) {
+        function unbind(key, scope) {
         var multipleKeys = getKeys(key), keys, mods = [], obj;
         for (var i = 0; i < multipleKeys.length; i++) {
             // 将组合快捷键拆分为数组
             keys = multipleKeys[i].split("+");
             // 记录每个组合键中的修饰键的键码 返回数组
-            if (keys.length > 1) mods = getMods(keys);
+                        if (keys.length > 1) mods = getMods(keys);
             // 获取除修饰键外的键值key
-            key = keys[keys.length - 1];
+                        key = keys[keys.length - 1];
             key = key === "*" ? "*" : code(key);
             // 判断是否传入范围，没有就获取范围
-            if (!scope) scope = getScope();
+                        if (!scope) scope = getScope();
             // 如何key不在 _handlers 中返回不做处理
-            if (!_handlers[key]) return;
+                        if (!_handlers[key]) return;
             // 清空 handlers 中数据，
             // 让触发快捷键键之后没有事件执行到达解除快捷键绑定的目的
-            for (var r = 0; r < _handlers[key].length; r++) {
+                        for (var r = 0; r < _handlers[key].length; r++) {
                 obj = _handlers[key][r];
                 // 判断是否在范围内并且键值相同
-                if (obj.scope === scope && compareArray(obj.mods, mods)) _handlers[key][r] = {};
+                                if (obj.scope === scope && compareArray(obj.mods, mods)) _handlers[key][r] = {};
             }
         }
     }
     // 循环删除handlers中的所有 scope(范围)
-    function deleteScope(scope, newScope) {
+        function deleteScope(scope, newScope) {
         var key, handlers, i;
         // 没有指定scope，获取scope
-        if (!scope) scope = getScope();
+                if (!scope) scope = getScope();
         for (key in _handlers) {
             handlers = _handlers[key];
             for (i = 0; i < handlers.length; ) {
@@ -228,10 +231,10 @@
             }
         }
         // 如果scope被删除，将scope重置为all
-        if (getScope() === scope) setScope(newScope || "all");
+                if (getScope() === scope) setScope(newScope || "all");
     }
     //比较修饰键的数组
-    function compareArray(a1, a2) {
+        function compareArray(a1, a2) {
         var arr1 = a1.length >= a2.length ? a1 : a2;
         var arr2 = a1.length >= a2.length ? a2 : a1;
         for (var i = 0; i < arr1.length; i++) {
@@ -240,28 +243,28 @@
         return true;
     }
     // 表单控件控件判断 返回 Boolean
-    function filter(event) {
+        function filter(event) {
         var tagName = (event.target || event.srcElement).tagName;
         // 忽略这些标签情况下快捷键无效
-        return !(tagName === "INPUT" || tagName === "SELECT" || tagName === "TEXTAREA");
+                return !(tagName === "INPUT" || tagName === "SELECT" || tagName === "TEXTAREA");
     }
     // 修饰键转换成对应的键码
-    function getMods(key) {
+        function getMods(key) {
         var mods = key.slice(0, key.length - 1);
         for (var i = 0; i < mods.length; i++) mods[i] = _modifier[mods[i].toLowerCase()];
         return mods;
     }
     // 处理传的key字符串转换成数组
-    function getKeys(key) {
+        function getKeys(key) {
         if (!key) key = "";
         var keys, index;
         key = key.replace(/\s/g, "");
-        // 匹配任何空白字符,包括空格、制表符、换页符等等
-        keys = key.split(",");
-        // 同时设置多个快捷键，以','分割
-        index = keys.lastIndexOf("");
+ // 匹配任何空白字符,包括空格、制表符、换页符等等
+                keys = key.split(",");
+ // 同时设置多个快捷键，以','分割
+                index = keys.lastIndexOf("");
         // 快捷键可能包含','，需特殊处理
-        for (;index >= 0; ) {
+                for (;index >= 0; ) {
             keys[index - 1] += ",";
             keys.splice(index, 1);
             index = keys.lastIndexOf("");
@@ -269,7 +272,7 @@
         return keys;
     }
     // 在全局document上设置快捷键
-    if (typeof document !== "undefined") {
+        if (typeof document !== "undefined") {
         addEvent(document, "keydown", function(event) {
             dispatch(event);
         });
@@ -278,40 +281,41 @@
         });
     }
     // 清除修饰键
-    function clearModifier(event) {
+        function clearModifier(event) {
         var key = event.keyCode || event.which || event.charCode, i = _downKeys.indexOf(key);
         // 从列表中清除按压过的键
-        if (i >= 0) _downKeys.splice(i, 1);
+                if (i >= 0) _downKeys.splice(i, 1);
         // 修饰键 shiftKey altKey ctrlKey (command||metaKey) 清除
-        if (key === 93 || key === 224) key = 91;
+                if (key === 93 || key === 224) key = 91;
         if (key in _mods) {
             _mods[key] = false;
             // 将修饰键重置为false
-            for (var k in _modifier) if (_modifier[k] === key) hotkeys[k] = false;
+                        for (var k in _modifier) if (_modifier[k] === key) hotkeys[k] = false;
         }
     }
     // 主体hotkeys函数
-    function hotkeys(key, scope, method) {
+        function hotkeys(key, scope, method) {
         var keys = getKeys(key), // 需要处理的快捷键列表
         mods = [], i = 0;
         // 对为设定范围的判断
-        if (method === undefined) {
+                if (method === undefined) {
             method = scope;
             scope = "all";
-        }
+ // scope默认为all，所有范围都有效
+                }
         // 对于每个快捷键进行处理
-        for (;i < keys.length; i++) {
+                for (;i < keys.length; i++) {
             key = keys[i].split("+");
-            // 按键列表
-            mods = [];
+ // 按键列表
+                        mods = [];
             // 如果是组合快捷键取得组合快捷键
-            if (key.length > 1) mods = getMods(key);
+                        if (key.length > 1) mods = getMods(key);
             // 将非修饰键转化为键码
-            key = key[key.length - 1];
+                        key = key[key.length - 1];
             key = key === "*" ? "*" : code(key);
-            // *表示匹配所有快捷键
+ // *表示匹配所有快捷键
             // 判断key是否在_handlers中，不在就赋一个空数组
-            if (!(key in _handlers)) _handlers[key] = [];
+                        if (!(key in _handlers)) _handlers[key] = [];
             _handlers[key].push({
                 shortcut: keys[i],
                 scope: scope,

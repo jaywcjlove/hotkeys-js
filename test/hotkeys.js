@@ -301,5 +301,5 @@ tape('hotkeys 单元测试', function (t) {
   __triggerKeyboardEvent(document.body, 65,{
     ctrlKey:true
   });
-
+  
 });
