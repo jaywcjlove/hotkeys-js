@@ -36,6 +36,19 @@ function getKeys(key) {
   return keys;
 }
 
+//比较修饰键的数组
+function compareArray(a1, a2) {
+  var arr1 = a1.length >= a2.length ? a1 : a2;
+  var arr2 = a1.length >= a2.length ? a2 : a1;
+
+  for (var i = 0; i < arr1.length; i++) {
+    if (arr2.indexOf(arr1[i]) === -1) return false;
+  }
+
+  return true;
+}
+
+
 
 export {
   isff,

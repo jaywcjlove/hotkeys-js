@@ -1,4 +1,4 @@
-import { addEvent, getMods, getKeys } from './utils';
+import { addEvent, getMods, getKeys, compareArray} from './utils';
 import { _keyMap, _modifier, _downKeys, modifierMap, _mods, _handlers } from './var';
 
 
@@ -98,12 +98,13 @@ function unbind(key, scope) {
     // 让触发快捷键键之后没有事件执行到达解除快捷键绑定的目的
     for (let r = 0; r < _handlers[key].length; r++) {
       obj = _handlers[key][r];
-
       // 判断是否在范围内并且键值相同
       if (
         obj.scope === scope &&
         compareArray(obj.mods, mods)
-      ) _handlers[key][r] = {};
+      ) {
+        _handlers[key][r] = {};
+      }
     }
   }
 }
@@ -166,7 +167,6 @@ function dispatch(event) {
 
   // 将modifierMap里面的修饰键绑定到event中
   for (var e in _mods) _mods[e] = event[modifierMap[e]];
-  console.log('_downKeys:', _mods, _downKeys);
 
   // 表单控件过滤 默认表单控件不触发快捷键
   if (!hotkeys.filter.call(this, event)) return;
