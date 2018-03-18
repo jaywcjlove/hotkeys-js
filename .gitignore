@@ -1,5 +1,7 @@
 npm-debug.log
-node_modules/
+node_modules
+build
+.cache
 .idea/
 package-lock.json
 yarn.lock

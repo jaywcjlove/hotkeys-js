@@ -1,16 +1,14 @@
 {
   "name": "hotkeys-js",
-  "version": "2.0.9",
   "description": "A simple micro-library for defining and dispatching keyboard shortcuts. It has no dependencies.",
-  "author": "kenny wang <wowohoo@qq.com>",
-  "main": "dist/hotkeys.min.js",
+  "version": "3.0.0",
+  "main": "index.js",
   "scripts": {
-    "build:test": "browserify test/hotkeys.js | uglifyjs --compress --mangle  > test/hotkeys.test.js",
-    "build:min": "umd hotkeys src/hotkeys.js | uglifyjs -mc | bannerjs -o > dist/hotkeys.min.js",
-    "build:dist": "umd hotkeys src/hotkeys.js | bannerjs -m | uglifyjs -b beautify=true --comments 'all' > dist/hotkeys.js ",
-    "build": "npm run build:min && npm run build:dist",
-    "test": "npm run build:test && ssr",
-    "watch": "onchange 'src/hotkeys.js' -v -- npm run build "
+    "build": "node scripts/build.js",
+    "watch": "node scripts/watch.js",
+    "pretest": "npm run build",
+    "doc:dev": "NODE_ENV=development parcel website/index.html --out-dir build/website --no-cache",
+    "doc:build": "NODE_ENV=production parcel build website/index.html --out-dir build/website --public-url ./ --no-cache"
   },
   "keywords": [
     "hotkey",
@@ -23,21 +21,31 @@
     "shortcuts",
     "keypress"
   ],
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/jaywcjlove/hotkeys.git"
-  },
-  "devDependencies": {
-    "bannerjs": "^1.0.5",
-    "browserify": "^14.4.0",
-    "jsdom": "^11.1.0",
-    "onchange": "^3.2.1",
-    "ssr": "^1.1.1",
-    "tape": "^4.8.0",
-    "tape-dom": "0.0.12",
-    "uglify-js": "^3.0.27",
-    "umd": "^3.0.1"
-  },
+  "author": "kenny wong <wowohoo@qq.com>",
   "license": "MIT",
-  "dependencies": {}
+  "dependencies": {},
+  "devDependencies": {
+    "autoprefixer": "^8.1.0",
+    "babel-core": "^6.26.0",
+    "babel-plugin-external-helpers": "^6.22.0",
+    "babel-preset-env": "^1.6.1",
+    "babel-preset-react": "^6.24.1",
+    "bannerjs": "^1.0.5",
+    "classnames": "^2.2.5",
+    "colors-cli": "^1.0.13",
+    "highlight.js": "^9.12.0",
+    "less": "^3.0.1",
+    "parcel-bundler": "^1.6.2",
+    "parcel-plugin-markdown-string": "^1.3.1",
+    "postcss-modules": "^1.1.0",
+    "react": "^16.2.0",
+    "react-dom": "^16.2.0",
+    "react-markdown": "^3.3.0",
+    "rollup": "^0.57.0",
+    "rollup-plugin-babel": "^3.0.3",
+    "rollup-plugin-commonjs": "^9.1.0",
+    "rollup-plugin-node-resolve": "^3.2.0",
+    "uglify-js": "^3.3.15",
+    "zlib": "^1.0.5"
+  }
 }

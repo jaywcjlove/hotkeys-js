@@ -1,8 +1,9 @@
-dist/hotkeys.js 
-dist/hotkeys.min.map 
-bower.json 
 .gitignore
+.cache
+scripts
 test
+build
 package-lock.json
+rollup.config.js
 yarn.lock
 src

@@ -1,8 +1,4 @@
-(function (global, factory) {
-	typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory() :
-	typeof define === 'function' && define.amd ? define(factory) :
-	(global.hotkeys = factory());
-}(this, (function () { 'use strict';
+'use strict';
 
 const isff = typeof navigator !== 'undefined' ? navigator.userAgent.toLowerCase().indexOf('firefox') > 0 : false;
 
@@ -331,6 +327,4 @@ if (typeof window !== 'undefined') {
   window.hotkeys = hotkeys;
 }
 
-return hotkeys;
-
-})));
+module.exports = hotkeys;

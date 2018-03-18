@@ -103,7 +103,7 @@ hotkeys('shift+a,alt+d, w', function(e){
 ## 定义快捷键
 
 ```js
-// 定义a快捷键
+// 定义 F5 快捷键
 hotkeys('f5', function(event,handler){
   //event.srcElement: input 
   //event.target: input
@@ -206,7 +206,7 @@ hotkeys.deleteScope('scope1');
 **获取** 区域范围标记
 
 ```js
-hotkeys.getScope('scope1');
+hotkeys.getScope();
 ```
 
 **设置** 区域范围标记

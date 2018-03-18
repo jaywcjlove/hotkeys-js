@@ -1,0 +1,32 @@
+
+a.corner {
+  position: fixed; 
+  top: 0; 
+  right: 0; 
+  svg {
+    fill:#e1e1e1;
+    color:#000;
+    position:absolute;
+    top:0;
+    border:0;
+    right:0;
+    z-index:99;
+    width:4.375rem;
+    height:4.375rem;
+  }
+  &:hover .octo-arm {
+    animation:octocat-wave 560ms ease-in-out;
+  }
+}
+
+@keyframes octocat-wave {
+  0%,100% {
+    transform:rotate(0);
+  }
+  20%,60% {
+    transform:rotate(-25deg);
+  }
+  40%,80% {
+    transform:rotate(10deg);
+  }
+}
