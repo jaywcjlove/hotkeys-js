@@ -5,3 +5,4 @@ build
 .idea/
 package-lock.json
 yarn.lock
+coverage
