@@ -1,8 +1,8 @@
-const puppeteer = require('puppeteer')
-const path = require('path')
+const puppeteer = require('puppeteer');
+const path = require('path');
 const hotkeys = require('../dist/hotkeys');
-let browser
-let page
+let browser;
+let page;
 
 // expect().toEqual() ：判断结果是否和预期等价。
 // expect().toBeFalsy() ：判断结果是否为假。
@@ -28,13 +28,12 @@ function __triggerKeyboardEvent(el, keyCode, opt) {
 }
 
 beforeAll(async () => {
-  browser = await puppeteer.launch()
-  page = await browser.newPage()
+  browser = await puppeteer.launch();
+  page = await browser.newPage();
 })
 
 describe('Alibaba Search', () => {
   test('HTML loader', async () => {
-    await page.setViewport({ width: 1280, height: 800 });
     await page.goto('file://' + path.resolve('./test/index.html'), { waitUntil: 'networkidle2' });
   }, 10000);
 
