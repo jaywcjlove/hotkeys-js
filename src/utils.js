@@ -48,11 +48,10 @@ function compareArray(a1, a2) {
   return true;
 }
 
-
-
 export {
   isff,
   getMods,
   getKeys,
-  addEvent
+  addEvent,
+  compareArray
 }
