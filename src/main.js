@@ -82,7 +82,7 @@ function unbind(key, scope) {
     keys = multipleKeys[i].split('+');
 
     // 记录每个组合键中的修饰键的键码 返回数组
-    if (keys.length > 1) mods = getMods(keys);
+    if (keys.length > 1) mods = getMods(_modifier, keys);
 
     // 获取除修饰键外的键值key
     key = keys[keys.length - 1];
