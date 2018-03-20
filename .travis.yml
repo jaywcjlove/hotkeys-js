@@ -10,4 +10,4 @@ after_success:
   - cat ./coverage/lcov.info | ./node_modules/codecov.io/bin/codecov.io.js
   - cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js
 script:
-  - npm test
+  - node --harmony-async-await `which jest --coverage`
