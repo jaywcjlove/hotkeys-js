@@ -3,6 +3,11 @@ import style from './Footer.less';
 
 export default function Footer({ name, href, year}) {
   return (
-    <div className={style.footer}>© <a target="_blank" href={href}>{name}</a> {year}</div>
+    <div className={style.footer}>
+      <div>Licensed under MIT. (Yes it's free and <a href="https://github.com/jaywcjlove/hotkeys">open-sourced</a>)</div>
+      <div>
+      © <a target="_blank" href={href}>{name}</a> {year}
+      </div>
+    </div>
   )
 }

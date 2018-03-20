@@ -1,7 +1,17 @@
-HotKeys.js is an input capture library with some very special features, it is easy to pick up and use, has a reasonable footprint (~3kb), and has no dependencies. It should not interfere with any JavaScript libraries or frameworks.
 
+HotKeys.js is an input capture library with some very special features, it is easy to pick up and use, has a reasonable footprint (~3kb) (gzipped: 1.73kb), and has no dependencies. It should not interfere with any JavaScript libraries or frameworks. 
 
-## USAGE
+[![](https://img.shields.io/github/issues/jaywcjlove/hotkeys.svg)](https://github.com/jaywcjlove/hotkeys/issues) [![](https://img.shields.io/github/forks/jaywcjlove/hotkeys.svg)](https://github.com/jaywcjlove/hotkeys/network) [![](https://img.shields.io/github/stars/jaywcjlove/hotkeys.svg)](https://github.com/jaywcjlove/hotkeys/stargazers) [![](https://img.shields.io/github/release/jaywcjlove/hotkeys.svg)](https://github.com/jaywcjlove/hotkeys/releases) ![](http://jaywcjlove.github.io/sb/status/no-dependencies.svg)
+
+```bash
+  __            __    __
+ |  |--..-----.|  |_ |  |--..-----..--.--..-----.
+ |     ||  _  ||   _||    < |  -__||  |  ||__ --|
+ |__|__||_____||____||__|__||_____||___  ||_____|
+                                   |_____|
+```
+
+## Usage
 
 You will need `Node.js` installed on your system.
 
@@ -9,13 +19,13 @@ You will need `Node.js` installed on your system.
 $ npm install hotkeys-js --save
 ```
 
-```
+```js
 import hotkeys from 'hotkeys-js';
 ```
 
 Or manually download and link **hotkeys.js** in your HTML:
 
-```js
+```html
 <script type="text/javascript" src="hotkeys.js"></script>
 ```
 
@@ -29,6 +39,37 @@ $ npm install react-hot-keys --save
 
 Detailed use method please see its documentation [react-hotkeys](https://github.com/jaywcjlove/react-hotkeys).
 
+```jsx
+import React, { Component } from 'react';
+import Hotkeys from 'react-hot-keys';
+
+export default class HotkeysDemo extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      output: 'Hello, I am a component that listens to keydown and keyup of a',
+    }
+  }
+  onKeyUp(keyNm, e, handle) {
+    this.setState({output: keyNm})
+  }
+  onKeyDown(keyName, e, handle) {
+    this.setState({output: keyNm})
+  }
+  render() {
+    return (
+      <Hotkeys 
+        keyName="shift+a,alt+s"
+        onKeyDown={this.onKeyDown.bind(this)}
+        onKeyUp={this.onKeyUp.bind(this)}
+      >
+        <div style={{ padding: 50 }}> {this.state.output} </div>
+      </Hotkeys>
+    )
+  }
+}
+```
+
 ## Browser Support
 
 Mousetrap has been tested and should work in.
@@ -40,7 +81,7 @@ Firefox
 Chrome
 ```
 
-## DEFINING SHORTCUTS
+## Defining Shortcuts
 
 One global method is exposed, key which defines shortcuts when called directly.
 
@@ -197,7 +238,7 @@ hotkeys()
 // @ VM2165:816InjectedScript.evaluate @ VM2165:682
 ```
 
-### SUPPORTED KEYS
+## Supported Keys
 
 HotKeys understands the following modifiers: `⇧`, `shift`, `option`, `⌥`, `alt`, `ctrl`, `control`, `command`, and `⌘`.
 
@@ -233,14 +274,13 @@ Run Document Website Environment.
 $ npm run doc:dev
 ```
 
+To contribute, please fork Hotkeys.js, add your patch and tests for it (in the `test/` folder) and submit a pull request.
+
+```shell
+$ npm run test
+$ npm run test:watch # Development model
+```
+
 ## License
 
 [MIT © Kenny Wong](https://kossnocorp.mit-license.org/)
-
-```bash
-  __            __    __
- |  |--..-----.|  |_ |  |--..-----..--.--..-----.
- |     ||  _  ||   _||    < |  -__||  |  ||__ --|
- |__|__||_____||____||__|__||_____||___  ||_____|
-                                   |_____|
-```

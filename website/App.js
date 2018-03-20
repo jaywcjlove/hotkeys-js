@@ -70,11 +70,8 @@ export default class App extends Component {
         <div className={styles.header}>
           <div className={styles.title}>HotKeys.js</div>
           <div className={styles.github}>
-            <a href="https://github.com/jaywcjlove/hotkeys/zipball/master">
-              <button>Download as zip</button>
-            </a>
-            <a href="https://github.com/jaywcjlove/hotkeys/tarball/master">
-              <button>Download as tar.gz</button>
+            <a href="https://www.npmjs.com/package/hotkeys-js">
+              <button>On NPM</button>
             </a>
             <a href="https://github.com/jaywcjlove/hotkeys/">
               <button>Fork on Github</button>
@@ -93,12 +90,12 @@ export default class App extends Component {
         <Markdown source={DocumentStr} />
         <GithubShields source={[
           {
-            href: 'https://github.com/jaywcjlove/hotkeys/network',
-            img: 'https://img.shields.io/github/forks/jaywcjlove/hotkeys.svg?style=social'
-          },
-          {
             href: 'https://github.com/jaywcjlove/hotkeys/stargazers',
             img: 'https://img.shields.io/github/stars/jaywcjlove/hotkeys.svg?style=social'
+          },
+          {
+            href: 'https://github.com/jaywcjlove/hotkeys/network',
+            img: 'https://img.shields.io/github/forks/jaywcjlove/hotkeys.svg?style=social'
           },
           {
             href: 'https://github.com/jaywcjlove/hotkeys/watchers',
@@ -109,7 +106,7 @@ export default class App extends Component {
             img: 'https://img.shields.io/github/followers/jaywcjlove.svg?style=social'
           },
         ]} />
-        <Footer name="Kenny Wong" href="http://jaywcjlove.github.io" year="2015" />
+        <Footer name="Kenny Wong" href="http://jaywcjlove.github.io" year="2015-present" />
       </div>
     )
   }
