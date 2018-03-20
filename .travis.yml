@@ -10,4 +10,4 @@ after_success:
   - cat ./coverage/lcov.info | ./node_modules/codecov.io/bin/codecov.io.js
   - cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js
 script:
-  - node --harmony-async-await node_modules/.bin/jest --coverage
+  - node --harmony ./node_modules/.bin/jest --coverage
