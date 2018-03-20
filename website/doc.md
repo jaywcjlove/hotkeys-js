@@ -58,11 +58,7 @@ export default class HotkeysDemo extends Component {
   }
   render() {
     return (
-      <Hotkeys 
-        keyName="shift+a,alt+s"
-        onKeyDown={this.onKeyDown.bind(this)}
-        onKeyUp={this.onKeyUp.bind(this)}
-      >
+      <Hotkeys keyName="shift+a,alt+s" onKeyDown={this.onKeyDown.bind(this)} onKeyUp={this.onKeyUp.bind(this)}>
         <div style={{ padding: 50 }}> {this.state.output} </div>
       </Hotkeys>
     )
