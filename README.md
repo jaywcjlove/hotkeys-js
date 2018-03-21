@@ -4,13 +4,12 @@
 
 HotKeys.js is an input capture library with some very special features, it is easy to pick up and use, has a reasonable footprint (~3kb) (gzipped: 1.73kb), and has no dependencies. It should not interfere with any JavaScript libraries or frameworks. Official document [demo preview](http://jaywcjlove.github.io/hotkeys).
 
-
-```bash
-  __            __    __
- |  |--..-----.|  |_ |  |--..-----..--.--..-----.
- |     ||  _  ||   _||    < |  -__||  |  ||__ --|
- |__|__||_____||____||__|__||_____||___  ||_____|
-                                   |_____|
+```shell
+╭┈┈╮          ╭┈┈╮  ╭┈┈╮
+┆  ├┈┈..┈┈┈┈┈.┆  └┈╮┆  ├┈┈..┈┈┈┈┈..┈┈.┈┈..┈┈┈┈┈.
+┆     ┆┆  □  ┆┆   ┈┤┆    < ┆  -__┘┆  ┆  ┆┆__ ┈┈┤
+╰┈┈┴┈┈╯╰┈┈┈┈┈╯╰┈┈┈┈╯╰┈┈┴┈┈╯╰┈┈┈┈┈╯╰┈┈┈  ┆╰┈┈┈┈┈╯
+                                  ╰┈┈┈┈┈╯
 ```
 
 ## Usage
