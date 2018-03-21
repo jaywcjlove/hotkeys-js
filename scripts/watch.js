@@ -5,10 +5,11 @@ require('colors-cli/toxic');
 
 const watchOptions = {
   input: 'src/main.js',
-  
+
   output: [
     { file: 'dist/hotkeys.common.js', name: 'hotkeys',  format: 'cjs' },
-    { file: 'dist/hotkeys.js', name: 'hotkeys',  format: 'umd' }
+    { file: 'dist/hotkeys.js', name: 'hotkeys',  format: 'umd' },
+    { file: 'dist/hotkeys.esm.js', name: 'hotkeys', format: 'es' }
   ]
 };
 const watcher = rollup.watch(watchOptions);
