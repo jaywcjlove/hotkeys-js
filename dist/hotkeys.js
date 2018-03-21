@@ -259,13 +259,17 @@ function dispatch(event) {
     // 将特殊字符的key注册到 hotkeys 上
     for (var k in _modifier) {
       if (_modifier[k] === key) hotkeys[k] = true;
-    }if (!asterisk) return;
+    }
+
+    if (!asterisk) return;
   }
 
   // 将modifierMap里面的修饰键绑定到event中
   for (var e in _mods) {
     _mods[e] = event[modifierMap[e]];
-  } // 表单控件过滤 默认表单控件不触发快捷键
+  }
+
+  // 表单控件过滤 默认表单控件不触发快捷键
   if (!hotkeys.filter.call(this, event)) return;
 
   // 获取范围 默认为all
