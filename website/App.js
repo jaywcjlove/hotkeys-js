@@ -28,7 +28,7 @@ export default class App extends Component {
       if (keysStr.indexOf(key) === -1) keysStr.push(key);
       return keysStr;
     }
-    hotkeys('*', (evn) => {
+    hotkeys('*', (evn,e) => {
       evn.preventDefault()
       const keys = [];
       const keyStr = [];

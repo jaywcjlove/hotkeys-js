@@ -3,12 +3,12 @@ HotKeys.js is an input capture library with some very special features, it is ea
 
 [![Build Status](https://www.travis-ci.org/jaywcjlove/hotkeys.svg?branch=master)](https://www.travis-ci.org/jaywcjlove/hotkeys) [![Coverage Status](https://coveralls.io/repos/github/jaywcjlove/hotkeys/badge.svg?branch=master)](https://coveralls.io/github/jaywcjlove/hotkeys?branch=master) ![](http://jaywcjlove.github.io/sb/status/no-dependencies.svg) [![](https://img.shields.io/github/issues/jaywcjlove/hotkeys.svg)](https://github.com/jaywcjlove/hotkeys/issues) [![](https://img.shields.io/github/forks/jaywcjlove/hotkeys.svg)](https://github.com/jaywcjlove/hotkeys/network) [![](https://img.shields.io/github/stars/jaywcjlove/hotkeys.svg)](https://github.com/jaywcjlove/hotkeys/stargazers) [![](https://img.shields.io/github/release/jaywcjlove/hotkeys.svg)](https://github.com/jaywcjlove/hotkeys/releases) 
 
-```bash
-  __            __    __
- |  |--..-----.|  |_ |  |--..-----..--.--..-----.
- |     ||  _  ||   _||    < |  -__||  |  ||__ --|
- |__|__||_____||____||__|__||_____||___  ||_____|
-                                   |_____|
+```shell
+╭┈┈╮          ╭┈┈╮  ╭┈┈╮
+┆  ├┈┈..┈┈┈┈┈.┆  └┈╮┆  ├┈┈..┈┈┈┈┈..┈┈.┈┈..┈┈┈┈┈.
+┆     ┆┆  □  ┆┆   ┈┤┆    < ┆  -__┘┆  ┆  ┆┆__ ┈┈┤
+╰┈┈┴┈┈╯╰┈┈┈┈┈╯╰┈┈┈┈╯╰┈┈┴┈┈╯╰┈┈┈┈┈╯╰┈┈┈  ┆╰┈┈┈┈┈╯
+                                  ╰┈┈┈┈┈╯
 ```
 
 ## Usage
@@ -53,7 +53,7 @@ export default class HotkeysDemo extends Component {
   onKeyUp(keyNm, e, handle) {
     this.setState({output: keyNm})
   }
-  onKeyDown(keyName, e, handle) {
+  onKeyDown(keyNm, e, handle) {
     this.setState({output: keyNm})
   }
   render() {
