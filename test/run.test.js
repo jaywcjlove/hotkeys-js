@@ -28,6 +28,23 @@ function __triggerKeyboardEvent(el, keyCode, opt) {
   }
   el.dispatchEvent ? el.dispatchEvent(eventObj) : el.fireEvent("onkeydown", eventObj);
 }
+function __triggerKeyboardUp(el, keyCode, opt) {
+  var eventObj = document.createEventObject ?
+    document.createEventObject() : document.createEvent("Events");
+  if (eventObj.initEvent) {
+    eventObj.initEvent("keyup", true, true);
+  }
+  if (keyCode) {
+    eventObj.keyCode = keyCode;
+    eventObj.which = keyCode;
+  }
+  if (opt) {
+    for (var a in opt) {
+      eventObj[a] = opt[a];
+    }
+  }
+  el.dispatchEvent ? el.dispatchEvent(eventObj) : el.fireEvent("onkeyup", eventObj);
+}
 
 beforeAll(async () => {
   browser = await puppeteer.launch({ args: ['--no-sandbox']});
@@ -44,6 +61,7 @@ describe('\n   Hotkeys.js Test Case.\n', () => {
     expect(title).toBe('hotkeys.js');
     const text = await page.$eval('#root', el => el.textContent);
     expect(text).toBe('hotkeys');
+    expect(window.hotkeys).toBeTruthy();
   })
 
   test('HotKeys getPressedKeyCodes Test Case', async () => {
@@ -61,6 +79,16 @@ describe('\n   Hotkeys.js Test Case.\n', () => {
     await hotkeys.unbind("command+ctrl+shift+a");
   })
 
+  test('HotKeys unbind Test Case', async () => {
+    hotkeys('enter', function (e) {
+      expect(e.keyCode).toBe(13);
+    });
+
+    expect(hotkeys.unbind()).toBe(undefined);
+    expect(hotkeys.unbind('enter')).toBe(undefined);
+    expect(hotkeys.unbind('enter12')).toBe(undefined);
+
+  })
   test('HotKeys Special keys Test Case', async () => {
     hotkeys('enter', function (e) {
       expect(e.keyCode).toBe(13);
@@ -69,6 +97,7 @@ describe('\n   Hotkeys.js Test Case.\n', () => {
       expect(e.keyCode).toBe(13);
     });
     __triggerKeyboardEvent(document.body, 13);
+    __triggerKeyboardUp(document.body, 13)
     hotkeys.unbind("return");
     hotkeys.unbind("enter");
 
@@ -76,12 +105,14 @@ describe('\n   Hotkeys.js Test Case.\n', () => {
       expect(e.keyCode).toBe(32);
     });
     __triggerKeyboardEvent(document.body, 32);
+    __triggerKeyboardUp(document.body, 32);
     hotkeys.unbind("space");
 
     hotkeys('insert,ins', function (e) {
       expect(e.keyCode).toBe(45);
     });
     __triggerKeyboardEvent(document.body, 45);
+    __triggerKeyboardUp(document.body, 45);
     hotkeys.unbind("insert");
     hotkeys.unbind("ins");
 
@@ -89,48 +120,56 @@ describe('\n   Hotkeys.js Test Case.\n', () => {
       expect(e.keyCode).toBe(8);
     });
     __triggerKeyboardEvent(document.body, 8);
+    __triggerKeyboardUp(document.body, 8);
     hotkeys.unbind("backspace");
 
     hotkeys('tab', function (e) {
       expect(e.keyCode).toBe(9);
     });
     __triggerKeyboardEvent(document.body, 9);
+    __triggerKeyboardUp(document.body, 9);
     hotkeys.unbind("tab");
 
     hotkeys('clear', function (e) {
       expect(e.keyCode).toBe(12);
     });
     __triggerKeyboardEvent(document.body, 12);
+    __triggerKeyboardUp(document.body, 12);
     hotkeys.unbind("clear");
 
     hotkeys(',', function (e) {
       expect(e.keyCode).toBe(188);
     });
     __triggerKeyboardEvent(document.body, 188);
+    __triggerKeyboardUp(document.body, 188);
     hotkeys.unbind(",");
 
     hotkeys('.', function (e) {
       expect(e.keyCode).toBe(190);
     });
     __triggerKeyboardEvent(document.body, 190);
+    __triggerKeyboardUp(document.body, 190);
     hotkeys.unbind(".");
 
     hotkeys('/', function (e) {
       expect(e.keyCode).toBe(191);
     });
     __triggerKeyboardEvent(document.body, 191);
+    __triggerKeyboardUp(document.body, 191);
     hotkeys.unbind("/");
 
     hotkeys('`', function (e) {
       expect(e.keyCode).toBe(192);
     });
     __triggerKeyboardEvent(document.body, 192);
+    __triggerKeyboardUp(document.body, 192);
     hotkeys.unbind("`");
 
     hotkeys('-', function (e) {
       expect(e.keyCode).toBe(isff ? 173 : 189);
     });
     __triggerKeyboardEvent(document.body, isff ? 173 : 189);
+    __triggerKeyboardUp(document.body, isff ? 173 : 189);
     hotkeys.unbind("-");
 
     hotkeys('=', function (e) {
@@ -384,10 +423,17 @@ describe('\n   Hotkeys.js Test Case.\n', () => {
   });
 
   test('HotKeys modifier key ⌘,cmd,command Test Case', async () => {
+    // left key
     await hotkeys('*', function (e) {
       expect(e.keyCode).toBe(isff ? 224 : 91);
     });
     await __triggerKeyboardEvent(document.body, isff ? 224 : 91);
+    await hotkeys.unbind('*');
+    // right key
+    await hotkeys('*', function (e) {
+      expect(e.keyCode).toBe(isff ? 224 : 93);
+    });
+    await __triggerKeyboardEvent(document.body, isff ? 224 : 93);
     await hotkeys.unbind('*');
   });
 
@@ -450,7 +496,7 @@ describe('\n   Hotkeys.js Test Case.\n', () => {
   })
 
   test('HotKeys modifier noConflict Test Case', async () => {
-    const keys = await hotkeys.noConflict();
+    const keys = await hotkeys.noConflict(true);
     await keys('a', function (e) {
       expect(e.keyCode).toBe(65);
       expect(e.which).toBe(65);
