@@ -1,10 +1,10 @@
-import { addEvent, getMods, getKeys, compareArray} from './utils';
+import { addEvent, getMods, getKeys, compareArray } from './utils';
 import { _keyMap, _modifier, _downKeys, modifierMap, _mods, _handlers } from './var';
 
 
-let _scope = 'all'; //默认热键范围
+let _scope = 'all'; // 默认热键范围
 // 返回键码
-const code = (x) => _keyMap[x.toLowerCase()] || x.toUpperCase().charCodeAt(0);
+const code = x => _keyMap[x.toLowerCase()] || x.toUpperCase().charCodeAt(0);
 
 // 设置获取当前范围（默认为'所有'）
 function setScope(scope) { _scope = scope || 'all'; }
@@ -15,7 +15,7 @@ function getPressedKeyCodes() { return _downKeys.slice(0); }
 
 // 表单控件控件判断 返回 Boolean
 function filter(event) {
-  var tagName = (event.target || event.srcElement).tagName;
+  const tagName = event.target.tagName || event.srcElement.tagName;
   // 忽略这些标签情况下快捷键无效
   return !(tagName === 'INPUT' || tagName === 'SELECT' || tagName === 'TEXTAREA');
 }
@@ -38,12 +38,13 @@ function deleteScope(scope, newScope) {
   // 没有指定scope，获取scope
   if (!scope) scope = getScope();
 
-  for (let key in _handlers) {
-    handlers = _handlers[key];
-
-    for (i = 0; i < handlers.length;) {
-      if (handlers[i].scope === scope) handlers.splice(i, 1);
-      else i++;
+  for (const key in _handlers) {
+    if (Object.prototype.hasOwnProperty.call(_handlers, key)) {
+      handlers = _handlers[key];
+      for (i = 0; i < handlers.length;) {
+        if (handlers[i].scope === scope) handlers.splice(i, 1);
+        else i++;
+      }
     }
   }
 
@@ -53,8 +54,8 @@ function deleteScope(scope, newScope) {
 
 // 清除修饰键
 function clearModifier(event) {
+  const i = _downKeys.indexOf(key);
   let key = event.keyCode || event.which || event.charCode;
-  let i = _downKeys.indexOf(key);
 
   // 从列表中清除按压过的键
   if (i >= 0) _downKeys.splice(i, 1);
@@ -65,17 +66,16 @@ function clearModifier(event) {
     _mods[key] = false;
 
     // 将修饰键重置为false
-    for (var k in _modifier) if (_modifier[k] === key) hotkeys[k] = false;
+    for (const k in _modifier) if (_modifier[k] === key) hotkeys[k] = false;
   }
 }
 
-
 // 解除绑定某个范围的快捷键
 function unbind(key, scope) {
-  let multipleKeys = getKeys(key),
-    keys,
-    mods = [],
-    obj;
+  const multipleKeys = getKeys(key);
+  let keys;
+  let mods = [];
+  let obj;
 
   for (let i = 0; i < multipleKeys.length; i++) {
     // 将组合快捷键拆分为数组
@@ -109,21 +109,22 @@ function unbind(key, scope) {
   }
 }
 
-
 // 对监听对应快捷键的回调函数进行处理
 function eventHandler(event, handler, scope) {
   let modifiersMatch;
 
   // 看它是否在当前范围
   if (handler.scope === scope || handler.scope === 'all') {
-    //检查是否匹配修饰符（如果有返回true）
+    // 检查是否匹配修饰符（如果有返回true）
     modifiersMatch = handler.mods.length > 0;
 
-    for (let y in _mods) {
-      if (
-        (!_mods[y] && handler.mods.indexOf(+y) > -1) ||
-        (_mods[y] && handler.mods.indexOf(+y) === -1)
-      ) modifiersMatch = false;
+    for (const y in _mods) {
+      if (Object.prototype.hasOwnProperty.call(_mods, y)) {
+        if (
+          (!_mods[y] && handler.mods.indexOf(+y) > -1) ||
+          (_mods[y] && handler.mods.indexOf(+y) === -1)
+        ) modifiersMatch = false;
+      }
     }
 
     // 调用处理程序，如果是修饰键不做处理
@@ -145,9 +146,8 @@ function eventHandler(event, handler, scope) {
 
 // 处理keydown事件
 function dispatch(event) {
-  var key = event.keyCode || event.which || event.charCode,
-    scope,
-    asterisk = _handlers['*'];
+  const asterisk = _handlers['*'];
+  let key = event.keyCode || event.which || event.charCode;
 
   // 搜集绑定的键
   if (_downKeys.indexOf(key) === -1) _downKeys.push(key);
@@ -160,7 +160,7 @@ function dispatch(event) {
     _mods[key] = true;
 
     // 将特殊字符的key注册到 hotkeys 上
-    for (var k in _modifier) {
+    for (const k in _modifier) {
       if (_modifier[k] === key) hotkeys[k] = true;
     }
 
@@ -168,19 +168,21 @@ function dispatch(event) {
   }
 
   // 将modifierMap里面的修饰键绑定到event中
-  for (var e in _mods) {
-    _mods[e] = event[modifierMap[e]];
+  for (const e in _mods) {
+    if (Object.prototype.hasOwnProperty.call(_mods, e)) {
+      _mods[e] = event[modifierMap[e]];
+    }
   }
 
   // 表单控件过滤 默认表单控件不触发快捷键
   if (!hotkeys.filter.call(this, event)) return;
 
   // 获取范围 默认为all
-  scope = getScope();
+  const scope = getScope();
 
   // 对任何快捷键都需要做的处理
   if (asterisk) {
-    for (i = 0; i < asterisk.length; i++) {
+    for (let i = 0; i < asterisk.length; i++) {
       if (asterisk[i].scope === scope) eventHandler(event, asterisk[i], scope);
     }
   }
@@ -188,16 +190,16 @@ function dispatch(event) {
   // key 不在_handlers中返回
   if (!(key in _handlers)) return;
 
-  for (var i = 0; i < _handlers[key].length; i++) {
+  for (let i = 0; i < _handlers[key].length; i++) {
     // 找到处理内容
     eventHandler(event, _handlers[key][i], scope);
   }
 }
 
 function hotkeys(key, scope, method) {
-  let keys = getKeys(key); // 需要处理的快捷键列表
-  let  mods = [];
-  let  i = 0;
+  const keys = getKeys(key); // 需要处理的快捷键列表
+  let mods = [];
+  let i = 0;
 
 
   // 对为设定范围的判断
@@ -222,9 +224,10 @@ function hotkeys(key, scope, method) {
     if (!(key in _handlers)) _handlers[key] = [];
 
     _handlers[key].push({
-      scope, mods,
+      scope,
+      mods,
       shortcut: keys[i],
-      method: method,
+      method,
       key: keys[i],
     });
   }
@@ -233,19 +236,31 @@ function hotkeys(key, scope, method) {
 
 // 在全局document上设置快捷键
 if (typeof document !== 'undefined') {
-  addEvent(document, "keydown", (e) => {
+  addEvent(document, 'keydown', (e) => {
     dispatch(e);
   });
-  addEvent(document, "keyup", (e) => {
+  addEvent(document, 'keyup', (e) => {
     clearModifier(e);
   });
 }
 
-const _api = { setScope, getScope, deleteScope, getPressedKeyCodes, isPressed, filter, unbind };
-for (var a in _api) hotkeys[a] = _api[a];
+const _api = {
+  setScope,
+  getScope,
+  deleteScope,
+  getPressedKeyCodes,
+  isPressed,
+  filter,
+  unbind,
+};
+for (const a in _api) {
+  if (Object.prototype.hasOwnProperty.call(_api, a)) {
+    hotkeys[a] = _api[a];
+  }
+}
 
 if (typeof window !== 'undefined') {
-  var _hotkeys = window.hotkeys;
+  const _hotkeys = window.hotkeys;
   hotkeys.noConflict = (deep) => {
     if (deep && window.hotkeys === hotkeys) {
       window.hotkeys = _hotkeys;
