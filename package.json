@@ -26,6 +26,10 @@
   ],
   "author": "kenny wong <wowohoo@qq.com>",
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/jaywcjlove/hotkeys.git"
+  },
   "dependencies": {},
   "devDependencies": {
     "autoprefixer": "^8.1.0",
