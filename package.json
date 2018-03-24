@@ -10,7 +10,7 @@
     "build": "node scripts/build.js",
     "watch": "node scripts/watch.js",
     "pretest": "npm run build",
-    "test": "jest --coverage",
+    "test": "npm run lint && jest --coverage",
     "test:watch": "jest --watch",
     "doc:dev": "NODE_ENV=development parcel website/index.html --out-dir build/ --no-cache",
     "doc:build": "NODE_ENV=production parcel build website/index.html --out-dir build/ --public-url ./ --no-cache"
