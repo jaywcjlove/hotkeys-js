@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import ReactDOM from 'react-dom';
 import ReactMarkdown from 'react-markdown';
 import hljs from 'highlight.js';
 import classNames from 'classnames';
@@ -12,8 +11,7 @@ hljs.configure({
 
 export default class Markdown extends Component {
   componentDidMount() {
-    let code = ReactDOM.findDOMNode(this);
-    code = code.getElementsByTagName('code');
+    const code = this.node.getElementsByTagName('code');
     for (let i = 0; i < code.length; i += 1) {
       if (code[i].parentNode && code[i].parentNode.tagName === 'PRE') {
         hljs.highlightBlock(code[i]);
@@ -21,23 +19,25 @@ export default class Markdown extends Component {
     }
   }
   render() {
-    const { source }= this.props;
+    const { source } = this.props;
     return (
-      <ReactMarkdown
-        className={classNames(styles.markdown, 'markdown')}
-        source={source}
-        escapeHtml={false}
-        allowNode={(node) => {
-          if (node.type === 'html') {
-            if (/<!--([^]+?)-->/.test(node.value)) return false;
-            // const scriptValue = node.value.match(/<script.*?>(.*?)<\/script>/ig);
-            // node.value.replace(/<script.*?>(.*?)<\/script>/, (te) => {
-            //   console.log('te:', te);
-            // });
-          }
-          return node;
-        }}
-      />
-    )
+      <div ref={(node) => { this.node = node; }}>
+        <ReactMarkdown
+          className={classNames(styles.markdown, 'markdown')}
+          source={source}
+          escapeHtml={false}
+          allowNode={(node) => {
+            if (node.type === 'html') {
+              if (/<!--([^]+?)-->/.test(node.value)) return false;
+              // const scriptValue = node.value.match(/<script.*?>(.*?)<\/script>/ig);
+              // node.value.replace(/<script.*?>(.*?)<\/script>/, (te) => {
+              //   console.log('te:', te);
+              // });
+            }
+            return node;
+          }}
+        />
+      </div>
+    );
   }
 }

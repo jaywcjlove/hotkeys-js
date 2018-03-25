@@ -1,5 +1,5 @@
 import React from 'react';
-import styles from './GithubShields.less'
+import styles from './GithubShields.less';
 
 // source = [
 //   {
@@ -11,7 +11,7 @@ export default function GithubShields({ source }) {
   return (
     <div className={styles.shields}>
       {source.map((item, idx) => (
-        <a key={idx} href={item.href} target="_blank" rel="external">
+        <a key={`${idx}${item.href}`} href={item.href} target="_blank" rel="external">
           <img src={item.img} alt="" />
         </a>
       ))}

@@ -4,7 +4,7 @@
   "version": "3.0.1",
   "main": "index.js",
   "scripts": {
-    "lint": "eslint --ext .js src",
+    "lint": "eslint --ext .js src website",
     "precommit": "npm run lint",
     "deploy": "gh-pages -d build",
     "build": "node scripts/build.js",
