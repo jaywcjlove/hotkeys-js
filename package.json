@@ -6,7 +6,7 @@
   "scripts": {
     "lint": "eslint --ext .js src website",
     "precommit": "npm run build && npm run lint",
-    "deploy": "gh-pages -d build",
+    "deploy": "npm run doc:build && gh-pages -d build",
     "build": "node scripts/build.js",
     "watch": "node scripts/watch.js",
     "pretest": "npm run build",
