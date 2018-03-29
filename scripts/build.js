@@ -2,11 +2,11 @@ const fs = require('fs');
 const path = require('path');
 const rollup = require('rollup');
 const babel = require('rollup-plugin-babel');
-const resolve = require('rollup-plugin-node-resolve');
+const nodeResolve = require('rollup-plugin-node-resolve');
 const commonjs = require('rollup-plugin-commonjs');
 const banner = require('bannerjs');
 const zlib = require('zlib');
-const pkg = require('../package.json');
+// const pkg = require('../package.json');
 const uglify = require('uglify-js');
 require('colors-cli/toxic');
 
@@ -14,20 +14,12 @@ require('colors-cli/toxic');
 const inputOptions = {
   input: 'src/main.js',
   plugins: [
-    resolve(), // so Rollup can find `ms`
+    nodeResolve(), // so Rollup can find `ms`
     commonjs(), // so Rollup can convert `ms` to an ES module
     babel({
-      exclude: 'node_modules/**' // 只编译我们的源代码
-    })
-  ]
-};
-
-const outputOptions = {
-  file: pkg.unpkg,
-  sourcemap: false,
-  format: 'umd',
-  name: 'hotkeys',
-  banner: banner.multibanner()
+      exclude: 'node_modules/**', // 只编译我们的源代码
+    }),
+  ],
 };
 
 async function build() {
@@ -35,16 +27,16 @@ async function build() {
   const bundle = await rollup.rollup(inputOptions);
 
   const uglifyOption = {
-    'compress': {
-      'pure_getters': true,
-      'unsafe': true,
-      'unsafe_comps': true,
-      'warnings': false
+    compress: {
+      pure_getters: true,
+      unsafe: true,
+      unsafe_comps: true,
+      warnings: false,
     },
-    'output': {
-      'ascii_only': true,
-    }
-  }
+    output: {
+      ascii_only: true,
+    },
+  };
 
   // console.log(bundle.imports); // an array of external dependencies
   // console.log(bundle.exports); // an array of names exported by the entry point
@@ -53,22 +45,22 @@ async function build() {
   const umd = await bundle.generate({
     format: 'umd',
     name: 'hotkeys',
-    banner: banner.multibanner()
+    banner: banner.multibanner(),
   });
 
-  const umdMinified = banner.onebanner() + '\n' + uglify.minify(umd.code, uglifyOption).code;
-  
+  const umdMinified = `${banner.onebanner()}\n${uglify.minify(umd.code, uglifyOption).code}`;
+
   const common = await bundle.generate({
     format: 'cjs',
     name: 'hotkeys',
-    banner: banner.multibanner()
+    banner: banner.multibanner(),
   });
-  const commonMinified = banner.onebanner() + '\n' + uglify.minify(common.code, uglifyOption).code;
-  
+  const commonMinified = `${banner.onebanner()}\n${uglify.minify(common.code, uglifyOption).code}`;
+
   const es = await bundle.generate({
     format: 'es',
     name: 'hotkeys',
-    banner: banner.multibanner()
+    banner: banner.multibanner(),
   });
 
   write('dist/hotkeys.js', umd.code)
@@ -76,34 +68,33 @@ async function build() {
     .then(() => write('dist/hotkeys.common.js', common.code))
     .then(() => write('dist/hotkeys.common.min.js', commonMinified, true))
     .then(() => write('dist/hotkeys.esm.js', es.code));
-
 }
 
 build();
 
 function write(dest, code, zip) {
-  return new Promise(function (resolve, reject) {
+  return new Promise((resolve, reject) => {
     function report(extra) {
-      console.log((path.relative(process.cwd(), dest)).blue_bt + ' ' + getSize(code).green_bt + (extra || ''))
-      resolve()
+      console.log(`${(path.relative(process.cwd(), dest)).blue_bt} ${getSize(code).green_bt + (extra || '')}`);
+      resolve();
     }
     if (!fs.existsSync(path.dirname(dest))) {
       fs.mkdirSync(path.dirname(dest));
     }
-    fs.writeFile(dest, code, function (err) {
-      if (err) return reject(err)
+    fs.writeFile(dest, code, (err) => {
+      if (err) return reject(err);
       if (zip) {
-        zlib.gzip(code, (err, zipped) => {
-          if (err) return reject(err)
-          report(' (gzipped: ' + getSize(zipped).green_bt + ')')
-        })
+        zlib.gzip(code, (_err, zipped) => {
+          if (_err) return reject(_err);
+          report(`(gzipped: ${getSize(zipped).green_bt})`);
+        });
       } else {
-        report()
+        report();
       }
-    })
-  })
+    });
+  });
 }
 
 function getSize(code) {
-  return (code.length / 1024).toFixed(2) + 'kb'
+  return `${(code.length / 1024).toFixed(2)}kb`;
 }
