@@ -73,7 +73,7 @@ export default class HotkeysDemo extends Component {
 
 ## Browser Support
 
-Mousetrap has been tested and should work in.
+Hotkeys.js has been tested and should work in.
 
 ```shell
 Internet Explorer 6+
