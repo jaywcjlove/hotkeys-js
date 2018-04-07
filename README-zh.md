@@ -195,8 +195,8 @@ hotkeys('*','wcj', function(e){
 
 #### option 
 
-- scope<String>  
-- element<HTMLElement>  
+- `scope<String>`
+- `element<HTMLElement>`
 
 ```js
 hotkeys('o, enter', {
