@@ -28,6 +28,32 @@ $ npm run build # 编译
 $ npm run watch # 开发模式
 ```
 
+```js
+import hotkeys from 'hotkeys-js';
+
+hotkeys('f5', function(event, handler){
+  // Prevent the default refresh event under WIDNOWS system
+  event.preventDefault() 
+  alert('you pressed F5!') 
+});
+```
+
+或者在您的HTML中手动下载并引入** hotkeys.js **：
+
+```html
+<script type="text/javascript" src="hotkeys.js"></script>
+<script type="text/javascript">
+hotkeys('ctrl+a,ctrl+b,r,f', function(event,handler) {
+  switch(handler.key){
+    case "ctrl+a":alert('you pressed ctrl+a!');break;
+    case "ctrl+b":alert('you pressed ctrl+b!');break;
+    case "r":alert('you pressed r!');break;
+    case "f":alert('you pressed f!');break;
+  }
+});
+<script>
+```
+
 ## React中使用
 
 [react-hotkeys](https://github.com/jaywcjlove/react-hotkeys)，安装如下：
@@ -92,8 +118,34 @@ hotkeys('shift+a,alt+d, w', function(e){
 });
 ```
 
+## 支持的键
+
+`⇧`, `shift`, `option`, `⌥`, `alt`, `ctrl`, `control`, `command`, `⌘`
+
+`⌘` Command()  
+`⌃` Control  
+`⌥` Option(alt)  
+`⇧` Shift  
+`⇪` Caps Lock(大写)  
+~~`fn` 功能键就是fn(不支持)~~  
+`↩︎` return/enter  
+`space` 空格键  
+
+## 修饰键判断
+可以对下面的修饰键判断 `shift` `alt` `option` `ctrl` `control` `command`，特别注意`+`和`=`键值相同，组合键设置`⌘+=`
+
+```js
+hotkeys('shift+a,alt+d, w', function(e){
+  console.log('干点活儿',e);
+  if(hotkeys.shift) console.log('大哥你摁下了 shift 键！');
+  if(hotkeys.ctrl) console.log('大哥你摁下了 ctrl 键！');
+  if(hotkeys.alt) console.log('大哥你摁下了 alt 键！');
+});
+```
 
 ## 定义快捷键
+
+> `hotkeys([keys:<String>], [option:[string|object|function]], [callback:<function>])`
 
 ```js
 // 定义 F5 快捷键
@@ -141,28 +193,17 @@ hotkeys('*','wcj', function(e){
 });
 ```
 
-## 支持的键
+#### option 
 
-`⇧`, `shift`, `option`, `⌥`, `alt`, `ctrl`, `control`, `command`, `⌘`
-
-`⌘` Command()  
-`⌃` Control  
-`⌥` Option(alt)  
-`⇧` Shift  
-`⇪` Caps Lock(大写)  
-~~`fn` 功能键就是fn(不支持)~~  
-`↩︎` return/enter  
-`space` 空格键  
-
-## 修饰键判断
-可以对下面的修饰键判断 `shift` `alt` `option` `ctrl` `control` `command`，特别注意`+`和`=`键值相同，组合键设置`⌘+=`
+- scope<String>  
+- element<HTMLElement>  
 
 ```js
-hotkeys('shift+a,alt+d, w', function(e){
-  console.log('干点活儿',e);
-  if(hotkeys.shift) console.log('大哥你摁下了 shift 键！');
-  if(hotkeys.ctrl) console.log('大哥你摁下了 ctrl 键！');
-  if(hotkeys.alt) console.log('大哥你摁下了 alt 键！');
+hotkeys('o, enter', {
+  scope: 'wcj',
+  element: document.getElementById('warpper'),
+}, function(){ 
+  console.log('do something else');
 });
 ```
 

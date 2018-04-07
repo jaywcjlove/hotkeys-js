@@ -22,12 +22,28 @@ $ npm install hotkeys-js --save
 
 ```js
 import hotkeys from 'hotkeys-js';
+
+hotkeys('f5', function(event, handler){
+  // Prevent the default refresh event under WIDNOWS system
+  event.preventDefault() 
+  alert('you pressed F5!') 
+});
 ```
 
 Or manually download and link **hotkeys.js** in your HTML:
 
 ```html
 <script type="text/javascript" src="hotkeys.js"></script>
+<script type="text/javascript">
+hotkeys('ctrl+a,ctrl+b,r,f', function(event,handler) {
+  switch(handler.key){
+    case "ctrl+a":alert('you pressed ctrl+a!');break;
+    case "ctrl+b":alert('you pressed ctrl+b!');break;
+    case "r":alert('you pressed r!');break;
+    case "f":alert('you pressed f!');break;
+  }
+});
+<script>
 ```
 
 ### Used in React
@@ -82,9 +98,28 @@ Firefox
 Chrome
 ```
 
+## Supported Keys
+
+HotKeys understands the following modifiers: `⇧`, `shift`, `option`, `⌥`, `alt`, `ctrl`, `control`, `command`, and `⌘`.
+
+The following special keys can be used for shortcuts: backspace, tab, clear, enter, return, esc, escape, space, up, down, left, right, home, end, pageup, pagedown, del, delete and f1 through f19.
+
+`⌘` Command()  
+`⌃` Control  
+`⌥` Option(alt)  
+`⇧` Shift  
+`⇪` Caps Lock(Capital)  
+~~`fn` Does not support fn~~  
+`↩︎` return/Enter space  
+
 ## Defining Shortcuts
 
 One global method is exposed, key which defines shortcuts when called directly.
+
+```
+hotkeys([keys:<String>], [option:[string|object|function]], [callback:<function>])
+```
+
 
 ```js
 hotkeys('f5', function(event, handler){
@@ -102,7 +137,7 @@ hotkeys('a', function(event,handler){
   alert('you pressed a!') 
 });
 
-hotkeys('ctrl+a,ctrl+b,r,f', function(event,handler){
+hotkeys('ctrl+a,ctrl+b,r,f', function(event,handler) {
   switch(handler.key){
     case "ctrl+a":alert('you pressed ctrl+a!');break;
     case "ctrl+b":alert('you pressed ctrl+b!');break;
@@ -113,6 +148,20 @@ hotkeys('ctrl+a,ctrl+b,r,f', function(event,handler){
 
 hotkeys('*','wcj', function(e){
   console.log('do something',e);
+});
+```
+
+#### option 
+
+- scope<String>  
+- element<HTMLElement>  
+
+```js
+hotkeys('o, enter', {
+  scope: 'wcj',
+  element: document.getElementById('warpper'),
+}, function(){ 
+  console.log('do something else');
 });
 ```
 
@@ -238,20 +287,6 @@ hotkeys()
 // @ VM2165:883InjectedScript._evaluateAndWrap 
 // @ VM2165:816InjectedScript.evaluate @ VM2165:682
 ```
-
-## Supported Keys
-
-HotKeys understands the following modifiers: `⇧`, `shift`, `option`, `⌥`, `alt`, `ctrl`, `control`, `command`, and `⌘`.
-
-The following special keys can be used for shortcuts: backspace, tab, clear, enter, return, esc, escape, space, up, down, left, right, home, end, pageup, pagedown, del, delete and f1 through f19.
-
-`⌘` Command()  
-`⌃` Control  
-`⌥` Option(alt)  
-`⇧` Shift  
-`⇪` Caps Lock(Capital)  
-~~`fn` Does not support fn~~  
-`↩︎` return/Enter space  
  
 ## Development
 
