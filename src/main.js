@@ -3,6 +3,8 @@ import { _keyMap, _modifier, _downKeys, modifierMap, _mods, _handlers } from './
 
 
 let _scope = 'all'; // 默认热键范围
+let isBindElement = false; // 是否绑定节点
+
 // 返回键码
 const code = x => _keyMap[x.toLowerCase()] || x.toUpperCase().charCodeAt(0);
 
@@ -186,7 +188,6 @@ function dispatch(event) {
       if (asterisk[i].scope === scope) eventHandler(event, asterisk[i], scope);
     }
   }
-
   // key 不在_handlers中返回
   if (!(key in _handlers)) return;
 
@@ -196,17 +197,24 @@ function dispatch(event) {
   }
 }
 
-function hotkeys(key, scope, method) {
+function hotkeys(key, option, method) {
   const keys = getKeys(key); // 需要处理的快捷键列表
   let mods = [];
+  let scope = 'all'; // scope默认为all，所有范围都有效
+  let element = document; // 快捷键事件绑定节点
   let i = 0;
 
-
   // 对为设定范围的判断
-  if (method === undefined) {
-    method = scope;
-    scope = 'all'; // scope默认为all，所有范围都有效
+  if (method === undefined && typeof option === 'function') {
+    method = option;
   }
+
+  if (toString.call(option) === '[object Object]') {
+    if (option.scope) scope = option.scope; // eslint-disable-line
+    if (option.element) element = option.element; // eslint-disable-line
+  }
+
+  if (typeof option === 'string') scope = option;
 
   // 对于每个快捷键进行处理
   for (; i < keys.length; i++) {
@@ -231,17 +239,16 @@ function hotkeys(key, scope, method) {
       key: keys[i],
     });
   }
-}
-
-
-// 在全局document上设置快捷键
-if (typeof document !== 'undefined') {
-  addEvent(document, 'keydown', (e) => {
-    dispatch(e);
-  });
-  addEvent(document, 'keyup', (e) => {
-    clearModifier(e);
-  });
+  // 在全局document上设置快捷键
+  if (typeof element !== 'undefined' && !isBindElement) {
+    isBindElement = true;
+    addEvent(element, 'keydown', (e) => {
+      dispatch(e);
+    });
+    addEvent(element, 'keyup', (e) => {
+      clearModifier(e);
+    });
+  }
 }
 
 const _api = {
