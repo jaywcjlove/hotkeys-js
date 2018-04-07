@@ -40,6 +40,9 @@ pre code {
   overflow-wrap: normal;
   white-space: inherit;
 }
+ul, li, ol, dl, dt {
+  list-style: inherit;
+}
 ul, ol {
   padding-left: 2em;
 }
@@ -59,8 +62,11 @@ li + li {
 a {
   color: #0366d6;
 }
-p {
+p, ol, ul {
   margin-bottom: 16px;
+}
+li {
+  display: list-item;
 }
 table {
   margin-bottom: 16px;
