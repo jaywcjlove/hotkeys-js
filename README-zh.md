@@ -32,7 +32,7 @@ $ npm run watch # 开发模式
 import hotkeys from 'hotkeys-js';
 
 hotkeys('f5', function(event, handler){
-  // Prevent the default refresh event under WIDNOWS system
+  // Prevent the default refresh event under WINDOWS system
   event.preventDefault() 
   alert('you pressed F5!') 
 });
@@ -152,7 +152,7 @@ hotkeys('shift+a,alt+d, w', function(e){
 hotkeys('f5', function(event,handler){
   //event.srcElement: input 
   //event.target: input
-  // 阻止Widnows系统下的默认刷新事件
+  // 阻止WINDOWS系统下的默认刷新事件
   event.preventDefault() 
   alert('你按下了 F5 键!') 
 });
