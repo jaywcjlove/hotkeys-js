@@ -111,10 +111,10 @@ export default class HotkeysDemo extends Component {
 import hotkeys from 'hotkeys-js';
 
 hotkeys('shift+a,alt+d, w', function(e){
-    console.log('干点活儿',e);
-    if(hotkeys.shift) console.log('大哥你摁下了 shift 键！');
-    if(hotkeys.ctrl) console.log('大哥你摁下了 ctrl 键！');
-    if(hotkeys.alt) console.log('大哥你摁下了 alt 键！');
+  console.log('干点活儿',e);
+  if(hotkeys.shift) console.log('大哥你摁下了 shift 键！');
+  if(hotkeys.ctrl) console.log('大哥你摁下了 ctrl 键！');
+  if(hotkeys.alt) console.log('大哥你摁下了 alt 键！');
 });
 ```
 
@@ -137,9 +137,13 @@ hotkeys('shift+a,alt+d, w', function(e){
 ```js
 hotkeys('shift+a,alt+d, w', function(e){
   console.log('干点活儿',e);
-  if(hotkeys.shift) console.log('大哥你摁下了 shift 键！');
-  if(hotkeys.ctrl) console.log('大哥你摁下了 ctrl 键！');
-  if(hotkeys.alt) console.log('大哥你摁下了 alt 键！');
+  if(hotkeys.shift) console.log('您摁下了 shift 键!');
+  if(hotkeys.ctrl) console.log('您摁下了 ctrl 键!');
+  if(hotkeys.alt) console.log('您摁下了 alt 键!');
+  if(hotkeys.option) console.log('您摁下了 option 键!');
+  if(hotkeys.control) console.log('您摁下了 control 键!');
+  if(hotkeys.cmd) console.log('您摁下了 cmd 键!');
+  if(hotkeys.command) console.log('您摁下了 command 键!');
 });
 ```
 
