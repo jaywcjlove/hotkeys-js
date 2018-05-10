@@ -27,7 +27,6 @@ function isPressed(keyCode) {
   if (typeof (keyCode) === 'string') {
     keyCode = code(keyCode); // 转换成键码
   }
-
   return _downKeys.indexOf(keyCode) !== -1;
 }
 
@@ -56,8 +55,8 @@ function deleteScope(scope, newScope) {
 
 // 清除修饰键
 function clearModifier(event) {
-  const i = _downKeys.indexOf(key);
   let key = event.keyCode || event.which || event.charCode;
+  const i = _downKeys.indexOf(key);
 
   // 从列表中清除按压过的键
   if (i >= 0) _downKeys.splice(i, 1);
