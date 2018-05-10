@@ -30,10 +30,10 @@ hotkeys('f5', function(event, handler){
 });
 ```
 
-Or manually download and link **hotkeys.js** in your HTML:
+Or manually download and link **hotkeys.js** in your HTML, It can also be downloaded via [UNPKG](https://unpkg.com/hotkeys-js@3.2.0/dist/):
 
 ```html
-<script type="text/javascript" src="hotkeys.js"></script>
+<script src="https://unpkg.com/hotkeys-js@3.2.0/dist/hotkeys.min.js"></script>
 <script type="text/javascript">
 hotkeys('ctrl+a,ctrl+b,r,f', function(event,handler) {
   switch(handler.key){
