@@ -12,3 +12,8 @@ website
 .travis.yml
 LICENSE
 coverage
+.DS_Store
+.eslintrc
+.eslintignore
+.babelrc
+.editorconfig
