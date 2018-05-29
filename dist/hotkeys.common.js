@@ -1,5 +1,5 @@
 /*!
- * hotkeys-js v3.3.1
+ * hotkeys-js v3.3.2
  * A simple micro-library for defining and dispatching keyboard shortcuts. It has no dependencies.
  * 
  * Copyright (c) 2018 kenny wong <wowohoo@qq.com>
@@ -330,7 +330,7 @@ function hotkeys(key, option, method) {
     method = option;
   }
 
-  if (toString.call(option) === '[object Object]') {
+  if (Object.prototype.toString.call(option) === '[object Object]') {
     if (option.scope) scope = option.scope; // eslint-disable-line
     if (option.element) element = option.element; // eslint-disable-line
   }
