@@ -208,7 +208,7 @@ function hotkeys(key, option, method) {
     method = option;
   }
 
-  if (toString.call(option) === '[object Object]') {
+  if (Object.prototype.toString.call(option) === '[object Object]') {
     if (option.scope) scope = option.scope; // eslint-disable-line
     if (option.element) element = option.element; // eslint-disable-line
   }
