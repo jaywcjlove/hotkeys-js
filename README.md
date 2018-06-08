@@ -294,7 +294,7 @@ hotkeys()
  
 ## Development
 
-To develop, run the self-reloading build, Get the code:
+To develop, Install dependencies, Get the code:
 
 ```shell
 $ git https://github.com/jaywcjlove/hotkeys.git
@@ -320,7 +320,6 @@ To contribute, please fork Hotkeys.js, add your patch and tests for it (in the `
 $ npm run test
 $ npm run test:watch # Development model
 ```
-
 
 ## License
 

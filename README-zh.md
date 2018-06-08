@@ -321,3 +321,37 @@ hotkeys()
 // @ VM2165:883InjectedScript._evaluateAndWrap
 // @ VM2165:816InjectedScript.evaluate @ VM2165:682
 ```
+ 
+## 开发
+
+安装依赖，运行自重载构建，获取代码：
+
+```shell
+$ git https://github.com/jaywcjlove/hotkeys.git
+$ cd hotkeys     # 进入目录
+$ npm install    # 或者使用 yarn install 安装依赖
+```
+
+运行下面命令自动重载构建：
+
+```shell
+$ npm run watch
+```
+
+运行稳定环境
+
+```shell
+$ npm run doc:dev
+```
+
+如果要贡献，请 fork `Hotkeys.js`, 并添加您的测试代码(在 test 目录中)，并提交一个 PR。
+
+```shell
+$ npm run test
+$ npm run test:watch # Development model
+```
+
+
+## License
+
+[MIT © Kenny Wong](./LICENSE)
