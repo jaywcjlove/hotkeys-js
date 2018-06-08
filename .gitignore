@@ -2,7 +2,6 @@ npm-debug.log
 node_modules
 build
 .cache
-.idea/
-package-lock.json
+.idea
 yarn.lock
 coverage
