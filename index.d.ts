@@ -53,6 +53,6 @@ interface Hotkeys {
 
 declare var hotkeys: Hotkeys
 
-declare module 'hotkeys' {
+declare module 'hotkeys-js' {
   export = hotkeys
 }
