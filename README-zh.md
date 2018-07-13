@@ -38,7 +38,7 @@ hotkeys('f5', function(event, handler){
 });
 ```
 
-或者在您的HTML中手动下载并引入** hotkeys.js **，你也可以通过 [UNPKG](https://unpkg.com/hotkeys-js/dist/) 进行下载：
+或者在您的HTML中手动下载并引入 **hotkeys.js**，你也可以通过 [UNPKG](https://unpkg.com/hotkeys-js/dist/) 进行下载：
 
 ```html
 <script src="https://unpkg.com/hotkeys-js/dist/hotkeys.min.js"></script>
