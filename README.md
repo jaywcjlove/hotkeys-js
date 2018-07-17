@@ -43,7 +43,7 @@ hotkeys('ctrl+a,ctrl+b,r,f', function(event,handler) {
     case "f":alert('you pressed f!');break;
   }
 });
-<script>
+</script>
 ```
 
 ### Used in React
