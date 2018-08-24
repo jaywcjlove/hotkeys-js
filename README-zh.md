@@ -2,7 +2,7 @@
 
 [![](https://img.shields.io/github/issues/jaywcjlove/hotkeys.svg)](https://github.com/jaywcjlove/hotkeys/issues) [![](https://img.shields.io/github/forks/jaywcjlove/hotkeys.svg)](https://github.com/jaywcjlove/hotkeys/network) [![](https://img.shields.io/github/stars/jaywcjlove/hotkeys.svg)](https://github.com/jaywcjlove/hotkeys/stargazers) [![](https://img.shields.io/github/release/jaywcjlove/hotkeys.svg)](https://github.com/jaywcjlove/hotkeys/releases) ![](http://jaywcjlove.github.io/sb/status/no-dependencies.svg) [![Build Status](https://www.travis-ci.org/jaywcjlove/hotkeys.svg?branch=master)](https://www.travis-ci.org/jaywcjlove/hotkeys) [![Coverage Status](https://coveralls.io/repos/github/jaywcjlove/hotkeys/badge.svg?branch=master)](https://coveralls.io/github/jaywcjlove/hotkeys?branch=master) [![jaywcjlove/sb](https://jaywcjlove.github.io/sb/lang/english.svg)](./README.md)
 
-这是一个强健的 Javascript 库用于捕获键盘输入和输入的组合键，它没有依赖，压缩只有只有(~3kb)，gzip:1.9k。[官方文档DEMO预览](http://jaywcjlove.github.io/hotkeys/?lang=cn)
+这是一个强健的 Javascript 库用于捕获键盘输入和输入的组合键，它没有依赖，压缩只有(~3kb)，gzip:1.9k。[官方文档DEMO预览](http://jaywcjlove.github.io/hotkeys/?lang=cn)
 
 
 ```shell
@@ -160,6 +160,13 @@ hotkeys('f5', function(event,handler){
   event.preventDefault() 
   alert('你按下了 F5 键!') 
 });
+// 返回 false 将停止活动，并阻止默认浏览器事件
+// Mac OS 系统 定义 `command+r` 为刷新快捷键
+hotkeys('ctrl+r, command+r', function(){
+  alert('停止刷新!');
+  return false;
+});
+
 // 定义a快捷键
 hotkeys('a', function(event,handler){
   //event.srcElement: input 
@@ -170,19 +177,17 @@ hotkeys('a', function(event,handler){
   alert('你按下了 a!') 
 });
 
-// 定义a快捷键
+// 定义 ctrl+a、ctrl+b、r、f 四组快捷键
 hotkeys('ctrl+a,ctrl+b,r,f', function(event,handler){
   switch(handler.key){
-    case "ctrl+a":alert('你按下了ctrl+a!');break;
-    case "ctrl+b":alert('你按下了ctrl+b!');break;
-    case "r":alert('你按下了r!');break;
-    case "f":alert('你按下了f!');break;
+    case "ctrl+a": alert('你按下了ctrl+a!'); break;
+    case "ctrl+b": alert('你按下了ctrl+b!'); break;
+    case "r": alert('你按下了r!'); break;
+    case "f": alert('你按下了f!'); break;
   }
   //handler.scope 范围
 });
 
-// 返回false将停止活动，并阻止默认浏览器事件
-hotkeys('ctrl+r', function(){ alert('停止刷新!'); return false });
 
 // 多个快捷方式做同样的事情
 hotkeys('⌘+r, ctrl+r', function(){ });

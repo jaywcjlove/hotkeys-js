@@ -122,11 +122,19 @@ hotkeys([keys:<String>], [option:[string|object|function]], [callback:<function>
 
 
 ```js
-hotkeys('f5', function(event, handler){
+hotkeys('f5', function(event, handler) {
   // Prevent the default refresh event under WINDOWS system
-  event.preventDefault() 
-  alert('you pressed F5!') 
+  event.preventDefault();
+  alert('you pressed F5!');
 });
+
+// Returning false stops the event and prevents default browser events
+// Mac OS system defines `command + r` as a refresh shortcut
+hotkeys('ctrl+r, command+r', function() {
+  alert('stopped reload!');
+  return false;
+});
+
 
 hotkeys('a', function(event,handler){
   //event.srcElement: input 
