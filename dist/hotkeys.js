@@ -137,7 +137,7 @@
 
   // 返回键码
   var code = function code(x) {
-    return _keyMap[x.toLowerCase()] || x.toUpperCase().charCodeAt(0);
+    return _keyMap[x.toLowerCase()] || _modifier[x.toLowerCase()] || x.toUpperCase().charCodeAt(0);
   };
 
   // 设置获取当前范围（默认为'所有'）
