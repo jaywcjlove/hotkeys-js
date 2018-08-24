@@ -5,7 +5,7 @@ import Footer from './components/Footer';
 import Markdown from './components/Markdown';
 import GithubShields from './components/GithubShields';
 import styles from './styles/index.less';
-import DocumentStr from './doc.md';
+import DocumentStr from '../README.md';
 import hotkeys from '../dist/hotkeys.common';
 
 export default class App extends Component {
@@ -73,6 +73,8 @@ export default class App extends Component {
   }
   render() {
     const { keyStr } = this.state;
+    let DocumentStrSource = DocumentStr;
+    if (DocumentStrSource) DocumentStrSource = DocumentStr.replace(/([\s\S]*)<!--dividing-->/, '');
     return (
       <div>
         {keyStr.length > -1 && (
@@ -101,7 +103,7 @@ export default class App extends Component {
           onMouseUp={this.onKeyBoardMouseUp.bind(this)}
           keyCode={this.state.keyCode}
         />
-        <Markdown source={DocumentStr} />
+        <Markdown source={DocumentStrSource} />
         <GithubShields
           source={[
             {
