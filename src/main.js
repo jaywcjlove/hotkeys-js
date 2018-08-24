@@ -6,7 +6,7 @@ let _scope = 'all'; // 默认热键范围
 let isBindElement = false; // 是否绑定节点
 
 // 返回键码
-const code = x => _keyMap[x.toLowerCase()] || x.toUpperCase().charCodeAt(0);
+const code = x => _keyMap[x.toLowerCase()] || _modifier[x.toLowerCase()] || x.toUpperCase().charCodeAt(0);
 
 // 设置获取当前范围（默认为'所有'）
 function setScope(scope) { _scope = scope || 'all'; }
