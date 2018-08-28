@@ -17,9 +17,10 @@ function getPressedKeyCodes() { return _downKeys.slice(0); }
 
 // 表单控件控件判断 返回 Boolean
 function filter(event) {
-  const tagName = event.target.tagName || event.srcElement.tagName;
-  // 忽略这些标签情况下快捷键无效
-  return !(tagName === 'INPUT' || tagName === 'SELECT' || tagName === 'TEXTAREA');
+  const target = event.target || event.srcElement;
+  const tagName = target.tagName;
+  // 忽略这些情况下快捷键无效
+  return !(tagName === 'INPUT' || tagName === 'SELECT' || tagName === 'TEXTAREA' || target.isContentEditable);
 }
 
 // 判断摁下的键是否为某个键，返回true或者false
