@@ -18,7 +18,7 @@ function getPressedKeyCodes() { return _downKeys.slice(0); }
 // 表单控件控件判断 返回 Boolean
 function filter(event) {
   const target = event.target || event.srcElement;
-  const tagName = target.tagName;
+  const { tagName } = target;
   // 忽略这些情况下快捷键无效
   return !(tagName === 'INPUT' || tagName === 'SELECT' || tagName === 'TEXTAREA' || target.isContentEditable);
 }
