@@ -1,5 +1,5 @@
 /*!
- * hotkeys-js v3.3.6
+ * hotkeys-js v3.3.7
  * A simple micro-library for defining and dispatching keyboard shortcuts. It has no dependencies.
  * 
  * Copyright (c) 2018 kenny wong <wowohoo@qq.com>
@@ -155,9 +155,11 @@
 
   // 表单控件控件判断 返回 Boolean
   function filter(event) {
-    var tagName = event.target.tagName || event.srcElement.tagName;
-    // 忽略这些标签情况下快捷键无效
-    return !(tagName === 'INPUT' || tagName === 'SELECT' || tagName === 'TEXTAREA');
+    var target = event.target || event.srcElement;
+    var tagName = target.tagName;
+    // 忽略这些情况下快捷键无效
+
+    return !(tagName === 'INPUT' || tagName === 'SELECT' || tagName === 'TEXTAREA' || target.isContentEditable);
   }
 
   // 判断摁下的键是否为某个键，返回true或者false
