@@ -1,8 +1,4 @@
-// Type definitions for hotkeys v3.3.3
-// Project: https://github.com/jaywcjlove/hotkeys
-// Definitions by: Eager Wei <https://github.com/weidapao>
-
-interface HotkeysEvent {
+export interface HotkeysEvent {
   key: string
   method: KeyHandler
   mods: number[]
@@ -10,11 +6,11 @@ interface HotkeysEvent {
   shortcut: string
 }
 
-interface KeyHandler {
+export interface KeyHandler {
   (keyboardEvent: KeyboardEvent, hotkeysEvent: HotkeysEvent): void
 }
 
-interface FilterEvent {
+export interface FilterEvent {
   target?: {
     tagName?: string
   }
@@ -23,9 +19,15 @@ interface FilterEvent {
   }
 }
 
+type Options = {
+  scope: string,
+  element?: HTMLElement | null
+}
+
 interface Hotkeys {
-  (key: string, callback: KeyHandler): void
-  (key: string, scope: string, callback: KeyHandler): void
+  (key: string, callback: Function): void
+  (key: string, scope: string, callback?: KeyHandler): void
+  (key: string, scope: Options, callback?: KeyHandler): void
 
   shift: boolean
   ctrl: boolean
@@ -50,9 +52,6 @@ interface Hotkeys {
 
   filter(event: FilterEvent): boolean
 }
-
+// https://github.com/eiriklv/react-masonry-component/issues/57
 declare var hotkeys: Hotkeys
-
-declare module 'hotkeys-js' {
-  export = hotkeys
-}
+export default hotkeys;
