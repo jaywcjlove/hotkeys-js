@@ -45,6 +45,8 @@ interface Hotkeys {
 
   unbind(key: string): void
   unbind(key: string, scopeName: string): void
+  unbind(key: string, scopeName: string, handler: KeyHandler): void
+  unbind(key: string, handler: KeyHandler): void
 
   isPressed(keyCode: number): boolean
   isPressed(keyCode: string): boolean
