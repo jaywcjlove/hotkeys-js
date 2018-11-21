@@ -240,6 +240,17 @@ hotkeys.unbind('o, enter', 'issues');
 hotkeys.unbind('o, enter', 'files');
 ```
 
+Unbind events through functions.
+
+```js
+function example(){}
+hotkeys('a', example);
+hotkeys.unbind('a', example);
+
+hotkeys('a', 'issues', example);
+hotkeys.unbind('a', 'issues', example);
+```
+
 ### isPressed
 
 Other key queries. For example, `hotkeys.isPressed(77)` is true if the `M` key is currently pressed.

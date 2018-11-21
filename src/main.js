@@ -73,11 +73,17 @@ function clearModifier(event) {
 }
 
 // 解除绑定某个范围的快捷键
-function unbind(key, scope) {
+function unbind(key, scope, method) {
   const multipleKeys = getKeys(key);
   let keys;
   let mods = [];
   let obj;
+  // 通过函数判断，是否解除绑定
+  // https://github.com/jaywcjlove/hotkeys/issues/44
+  if (typeof scope === 'function') {
+    method = scope;
+    scope = 'all';
+  }
 
   for (let i = 0; i < multipleKeys.length; i++) {
     // 将组合快捷键拆分为数组
@@ -100,6 +106,8 @@ function unbind(key, scope) {
     // 让触发快捷键键之后没有事件执行到达解除快捷键绑定的目的
     for (let r = 0; r < _handlers[key].length; r++) {
       obj = _handlers[key][r];
+      // 通过函数判断，是否解除绑定，函数相等直接返回
+      if (method && obj.method !== method) return;
       // 判断是否在范围内并且键值相同
       if (
         obj.scope === scope &&

@@ -263,6 +263,27 @@ hotkeys.setScope('scope1');
 `hotkeys.unbind("ctrl+o, ctrl+alt+enter")` 解除绑定两组快捷键  
 `hotkeys.unbind("ctrl+o","files")` 解除绑定名字叫files钟的一组快捷键  
 
+```js
+// 解除绑定 'a' 程序函数
+hotkeys.unbind('a');
+
+// 仅针对单个范围解除绑定快捷键
+// 如果未指定范围，则默认为当前范围（hotkeys.getScope()）
+hotkeys.unbind('o, enter', 'issues');
+hotkeys.unbind('o, enter', 'files');
+```
+
+通过函数来解除绑定
+
+```js
+function example(){}
+hotkeys('a', example);
+hotkeys.unbind('a', example);
+
+hotkeys('a', 'issues', example);
+hotkeys.unbind('a', 'issues', example);
+```
+
 ## 键判断
 
 判断摁下的键是否为某个键
