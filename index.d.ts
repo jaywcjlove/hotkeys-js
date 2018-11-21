@@ -25,9 +25,9 @@ type Options = {
 }
 
 interface Hotkeys {
-  (key: string, callback: Function): void
-  (key: string, scope: string, callback?: KeyHandler): void
-  (key: string, scope: Options, callback?: KeyHandler): void
+  (key: string, method: KeyHandler): void
+  (key: string, scope: string, method: KeyHandler): void
+  (key: string, options: Options, method: KeyHandler): void
 
   shift: boolean
   ctrl: boolean
@@ -45,8 +45,8 @@ interface Hotkeys {
 
   unbind(key: string): void
   unbind(key: string, scopeName: string): void
-  unbind(key: string, scopeName: string, handler: KeyHandler): void
-  unbind(key: string, handler: KeyHandler): void
+  unbind(key: string, scopeName: string, method: KeyHandler): void
+  unbind(key: string, method: KeyHandler): void
 
   isPressed(keyCode: number): boolean
   isPressed(keyCode: string): boolean
