@@ -7,6 +7,7 @@ import GithubShields from './components/GithubShields';
 import styles from './styles/index.less';
 import DocumentStr from '../README.md';
 import hotkeys from '../dist/hotkeys.common';
+import pkg from '../package.json';
 
 export default class App extends Component {
   constructor() {
@@ -83,7 +84,8 @@ export default class App extends Component {
     return (
       <div>
         <select className={styles.version} onChange={this.openVersionWebsite.bind(this)}>
-          <option value="https://jaywcjlove.github.io/hotkeys">v3.0.0</option>
+          <option value="https://jaywcjlove.github.io/hotkeys">v{pkg.version}</option>
+          <option value="https://unpkg.com/hotkeys-js@3.4.2/doc/index.html">v3.4.2</option>
           <option value="https://unpkg.com/hotkeys-js@2.0.10/doc/index.html">v2.0.10</option>
         </select>
         {keyStr.length > -1 && (

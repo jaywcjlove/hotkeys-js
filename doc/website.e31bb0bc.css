@@ -622,20 +622,30 @@ a._corner_1qg4o_1:hover ._octo-arm_1qg4o_17 {
 ._shields_1ds1m_1 a + a {
   margin-left: 10px;
 }
-._version_itqqz_1 {
+._version_12zto_1 {
   position: absolute;
   margin: 15px 0 0 15px;
+  -webkit-appearance: none;
+     -moz-appearance: none;
+          appearance: none;
+  cursor: pointer;
+  color: #182026;
+  padding: 3px 6px;
+  vertical-align: middle;
+  box-sizing: border-box;
+  border: none;
+  border-radius: 3px;
 }
-._keyCodeInfo_itqqz_5 {
+._keyCodeInfo_12zto_13 {
   position: fixed;
   bottom: 10px;
   left: 10px;
   z-index: 9999;
 }
-._keyCodeInfo_itqqz_5 span + span {
+._keyCodeInfo_12zto_13 span + span {
   margin-left: 10px;
 }
-._keyCodeInfo_itqqz_5 span {
+._keyCodeInfo_12zto_13 span {
   display: inline-block;
   background: #eff0f2;
   border-radius: 3px;
@@ -644,26 +654,26 @@ a._corner_1qg4o_1:hover ._octo-arm_1qg4o_17 {
   box-shadow: inset 0 0 25px #e8e8e8, 0 1px 0 #c3c3c3, 0 2px 0 #c9c9c9, 0 2px 3px #333;
   text-shadow: 0px 1px 0px #f5f5f5;
 }
-._header_itqqz_23 {
+._header_12zto_31 {
   background-color: #292929;
   padding: 74px 0 60px 0;
 }
-._header_itqqz_23 ._title_itqqz_27 {
+._header_12zto_31 ._title_12zto_35 {
   text-align: center;
   font-size: 53px;
   font-weight: bold;
   color: #fff;
   text-shadow: -3px -3px 0 #676767, -3px -3px 0 #676767, -3px -3px 0 #676767, -2px -2px 0 #676767, -2px -2px 0 #676767, -1px -1px 0 #676767;
 }
-._header_itqqz_23 ._lang_itqqz_34 {
+._header_12zto_31 ._lang_12zto_42 {
   text-align: center;
   padding-top: 20px;
 }
-._header_itqqz_23 ._lang_itqqz_34 a {
+._header_12zto_31 ._lang_12zto_42 a {
   color: #fff;
   margin: 0 5px;
 }
-._header_itqqz_23 ._info_itqqz_42 {
+._header_12zto_31 ._info_12zto_50 {
   padding: 25px 0 27px 0;
   text-align: center;
   font-size: 23px;
@@ -672,14 +682,14 @@ a._corner_1qg4o_1:hover ._octo-arm_1qg4o_17 {
   max-width: 702px;
   margin: 0 auto;
 }
-._header_itqqz_23 ._github_itqqz_51 {
+._header_12zto_31 ._github_12zto_59 {
   text-align: center;
   padding: 60px 0 22px 0;
 }
-._header_itqqz_23 ._github_itqqz_51 a + a {
+._header_12zto_31 ._github_12zto_59 a + a {
   margin-left: 10px;
 }
-._header_itqqz_23 ._github_itqqz_51 button {
+._header_12zto_31 ._github_12zto_59 button {
   position: relative;
   display: inline-block;
   border: 1px solid #ddd;
@@ -696,7 +706,7 @@ a._corner_1qg4o_1:hover ._octo-arm_1qg4o_17 {
   background: whitesmoke;
   background-image: linear-gradient(-90deg, whitesmoke 0%, #e5e5e5 100%);
 }
-._header_itqqz_23 ._github_itqqz_51 button:hover {
+._header_12zto_31 ._github_12zto_59 button:hover {
   color: #337797;
   border: 1px solid #CBE3EE;
   border-bottom-color: #97C7DD;

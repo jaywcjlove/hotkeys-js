@@ -53403,13 +53403,13 @@ var reloadCSS = require('_css_loader');
 module.hot.dispose(reloadCSS);
 module.hot.accept(reloadCSS);
 module.exports = {
-  "version": "_version_itqqz_1",
-  "keyCodeInfo": "_keyCodeInfo_itqqz_5",
-  "header": "_header_itqqz_23",
-  "title": "_title_itqqz_27",
-  "lang": "_lang_itqqz_34",
-  "info": "_info_itqqz_42",
-  "github": "_github_itqqz_51"
+  "version": "_version_12zto_1",
+  "keyCodeInfo": "_keyCodeInfo_12zto_13",
+  "header": "_header_12zto_31",
+  "title": "_title_12zto_35",
+  "lang": "_lang_12zto_42",
+  "info": "_info_12zto_50",
+  "github": "_github_12zto_59"
 };
 },{"_css_loader":"../node_modules/parcel-bundler/src/builtins/css-loader.js"}],"../README.md":[function(require,module,exports) {
 module.exports = `# Hotkeys
@@ -53762,7 +53762,7 @@ $ npm run test:watch # Development model
 `
 },{}],"../dist/hotkeys.common.js":[function(require,module,exports) {
 /*!
- * hotkeys-js v3.4.2
+ * hotkeys-js v3.4.3
  * A simple micro-library for defining and dispatching keyboard shortcuts. It has no dependencies.
  * 
  * Copyright (c) 2019 kenny wong <wowohoo@qq.com>
@@ -54177,6 +54177,74 @@ if (typeof window !== 'undefined') {
 }
 
 module.exports = hotkeys;
+},{}],"../package.json":[function(require,module,exports) {
+module.exports = {
+  "name": "hotkeys-js",
+  "description": "A simple micro-library for defining and dispatching keyboard shortcuts. It has no dependencies.",
+  "version": "3.4.3",
+  "main": "index.js",
+  "module": "dist/hotkeys.esm.js",
+  "scripts": {
+    "lint": "eslint --ext .js src website",
+    "deploy": "npm run doc:build && gh-pages -d doc",
+    "build": "node scripts/build.js",
+    "watch": "node scripts/watch.js",
+    "pretest": "npm run build",
+    "test": "npm run lint && jest --coverage",
+    "test:watch": "jest --watch",
+    "doc": "npm run doc:dev",
+    "doc:dev": "NODE_ENV=development parcel website/index.html --out-dir doc --no-cache",
+    "doc:build": "NODE_ENV=production parcel build website/index.html --out-dir doc --public-url ./ --no-cache"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "npm run build && npm run lint"
+    }
+  },
+  "keywords": ["hotkey", "hotkeys", "hotkeys-js", "hotkeysjs", "key", "keys", "keyboard", "shortcuts", "keypress"],
+  "author": "kenny wong <wowohoo@qq.com>",
+  "license": "MIT",
+  "homepage": "http://jaywcjlove.github.io/hotkeys",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/jaywcjlove/hotkeys.git"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "autoprefixer": "^8.6.1",
+    "babel-core": "^6.26.3",
+    "babel-eslint": "^8.2.3",
+    "babel-plugin-external-helpers": "^6.22.0",
+    "babel-preset-env": "^1.7.0",
+    "babel-preset-react": "^6.24.1",
+    "bannerjs": "^1.0.5",
+    "classnames": "^2.2.5",
+    "colors-cli": "^1.0.13",
+    "eslint": "^4.19.1",
+    "eslint-config-airbnb": "^16.1.0",
+    "eslint-plugin-import": "^2.12.0",
+    "eslint-plugin-jsx-a11y": "^6.0.3",
+    "eslint-plugin-react": "^7.9.1",
+    "gh-pages": "^1.2.0",
+    "highlight.js": "^9.12.0",
+    "husky": "^1.0.0-rc.8",
+    "jest": "^22.4.4",
+    "less": "^3.0.4",
+    "parcel-bundler": "^1.10.3",
+    "parcel-plugin-markdown-string": "^1.3.1",
+    "postcss-modules": "^1.1.0",
+    "puppeteer": "^1.5.0",
+    "react": "^16.7.0",
+    "react-dom": "^16.7.0",
+    "react-markdown": "^3.3.2",
+    "rollup": "^0.57.1",
+    "rollup-plugin-babel": "^3.0.4",
+    "rollup-plugin-commonjs": "^9.1.3",
+    "rollup-plugin-node-resolve": "^3.3.0",
+    "uglify-js": "^3.4.0",
+    "zlib": "^1.0.5"
+  }
+};
 },{}],"App.js":[function(require,module,exports) {
 "use strict";
 
@@ -54202,6 +54270,8 @@ var _index = _interopRequireDefault(require("./styles/index.less"));
 var _README = _interopRequireDefault(require("../README.md"));
 
 var _hotkeys = _interopRequireDefault(require("../dist/hotkeys.common"));
+
+var _package = _interopRequireDefault(require("../package.json"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -54348,7 +54418,9 @@ function (_Component) {
         onChange: this.openVersionWebsite.bind(this)
       }, _react.default.createElement("option", {
         value: "https://jaywcjlove.github.io/hotkeys"
-      }, "v3.0.0"), _react.default.createElement("option", {
+      }, "v", _package.default.version), _react.default.createElement("option", {
+        value: "https://unpkg.com/hotkeys-js@3.4.2/doc/index.html"
+      }, "v3.4.2"), _react.default.createElement("option", {
         value: "https://unpkg.com/hotkeys-js@2.0.10/doc/index.html"
       }, "v2.0.10")), keyStr.length > -1 && _react.default.createElement("div", {
         className: _index.default.keyCodeInfo
@@ -54404,7 +54476,7 @@ function (_Component) {
 }(_react.Component);
 
 exports.default = App;
-},{"react":"../node_modules/react/index.js","./components/GithubCorner":"components/GithubCorner.js","./components/KeyBoard":"components/KeyBoard.js","./components/Footer":"components/Footer.js","./components/Markdown":"components/Markdown/index.js","./components/GithubShields":"components/GithubShields.js","./styles/index.less":"styles/index.less","../README.md":"../README.md","../dist/hotkeys.common":"../dist/hotkeys.common.js"}],"styles/reset.less":[function(require,module,exports) {
+},{"react":"../node_modules/react/index.js","./components/GithubCorner":"components/GithubCorner.js","./components/KeyBoard":"components/KeyBoard.js","./components/Footer":"components/Footer.js","./components/Markdown":"components/Markdown/index.js","./components/GithubShields":"components/GithubShields.js","./styles/index.less":"styles/index.less","../README.md":"../README.md","../dist/hotkeys.common":"../dist/hotkeys.common.js","../package.json":"../package.json"}],"styles/reset.less":[function(require,module,exports) {
 var reloadCSS = require('_css_loader');
 
 module.hot.dispose(reloadCSS);
@@ -54451,7 +54523,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "52728" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "55811" + '/');
 
   ws.onmessage = function (event) {
     var data = JSON.parse(event.data);
