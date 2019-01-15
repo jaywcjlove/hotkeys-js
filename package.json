@@ -13,8 +13,8 @@
     "test": "npm run lint && jest --coverage",
     "test:watch": "jest --watch",
     "doc": "npm run doc:dev",
-    "doc:dev": "NODE_ENV=development parcel website/index.html --out-dir build/ --no-cache",
-    "doc:build": "NODE_ENV=production parcel build website/index.html --out-dir build/ --public-url ./ --no-cache"
+    "doc:dev": "NODE_ENV=development parcel website/index.html --out-dir doc --no-cache",
+    "doc:build": "NODE_ENV=production parcel build website/index.html --out-dir doc --public-url ./ --no-cache"
   },
   "husky": {
     "hooks": {
