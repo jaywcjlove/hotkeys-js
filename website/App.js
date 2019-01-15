@@ -71,12 +71,21 @@ export default class App extends Component {
   onKeyBoardMouseUp() {
     this.setState({ keyStr: [] });
   }
+  openVersionWebsite(e) {
+    if (e.target && e.target.value) {
+      window.location.href = e.target.value;
+    }
+  }
   render() {
     const { keyStr } = this.state;
     let DocumentStrSource = DocumentStr;
     if (DocumentStrSource) DocumentStrSource = DocumentStr.replace(/([\s\S]*)<!--dividing-->/, '');
     return (
       <div>
+        <select className={styles.version} onChange={this.openVersionWebsite.bind(this)}>
+          <option value="https://jaywcjlove.github.io/hotkeys">v3.0.0</option>
+          <option value="https://unpkg.com/hotkeys-js@2.0.10/doc/index.html">v2.0.10</option>
+        </select>
         {keyStr.length > -1 && (
           <div className={styles.keyCodeInfo}>
             {keyStr.map(item => <span key={`${item}`}>{item}</span>)}
