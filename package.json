@@ -7,7 +7,7 @@
   "scripts": {
     "lint": "eslint --ext .js src website",
     "deploy": "npm run doc:build && gh-pages -d doc",
-    "build": "node scripts/build.js",
+    "build": "npm run doc:build && node scripts/build.js",
     "watch": "node scripts/watch.js",
     "pretest": "npm run build",
     "test": "npm run lint && jest --coverage",
@@ -18,7 +18,7 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "npm run build && npm run lint"
+      "pre-commit": "npm run lint"
     }
   },
   "keywords": [
