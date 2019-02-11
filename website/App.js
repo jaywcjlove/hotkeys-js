@@ -85,6 +85,7 @@ export default class App extends Component {
       <div>
         <select className={styles.version} onChange={this.openVersionWebsite.bind(this)}>
           <option value="https://jaywcjlove.github.io/hotkeys">v{pkg.version}</option>
+          <option value="https://unpkg.com/hotkeys-js@3.4.3/doc/index.html">v3.4.3</option>
           <option value="https://unpkg.com/hotkeys-js@3.4.2/doc/index.html">v3.4.2</option>
           <option value="https://unpkg.com/hotkeys-js@2.0.10/doc/index.html">v2.0.10</option>
         </select>
