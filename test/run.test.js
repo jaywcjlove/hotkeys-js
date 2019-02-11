@@ -315,6 +315,43 @@ describe('\n   Hotkeys.js Test Case.\n', () => {
     hotkeys.unbind('a');
   });
 
+  test('unbind with method test', async () => {
+    const callbackA = jest.fn();
+    const callbackB = jest.fn();
+
+    hotkeys('shift+a', callbackA);
+
+    await __triggerKeyboardEvent(document.body, 65, {
+      shiftKey: true,
+    });
+
+    expect(callbackA.mock.calls.length).toBe(1);
+
+    hotkeys.unbind('shift+a', callbackA);
+
+    await __triggerKeyboardEvent(document.body, 65, {
+      shiftKey: true,
+    });
+
+    expect(callbackA.mock.calls.length).toBe(1);
+
+    hotkeys('shift+a', callbackB);
+
+    await __triggerKeyboardEvent(document.body, 65, {
+      shiftKey: true,
+    });
+
+    expect(callbackB.mock.calls.length).toBe(1);
+
+    hotkeys.unbind('shift+a', callbackB);
+
+    await __triggerKeyboardEvent(document.body, 65, {
+      shiftKey: true,
+    });
+
+    expect(callbackB.mock.calls.length).toBe(1);
+  });
+
   test('HotKeys Key combination Test Case', async () => {
     hotkeys('⌘+d', (e) => {
       expect(e.keyCode).toBe(82);
