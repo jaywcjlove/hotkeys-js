@@ -54187,7 +54187,7 @@ module.exports = {
   "scripts": {
     "lint": "eslint --ext .js src website",
     "deploy": "npm run doc:build && gh-pages -d doc",
-    "build": "node scripts/build.js",
+    "build": "npm run doc:build && node scripts/build.js",
     "watch": "node scripts/watch.js",
     "pretest": "npm run build",
     "test": "npm run lint && jest --coverage",
@@ -54198,7 +54198,7 @@ module.exports = {
   },
   "husky": {
     "hooks": {
-      "pre-commit": "npm run build && npm run lint"
+      "pre-commit": "npm run lint"
     }
   },
   "keywords": ["hotkey", "hotkeys", "hotkeys-js", "hotkeysjs", "key", "keys", "keyboard", "shortcuts", "keypress"],
@@ -54523,7 +54523,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "55811" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "61683" + '/');
 
   ws.onmessage = function (event) {
     var data = JSON.parse(event.data);
