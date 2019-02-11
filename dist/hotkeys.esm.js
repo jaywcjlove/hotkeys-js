@@ -1,5 +1,5 @@
 /*!
- * hotkeys-js v3.4.3
+ * hotkeys-js v3.4.4
  * A simple micro-library for defining and dispatching keyboard shortcuts. It has no dependencies.
  * 
  * Copyright (c) 2019 kenny wong <wowohoo@qq.com>
@@ -240,9 +240,10 @@ function unbind(key, scope, method) {
     for (var r = 0; r < _handlers[key].length; r++) {
       obj = _handlers[key][r];
       // 通过函数判断，是否解除绑定，函数相等直接返回
-      if (method && obj.method !== method) return;
+      var isMatchingMethod = method ? obj.method === method : true;
+
       // 判断是否在范围内并且键值相同
-      if (obj.scope === scope && compareArray(obj.mods, mods)) {
+      if (isMatchingMethod && obj.scope === scope && compareArray(obj.mods, mods)) {
         _handlers[key][r] = {};
       }
     }
