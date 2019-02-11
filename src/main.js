@@ -107,9 +107,11 @@ function unbind(key, scope, method) {
     for (let r = 0; r < _handlers[key].length; r++) {
       obj = _handlers[key][r];
       // 通过函数判断，是否解除绑定，函数相等直接返回
-      if (method && obj.method !== method) return;
+      const isMatchingMethod = method ? obj.method === method : true;
+
       // 判断是否在范围内并且键值相同
       if (
+        isMatchingMethod &&
         obj.scope === scope &&
         compareArray(obj.mods, mods)
       ) {
