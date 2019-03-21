@@ -1,5 +1,5 @@
 /*!
- * hotkeys-js v3.4.4
+ * hotkeys-js v3.5.0
  * A simple micro-library for defining and dispatching keyboard shortcuts. It has no dependencies.
  * 
  * Copyright (c) 2019 kenny wong <wowohoo@qq.com>
@@ -278,6 +278,7 @@ function eventHandler(event, handler, scope) {
 
 // 处理keydown事件
 function dispatch(event) {
+  // console.log('option:1', event);
   var asterisk = _handlers['*'];
   var key = event.keyCode || event.which || event.charCode;
 
@@ -315,7 +316,9 @@ function dispatch(event) {
   // 对任何快捷键都需要做的处理
   if (asterisk) {
     for (var i = 0; i < asterisk.length; i++) {
-      if (asterisk[i].scope === scope) eventHandler(event, asterisk[i], scope);
+      if (asterisk[i].scope === scope && (event.type === 'keydown' || event.type === 'keyup' && asterisk[i].keyup)) {
+        eventHandler(event, asterisk[i], scope);
+      }
     }
   }
   // key 不在_handlers中返回
@@ -360,8 +363,8 @@ function hotkeys(key, option, method) {
 
     // 判断key是否在_handlers中，不在就赋一个空数组
     if (!(key in _handlers)) _handlers[key] = [];
-
     _handlers[key].push({
+      keyup: option.keyup || false,
       scope: scope,
       mods: mods,
       shortcut: keys[i],
@@ -376,6 +379,7 @@ function hotkeys(key, option, method) {
       dispatch(e);
     });
     addEvent(element, 'keyup', function (e) {
+      dispatch(e);
       clearModifier(e);
     });
   }
