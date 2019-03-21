@@ -306,6 +306,21 @@ hotkeys('command+ctrl+shift+a,f', function(){
 })
 ```
 
+## keyup
+
+**key down** 和 **key up** 将都执行回调事件。
+
+```js
+hotkeys('ctrl+a,alt+a+s', { keyup: true }, (evn, handler) => {
+  if(evn.type === 'keydown') {
+    console.log('keydown:', evn.type, handler, handler.key);
+  }
+  if(evn.type === 'keyup') {
+    console.log('keyup:', evn.type, handler, handler.key);
+  }
+});
+```
+
 ## 过滤
 
 `INPUT`  `SELECT` `TEXTAREA` 默认不处理。

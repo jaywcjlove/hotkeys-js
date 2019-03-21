@@ -165,6 +165,7 @@ hotkeys('*','wcj', function(e){
 
 - `scope<String>`
 - `element<HTMLElement>`
+- `keyup<Boolean>`
 
 ```js
 hotkeys('o, enter', {
@@ -260,6 +261,21 @@ hotkeys('a', function(){
   console.log(hotkeys.isPressed("a")); //=> true
   console.log(hotkeys.isPressed("A")); //=> true
   console.log(hotkeys.isPressed(65)); //=> true
+});
+```
+
+## keyup
+
+**key down** and **key up** both perform callback events.
+
+```js
+hotkeys('ctrl+a,alt+a+s', { keyup: true }, (evn, handler) => {
+  if(evn.type === 'keydown') {
+    console.log('keydown:', evn.type, handler, handler.key);
+  }
+  if(evn.type === 'keyup') {
+    console.log('keyup:', evn.type, handler, handler.key);
+  }
 });
 ```
 

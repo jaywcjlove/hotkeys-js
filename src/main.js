@@ -158,6 +158,7 @@ function eventHandler(event, handler, scope) {
 
 // 处理keydown事件
 function dispatch(event) {
+  // console.log('option:1', event);
   const asterisk = _handlers['*'];
   let key = event.keyCode || event.which || event.charCode;
 
@@ -195,7 +196,9 @@ function dispatch(event) {
   // 对任何快捷键都需要做的处理
   if (asterisk) {
     for (let i = 0; i < asterisk.length; i++) {
-      if (asterisk[i].scope === scope) eventHandler(event, asterisk[i], scope);
+      if (asterisk[i].scope === scope && (event.type === 'keydown' || (event.type === 'keyup' && asterisk[i].keyup))) {
+        eventHandler(event, asterisk[i], scope);
+      }
     }
   }
   // key 不在_handlers中返回
@@ -240,8 +243,8 @@ function hotkeys(key, option, method) {
 
     // 判断key是否在_handlers中，不在就赋一个空数组
     if (!(key in _handlers)) _handlers[key] = [];
-
     _handlers[key].push({
+      keyup: option.keyup || false,
       scope,
       mods,
       shortcut: keys[i],
@@ -256,6 +259,7 @@ function hotkeys(key, option, method) {
       dispatch(e);
     });
     addEvent(element, 'keyup', (e) => {
+      dispatch(e);
       clearModifier(e);
     });
   }
