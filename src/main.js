@@ -196,7 +196,7 @@ function dispatch(event) {
   // 对任何快捷键都需要做的处理
   if (asterisk) {
     for (let i = 0; i < asterisk.length; i++) {
-      if (asterisk[i].scope === scope && (event.type === 'keydown' || (event.type === 'keyup' && asterisk[i].keyup))) {
+      if (asterisk[i].scope === scope && ((event.type === 'keydown' && !asterisk[i].keyup) || (event.type === 'keyup' && asterisk[i].keyup))) {
         eventHandler(event, asterisk[i], scope);
       }
     }
@@ -205,8 +205,10 @@ function dispatch(event) {
   if (!(key in _handlers)) return;
 
   for (let i = 0; i < _handlers[key].length; i++) {
-    // 找到处理内容
-    eventHandler(event, _handlers[key][i], scope);
+    if ((event.type === 'keydown' && !_handlers[key][i].keyup) || (event.type === 'keyup' && _handlers[key][i].keyup)) {
+      // 找到处理内容
+      eventHandler(event, _handlers[key][i], scope);
+    }
   }
 }
 
@@ -244,7 +246,7 @@ function hotkeys(key, option, method) {
     // 判断key是否在_handlers中，不在就赋一个空数组
     if (!(key in _handlers)) _handlers[key] = [];
     _handlers[key].push({
-      keyup: option.keyup || false,
+      keyup: option.keyup,
       scope,
       mods,
       shortcut: keys[i],
