@@ -158,7 +158,6 @@ function eventHandler(event, handler, scope) {
 
 // 处理keydown事件
 function dispatch(event) {
-  // console.log('option:1', event);
   const asterisk = _handlers['*'];
   let key = event.keyCode || event.which || event.charCode;
 
@@ -206,8 +205,17 @@ function dispatch(event) {
 
   for (let i = 0; i < _handlers[key].length; i++) {
     if ((event.type === 'keydown' && !_handlers[key][i].keyup) || (event.type === 'keyup' && _handlers[key][i].keyup)) {
-      // 找到处理内容
-      eventHandler(event, _handlers[key][i], scope);
+      if (_handlers[key][i].key) {
+        const keyShortcut = _handlers[key][i].key.split('+');
+        const _downKeysCurrent = []; // 记录当前按键键值
+        for (let a = 0; a < keyShortcut.length; a++) {
+          _downKeysCurrent.push(code(keyShortcut[a]));
+        }
+        if (_downKeysCurrent.join('') === _downKeys.join('')) {
+          // 找到处理内容
+          eventHandler(event, _handlers[key][i], scope);
+        }
+      }
     }
   }
 }
