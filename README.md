@@ -156,6 +156,12 @@ hotkeys('ctrl+a,ctrl+b,r,f', function(event,handler) {
   }
 });
 
+hotkeys('ctrl+a+s', function(event,handler) {
+  if(handler.key === 'ctrl+a+s') {
+    alert('you pressed ctrl+a+s!');
+  }
+});
+
 hotkeys('*','wcj', function(e){
   console.log('do something',e);
 });
