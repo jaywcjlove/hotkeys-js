@@ -193,7 +193,13 @@ function clearModifier(event) {
   var i = _downKeys.indexOf(key);
 
   // 从列表中清除按压过的键
-  if (i >= 0) _downKeys.splice(i, 1);
+  if (i >= 0) {
+    _downKeys.splice(i, 1);
+  }
+  // 特殊处理 cmmand 键，在 cmmand 组合快捷键 keyup 只执行一次的问题
+  if (event.key && event.key.toLowerCase() === 'meta') {
+    _downKeys.splice(0, _downKeys.length);
+  }
 
   // 修饰键 shiftKey altKey ctrlKey (command||metaKey) 清除
   if (key === 93 || key === 224) key = 91;
@@ -333,7 +339,8 @@ function dispatch(event) {
         for (var a = 0; a < keyShortcut.length; a++) {
           _downKeysCurrent.push(code(keyShortcut[a]));
         }
-        if (_downKeysCurrent.join('') === _downKeys.join('')) {
+        _downKeysCurrent = _downKeysCurrent.sort();
+        if (_downKeysCurrent.join('') === _downKeys.sort().join('')) {
           // 找到处理内容
           eventHandler(event, _handlers[key][_i], scope);
         }
