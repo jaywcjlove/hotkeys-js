@@ -39,6 +39,9 @@ const watchOptions = {
 const watcher = rollup.watch(watchOptions);
 
 watcher.on('event', (event) => {
+  if (event.code === 'FATAL') {
+    console.log('FATAL:', event.error.codeFrame);
+  }
   // event.code can be one of:
   //   START        — the watcher is (re)starting
   //   BUNDLE_START — building an individual bundle
