@@ -21,7 +21,8 @@ export interface FilterEvent {
 
 type Options = {
   scope: string,
-  element?: HTMLElement | null
+  element?: HTMLElement | null,
+  keyup?: boolean | null
 }
 
 interface Hotkeys {
