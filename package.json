@@ -9,8 +9,7 @@
     "deploy": "npm run doc:build && gh-pages -d doc",
     "build": "npm run doc:build && node scripts/build.js",
     "watch": "node scripts/watch.js",
-    "pretest": "npm run build",
-    "test": "npm run lint && jest --coverage",
+    "test": "jest --coverage",
     "test:watch": "jest --watch",
     "doc": "npm run doc:dev",
     "doc:dev": "NODE_ENV=development parcel website/index.html --out-dir doc --no-cache",
@@ -38,6 +37,9 @@
   "repository": {
     "type": "git",
     "url": "https://github.com/jaywcjlove/hotkeys.git"
+  },
+  "jest": {
+    "testURL": "http://localhost/"
   },
   "dependencies": {},
   "devDependencies": {
