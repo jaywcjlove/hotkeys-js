@@ -9,6 +9,7 @@
     "deploy": "npm run doc:build && gh-pages -d doc",
     "build": "npm run doc:build && node scripts/build.js",
     "watch": "node scripts/watch.js",
+    "pretest": "npm run build",
     "test": "jest --coverage",
     "test:watch": "jest --watch",
     "doc": "npm run doc:dev",
