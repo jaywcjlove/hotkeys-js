@@ -14,7 +14,7 @@
     "test:watch": "jest --watch",
     "doc": "npm run doc:dev",
     "doc:dev": "NODE_ENV=development parcel website/index.html --out-dir doc --no-cache",
-    "doc:build": "NODE_ENV=production parcel build website/index.html --out-dir doc --public-url ./ --no-cache --no-source-maps"
+    "doc:build": "rimraf doc && NODE_ENV=production parcel build website/index.html --out-dir doc --public-url ./ --no-cache --no-source-maps"
   },
   "husky": {
     "hooks": {
@@ -67,6 +67,7 @@
     "react": "^16.7.0",
     "react-dom": "^16.7.0",
     "react-markdown": "^3.3.2",
+    "rimraf": "^2.6.3",
     "rollup": "^0.57.1",
     "rollup-plugin-babel": "^3.0.4",
     "rollup-plugin-commonjs": "^9.1.3",
