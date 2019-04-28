@@ -1,5 +1,5 @@
 /*!
- * hotkeys-js v3.6.2
+ * hotkeys-js v3.6.3
  * A simple micro-library for defining and dispatching keyboard shortcuts. It has no dependencies.
  * 
  * Copyright (c) 2019 kenny wong <wowohoo@qq.com>
@@ -332,7 +332,7 @@ function dispatch(event) {
   if (!(key in _handlers)) return;
 
   for (var _i = 0; _i < _handlers[key].length; _i++) {
-    if (event.type === 'keydown' && !_handlers[key][_i].keyup || event.type === 'keyup' && _handlers[key][_i].keyup) {
+    if (event.type === 'keydown' && _handlers[key][_i].keydown || event.type === 'keyup' && _handlers[key][_i].keyup) {
       if (_handlers[key][_i].key) {
         var keyShortcut = _handlers[key][_i].key.split('+');
         var _downKeysCurrent = []; // 记录当前按键键值
@@ -355,6 +355,8 @@ function hotkeys(key, option, method) {
   var scope = 'all'; // scope默认为all，所有范围都有效
   var element = document; // 快捷键事件绑定节点
   var i = 0;
+  var keyup = false;
+  var keydown = true;
 
   // 对为设定范围的判断
   if (method === undefined && typeof option === 'function') {
@@ -363,7 +365,9 @@ function hotkeys(key, option, method) {
 
   if (Object.prototype.toString.call(option) === '[object Object]') {
     if (option.scope) scope = option.scope; // eslint-disable-line
-    if (option.element) element = option.element; // eslint-disable-line
+    if (option.element) element = option.element; // eslint-disable-line 
+    if (option.keyup) keyup = option.keyup; // eslint-disable-line 
+    if (option.keydown) keydown = option.keydown; // eslint-disable-line 
   }
 
   if (typeof option === 'string') scope = option;
@@ -383,7 +387,8 @@ function hotkeys(key, option, method) {
     // 判断key是否在_handlers中，不在就赋一个空数组
     if (!(key in _handlers)) _handlers[key] = [];
     _handlers[key].push({
-      keyup: option.keyup,
+      keyup: keyup,
+      keydown: keydown,
       scope: scope,
       mods: mods,
       shortcut: keys[i],
@@ -394,13 +399,17 @@ function hotkeys(key, option, method) {
   // 在全局document上设置快捷键
   if (typeof element !== 'undefined' && !isBindElement) {
     isBindElement = true;
-    addEvent(element, 'keydown', function (e) {
-      dispatch(e);
-    });
-    addEvent(element, 'keyup', function (e) {
-      dispatch(e);
-      clearModifier(e);
-    });
+    if (keydown) {
+      addEvent(element, 'keydown', function (e) {
+        dispatch(e);
+      });
+    }
+    if (keyup) {
+      addEvent(element, 'keyup', function (e) {
+        dispatch(e);
+        clearModifier(e);
+      });
+    }
   }
 }
 

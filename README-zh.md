@@ -2,7 +2,7 @@
 
 [![](https://img.shields.io/github/issues/jaywcjlove/hotkeys.svg)](https://github.com/jaywcjlove/hotkeys/issues) [![](https://img.shields.io/github/forks/jaywcjlove/hotkeys.svg)](https://github.com/jaywcjlove/hotkeys/network) [![](https://img.shields.io/github/stars/jaywcjlove/hotkeys.svg)](https://github.com/jaywcjlove/hotkeys/stargazers) [![](https://img.shields.io/github/release/jaywcjlove/hotkeys.svg)](https://github.com/jaywcjlove/hotkeys/releases) ![](http://jaywcjlove.github.io/sb/status/no-dependencies.svg) [![Build Status](https://www.travis-ci.org/jaywcjlove/hotkeys.svg?branch=master)](https://www.travis-ci.org/jaywcjlove/hotkeys) [![Coverage Status](https://coveralls.io/repos/github/jaywcjlove/hotkeys/badge.svg?branch=master)](https://coveralls.io/github/jaywcjlove/hotkeys?branch=master) [![jaywcjlove/sb](https://jaywcjlove.github.io/sb/lang/english.svg)](./README.md)
 
-这是一个强健的 Javascript 库用于捕获键盘输入和输入的组合键，它没有依赖，压缩只有(~3kb)，gzip:1.9k。[官方文档DEMO预览](http://jaywcjlove.github.io/hotkeys/?lang=cn)
+这是一个强健的 Javascript 库用于捕获键盘输入和输入的组合键，它没有依赖，压缩只有(~3kb)，gzip:1.9k。[官方文档DEMO预览](http://jaywcjlove.github.io/hotkeys/?lang=cn)，[更多实例](https://github.com/jaywcjlove/hotkeys/issues?q=label%3ADemo+).
 
 
 ```shell
@@ -206,6 +206,8 @@ hotkeys('*','wcj', function(e){
 
 - `scope<String>`
 - `element<HTMLElement>`
+- `keyup<Boolean>`
+- `keydown<Boolean>`
 
 ```js
 hotkeys('o, enter', {

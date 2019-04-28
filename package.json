@@ -1,13 +1,13 @@
 {
   "name": "hotkeys-js",
   "description": "A simple micro-library for defining and dispatching keyboard shortcuts. It has no dependencies.",
-  "version": "3.6.2",
+  "version": "3.6.3",
   "main": "index.js",
   "module": "dist/hotkeys.esm.js",
   "scripts": {
     "lint": "eslint --ext .js src website",
     "deploy": "npm run doc:build && gh-pages -d doc",
-    "build": "npm run doc:build && node scripts/build.js",
+    "build": "node scripts/build.js && npm run doc:build",
     "watch": "node scripts/watch.js",
     "pretest": "npm run build",
     "test": "jest --coverage",
