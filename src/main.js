@@ -210,7 +210,7 @@ function dispatch(event) {
   if (!(key in _handlers)) return;
 
   for (let i = 0; i < _handlers[key].length; i++) {
-    if ((event.type === 'keydown' && !_handlers[key][i].keyup) || (event.type === 'keyup' && _handlers[key][i].keyup)) {
+    if ((event.type === 'keydown' && _handlers[key][i].keydown) || (event.type === 'keyup' && _handlers[key][i].keyup)) {
       if (_handlers[key][i].key) {
         const keyShortcut = _handlers[key][i].key.split('+');
         let _downKeysCurrent = []; // 记录当前按键键值
@@ -233,6 +233,8 @@ function hotkeys(key, option, method) {
   let scope = 'all'; // scope默认为all，所有范围都有效
   let element = document; // 快捷键事件绑定节点
   let i = 0;
+  let keyup = false;
+  let keydown = true;
 
   // 对为设定范围的判断
   if (method === undefined && typeof option === 'function') {
@@ -241,7 +243,9 @@ function hotkeys(key, option, method) {
 
   if (Object.prototype.toString.call(option) === '[object Object]') {
     if (option.scope) scope = option.scope; // eslint-disable-line
-    if (option.element) element = option.element; // eslint-disable-line
+    if (option.element) element = option.element; // eslint-disable-line 
+    if (option.keyup) keyup = option.keyup; // eslint-disable-line 
+    if (option.keydown) keydown = option.keydown; // eslint-disable-line 
   }
 
   if (typeof option === 'string') scope = option;
@@ -261,7 +265,8 @@ function hotkeys(key, option, method) {
     // 判断key是否在_handlers中，不在就赋一个空数组
     if (!(key in _handlers)) _handlers[key] = [];
     _handlers[key].push({
-      keyup: option.keyup,
+      keyup,
+      keydown,
       scope,
       mods,
       shortcut: keys[i],
@@ -272,13 +277,17 @@ function hotkeys(key, option, method) {
   // 在全局document上设置快捷键
   if (typeof element !== 'undefined' && !isBindElement) {
     isBindElement = true;
-    addEvent(element, 'keydown', (e) => {
-      dispatch(e);
-    });
-    addEvent(element, 'keyup', (e) => {
-      dispatch(e);
-      clearModifier(e);
-    });
+    if (keydown) {
+      addEvent(element, 'keydown', (e) => {
+        dispatch(e);
+      });
+    }
+    if (keyup) {
+      addEvent(element, 'keyup', (e) => {
+        dispatch(e);
+        clearModifier(e);
+      });
+    }
   }
 }
 
