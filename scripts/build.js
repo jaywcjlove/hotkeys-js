@@ -31,7 +31,6 @@ async function build() {
       pure_getters: true,
       unsafe: true,
       unsafe_comps: true,
-      warnings: false,
     },
     output: {
       ascii_only: true,
@@ -48,14 +47,14 @@ async function build() {
     banner: banner.multibanner(),
   });
 
-  const umdMinified = `${banner.onebanner()}\n${uglify.minify(umd.code, uglifyOption).code}`;
+  const umdMinified = `${banner.onebanner()}\n${uglify.minify(umd.output[0].code, uglifyOption).code}`;
 
   const common = await bundle.generate({
     format: 'cjs',
     name: 'hotkeys',
     banner: banner.multibanner(),
   });
-  const commonMinified = `${banner.onebanner()}\n${uglify.minify(common.code, uglifyOption).code}`;
+  const commonMinified = `${banner.onebanner()}\n${uglify.minify(common.output[0].code, uglifyOption).code}`;
 
   const es = await bundle.generate({
     format: 'es',
@@ -63,11 +62,11 @@ async function build() {
     banner: banner.multibanner(),
   });
 
-  write('dist/hotkeys.js', umd.code)
+  write('dist/hotkeys.js', umd.output[0].code)
     .then(() => write('dist/hotkeys.min.js', umdMinified, true))
-    .then(() => write('dist/hotkeys.common.js', common.code))
+    .then(() => write('dist/hotkeys.common.js', common.output[0].code))
     .then(() => write('dist/hotkeys.common.min.js', commonMinified, true))
-    .then(() => write('dist/hotkeys.esm.js', es.code));
+    .then(() => write('dist/hotkeys.esm.js', es.output[0].code));
 }
 
 build();
@@ -96,5 +95,8 @@ function write(dest, code, zip) {
 }
 
 function getSize(code) {
-  return `${(code.length / 1024).toFixed(2)}kb`;
+  if (code) {
+    return `${(code.toString().length / 1024).toFixed(2)}kb`;
+  }
+  return '';
 }
