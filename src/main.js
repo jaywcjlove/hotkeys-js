@@ -282,14 +282,15 @@ function hotkeys(key, option, method) {
         dispatch(e);
       });
     }
-    if (keyup) {
-      addEvent(element, 'keyup', (e) => {
+    addEvent(element, 'keyup', (e) => {
+      if (keyup) {
         dispatch(e);
-        clearModifier(e);
-      });
-    }
+      }
+      clearModifier(e);
+    });
   }
 }
+
 
 const _api = {
   setScope,
