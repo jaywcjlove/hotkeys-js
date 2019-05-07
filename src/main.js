@@ -229,7 +229,7 @@ function dispatch(event) {
 
 // 判断 element 是否已经绑定事件
 function isElementBind (element) {
-  return elementHasBindEvent.some(ele => ele.isSameNode(element))
+  return elementHasBindEvent.some(ele => ele === element)
 }
 
 function hotkeys(key, option, method) {
