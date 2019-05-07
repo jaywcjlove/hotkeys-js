@@ -3,7 +3,7 @@ import { _keyMap, _modifier, _downKeys, modifierMap, _mods, _handlers } from './
 
 
 let _scope = 'all'; // 默认热键范围
-let elementHasBindEvent = [] // 已绑定事件的节点记录
+const elementHasBindEvent = []; // 已绑定事件的节点记录
 
 // 返回键码
 const code = x => _keyMap[x.toLowerCase()] || _modifier[x.toLowerCase()] || x.toUpperCase().charCodeAt(0);
@@ -228,8 +228,8 @@ function dispatch(event) {
 }
 
 // 判断 element 是否已经绑定事件
-function isElementBind (element) {
-  return elementHasBindEvent.some(ele => ele === element)
+function isElementBind(element) {
+  return elementHasBindEvent.indexOf(element) > -1;
 }
 
 function hotkeys(key, option, method) {
@@ -281,9 +281,9 @@ function hotkeys(key, option, method) {
   }
   // 在全局document上设置快捷键
   if (typeof element !== 'undefined' && !isElementBind(element)) {
-    elementHasBindEvent.push(element)
+    elementHasBindEvent.push(element);
     addEvent(element, 'keydown', (e) => {
-        dispatch(e);
+      dispatch(e);
     });
     addEvent(element, 'keyup', (e) => {
       dispatch(e);
