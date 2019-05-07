@@ -1,5 +1,5 @@
 /*!
- * hotkeys-js v3.6.4
+ * hotkeys-js v3.6.5
  * A simple micro-library for defining and dispatching keyboard shortcuts. It has no dependencies.
  * 
  * Copyright (c) 2019 kenny wong <wowohoo@qq.com>
@@ -136,7 +136,7 @@ _mods[isff ? 224 : 91] = false;
 
 var _scope = 'all'; // 默认热键范围
 
-var isBindElement = false; // 是否绑定节点
+var elementHasBindEvent = []; // 已绑定事件的节点记录
 // 返回键码
 
 var code = function code(x) {
@@ -351,6 +351,11 @@ function dispatch(event) {
       }
     }
   }
+} // 判断 element 是否已经绑定事件
+
+
+function isElementBind(element) {
+  return elementHasBindEvent.indexOf(element) > -1;
 }
 
 function hotkeys(key, option, method) {
@@ -372,11 +377,11 @@ function hotkeys(key, option, method) {
   if (Object.prototype.toString.call(option) === '[object Object]') {
     if (option.scope) scope = option.scope; // eslint-disable-line
 
-    if (option.element) element = option.element; // eslint-disable-line 
+    if (option.element) element = option.element; // eslint-disable-line
 
-    if (option.keyup) keyup = option.keyup; // eslint-disable-line 
+    if (option.keyup) keyup = option.keyup; // eslint-disable-line
 
-    if (option.keydown) keydown = option.keydown; // eslint-disable-line 
+    if (option.keydown) keydown = option.keydown; // eslint-disable-line
   }
 
   if (typeof option === 'string') scope = option; // 对于每个快捷键进行处理
@@ -406,20 +411,13 @@ function hotkeys(key, option, method) {
   } // 在全局document上设置快捷键
 
 
-  if (typeof element !== 'undefined' && !isBindElement) {
-    isBindElement = true;
-
-    if (keydown) {
-      addEvent(element, 'keydown', function (e) {
-        dispatch(e);
-      });
-    }
-
+  if (typeof element !== 'undefined' && !isElementBind(element)) {
+    elementHasBindEvent.push(element);
+    addEvent(element, 'keydown', function (e) {
+      dispatch(e);
+    });
     addEvent(element, 'keyup', function (e) {
-      if (keyup) {
-        dispatch(e);
-      }
-
+      dispatch(e);
       clearModifier(e);
     });
   }
