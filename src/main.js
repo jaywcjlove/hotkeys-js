@@ -213,7 +213,7 @@ function dispatch(event) {
   // 对任何快捷键都需要做的处理
   if (asterisk) {
     for (let i = 0; i < asterisk.length; i++) {
-      if (asterisk[i].scope === scope && ((event.type === 'keydown' && !asterisk[i].keyup) || (event.type === 'keyup' && asterisk[i].keyup))) {
+      if (asterisk[i].scope === scope && ((event.type === 'keydown' && asterisk[i].keydown) || (event.type === 'keyup' && asterisk[i].keyup))) {
         eventHandler(event, asterisk[i], scope);
       }
     }

@@ -337,7 +337,7 @@
 
     if (asterisk) {
       for (var i = 0; i < asterisk.length; i++) {
-        if (asterisk[i].scope === scope && (event.type === 'keydown' && !asterisk[i].keyup || event.type === 'keyup' && asterisk[i].keyup)) {
+        if (asterisk[i].scope === scope && (event.type === 'keydown' && asterisk[i].keydown || event.type === 'keyup' && asterisk[i].keyup)) {
           eventHandler(event, asterisk[i], scope);
         }
       }
