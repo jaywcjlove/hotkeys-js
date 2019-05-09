@@ -16,11 +16,20 @@ function getScope() { return _scope || 'all'; }
 function getPressedKeyCodes() { return _downKeys.slice(0); }
 
 // 表单控件控件判断 返回 Boolean
+// hotkey is effective only when filter return true
 function filter(event) {
   const target = event.target || event.srcElement;
   const { tagName } = target;
-  // 忽略这些情况下快捷键无效
-  return !(tagName === 'INPUT' || tagName === 'SELECT' || tagName === 'TEXTAREA' || target.isContentEditable);
+  let flag = true;
+  // ignore: isContentEditable === 'true', <input> and <textarea> when readOnly state is false, <select>
+  if (
+    target.isContentEditable ||
+    tagName === 'TEXTAREA' ||
+    ((tagName === 'INPUT' || tagName === 'TEXTAREA') && !target.readOnly)
+  ) {
+    flag = false;
+  }
+  return flag;
 }
 
 // 判断摁下的键是否为某个键，返回true或者false

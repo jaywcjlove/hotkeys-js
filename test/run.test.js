@@ -548,6 +548,20 @@ describe('\n   Hotkeys.js Test Case.\n', () => {
     await __triggerKeyboardEvent(document.body, 65);
   });
 
+  test('Event trigger on readOnly input', async () => {
+    const input = document.createElement('input')
+    input.setAttribute('readOnly', true)
+    await hotkeys('*', () => {
+      expect(hotkeys.filter.call(null, event)).toBeTruthy()
+    })
+    await __triggerKeyboardEvent(input, 65);
+    await hotkeys.unbind('*')
+    input.removeAttribute('readOnly')
+    await hotkeys('*', () => {
+      expect(hotkeys.filter.call(null, event)).toBeFalsy()
+    })
+  })
+
   afterAll(async () => {
     await browser.close();
   });
