@@ -16,6 +16,10 @@
     "doc:dev": "NODE_ENV=development parcel website/index.html --out-dir doc --no-cache",
     "doc:build": "rimraf doc && NODE_ENV=production parcel build website/index.html --out-dir doc --public-url ./ --no-cache --no-source-maps"
   },
+  "files": [
+    "dist",
+    "doc"
+  ],
   "husky": {
     "hooks": {
       "pre-commit": "npm run lint"
