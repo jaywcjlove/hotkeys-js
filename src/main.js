@@ -5,6 +5,18 @@ import { _keyMap, _modifier, _downKeys, modifierMap, _mods, _handlers } from './
 let _scope = 'all'; // 默认热键范围
 const elementHasBindEvent = []; // 已绑定事件的节点记录
 
+/** some abnormal keys array
+ If an Input Method Editor is processing key input and the event is keydown, return 229.
+ https://stackoverflow.com/questions/25043934/is-it-ok-to-ignore-keydown-events-with-keycode-229
+ http://lists.w3.org/Archives/Public/www-dom/2010JulSep/att-0182/keyCode-spec.html
+ cpaslock : 20
+ https://stackoverflow.com/questions/39016292/keydown-event-is-not-fired-for-capslock-in-mac
+ mac + safari/firefox : press cpaslock, will execute twice keydown event
+ tab: 9
+ press tab to location bar, only execute keydown event
+ */
+const abnormalKeys = [229, 20, 9];
+
 // 返回键码
 const code = x => _keyMap[x.toLowerCase()] || _modifier[x.toLowerCase()] || x.toUpperCase().charCodeAt(0);
 
@@ -180,10 +192,7 @@ function dispatch(event) {
   if (!hotkeys.filter.call(this, event)) return;
 
   // Collect bound keys
-  // If an Input Method Editor is processing key input and the event is keydown, return 229.
-  // https://stackoverflow.com/questions/25043934/is-it-ok-to-ignore-keydown-events-with-keycode-229
-  // http://lists.w3.org/Archives/Public/www-dom/2010JulSep/att-0182/keyCode-spec.html
-  if (_downKeys.indexOf(key) === -1 && key !== 229) _downKeys.push(key);
+  if (_downKeys.indexOf(key) === -1 && !abnormalKeys.includes(key)) _downKeys.push(key);
 
   // Gecko(Firefox)的command键值224，在Webkit(Chrome)中保持一致
   // Webkit左右command键值不一样
@@ -296,6 +305,7 @@ function hotkeys(key, option, method) {
     elementHasBindEvent.push(element);
     addEvent(element, 'keydown', (e) => {
       dispatch(e);
+      clearModifier(e);
     });
     addEvent(element, 'keyup', (e) => {
       dispatch(e);

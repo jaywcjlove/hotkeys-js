@@ -143,7 +143,19 @@
   var _scope = 'all'; // 默认热键范围
 
   var elementHasBindEvent = []; // 已绑定事件的节点记录
-  // 返回键码
+
+  /** some abnormal keys array
+   If an Input Method Editor is processing key input and the event is keydown, return 229.
+   https://stackoverflow.com/questions/25043934/is-it-ok-to-ignore-keydown-events-with-keycode-229
+   http://lists.w3.org/Archives/Public/www-dom/2010JulSep/att-0182/keyCode-spec.html
+   cpaslock : 20
+   https://stackoverflow.com/questions/39016292/keydown-event-is-not-fired-for-capslock-in-mac
+   mac + safari/firefox : press cpaslock, will execute twice keydown event
+   tab: 9
+   press tab to location bar, only execute keydown event
+   */
+
+  var abnormalKeys = [229, 20, 9]; // 返回键码
 
   var code = function code(x) {
     return _keyMap[x.toLowerCase()] || _modifier[x.toLowerCase()] || x.toUpperCase().charCodeAt(0);
@@ -306,11 +318,8 @@
     var key = event.keyCode || event.which || event.charCode; // 表单控件过滤 默认表单控件不触发快捷键
 
     if (!hotkeys.filter.call(this, event)) return; // Collect bound keys
-    // If an Input Method Editor is processing key input and the event is keydown, return 229.
-    // https://stackoverflow.com/questions/25043934/is-it-ok-to-ignore-keydown-events-with-keycode-229
-    // http://lists.w3.org/Archives/Public/www-dom/2010JulSep/att-0182/keyCode-spec.html
 
-    if (_downKeys.indexOf(key) === -1 && key !== 229) _downKeys.push(key); // Gecko(Firefox)的command键值224，在Webkit(Chrome)中保持一致
+    if (_downKeys.indexOf(key) === -1 && !abnormalKeys.includes(key)) _downKeys.push(key); // Gecko(Firefox)的command键值224，在Webkit(Chrome)中保持一致
     // Webkit左右command键值不一样
 
     if (key === 93 || key === 224) key = 91;
@@ -430,6 +439,7 @@
       elementHasBindEvent.push(element);
       addEvent(element, 'keydown', function (e) {
         dispatch(e);
+        clearModifier(e);
       });
       addEvent(element, 'keyup', function (e) {
         dispatch(e);
