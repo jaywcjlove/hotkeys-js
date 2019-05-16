@@ -303,7 +303,9 @@
 
   function dispatch(event) {
     var asterisk = _handlers['*'];
-    var key = event.keyCode || event.which || event.charCode; // Collect bound keys
+    var key = event.keyCode || event.which || event.charCode; // 表单控件过滤 默认表单控件不触发快捷键
+
+    if (!hotkeys.filter.call(this, event)) return; // Collect bound keys
     // If an Input Method Editor is processing key input and the event is keydown, return 229.
     // https://stackoverflow.com/questions/25043934/is-it-ok-to-ignore-keydown-events-with-keycode-229
     // http://lists.w3.org/Archives/Public/www-dom/2010JulSep/att-0182/keyCode-spec.html
@@ -328,10 +330,8 @@
       if (Object.prototype.hasOwnProperty.call(_mods, e)) {
         _mods[e] = event[modifierMap[e]];
       }
-    } // 表单控件过滤 默认表单控件不触发快捷键
+    } // 获取范围 默认为all
 
-
-    if (!hotkeys.filter.call(this, event)) return; // 获取范围 默认为all
 
     var scope = getScope(); // 对任何快捷键都需要做的处理
 
