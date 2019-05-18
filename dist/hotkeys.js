@@ -253,7 +253,12 @@
       // 将组合快捷键拆分为数组
       keys = multipleKeys[i].split('+'); // 记录每个组合键中的修饰键的键码 返回数组
 
-      if (keys.length > 1) mods = getMods(_modifier, keys); // 获取除修饰键外的键值key
+      if (keys.length > 1) {
+        mods = getMods(_modifier, keys);
+      } else {
+        mods = [];
+      } // 获取除修饰键外的键值key
+
 
       key = keys[keys.length - 1];
       key = key === '*' ? '*' : code(key); // 判断是否传入范围，没有就获取范围

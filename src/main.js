@@ -105,7 +105,11 @@ function unbind(key, scope, method) {
     keys = multipleKeys[i].split('+');
 
     // 记录每个组合键中的修饰键的键码 返回数组
-    if (keys.length > 1) mods = getMods(_modifier, keys);
+    if (keys.length > 1) {
+      mods = getMods(_modifier, keys);
+    } else {
+      mods = [];
+    }
 
     // 获取除修饰键外的键值key
     key = keys[keys.length - 1];
