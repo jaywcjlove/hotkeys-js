@@ -3,6 +3,7 @@
   "description": "A simple micro-library for defining and dispatching keyboard shortcuts. It has no dependencies.",
   "version": "3.6.9",
   "main": "index.js",
+  "types": "index.d.ts",
   "module": "dist/hotkeys.esm.js",
   "scripts": {
     "lint": "eslint --ext .js src website",
@@ -17,6 +18,7 @@
     "doc:build": "rimraf doc && NODE_ENV=production parcel build website/index.html --out-dir doc --public-url ./ --no-cache --no-source-maps"
   },
   "files": [
+    "index.d.ts",
     "dist",
     "doc"
   ],
