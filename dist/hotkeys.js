@@ -118,8 +118,6 @@
     cmd: isff ? 224 : 91,
     command: isff ? 224 : 91
   };
-  var _downKeys = []; // 记录摁下的绑定键
-
   var modifierMap = {
     16: 'shiftKey',
     18: 'altKey',
@@ -139,6 +137,8 @@
 
   modifierMap[isff ? 224 : 91] = 'metaKey';
   _mods[isff ? 224 : 91] = false;
+
+  var _downKeys = []; // 记录摁下的绑定键
 
   var _scope = 'all'; // 默认热键范围
 
@@ -431,10 +431,13 @@
     } // 在全局document上设置快捷键
 
 
-    if (typeof element !== 'undefined' && !isElementBind(element)) {
+    if (typeof element !== 'undefined' && !isElementBind(element) && window) {
       elementHasBindEvent.push(element);
       addEvent(element, 'keydown', function (e) {
         dispatch(e);
+      });
+      addEvent(window, 'focus', function () {
+        _downKeys = [];
       });
       addEvent(element, 'keyup', function (e) {
         dispatch(e);
