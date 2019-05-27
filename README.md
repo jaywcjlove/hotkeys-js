@@ -299,7 +299,7 @@ hotkeys('command+ctrl+shift+a,f', function(){
 ### filter
 
 `INPUT` `SELECT` `TEXTAREA` default does not handle.
-`Hotkeys.filter` to return to the `true` shortcut keys set to play a role, `flase` shortcut keys set up failure.
+`Hotkeys.filter` to return to the `true` shortcut keys set to play a role, `false` shortcut keys set up failure.
 
 ```js
 hotkeys.filter = function(event){
