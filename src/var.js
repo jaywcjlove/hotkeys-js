@@ -49,7 +49,6 @@ const _modifier = { // 修饰键
   cmd: isff ? 224 : 91,
   command: isff ? 224 : 91,
 };
-const _downKeys = []; // 记录摁下的绑定键
 const modifierMap = {
   16: 'shiftKey',
   18: 'altKey',
@@ -70,7 +69,6 @@ _mods[isff ? 224 : 91] = false;
 export {
   _keyMap,
   _modifier,
-  _downKeys,
   modifierMap,
   _mods,
   _handlers,
