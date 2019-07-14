@@ -19,7 +19,7 @@ export interface FilterEvent {
   }
 }
 
-type Options = {
+export type Options = {
   scope: string,
   element?: HTMLElement | null,
   keyup?: boolean | null
