@@ -58,37 +58,6 @@ $ npm install react-hot-keys --save
 
 Detailed use method please see its documentation [react-hotkeys](https://github.com/jaywcjlove/react-hotkeys).
 
-```jsx
-import React, { Component } from 'react';
-import Hotkeys from 'react-hot-keys';
-
-export default class HotkeysDemo extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      output: 'Hello, I am a component that listens to keydown and keyup of a',
-    }
-  }
-  onKeyUp(keyNm, e, handle) {
-    this.setState({output: keyNm})
-  }
-  onKeyDown(keyName, e, handle) {
-    this.setState({output: keyNm})
-  }
-  render() {
-    return (
-      <Hotkeys 
-        keyName="shift+a,alt+s"
-        onKeyDown={this.onKeyDown.bind(this)}
-        onKeyUp={this.onKeyUp.bind(this)}
-      >
-        <div style={{ padding: 50 }}> {this.state.output} </div>
-      </Hotkeys>
-    )
-  }
-}
-```
-
 ## Browser Support
 
 Hotkeys.js has been tested and should work in.
