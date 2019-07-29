@@ -267,7 +267,7 @@ function hotkeys(key, option, method) {
     if (option.scope) scope = option.scope; // eslint-disable-line
     if (option.element) element = option.element; // eslint-disable-line
     if (option.keyup) keyup = option.keyup; // eslint-disable-line
-    if (option.keydown) keydown = option.keydown; // eslint-disable-line
+    if (option.keydown !== undefined) keydown = option.keydown; // eslint-disable-line
   }
 
   if (typeof option === 'string') scope = option;
