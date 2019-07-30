@@ -1,5 +1,5 @@
 /*!
- * hotkeys-js v3.6.12
+ * hotkeys-js v3.6.13
  * A simple micro-library for defining and dispatching keyboard shortcuts. It has no dependencies.
  * 
  * Copyright (c) 2019 kenny wong <wowohoo@qq.com>
@@ -395,7 +395,7 @@ function hotkeys(key, option, method) {
 
     if (option.keyup) keyup = option.keyup; // eslint-disable-line
 
-    if (option.keydown) keydown = option.keydown; // eslint-disable-line
+    if (option.keydown !== undefined) keydown = option.keydown; // eslint-disable-line
   }
 
   if (typeof option === 'string') scope = option; // 对于每个快捷键进行处理
