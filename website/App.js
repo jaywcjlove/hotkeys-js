@@ -107,6 +107,9 @@ export default class App extends Component {
             <a href="https://github.com/jaywcjlove/hotkeys/">
               <button>Doc on Github</button>
             </a>
+            <a href="https://jaywcjlove.gitee.io/hotkeys/">
+              <button>Doc on Gitee</button>
+            </a>
           </div>
           <div className={styles.info}>A robust Javascript library for capturing keyboard input and key combinations entered. It has no dependencies. Try to press your keyboard, The following button will highlight.</div>
         </div>
@@ -120,19 +123,23 @@ export default class App extends Component {
           source={[
             {
               href: 'https://github.com/jaywcjlove/hotkeys/stargazers',
-              img: 'https://img.shields.io/github/stars/jaywcjlove/hotkeys.svg?style=social',
+              img: 'https://img.shields.io/github/stars/jaywcjlove/hotkeys.svg',
             },
             {
               href: 'https://github.com/jaywcjlove/hotkeys/network',
-              img: 'https://img.shields.io/github/forks/jaywcjlove/hotkeys.svg?style=social',
+              img: 'https://img.shields.io/github/forks/jaywcjlove/hotkeys.svg',
             },
             {
               href: 'https://github.com/jaywcjlove/hotkeys/watchers',
-              img: 'https://img.shields.io/github/watchers/jaywcjlove/hotkeys.svg?style=social&label=Watch',
+              img: 'https://img.shields.io/github/watchers/jaywcjlove/hotkeys.svg?label=Watch',
             },
             {
               href: 'https://github.com/jaywcjlove/followers',
-              img: 'https://img.shields.io/github/followers/jaywcjlove.svg?style=social',
+              img: 'https://img.shields.io/github/followers/jaywcjlove.svg',
+            },
+            {
+              href: 'https://gitee.com/jaywcjlove/hotkeys',
+              img: 'https://jaywcjlove.github.io/sb/ico/gitee.svg',
             },
           ]}
         />
