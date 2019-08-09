@@ -184,15 +184,15 @@ function dispatch(event) {
   // 表单控件过滤 默认表单控件不触发快捷键
   if (!hotkeys.filter.call(this, event)) return;
 
+  // Gecko(Firefox)的command键值224，在Webkit(Chrome)中保持一致
+  // Webkit左右command键值不一样
+  if (key === 93 || key === 224) key = 91;
+
   // Collect bound keys
   // If an Input Method Editor is processing key input and the event is keydown, return 229.
   // https://stackoverflow.com/questions/25043934/is-it-ok-to-ignore-keydown-events-with-keycode-229
   // http://lists.w3.org/Archives/Public/www-dom/2010JulSep/att-0182/keyCode-spec.html
   if (_downKeys.indexOf(key) === -1 && key !== 229) _downKeys.push(key);
-
-  // Gecko(Firefox)的command键值224，在Webkit(Chrome)中保持一致
-  // Webkit左右command键值不一样
-  if (key === 93 || key === 224) key = 91;
 
   if (key in _mods) {
     _mods[key] = true;
