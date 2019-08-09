@@ -76,7 +76,7 @@ const keyCode = [
   { keycode: 18, name: ['alt', 'option'] },
   { keycode: 91, name: ['command'] },
   { keycode: 32, name: [''] },
-  { keycode: 93, name: ['command'] },
+  { keycode: 91, name: ['command'] },
   { keycode: 18, name: ['alt', 'option'] },
   { keycode: 37, name: ['◀'] },
   { keycode: 38, name: ['▲'] },
