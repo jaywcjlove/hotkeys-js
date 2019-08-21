@@ -37,13 +37,18 @@ Or manually download and link **hotkeys.js** in your HTML, It can also be downlo
 ```html
 <script src="https://unpkg.com/hotkeys-js/dist/hotkeys.min.js"></script>
 <script type="text/javascript">
-hotkeys('ctrl+a,ctrl+b,r,f', function(event,handler) {
-  switch(handler.key){
-    case "ctrl+a":alert('you pressed ctrl+a!');break;
-    case "ctrl+b":alert('you pressed ctrl+b!');break;
-    case "r":alert('you pressed r!');break;
-    case "f":alert('you pressed f!');break;
-  }
+hotkeys('ctrl+a,ctrl+b,r,f', function (event, handler){
+	switch (handler.key) {
+		case 'ctrl+a': alert('you pressed ctrl+a!');
+			break;
+		case 'ctrl+b': alert('you pressed ctrl+b!');
+			break;
+		case 'r': alert('you pressed r!');
+			break;
+		case 'f': alert('you pressed f!');
+			break;
+		default: alert(event);
+	}
 });
 </script>
 ```
@@ -106,7 +111,7 @@ hotkeys('ctrl+r, command+r', function() {
   return false;
 });
 
-
+// SIngle key
 hotkeys('a', function(event,handler){
   //event.srcElement: input 
   //event.target: input
@@ -116,23 +121,28 @@ hotkeys('a', function(event,handler){
   alert('you pressed a!') 
 });
 
-hotkeys('ctrl+a,ctrl+b,r,f', function(event,handler) {
-  switch(handler.key){
-    case "ctrl+a":alert('you pressed ctrl+a!');break;
-    case "ctrl+b":alert('you pressed ctrl+b!');break;
-    case "r":alert('you pressed r!');break;
-    case "f":alert('you pressed f!');break;
-  }
+// Key Combenation
+hotkeys('ctrl+a,ctrl+b,r,f', function (event, handler){
+	switch (handler.key) {
+		case 'ctrl+a': alert('you pressed ctrl+a!');
+			break;
+		case 'ctrl+b': alert('you pressed ctrl+b!');
+			break;
+		case 'r': alert('you pressed r!');
+			break;
+		case 'f': alert('you pressed f!');
+			break;
+		default: alert(event);
+	}
 });
 
-hotkeys('ctrl+a+s', function(event,handler) {
-  if(handler.key === 'ctrl+a+s') {
+hotkeys('ctrl+a+s', function() {
     alert('you pressed ctrl+a+s!');
-  }
 });
 
-hotkeys('*','wcj', function(e){
-  console.log('do something',e);
+// Using a scope
+hotkeys('*','wcj', function(event){
+  console.log('do something', event);
 });
 ```
 
@@ -146,7 +156,7 @@ hotkeys('*','wcj', function(e){
 ```js
 hotkeys('o, enter', {
   scope: 'wcj',
-  element: document.getElementById('warpper'),
+  element: document.getElementById('wrapper'),
 }, function(){ 
   console.log('do something else');
 });
@@ -159,23 +169,43 @@ Asterisk "*"
 Modifier key judgments
 
 ```js
-hotkeys('*', function(e){
-  if(hotkeys.shift) console.log('shift is pressed!');
-  if(hotkeys.ctrl) console.log('ctrl is pressed!');
-  if(hotkeys.alt) console.log('alt is pressed!');
-  if(hotkeys.option) console.log('option is pressed!');
-  if(hotkeys.control) console.log('control is pressed!');
-  if(hotkeys.cmd) console.log('cmd is pressed!');
-  if(hotkeys.command) console.log('command is pressed!');
+hotkeys('*', function() {
+	if (hotkeys.shift) {
+		console.log('shift is pressed!');
+	}
+
+	if (hotkeys.ctrl) {
+		console.log('ctrl is pressed!');
+	}
+
+	if (hotkeys.alt) {
+		console.log('alt is pressed!');
+	}
+
+	if (hotkeys.option) {
+		console.log('option is pressed!');
+	}
+
+	if (hotkeys.control) {
+		console.log('control is pressed!');
+	}
+
+	if (hotkeys.cmd) {
+		console.log('cmd is pressed!');
+	}
+
+	if (hotkeys.command) {
+		console.log('command is pressed!');
+	}
 });
 ```
 
 ### setScope
 
-Use the `hotkeys.setScope` method to set scope.
+Use the `hotkeys.setScope` method to set scope. There can only be one active scope besides 'all'.  By default 'all' is always active.
 
 ```js
-// define shortcuts with a scope
+// Define shortcuts with a scope
 hotkeys('ctrl+o, ctrl+alt+enter', 'issues', function(){
   console.log('do something');
 });
@@ -183,7 +213,7 @@ hotkeys('o, enter', 'files', function(){
   console.log('do something else');
 });
 
-// set the scope (only 'all' and 'issues' shortcuts will be honored)
+// Set the scope (only 'all' and 'issues' shortcuts will be honored)
 hotkeys.setScope('issues'); // default scope is 'all'
 ```
 
@@ -197,7 +227,7 @@ hotkeys.getScope();
 
 ### deleteScope
 
-Use the `hotkeys.deleteScope` method to delete set scope.
+Use the `hotkeys.deleteScope` method to delete a scope. This will also remove all associated hotkeys with it.
 
 ```js
 hotkeys.deleteScope('issues');
@@ -211,8 +241,8 @@ Similar to defining shortcuts, they can be unbound using `hotkeys.unbind`.
 // unbind 'a' handler
 hotkeys.unbind('a');
 
-// unbind a hotkeys only for a single scope
-// when no scope is specified it defaults to the current scope (hotkeys.getScope())
+// Unbind a hotkeys only for a single scope
+// If no scope is specified it defaults to the current scope (hotkeys.getScope())
 hotkeys.unbind('o, enter', 'issues');
 hotkeys.unbind('o, enter', 'files');
 ```
@@ -220,23 +250,24 @@ hotkeys.unbind('o, enter', 'files');
 Unbind events through functions.
 
 ```js
-function example(){}
-hotkeys('a', example);
-hotkeys.unbind('a', example);
+function example() {
+	hotkeys('a', example);
+	hotkeys.unbind('a', example);
 
-hotkeys('a', 'issues', example);
-hotkeys.unbind('a', 'issues', example);
+	hotkeys('a', 'issues', example);
+	hotkeys.unbind('a', 'issues', example);
+}
 ```
 
 ### isPressed
 
-Other key queries. For example, `hotkeys.isPressed(77)` is true if the `M` key is currently pressed.
+For example, `hotkeys.isPressed(77)` is true if the `M` key is currently pressed.
 
 ```js
-hotkeys('a', function(){
-  console.log(hotkeys.isPressed("a")); //=> true
-  console.log(hotkeys.isPressed("A")); //=> true
-  console.log(hotkeys.isPressed(65)); //=> true
+hotkeys('a', function() {
+	console.log(hotkeys.isPressed('a')); //=> true
+	console.log(hotkeys.isPressed('A')); //=> true
+	console.log(hotkeys.isPressed(65)); //=> true
 });
 ```
 
@@ -245,19 +276,20 @@ hotkeys('a', function(){
 **key down** and **key up** both perform callback events.
 
 ```js
-hotkeys('ctrl+a,alt+a+s', { keyup: true }, (evn, handler) => {
-  if(evn.type === 'keydown') {
-    console.log('keydown:', evn.type, handler, handler.key);
-  }
-  if(evn.type === 'keyup') {
-    console.log('keyup:', evn.type, handler, handler.key);
-  }
+hotkeys('ctrl+a,alt+a+s', {keyup: true}, function(event, handler) {
+	if (event.type === 'keydown') {
+		console.log('keydown:', event.type, handler, handler.key);
+	}
+
+	if (event.type === 'keyup') {
+		console.log('keyup:', event.type, handler, handler.key);
+	}
 });
 ```
 
 ### getPressedKeyCodes
 
-returns an array of key codes currently pressed.
+Returns an array of key codes currently pressed.
 
 ```js
 hotkeys('command+ctrl+shift+a,f', function(){
@@ -267,7 +299,7 @@ hotkeys('command+ctrl+shift+a,f', function(){
 
 ### filter
 
-`INPUT` `SELECT` `TEXTAREA` default does not handle.
+By default hotkeys are not enabled for `INPUT` `SELECT` `TEXTAREA` elements.
 `Hotkeys.filter` to return to the `true` shortcut keys set to play a role, `false` shortcut keys set up failure.
 
 ```js
