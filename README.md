@@ -123,17 +123,17 @@ hotkeys('a', function(event,handler){
 
 // Key Combenation
 hotkeys('ctrl+a,ctrl+b,r,f', function (event, handler){
-	switch (handler.key) {
-		case 'ctrl+a': alert('you pressed ctrl+a!');
-			break;
-		case 'ctrl+b': alert('you pressed ctrl+b!');
-			break;
-		case 'r': alert('you pressed r!');
-			break;
-		case 'f': alert('you pressed f!');
-			break;
-		default: alert(event);
-	}
+  switch (handler.key) {
+    case 'ctrl+a': alert('you pressed ctrl+a!');
+      break;
+    case 'ctrl+b': alert('you pressed ctrl+b!');
+      break;
+    case 'r': alert('you pressed r!');
+      break;
+    case 'f': alert('you pressed f!');
+      break;
+    default: alert(event);
+  }
 });
 
 hotkeys('ctrl+a+s', function() {
@@ -170,33 +170,33 @@ Modifier key judgments
 
 ```js
 hotkeys('*', function() {
-	if (hotkeys.shift) {
-		console.log('shift is pressed!');
-	}
+  if (hotkeys.shift) {
+    console.log('shift is pressed!');
+  }
 
-	if (hotkeys.ctrl) {
-		console.log('ctrl is pressed!');
-	}
+  if (hotkeys.ctrl) {
+    console.log('ctrl is pressed!');
+  }
 
-	if (hotkeys.alt) {
-		console.log('alt is pressed!');
-	}
+  if (hotkeys.alt) {
+    console.log('alt is pressed!');
+  }
 
-	if (hotkeys.option) {
-		console.log('option is pressed!');
-	}
+  if (hotkeys.option) {
+    console.log('option is pressed!');
+  }
 
-	if (hotkeys.control) {
-		console.log('control is pressed!');
-	}
+  if (hotkeys.control) {
+    console.log('control is pressed!');
+  }
 
-	if (hotkeys.cmd) {
-		console.log('cmd is pressed!');
-	}
+  if (hotkeys.cmd) {
+    console.log('cmd is pressed!');
+  }
 
-	if (hotkeys.command) {
-		console.log('command is pressed!');
-	}
+  if (hotkeys.command) {
+    console.log('command is pressed!');
+  }
 });
 ```
 
@@ -251,11 +251,11 @@ Unbind events through functions.
 
 ```js
 function example() {
-	hotkeys('a', example);
-	hotkeys.unbind('a', example);
+  hotkeys('a', example);
+  hotkeys.unbind('a', example);
 
-	hotkeys('a', 'issues', example);
-	hotkeys.unbind('a', 'issues', example);
+  hotkeys('a', 'issues', example);
+  hotkeys.unbind('a', 'issues', example);
 }
 ```
 
@@ -265,9 +265,9 @@ For example, `hotkeys.isPressed(77)` is true if the `M` key is currently pressed
 
 ```js
 hotkeys('a', function() {
-	console.log(hotkeys.isPressed('a')); //=> true
-	console.log(hotkeys.isPressed('A')); //=> true
-	console.log(hotkeys.isPressed(65)); //=> true
+  console.log(hotkeys.isPressed('a')); //=> true
+  console.log(hotkeys.isPressed('A')); //=> true
+  console.log(hotkeys.isPressed(65)); //=> true
 });
 ```
 
@@ -277,13 +277,13 @@ hotkeys('a', function() {
 
 ```js
 hotkeys('ctrl+a,alt+a+s', {keyup: true}, function(event, handler) {
-	if (event.type === 'keydown') {
-		console.log('keydown:', event.type, handler, handler.key);
-	}
+  if (event.type === 'keydown') {
+    console.log('keydown:', event.type, handler, handler.key);
+  }
 
-	if (event.type === 'keyup') {
-		console.log('keyup:', event.type, handler, handler.key);
-	}
+  if (event.type === 'keyup') {
+    console.log('keyup:', event.type, handler, handler.key);
+  }
 });
 ```
 
@@ -299,8 +299,7 @@ hotkeys('command+ctrl+shift+a,f', function(){
 
 ### filter
 
-By default hotkeys are not enabled for `INPUT` `SELECT` `TEXTAREA` elements.
-`Hotkeys.filter` to return to the `true` shortcut keys set to play a role, `false` shortcut keys set up failure.
+By default hotkeys are not enabled for `INPUT` `SELECT` `TEXTAREA` elements. `Hotkeys.filter` to return to the `true` shortcut keys set to play a role, `false` shortcut keys set up failure.
 
 ```js
 hotkeys.filter = function(event){
