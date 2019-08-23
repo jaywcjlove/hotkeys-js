@@ -37,14 +37,18 @@ const _keyMap = { // 特殊键
 };
 
 const _modifier = { // 修饰键
+  // shiftKey
   '⇧': 16,
   shift: 16,
+  // altKey
   '⌥': 18,
   alt: 18,
   option: 18,
+  // ctrlKey
   '⌃': 17,
   ctrl: 17,
   control: 17,
+  // metaKey
   '⌘': isff ? 224 : 91,
   cmd: isff ? 224 : 91,
   command: isff ? 224 : 91,
@@ -53,8 +57,21 @@ const modifierMap = {
   16: 'shiftKey',
   18: 'altKey',
   17: 'ctrlKey',
+  // 兼容Firefox处理
+  [isff ? 224 : 91]: 'metaKey',
+
+  shiftKey: 16,
+  ctrlKey: 17,
+  altKey: 18,
+  metaKey: 91,
 };
-const _mods = { 16: false, 18: false, 17: false };
+const _mods = {
+  16: false,
+  18: false,
+  17: false,
+  // 兼容Firefox处理
+  [isff ? 224 : 91]: false,
+};
 const _handlers = {};
 
 // F1~F12 特殊键
@@ -62,14 +79,4 @@ for (let k = 1; k < 20; k++) {
   _keyMap[`f${k}`] = 111 + k;
 }
 
-// 兼容Firefox处理
-modifierMap[isff ? 224 : 91] = 'metaKey';
-_mods[isff ? 224 : 91] = false;
-
-export {
-  _keyMap,
-  _modifier,
-  modifierMap,
-  _mods,
-  _handlers,
-};
+export { _keyMap, _modifier, modifierMap, _mods, _handlers };

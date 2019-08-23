@@ -203,14 +203,31 @@ function dispatch(event) {
   if (!hotkeys.filter.call(this, event)) return;
 
   // Gecko(Firefox)的command键值224，在Webkit(Chrome)中保持一致
-  // Webkit左右command键值不一样
+  // Webkit左右 command 键值不一样
   if (key === 93 || key === 224) key = 91;
 
-  // Collect bound keys
-  // If an Input Method Editor is processing key input and the event is keydown, return 229.
-  // https://stackoverflow.com/questions/25043934/is-it-ok-to-ignore-keydown-events-with-keycode-229
-  // http://lists.w3.org/Archives/Public/www-dom/2010JulSep/att-0182/keyCode-spec.html
+  /**
+   * Collect bound keys
+   * If an Input Method Editor is processing key input and the event is keydown, return 229.
+   * https://stackoverflow.com/questions/25043934/is-it-ok-to-ignore-keydown-events-with-keycode-229
+   * http://lists.w3.org/Archives/Public/www-dom/2010JulSep/att-0182/keyCode-spec.html
+   */
   if (_downKeys.indexOf(key) === -1 && key !== 229) _downKeys.push(key);
+  /**
+   * Jest test cases are required.
+   * ===============================
+   */
+  ['ctrlKey', 'altKey', 'shiftKey', 'metaKey'].forEach((keyName) => {
+    const keyNum = modifierMap[keyName];
+    if (event[keyName] && _downKeys.indexOf(keyNum) === -1) {
+      _downKeys.push(keyNum);
+    } else if (!event[keyName] && _downKeys.indexOf(keyNum) > -1) {
+      _downKeys.splice(_downKeys.indexOf(keyNum), 1);
+    }
+  });
+  /**
+   * -------------------------------
+   */
 
   if (key in _mods) {
     _mods[key] = true;
@@ -223,16 +240,15 @@ function dispatch(event) {
     if (!asterisk) return;
   }
 
-  // 将modifierMap里面的修饰键绑定到event中
+  // 将 modifierMap 里面的修饰键绑定到 event 中
   for (const e in _mods) {
     if (Object.prototype.hasOwnProperty.call(_mods, e)) {
       _mods[e] = event[modifierMap[e]];
     }
   }
 
-  // 获取范围 默认为all
+  // 获取范围 默认为 `all`
   const scope = getScope();
-
   // 对任何快捷键都需要做的处理
   if (asterisk) {
     for (let i = 0; i < asterisk.length; i++) {
@@ -245,7 +261,7 @@ function dispatch(event) {
       }
     }
   }
-  // key 不在_handlers中返回
+  // key 不在 _handlers 中返回
   if (!(key in _handlers)) return;
 
   for (let i = 0; i < _handlers[key].length; i++) {
@@ -257,12 +273,11 @@ function dispatch(event) {
         const record = _handlers[key][i];
         const { splitKey } = record;
         const keyShortcut = record.key.split(splitKey);
-        let _downKeysCurrent = []; // 记录当前按键键值
+        const _downKeysCurrent = []; // 记录当前按键键值
         for (let a = 0; a < keyShortcut.length; a++) {
           _downKeysCurrent.push(code(keyShortcut[a]));
         }
-        _downKeysCurrent = _downKeysCurrent.sort();
-        if (_downKeysCurrent.join('') === _downKeys.sort().join('')) {
+        if (_downKeysCurrent.sort().join('') === _downKeys.sort().join('')) {
           // 找到处理内容
           eventHandler(event, record, scope);
         }
@@ -277,6 +292,7 @@ function isElementBind(element) {
 }
 
 function hotkeys(key, option, method) {
+  _downKeys = [];
   const keys = getKeys(key); // 需要处理的快捷键列表
   let mods = [];
   let scope = 'all'; // scope默认为all，所有范围都有效

@@ -18,8 +18,7 @@ function getMods(modifier, key) {
 
 // 处理传的key字符串转换成数组
 function getKeys(key) {
-  if (!key) key = '';
-
+  if (typeof key !== 'string') key = '';
   key = key.replace(/\s/g, ''); // 匹配任何空白字符,包括空格、制表符、换页符等等
   const keys = key.split(','); // 同时设置多个快捷键，以','分割
   let index = keys.lastIndexOf('');
