@@ -84,6 +84,17 @@ describe('\n   Hotkeys.js Test Case.\n', () => {
     await hotkeys.unbind('command+ctrl+shift+a');
   });
 
+  test('Custom splitKey Test Case', async () => {
+    await hotkeys('ctrl-a', {splitKey: '-'}, (e) => {
+      expect(e.ctrlKey).toBeTruthy();
+      expect(hotkeys.getPressedKeyCodes()[0]).toBe(65);
+    });
+    await __triggerKeyboardEvent(document.body, 65, {
+      ctrlKey: true
+    });
+    await hotkeys.unbind();
+  })
+
   test('HotKeys unbind Test Case', async () => {
     hotkeys('enter', (e) => {
       expect(e.keyCode).toBe(13);

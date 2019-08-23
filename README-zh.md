@@ -167,6 +167,11 @@ hotkeys('*','wcj', function(e){
   if(hotkeys.ctrl) console.log('大哥你摁下了 ctrl 键！');
   if(hotkeys.alt) console.log('大哥你摁下了 alt 键！');
 });
+
+// 可以设置自定义的分割符
+hotkeys('ctrl-y, ctrl-a', {splitKey: '-'}, function(e){
+  console.log('you press bind keys')
+})
 ```
 
 #### option 
@@ -229,8 +234,10 @@ hotkeys.setScope('scope1');
 
 ## 解除绑定
 
+`hotkeys.unbind()` 解除绑定的所有快捷键
 `hotkeys.unbind("ctrl+o, ctrl+alt+enter")` 解除绑定两组快捷键  
 `hotkeys.unbind("ctrl+o","files")` 解除绑定名字叫files钟的一组快捷键  
+
 
 ```js
 // 解除绑定 'a' 程序函数
@@ -251,6 +258,26 @@ hotkeys.unbind('a', example);
 
 hotkeys('a', 'issues', example);
 hotkeys.unbind('a', 'issues', example);
+```
+```js
+可以通过传入对象解除绑定的快捷键
+hotkeys.unbind({
+  key: 'ctrl-e,ctrl-u',
+  scope: 'issues',
+  spitKey: '-'
+})
+传入数组可同时解除多个scope下绑定的快捷键
+hotkeys.unbind([
+  {
+    key: 'a, ctrl+r',
+    scope: 'issues',
+  },
+  {
+    key: '+, ctrl-y',
+    scope: 'test',
+    splitKey: '-'
+  }
+])
 ```
 
 ## 键判断
