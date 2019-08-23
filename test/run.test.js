@@ -50,6 +50,25 @@ function __triggerKeyboardUp(el, keyCode, opt) {
   }
   el.dispatchEvent ? el.dispatchEvent(eventObj) : el.fireEvent('onkeyup', eventObj);
 }
+function __triggerKeyboardFocus(el, keyCode, opt) {
+  const eventObj = document.createEventObject ?
+    document.createEventObject() : document.createEvent('Events');
+  if (eventObj.initEvent) {
+    eventObj.initEvent('focus', true, true);
+  }
+  if (keyCode) {
+    eventObj.keyCode = keyCode;
+    eventObj.which = keyCode;
+  }
+  if (opt) {
+    for (const a in opt) {
+      if (Object.prototype.hasOwnProperty.call(opt, a)) {
+        eventObj[a] = opt[a];
+      }
+    }
+  }
+  el.dispatchEvent ? el.dispatchEvent(eventObj) : el.fireEvent('onfocus', eventObj);
+}
 
 beforeAll(async () => {
   browser = await puppeteer.launch({ args: ['--no-sandbox'] });
@@ -90,6 +109,7 @@ describe('\n   Hotkeys.js Test Case222.\n', () => {
 
   test('HotKeys modifier scope,setScope,getScope,deleteScope Test Case', () => {
     let isExecuteFunction = false;
+    __triggerKeyboardFocus(window);
     hotkeys('⌘+d', 'files', (e) => {
       isExecuteFunction = true;
       expect(e.keyCode).toBe(68);
