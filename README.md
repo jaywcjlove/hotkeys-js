@@ -162,11 +162,11 @@ hotkeys('o, enter', {
   console.log('do something else');
 });
 
-hotkeys('ctrl-+', {splitKey: '-'}, function(e) {
+hotkeys('ctrl-+', { splitKey: '-' }, function(e) {
   console.log('you pressed ctrl and +');
 });
 
-hotkeys('+', {splitKey: '-'}, function(e){
+hotkeys('+', { splitKey: '-' }, function(e){
   console.log('you pressed +');
 })
 ```
