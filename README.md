@@ -152,6 +152,7 @@ hotkeys('*','wcj', function(event){
 - `element<HTMLElement>`
 - `keyup<Boolean>`
 - `keydown<Boolean>`
+- `splitKey<string>` (default is `+`)
 
 ```js
 hotkeys('o, enter', {
@@ -160,6 +161,14 @@ hotkeys('o, enter', {
 }, function(){ 
   console.log('do something else');
 });
+
+hotkeys('ctrl-+', {splitKey: '-'}, function(e) {
+  console.log('you pressed ctrl and +');
+});
+
+hotkeys('+', {splitKey: '-'}, function(e){
+  console.log('you pressed +');
+})
 ```
 
 ## API REFERENCE
