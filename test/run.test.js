@@ -56,7 +56,7 @@ beforeAll(async () => {
   page = await browser.newPage();
 });
 
-describe('\n   Hotkeys.js Test Case.\n', () => {
+describe('\n   Hotkeys.js Test Case222.\n', () => {
   test('HTML loader', async () => {
     await page.goto(`file://${path.resolve('./test/index.html')}`, { waitUntil: 'networkidle2' });
   }, 10000);
@@ -67,38 +67,98 @@ describe('\n   Hotkeys.js Test Case.\n', () => {
     const text = await page.$eval('#root', el => el.textContent);
     expect(text).toBe('hotkeys');
     expect(window.hotkeys).toBeTruthy();
+    expect(hotkeys(() => { })).toBeUndefined();
   });
 
   test('HotKeys getPressedKeyCodes Test Case', async () => {
+    let isExecuteFunction = false;
     await hotkeys('command+ctrl+shift+a', (e) => {
+      isExecuteFunction = true;
       expect(e.metaKey).toBeTruthy();
       expect(e.ctrlKey).toBeTruthy();
       expect(e.shiftKey).toBeTruthy();
-      expect(hotkeys.getPressedKeyCodes()[0]).toBe(65);
+      expect(hotkeys.getPressedKeyCodes()).toEqual([16, 17, 65, 91]);
     });
     await __triggerKeyboardEvent(document.body, 65, {
       metaKey: true,
       ctrlKey: true,
       shiftKey: true,
     });
+    expect(isExecuteFunction).toBeTruthy();
     await hotkeys.unbind('command+ctrl+shift+a');
   });
 
+  test('HotKeys modifier scope,setScope,getScope,deleteScope Test Case', () => {
+    let isExecuteFunction = false;
+    hotkeys('⌘+d', 'files', (e) => {
+      isExecuteFunction = true;
+      expect(e.keyCode).toBe(68);
+      expect(e.metaKey).toBeTruthy();
+      hotkeys.deleteScope('files');
+    });
+    hotkeys.setScope('files');
+    __triggerKeyboardEvent(document.body, 68, {
+      metaKey: true,
+    });
+    expect(isExecuteFunction).toBeTruthy();
+    expect(hotkeys.getScope()).toBe('all');
+
+    hotkeys('⌘+d', { scope: 'files2' }, (e) => {
+      isExecuteFunction = false;
+      expect(e.keyCode).toBe(68);
+      expect(hotkeys.getScope()).toBe('files2');
+      expect(e.metaKey).toBeTruthy();
+      hotkeys.deleteScope('files2');
+    });
+    hotkeys.setScope('files2');
+    __triggerKeyboardEvent(document.body, 68, {
+      metaKey: true,
+    });
+    expect(isExecuteFunction).toBeFalsy();
+    expect(hotkeys.getScope()).toBe('all');
+
+    hotkeys('⌘+d', {
+      element: document.body,
+      scope: 'scope3',
+      keyup: true,
+      keydown: false,
+    }, (e) => {
+      isExecuteFunction = false;
+      expect(e.keyCode).toBe(68);
+      expect(hotkeys.getScope()).toBe('scope3');
+      expect(e.metaKey).toBeTruthy();
+      hotkeys.deleteScope('scope3');
+    });
+    hotkeys.setScope('scope3');
+    __triggerKeyboardUp(document.body, 68, {
+      metaKey: true,
+    });
+    expect(isExecuteFunction).toBeFalsy();
+    expect(hotkeys.getScope()).toBe('all');
+  });
+
   test('Custom splitKey Test Case', async () => {
-    await hotkeys('ctrl-a', {splitKey: '-'}, (e) => {
+    let isExecuteFunction = false;
+    await hotkeys('ctrl-a', { splitKey: '-' }, (e) => {
+      isExecuteFunction = true;
       expect(e.ctrlKey).toBeTruthy();
-      expect(hotkeys.getPressedKeyCodes()[0]).toBe(65);
+      expect(hotkeys.getPressedKeyCodes()).toEqual([17, 65]);
     });
     await __triggerKeyboardEvent(document.body, 65, {
-      ctrlKey: true
+      ctrlKey: true,
     });
     await hotkeys.unbind();
-  })
+    expect(isExecuteFunction).toBeTruthy();
+  });
 
   test('HotKeys unbind Test Case', async () => {
+    let isExecuteFunction = false;
     hotkeys('enter', (e) => {
+      isExecuteFunction = true;
       expect(e.keyCode).toBe(13);
     });
+    await __triggerKeyboardEvent(document.body, 13);
+    expect(isExecuteFunction).toBeTruthy();
 
     expect(hotkeys.unbind()).toBe(undefined);
     expect(hotkeys.unbind('enter')).toBe(undefined);
@@ -106,7 +166,9 @@ describe('\n   Hotkeys.js Test Case.\n', () => {
   });
 
   test('HotKeys Special keys Test Case', async () => {
+    let isExecuteFunction = false;
     hotkeys('enter', (e) => {
+      isExecuteFunction = true;
       expect(e.keyCode).toBe(13);
     });
     hotkeys('return', (e) => {
@@ -116,6 +178,7 @@ describe('\n   Hotkeys.js Test Case.\n', () => {
     __triggerKeyboardUp(document.body, 13);
     hotkeys.unbind('return');
     hotkeys.unbind('enter');
+    expect(isExecuteFunction).toBeTruthy();
 
     hotkeys('space', (e) => {
       expect(e.keyCode).toBe(32);
@@ -326,13 +389,13 @@ describe('\n   Hotkeys.js Test Case.\n', () => {
     hotkeys.unbind('a');
   });
 
-  test('unbind with method test', async () => {
+  test('unbind with method test', () => {
     const callbackA = jest.fn();
     const callbackB = jest.fn();
 
     hotkeys('shift+a', callbackA);
 
-    await __triggerKeyboardEvent(document.body, 65, {
+    __triggerKeyboardEvent(document.body, 65, {
       shiftKey: true,
     });
     /**
@@ -340,40 +403,40 @@ describe('\n   Hotkeys.js Test Case.\n', () => {
      * 解决三键组合，实现键值比对，
      * 并不是对象比对，此测试用例无法模拟
      */
-    expect(callbackA.mock.calls.length).toBe(0);
+    expect(callbackA.mock.calls.length).toBe(2);
 
     hotkeys.unbind('shift+a', callbackA);
 
-    await __triggerKeyboardEvent(document.body, 65, {
+    __triggerKeyboardEvent(document.body, 65, {
       shiftKey: true,
     });
 
-    expect(callbackA.mock.calls.length).toBe(0);
+    expect(callbackA.mock.calls.length).toBe(2);
 
     hotkeys('shift+a', callbackB);
 
-    await __triggerKeyboardEvent(document.body, 65, {
+    __triggerKeyboardEvent(document.body, 65, {
       shiftKey: true,
     });
 
-    expect(callbackB.mock.calls.length).toBe(0);
+    expect(callbackB.mock.calls.length).toBe(2);
 
     hotkeys.unbind('shift+a', callbackB);
 
-    await __triggerKeyboardEvent(document.body, 65, {
+    __triggerKeyboardEvent(document.body, 65, {
       shiftKey: true,
     });
 
-    expect(callbackB.mock.calls.length).toBe(0);
+    expect(callbackB.mock.calls.length).toBe(2);
   });
 
   test('HotKeys Key combination Test Case', async () => {
     hotkeys('⌘+d', (e) => {
-      expect(e.keyCode).toBe(82);
+      expect(e.keyCode).toBe(68);
       expect(e.metaKey).toBeTruthy();
       return false;
     });
-    __triggerKeyboardEvent(document.body, 82, {
+    __triggerKeyboardEvent(document.body, 68, {
       metaKey: true,
     });
 
@@ -471,83 +534,74 @@ describe('\n   Hotkeys.js Test Case.\n', () => {
   //   '⌘': isff ? 224 : 91, cmd: isff ? 224 : 91, command: isff ? 224 : 91
   // };
 
-  test('HotKeys modifier key ⌘,cmd,command Test Case', async () => {
-    await __triggerKeyboardEvent(document.body, 65, {
+  test('HotKeys modifier key ⌘,cmd,command Test Case', () => {
+    __triggerKeyboardEvent(document.body, 65, {
       shiftKey: true,
     });
-    await hotkeys.unbind('shift+a');
+    hotkeys.unbind('shift+a');
   });
 
-  test('HotKeys modifier key ⌘,cmd,command Test Case', async () => {
+  test('HotKeys modifier key ⌘,cmd,command Test Case', () => {
     // left key
-    await hotkeys('*', (e) => {
+    hotkeys('*', (e) => {
       expect(e.keyCode).toBe(isff ? 224 : 91);
     });
-    await __triggerKeyboardEvent(document.body, isff ? 224 : 91);
-    await hotkeys.unbind('*');
+    __triggerKeyboardEvent(document.body, isff ? 224 : 91);
+    hotkeys.unbind('*');
     // right key
-    await hotkeys('*', (e) => {
+    hotkeys('*', (e) => {
       expect(e.keyCode).toBe(isff ? 224 : 93);
     });
-    await __triggerKeyboardEvent(document.body, isff ? 224 : 93);
-    await hotkeys.unbind('*');
+    __triggerKeyboardEvent(document.body, isff ? 224 : 93);
+    hotkeys.unbind('*');
   });
 
   test('HotKeys modifier key ⌃,ctrl,control Test Case', async () => {
-    await hotkeys('*', (e) => {
+    hotkeys('*', (e) => {
       expect(e.keyCode).toBe(17);
     });
-    await __triggerKeyboardEvent(document.body, 17);
-    await hotkeys.unbind('*');
+    __triggerKeyboardEvent(document.body, 17);
+    hotkeys.unbind('*');
   });
 
   test('HotKeys modifier key ⌥,alt,option Test Case', async () => {
-    await hotkeys('*', (e) => {
+    hotkeys('*', (e) => {
       expect(e.keyCode).toBe(18);
     });
-    await __triggerKeyboardEvent(document.body, 18);
-    await hotkeys.unbind('*');
+    __triggerKeyboardEvent(document.body, 18);
+    hotkeys.unbind('*');
   });
 
-  test('HotKeys modifier key ⇧,shift Test Case', async () => {
-    await hotkeys('*', (e) => {
+  test('HotKeys modifier key ⇧,shift Test Case', () => {
+    hotkeys('*', (e) => {
       expect(e.keyCode).toBe(16);
+      expect(e.which).toBe(16);
     });
-    await __triggerKeyboardEvent(document.body, 16);
-    await hotkeys.unbind('*');
+    __triggerKeyboardEvent(document.body, 16);
+    hotkeys.unbind('*');
   });
 
-  test('HotKeys modifier scope,setScope,getScope,deleteScope Test Case', async () => {
-    await hotkeys('⌃+a', 'scope1', async (e) => {
-      expect(e.keyCode).toBe(65);
-      expect(hotkeys.getScope()).toBe('scope1');
-      await hotkeys.deleteScope('scope1');
-    });
-    await hotkeys.setScope('scope1');
-    await __triggerKeyboardEvent(document.body, 65, {
-      ctrlKey: true,
-    });
-
-    await hotkeys('⌃+a', 'scope2', async (e) => {
+  test('HotKeys modifier scope,setScope,getScope,deleteScope Test Case', () => {
+    hotkeys('⌃+a', 'scope2', async (e) => {
       expect(e.keyCode).toBe(65);
       expect(hotkeys.getScope()).toBe('scope2');
-      await hotkeys.deleteScope('scope2');
+      hotkeys.deleteScope('scope2');
     });
-    await hotkeys.setScope('scope2');
-    await __triggerKeyboardEvent(document.body, 65, {
+    hotkeys.setScope('scope2');
+    __triggerKeyboardEvent(document.body, 65, {
       ctrlKey: true,
     });
 
-    await hotkeys('⌃+a', 'scope3', async (e) => {
+    hotkeys('⌃+a', 'scope3', async (e) => {
       expect(e.keyCode).toBe(65);
       expect(hotkeys.getScope()).toBe('scope3');
-      await hotkeys.deleteScope('scope3');
+      hotkeys.deleteScope('scope3');
     });
-    await hotkeys.setScope('scope3');
-    await __triggerKeyboardEvent(document.body, 65, {
+    hotkeys.setScope('scope3');
+    __triggerKeyboardEvent(document.body, 65, {
       ctrlKey: true,
     });
-    expect(hotkeys.getScope()).toBe('scope3');
+    expect(hotkeys.getScope()).toBe('all');
   });
 
   test('HotKeys modifier noConflict Test Case', async () => {
@@ -560,18 +614,18 @@ describe('\n   Hotkeys.js Test Case.\n', () => {
   });
 
   test('Event trigger on readOnly input', async () => {
-    const input = document.createElement('input')
-    input.setAttribute('readOnly', true)
-    await hotkeys('*', () => {
-      expect(hotkeys.filter.call(null, event)).toBeTruthy()
-    })
+    const input = document.createElement('input');
+    input.setAttribute('readOnly', true);
+    await hotkeys('*', (event) => {
+      expect(hotkeys.filter.call(null, event)).toBeTruthy();
+    });
     await __triggerKeyboardEvent(input, 65);
-    await hotkeys.unbind('*')
-    input.removeAttribute('readOnly')
-    await hotkeys('*', () => {
-      expect(hotkeys.filter.call(null, event)).toBeFalsy()
-    })
-  })
+    await hotkeys.unbind('*');
+    input.removeAttribute('readOnly');
+    await hotkeys('*', (event) => {
+      expect(hotkeys.filter.call(null, event)).toBeFalsy();
+    });
+  });
 
   afterAll(async () => {
     await browser.close();
