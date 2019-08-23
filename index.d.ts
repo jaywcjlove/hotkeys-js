@@ -23,6 +23,8 @@ type Options = {
   scope?: string,
   element?: HTMLElement | null,
   keyup?: boolean | null
+  keydown?: boolean | null
+  splitKey?: string;
 }
 
 interface Hotkeys {
