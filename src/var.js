@@ -49,16 +49,16 @@ const _modifier = { // 修饰键
   ctrl: 17,
   control: 17,
   // metaKey
-  '⌘': isff ? 224 : 91,
-  cmd: isff ? 224 : 91,
-  command: isff ? 224 : 91,
+  '⌘': 91,
+  cmd: 91,
+  command: 91,
 };
 const modifierMap = {
   16: 'shiftKey',
   18: 'altKey',
   17: 'ctrlKey',
   // 兼容Firefox处理
-  [isff ? 224 : 91]: 'metaKey',
+  91: 'metaKey',
 
   shiftKey: 16,
   ctrlKey: 17,
@@ -70,7 +70,7 @@ const _mods = {
   18: false,
   17: false,
   // 兼容Firefox处理
-  [isff ? 224 : 91]: false,
+  91: false,
 };
 const _handlers = {};
 

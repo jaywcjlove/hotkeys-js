@@ -199,6 +199,7 @@ function dispatch(event) {
   const asterisk = _handlers['*'];
   let key = event.keyCode || event.which || event.charCode;
 
+
   // 表单控件过滤 默认表单控件不触发快捷键
   if (!hotkeys.filter.call(this, event)) return;
 
@@ -272,11 +273,14 @@ function dispatch(event) {
       if (_handlers[key][i].key) {
         const record = _handlers[key][i];
         const { splitKey } = record;
+
         const keyShortcut = record.key.split(splitKey);
+
         const _downKeysCurrent = []; // 记录当前按键键值
         for (let a = 0; a < keyShortcut.length; a++) {
           _downKeysCurrent.push(code(keyShortcut[a]));
         }
+
         if (_downKeysCurrent.sort().join('') === _downKeys.sort().join('')) {
           // 找到处理内容
           eventHandler(event, record, scope);
