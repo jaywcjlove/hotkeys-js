@@ -22,21 +22,6 @@ function _typeof(obj) {
   return _typeof(obj);
 }
 
-function _defineProperty(obj, key, value) {
-  if (key in obj) {
-    Object.defineProperty(obj, key, {
-      value: value,
-      enumerable: true,
-      configurable: true,
-      writable: true
-    });
-  } else {
-    obj[key] = value;
-  }
-
-  return obj;
-}
-
 var isff = typeof navigator !== 'undefined' ? navigator.userAgent.toLowerCase().indexOf('firefox') > 0 : false; // 绑定事件
 
 function addEvent(object, event, method) {
@@ -91,7 +76,6 @@ function compareArray(a1, a2) {
   return isIndex;
 }
 
-var _modifierMap;
 var _keyMap = {
   // 特殊键
   backspace: 8,
@@ -142,22 +126,28 @@ var _modifier = {
   ctrl: 17,
   control: 17,
   // metaKey
-  '⌘': isff ? 224 : 91,
-  cmd: isff ? 224 : 91,
-  command: isff ? 224 : 91
+  '⌘': 91,
+  cmd: 91,
+  command: 91
 };
-var modifierMap = (_modifierMap = {
+var modifierMap = {
   16: 'shiftKey',
   18: 'altKey',
-  17: 'ctrlKey'
-}, _defineProperty(_modifierMap, isff ? 224 : 91, 'metaKey'), _defineProperty(_modifierMap, "shiftKey", 16), _defineProperty(_modifierMap, "ctrlKey", 17), _defineProperty(_modifierMap, "altKey", 18), _defineProperty(_modifierMap, "metaKey", 91), _modifierMap);
-
-var _mods = _defineProperty({
+  17: 'ctrlKey',
+  // 兼容Firefox处理
+  91: 'metaKey',
+  shiftKey: 16,
+  ctrlKey: 17,
+  altKey: 18,
+  metaKey: 91
+};
+var _mods = {
   16: false,
   18: false,
-  17: false
-}, isff ? 224 : 91, false);
-
+  17: false,
+  // 兼容Firefox处理
+  91: false
+};
 var _handlers = {}; // F1~F12 特殊键
 
 for (var k = 1; k < 20; k++) {
