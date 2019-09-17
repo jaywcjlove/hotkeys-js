@@ -1,5 +1,5 @@
 /*!
- * hotkeys-js v3.7.1
+ * hotkeys-js v3.7.2
  * A simple micro-library for defining and dispatching keyboard shortcuts. It has no dependencies.
  * 
  * Copyright (c) 2019 kenny wong <wowohoo@qq.com>
@@ -77,7 +77,6 @@ function compareArray(a1, a2) {
 }
 
 var _keyMap = {
-  // 特殊键
   backspace: 8,
   tab: 9,
   clear: 12,
@@ -111,9 +110,9 @@ var _keyMap = {
   '[': 219,
   ']': 221,
   '\\': 220
-};
+}; // Modifier Keys
+
 var _modifier = {
-  // 修饰键
   // shiftKey
   '⇧': 16,
   shift: 16,
@@ -134,7 +133,6 @@ var modifierMap = {
   16: 'shiftKey',
   18: 'altKey',
   17: 'ctrlKey',
-  // 兼容Firefox处理
   91: 'metaKey',
   shiftKey: 16,
   ctrlKey: 17,
@@ -145,10 +143,9 @@ var _mods = {
   16: false,
   18: false,
   17: false,
-  // 兼容Firefox处理
   91: false
 };
-var _handlers = {}; // F1~F12 特殊键
+var _handlers = {}; // F1~F12 special key
 
 for (var k = 1; k < 20; k++) {
   _keyMap["f".concat(k)] = 111 + k;
