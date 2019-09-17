@@ -111,7 +111,7 @@ hotkeys('ctrl+r, command+r', function() {
   return false;
 });
 
-// SIngle key
+// Single key
 hotkeys('a', function(event,handler){
   //event.srcElement: input 
   //event.target: input
@@ -121,7 +121,7 @@ hotkeys('a', function(event,handler){
   alert('you pressed a!') 
 });
 
-// Key Combenation
+// Key Combination
 hotkeys('ctrl+a,ctrl+b,r,f', function (event, handler){
   switch (handler.key) {
     case 'ctrl+a': alert('you pressed ctrl+a!');
