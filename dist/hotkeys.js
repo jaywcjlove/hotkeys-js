@@ -1,5 +1,5 @@
 /*!
- * hotkeys-js v3.7.2
+ * hotkeys-js v3.7.3
  * A simple micro-library for defining and dispatching keyboard shortcuts. It has no dependencies.
  * 
  * Copyright (c) 2019 kenny wong <wowohoo@qq.com>
@@ -12,7 +12,7 @@
   typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory() :
   typeof define === 'function' && define.amd ? define(factory) :
   (global = global || self, global.hotkeys = factory());
-}(this, function () { 'use strict';
+}(this, (function () { 'use strict';
 
   function _typeof(obj) {
     if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") {
@@ -190,7 +190,7 @@
     var tagName = target.tagName;
     var flag = true; // ignore: isContentEditable === 'true', <input> and <textarea> when readOnly state is false, <select>
 
-    if (target.isContentEditable || tagName === 'TEXTAREA' || (tagName === 'INPUT' || tagName === 'TEXTAREA') && !target.readOnly) {
+    if (target.isContentEditable || (tagName === 'INPUT' || tagName === 'TEXTAREA') && !target.readOnly) {
       flag = false;
     }
 
@@ -547,4 +547,4 @@
 
   return hotkeys;
 
-}));
+})));
