@@ -10,15 +10,6 @@ export interface KeyHandler {
   (keyboardEvent: KeyboardEvent, hotkeysEvent: HotkeysEvent): void
 }
 
-export interface FilterEvent {
-  target?: {
-    tagName?: string
-  }
-  srcElement?: {
-    tagName?: string
-  }
-}
-
 type Options = {
   scope?: string,
   element?: HTMLElement | null,
@@ -55,7 +46,7 @@ interface Hotkeys {
   isPressed(keyCode: string): boolean
   getPressedKeyCodes(): number[]
 
-  filter(event: FilterEvent): boolean
+  filter(event: KeyboardEvent): boolean
 }
 // https://github.com/eiriklv/react-masonry-component/issues/57
 declare var hotkeys: Hotkeys
