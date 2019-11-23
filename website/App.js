@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import GithubCorner from './components/GithubCorner';
+import GithubCorner from '@uiw/react-github-corners';
 import KeyBoard from './components/KeyBoard';
 import Footer from './components/Footer';
 import Markdown from './components/Markdown';
@@ -94,7 +94,7 @@ export default class App extends Component {
             {keyStr.map(item => <span key={`${item}`}>{item}</span>)}
           </div>
         )}
-        <GithubCorner url="https://github.com/jaywcjlove/hotkeys" />
+        <GithubCorner href="https://github.com/jaywcjlove/hotkeys" target="__blank" />
         <div className={styles.header}>
           <div className={styles.title}>HotKeys.js</div>
           <div className={styles.github}>
