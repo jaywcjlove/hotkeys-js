@@ -14,8 +14,8 @@
     "test": "jest --coverage",
     "test:watch": "jest --watch",
     "doc": "npm run doc:dev",
-    "doc:dev": "NODE_ENV=development parcel website/index.html --out-dir doc --no-cache",
-    "doc:build": "rimraf doc && NODE_ENV=production parcel build website/index.html --out-dir doc --public-url ./ --no-cache --no-source-maps"
+    "doc:dev": "cross-env NODE_ENV=development parcel website/index.html --out-dir doc --no-cache",
+    "doc:build": "rimraf doc && cross-env NODE_ENV=production parcel build website/index.html --out-dir doc --public-url ./ --no-cache --no-source-maps"
   },
   "files": [
     "index.d.ts",
@@ -61,6 +61,7 @@
     "bannerjs": "^1.0.5",
     "classnames": "^2.2.5",
     "colors-cli": "^1.0.26",
+    "cross-env": "^6.0.3",
     "eslint": "^4.19.1",
     "eslint-config-airbnb": "^16.1.0",
     "eslint-plugin-import": "^2.18.2",
