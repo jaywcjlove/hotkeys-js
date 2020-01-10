@@ -2,7 +2,7 @@
  * hotkeys-js v3.7.3
  * A simple micro-library for defining and dispatching keyboard shortcuts. It has no dependencies.
  * 
- * Copyright (c) 2019 kenny wong <wowohoo@qq.com>
+ * Copyright (c) 2020 kenny wong <wowohoo@qq.com>
  * http://jaywcjlove.github.io/hotkeys
  * 
  * Licensed under the MIT license.
@@ -359,6 +359,7 @@
     // Webkit左右 command 键值不一样
 
     if (key === 93 || key === 224) key = 91;
+    _downKeys = [];
     /**
      * Collect bound keys
      * If an Input Method Editor is processing key input and the event is keydown, return 229.

@@ -205,6 +205,8 @@ function dispatch(event) {
   // Webkit左右 command 键值不一样
   if (key === 93 || key === 224) key = 91;
 
+  _downKeys = [];
+
   /**
    * Collect bound keys
    * If an Input Method Editor is processing key input and the event is keydown, return 229.
