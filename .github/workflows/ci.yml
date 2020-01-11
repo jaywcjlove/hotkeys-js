@@ -1,10 +1,10 @@
 name: GitHub Actions Deploy hotkeys-js
 on:
   push:
-    # branches:
-    #   - master
+    branches:
+      - master
     tags:
-      - v3.*
+      - v*
 jobs:
   build-deploy:
     runs-on: ubuntu-18.04
