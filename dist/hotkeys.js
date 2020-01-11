@@ -2,7 +2,7 @@
  * hotkeys-js v3.7.3
  * A simple micro-library for defining and dispatching keyboard shortcuts. It has no dependencies.
  * 
- * Copyright (c) 2019 kenny wong <wowohoo@qq.com>
+ * Copyright (c) 2020 kenny wong <wowohoo@qq.com>
  * http://jaywcjlove.github.io/hotkeys
  * 
  * Licensed under the MIT license.
