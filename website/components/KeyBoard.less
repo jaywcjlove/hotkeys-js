@@ -31,14 +31,15 @@
     border-radius: 8px;
     border: 1px solid #3A3A3A;
     box-shadow: 1px 0px 0px rgb(0,0,0),0px 1px 0px rgb(0,0,0),-1px 0px 0px rgb(0,0,0),0px -1px 0px rgb(0,0,0);
-    transition: all .2s;
+    transition: all .4s ease-in;
     user-select: none;
     cursor: pointer;
     position: relative;
     &:active, &:global(.pressed) {
       color:#52F800;
       background-color: #100068;
-      border:1px solid #332376;
+      border: 1px solid #332376;
+      transition: 1ms linear;
     }
     &:nth-child(1) {
       width: 99px;
