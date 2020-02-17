@@ -65,6 +65,8 @@ $ npm install react-hot-keys --save
 
 Detailed use method please see its documentation [react-hotkeys](https://github.com/jaywcjlove/react-hotkeys).
 
+[JohannesKlauss/react-hotkeys-hook](https://github.com/JohannesKlauss/react-hotkeys-hook) - React hook for using keyboard shortcuts in components. Make sure that you have at least version 16.8 of react and react-dom installed, or otherwise hooks won't work for you.
+
 ## Browser Support
 
 Hotkeys.js has been tested and should work in.

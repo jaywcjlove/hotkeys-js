@@ -66,6 +66,8 @@ npm i -S react-hot-keys
 
 详细使用方法请参考文档 [react-hotkeys](https://github.com/jaywcjlove/react-hotkeys)。
 
+[JohannesKlauss/react-hotkeys-hook](https://github.com/JohannesKlauss/react-hotkeys-hook) - React Hook，用于在组件中使用键盘快捷键。确保您至少安装了 16.8 版本的 react 和 react-dom，否则钩子将对您不起作用。
+
 ## 使用
 
 传统调用
