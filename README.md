@@ -57,15 +57,9 @@ hotkeys('ctrl+a,ctrl+b,r,f', function (event, handler){
 
 ### Used in React
 
-[react-hotkeys](https://github.com/jaywcjlove/react-hotkeys) is the React component that listen to keydown and keyup keyboard events, defining and dispatching keyboard shortcuts.
+[react-hotkeys](https://github.com/jaywcjlove/react-hotkeys) is the React component that listen to keydown and keyup keyboard events, defining and dispatching keyboard shortcuts. Detailed use method please see its documentation [react-hotkeys](https://github.com/jaywcjlove/react-hotkeys).
 
-```shell
-$ npm install react-hot-keys --save
-```
-
-Detailed use method please see its documentation [react-hotkeys](https://github.com/jaywcjlove/react-hotkeys).
-
-[JohannesKlauss/react-hotkeys-hook](https://github.com/JohannesKlauss/react-hotkeys-hook) - React hook for using keyboard shortcuts in components. Make sure that you have at least version 16.8 of react and react-dom installed, or otherwise hooks won't work for you.
+[react-hotkeys-hook](https://github.com/JohannesKlauss/react-hotkeys-hook) - React hook for using keyboard shortcuts in components. Make sure that you have at least version 16.8 of react and react-dom installed, or otherwise hooks won't work for you.
 
 ## Browser Support
 

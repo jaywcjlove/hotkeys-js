@@ -58,15 +58,9 @@ hotkeys('ctrl+a,ctrl+b,r,f', function(event,handler) {
 
 ## React中使用
 
-[react-hotkeys](https://github.com/jaywcjlove/react-hotkeys)，安装如下：
+[react-hotkeys](https://github.com/jaywcjlove/react-hotkeys) 是 React 组件，用于侦听 keydown 和 keyup 键盘事件，定义和分配键盘快捷键。 详细的使用方法请参见其文档，详细使用方法请参考文档 [react-hotkeys](https://github.com/jaywcjlove/react-hotkeys)。
 
-```sh
-npm i -S react-hot-keys
-```
-
-详细使用方法请参考文档 [react-hotkeys](https://github.com/jaywcjlove/react-hotkeys)。
-
-[JohannesKlauss/react-hotkeys-hook](https://github.com/JohannesKlauss/react-hotkeys-hook) - React Hook，用于在组件中使用键盘快捷键。确保您至少安装了 16.8 版本的 react 和 react-dom，否则钩子将对您不起作用。
+[react-hotkeys-hook](https://github.com/JohannesKlauss/react-hotkeys-hook) - React Hook，用于在组件中使用键盘快捷键。确保您至少安装了 16.8 版本的 react 和 react-dom，否则钩子将对您不起作用。
 
 ## 使用
 
@@ -103,6 +97,7 @@ hotkeys('shift+a,alt+d, w', function(e){
 `space` 空格键  
 
 ## 修饰键判断
+
 可以对下面的修饰键判断 `shift` `alt` `option` `ctrl` `control` `command`，特别注意`+`和`=`键值相同，组合键设置`⌘+=`
 
 ```js
