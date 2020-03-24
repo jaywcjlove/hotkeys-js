@@ -1,5 +1,5 @@
 /*!
- * hotkeys-js v3.7.3
+ * hotkeys-js v3.7.4
  * A simple micro-library for defining and dispatching keyboard shortcuts. It has no dependencies.
  * 
  * Copyright (c) 2020 kenny wong <wowohoo@qq.com>
@@ -396,6 +396,20 @@ function dispatch(event) {
     if (Object.prototype.hasOwnProperty.call(_mods, e)) {
       _mods[e] = event[modifierMap[e]];
     }
+  }
+  /**
+   * https://github.com/jaywcjlove/hotkeys/pull/129
+   * This solves the issue in Firefox on Windows where hotkeys corresponding to special characters would not trigger.
+   * An example of this is ctrl+alt+m on a Swedish keyboard which is used to type μ.
+   * Browser support: https://caniuse.com/#feat=keyboardevent-getmodifierstate
+   */
+
+
+  if (event.getModifierState && event.getModifierState('AltGraph')) {
+    _downKeys.push(17, 18);
+
+    _mods[17] = true;
+    _mods[18] = true;
   } // 获取范围 默认为 `all`
 
 
