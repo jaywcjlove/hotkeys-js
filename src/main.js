@@ -246,6 +246,12 @@ function dispatch(event) {
     }
   }
 
+  if (event.getModifierState('AltGraph')) {
+    _downKeys.push(17, 18);
+    _mods[17] = true;
+    _mods[18] = true;
+  }
+
   // 获取范围 默认为 `all`
   const scope = getScope();
   // 对任何快捷键都需要做的处理
