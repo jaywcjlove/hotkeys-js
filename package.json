@@ -61,7 +61,7 @@
     "bannerjs": "1.0.7",
     "classnames": "2.2.6",
     "colors-cli": "1.0.26",
-    "cross-env": "6.0.3",
+    "cross-env": "7.0.2",
     "eslint": "4.19.1",
     "eslint-config-airbnb": "16.1.0",
     "eslint-plugin-import": "2.20.1",
