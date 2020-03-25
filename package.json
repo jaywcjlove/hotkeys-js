@@ -68,7 +68,7 @@
     "eslint-plugin-jsx-a11y": "6.2.3",
     "eslint-plugin-react": "7.16.0",
     "gh-pages": "1.2.0",
-    "highlight.js": "9.16.2",
+    "highlight.js": "9.18.1",
     "husky": "3.1.0",
     "jest": "24.9.0",
     "less": "3.10.3",
