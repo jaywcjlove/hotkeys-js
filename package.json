@@ -56,7 +56,7 @@
     "@babel/preset-env": "7.9.0",
     "@babel/preset-react": "7.9.4",
     "@uiw/react-github-corners": "1.0.8",
-    "autoprefixer": "8.6.5",
+    "autoprefixer": "9.7.5",
     "babel-eslint": "10.1.0",
     "bannerjs": "1.0.6",
     "classnames": "2.2.6",
