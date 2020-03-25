@@ -57,7 +57,7 @@
     "@babel/preset-react": "7.7.0",
     "@uiw/react-github-corners": "1.0.8",
     "autoprefixer": "8.6.5",
-    "babel-eslint": "8.2.6",
+    "babel-eslint": "10.1.0",
     "bannerjs": "1.0.6",
     "classnames": "2.2.6",
     "colors-cli": "1.0.26",
