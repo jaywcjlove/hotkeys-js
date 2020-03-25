@@ -58,7 +58,7 @@
     "@uiw/react-github-corners": "1.1.3",
     "autoprefixer": "9.7.5",
     "babel-eslint": "10.1.0",
-    "bannerjs": "1.0.6",
+    "bannerjs": "1.0.7",
     "classnames": "2.2.6",
     "colors-cli": "1.0.26",
     "cross-env": "6.0.3",
