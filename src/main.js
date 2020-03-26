@@ -251,8 +251,15 @@ function dispatch(event) {
    * An example of this is ctrl+alt+m on a Swedish keyboard which is used to type μ.
    * Browser support: https://caniuse.com/#feat=keyboardevent-getmodifierstate
    */
-  if (event.getModifierState && event.getModifierState('AltGraph')) {
-    _downKeys.push(17, 18);
+  if (event.getModifierState && (!(event.altKey && !event.ctrlKey) && event.getModifierState('AltGraph'))) {
+    if (_downKeys.indexOf(17) === -1) {
+      _downKeys.push(17);
+    }
+
+    if (_downKeys.indexOf(18) === -1) {
+      _downKeys.push(18);
+    }
+
     _mods[17] = true;
     _mods[18] = true;
   }
