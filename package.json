@@ -70,7 +70,7 @@
     "gh-pages": "2.2.0",
     "highlight.js": "9.18.1",
     "husky": "4.2.3",
-    "jest": "25.2.0",
+    "jest": "25.2.1",
     "less": "3.11.1",
     "parcel-bundler": "1.12.4",
     "parcel-plugin-markdown-string": "1.4.2",
