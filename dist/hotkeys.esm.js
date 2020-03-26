@@ -1,5 +1,5 @@
 /*!
- * hotkeys-js v3.7.4
+ * hotkeys-js v3.7.5
  * A simple micro-library for defining and dispatching keyboard shortcuts. It has no dependencies.
  * 
  * Copyright (c) 2020 kenny wong <wowohoo@qq.com>
@@ -403,8 +403,14 @@ function dispatch(event) {
    */
 
 
-  if (event.getModifierState && event.getModifierState('AltGraph')) {
-    _downKeys.push(17, 18);
+  if (event.getModifierState && !(event.altKey && !event.ctrlKey) && event.getModifierState('AltGraph')) {
+    if (_downKeys.indexOf(17) === -1) {
+      _downKeys.push(17);
+    }
+
+    if (_downKeys.indexOf(18) === -1) {
+      _downKeys.push(18);
+    }
 
     _mods[17] = true;
     _mods[18] = true;
