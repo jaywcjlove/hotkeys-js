@@ -1,5 +1,5 @@
 /*!
- * hotkeys-js v3.7.5
+ * hotkeys-js v3.7.6
  * A simple micro-library for defining and dispatching keyboard shortcuts. It has no dependencies.
  * 
  * Copyright (c) 2020 kenny wong <wowohoo@qq.com>
@@ -9,20 +9,6 @@
  */
 
 'use strict';
-
-function _typeof(obj) {
-  if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") {
-    _typeof = function (obj) {
-      return typeof obj;
-    };
-  } else {
-    _typeof = function (obj) {
-      return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj;
-    };
-  }
-
-  return _typeof(obj);
-}
 
 var isff = typeof navigator !== 'undefined' ? navigator.userAgent.toLowerCase().indexOf('firefox') > 0 : false; // 绑定事件
 
@@ -262,7 +248,7 @@ function unbind(keysInfo) {
     keysInfo.forEach(function (info) {
       if (info.key) eachUnbind(info);
     });
-  } else if (_typeof(keysInfo) === 'object') {
+  } else if (typeof keysInfo === 'object') {
     // support like unbind({key: 'ctrl+a, ctrl+b', scope:'abc'})
     if (keysInfo.key) eachUnbind(keysInfo);
   } else if (typeof keysInfo === 'string') {
