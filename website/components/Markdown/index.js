@@ -18,6 +18,7 @@ export default class Markdown extends Component {
       }
     }
   }
+
   render() {
     const { source } = this.props;
     return (

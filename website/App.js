@@ -18,6 +18,7 @@ export default class App extends Component {
     };
     this.onKeyUpEvent = this.onKeyUpEvent.bind(this);
   }
+
   componentDidMount() {
     document.addEventListener('keyup', this.onKeyUpEvent);
     function pkeys(keys, key) {
@@ -58,40 +59,49 @@ export default class App extends Component {
     });
     return false;
   }
+
   componentWillUnmount() {
     document.removeEventListener('keyup', this.onKeyUpEvent);
   }
+
   onKeyUpEvent() {
     this.setState({ keyCode: [], keyStr: [] });
   }
+
   onKeyBoardMouseDown(item) {
     if (item.keycode > -1) {
       this.setState({ keyStr: [item.keycode] });
     }
   }
+
   onKeyBoardMouseUp() {
     this.setState({ keyStr: [] });
   }
+
   openVersionWebsite(e) {
     if (e.target && e.target.value) {
       window.location.href = e.target.value;
     }
   }
+
   render() {
-    const { keyStr } = this.state;
+    const { keyStr, keyCode } = this.state;
     let DocumentStrSource = DocumentStr;
     if (DocumentStrSource) DocumentStrSource = DocumentStr.replace(/([\s\S]*)<!--dividing-->/, '');
     return (
       <div>
         <select className={styles.version} onChange={this.openVersionWebsite.bind(this)}>
-          <option value="https://jaywcjlove.github.io/hotkeys">v{pkg.version}</option>
+          <option value="https://jaywcjlove.github.io/hotkeys">
+            v
+            {pkg.version}
+          </option>
           <option value="https://unpkg.com/hotkeys-js@3.4.3/doc/index.html">v3.4.3</option>
           <option value="https://unpkg.com/hotkeys-js@3.4.2/doc/index.html">v3.4.2</option>
           <option value="https://unpkg.com/hotkeys-js@2.0.10/doc/index.html">v2.0.10</option>
         </select>
         {keyStr.length > -1 && (
           <div className={styles.keyCodeInfo}>
-            {keyStr.map(item => <span key={`${item}`}>{item}</span>)}
+            {keyStr.map((item) => <span key={`${item}`}>{item}</span>)}
           </div>
         )}
         <GithubCorner href="https://github.com/jaywcjlove/hotkeys" target="__blank" />
@@ -99,16 +109,16 @@ export default class App extends Component {
           <div className={styles.title}>HotKeys.js</div>
           <div className={styles.github}>
             <a href="https://www.npmjs.com/package/hotkeys-js">
-              <button>On NPM</button>
+              <button type="button">On NPM</button>
             </a>
             <a href="https://github.com/jaywcjlove/hotkeys/">
-              <button>Fork on Github</button>
+              <button type="button">Fork on Github</button>
             </a>
             <a href="https://github.com/jaywcjlove/hotkeys/">
-              <button>Doc on Github</button>
+              <button type="button">Doc on Github</button>
             </a>
             <a href="https://jaywcjlove.gitee.io/hotkeys/">
-              <button>Doc on Gitee</button>
+              <button type="button">Doc on Gitee</button>
             </a>
           </div>
           <div className={styles.info}>A robust Javascript library for capturing keyboard input and key combinations entered. It has no dependencies. Try to press your keyboard, The following button will highlight.</div>
@@ -116,7 +126,7 @@ export default class App extends Component {
         <KeyBoard
           onMouseDown={this.onKeyBoardMouseDown.bind(this)}
           onMouseUp={this.onKeyBoardMouseUp.bind(this)}
-          keyCode={this.state.keyCode}
+          keyCode={keyCode}
         />
         <Markdown source={DocumentStrSource} />
         <GithubShields

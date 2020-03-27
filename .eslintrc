@@ -10,6 +10,7 @@
     "jasmine": true
   },
   "rules": {
+    "object-curly-newline": 0,
     "linebreak-style": 0,
     "arrow-body-style": 0,
     "max-len": 0,

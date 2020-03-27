@@ -7,10 +7,9 @@ let _scope = 'all'; // 默认热键范围
 const elementHasBindEvent = []; // 已绑定事件的节点记录
 
 // 返回键码
-const code = x =>
-  _keyMap[x.toLowerCase()] ||
-  _modifier[x.toLowerCase()] ||
-  x.toUpperCase().charCodeAt(0);
+const code = (x) => _keyMap[x.toLowerCase()]
+  || _modifier[x.toLowerCase()]
+  || x.toUpperCase().charCodeAt(0);
 
 // 设置获取当前范围（默认为'所有'）
 function setScope(scope) {
@@ -33,8 +32,8 @@ function filter(event) {
   let flag = true;
   // ignore: isContentEditable === 'true', <input> and <textarea> when readOnly state is false, <select>
   if (
-    target.isContentEditable ||
-    ((tagName === 'INPUT' || tagName === 'TEXTAREA') && !target.readOnly)
+    target.isContentEditable
+    || ((tagName === 'INPUT' || tagName === 'TEXTAREA') && !target.readOnly)
   ) {
     flag = false;
   }
@@ -98,7 +97,7 @@ function clearModifier(event) {
 function unbind(keysInfo, ...args) {
   // unbind(), unbind all keys
   if (!keysInfo) {
-    Object.keys(_handlers).forEach(key => delete _handlers[key]);
+    Object.keys(_handlers).forEach((key) => delete _handlers[key]);
   } else if (Array.isArray(keysInfo)) {
     // support like : unbind([{key: 'ctrl+a', scope: 's1'}, {key: 'ctrl-a', scope: 's2', splitKey: '-'}])
     keysInfo.forEach((info) => {
@@ -142,9 +141,9 @@ const eachUnbind = ({
       // 通过函数判断，是否解除绑定，函数相等直接返回
       const isMatchingMethod = method ? record.method === method : true;
       if (
-        isMatchingMethod &&
-        record.scope === scope &&
-        compareArray(record.mods, mods)
+        isMatchingMethod
+        && record.scope === scope
+        && compareArray(record.mods, mods)
       ) {
         return {};
       }
@@ -165,8 +164,8 @@ function eventHandler(event, handler, scope) {
     for (const y in _mods) {
       if (Object.prototype.hasOwnProperty.call(_mods, y)) {
         if (
-          (!_mods[y] && handler.mods.indexOf(+y) > -1) ||
-          (_mods[y] && handler.mods.indexOf(+y) === -1)
+          (!_mods[y] && handler.mods.indexOf(+y) > -1)
+          || (_mods[y] && handler.mods.indexOf(+y) === -1)
         ) {
           modifiersMatch = false;
         }
@@ -175,13 +174,13 @@ function eventHandler(event, handler, scope) {
 
     // 调用处理程序，如果是修饰键不做处理
     if (
-      (handler.mods.length === 0 &&
-        !_mods[16] &&
-        !_mods[18] &&
-        !_mods[17] &&
-        !_mods[91]) ||
-      modifiersMatch ||
-      handler.shortcut === '*'
+      (handler.mods.length === 0
+        && !_mods[16]
+        && !_mods[18]
+        && !_mods[17]
+        && !_mods[91])
+      || modifiersMatch
+      || handler.shortcut === '*'
     ) {
       if (handler.method(event, handler) === false) {
         if (event.preventDefault) event.preventDefault();
@@ -270,9 +269,9 @@ function dispatch(event) {
   if (asterisk) {
     for (let i = 0; i < asterisk.length; i++) {
       if (
-        asterisk[i].scope === scope &&
-        ((event.type === 'keydown' && asterisk[i].keydown) ||
-          (event.type === 'keyup' && asterisk[i].keyup))
+        asterisk[i].scope === scope
+        && ((event.type === 'keydown' && asterisk[i].keydown)
+        || (event.type === 'keyup' && asterisk[i].keyup))
       ) {
         eventHandler(event, asterisk[i], scope);
       }
@@ -283,8 +282,8 @@ function dispatch(event) {
 
   for (let i = 0; i < _handlers[key].length; i++) {
     if (
-      (event.type === 'keydown' && _handlers[key][i].keydown) ||
-      (event.type === 'keyup' && _handlers[key][i].keyup)
+      (event.type === 'keydown' && _handlers[key][i].keydown)
+      || (event.type === 'keyup' && _handlers[key][i].keyup)
     ) {
       if (_handlers[key][i].key) {
         const record = _handlers[key][i];
