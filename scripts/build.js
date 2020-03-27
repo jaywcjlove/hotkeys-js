@@ -18,6 +18,14 @@ const inputOptions = {
     commonjs(), // so Rollup can convert `ms` to an ES module
     babel({
       exclude: 'node_modules/**', // 只编译我们的源代码
+      presets: [[
+        '@babel/preset-env', {
+        /**
+         * Do not transpile typeof helper with itself
+         * https://github.com/babel/babel/pull/10788/files
+         */
+        'exclude': ['@babel/plugin-transform-typeof-symbol']
+      }]],
     }),
   ],
 };
