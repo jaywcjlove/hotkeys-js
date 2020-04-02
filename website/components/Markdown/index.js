@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import ReactMarkdown from 'react-markdown';
 import hljs from 'highlight.js';
 import classNames from 'classnames';
-import styles from './styles/index.less';
+import styles from './styles/index.module.less';
 
 hljs.configure({
   tabReplace: '  ', // 2 spaces

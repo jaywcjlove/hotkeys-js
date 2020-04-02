@@ -1,12 +1,13 @@
 import React from 'react';
-import style from './Footer.less';
+import style from './Footer.module.less';
 
-export default function Footer({ name, href, year }) {
+export default function Footer({ name, href, year, children }) {
   return (
     <div className={style.footer}>
+      {children}
       <div>
         Licensed under MIT. (Yes it&acute;s free and
-        <a href="https://github.com/jaywcjlove/hotkeys">open-sourced</a>
+        <a href="https://github.com/jaywcjlove/hotkeys"> open-sourced</a>
         )
       </div>
       <div>

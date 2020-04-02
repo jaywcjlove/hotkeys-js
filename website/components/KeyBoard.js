@@ -1,7 +1,7 @@
 import React from 'react';
 import classNames from 'classnames';
 
-import styles from './KeyBoard.less';
+import styles from './KeyBoard.module.less';
 
 const keyCode = [
   { keycode: 27, name: ['esc'] },

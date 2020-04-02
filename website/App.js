@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
 import GithubCorner from '@uiw/react-github-corners';
+import { Github } from '@uiw/react-shields';
 import KeyBoard from './components/KeyBoard';
 import Footer from './components/Footer';
 import Markdown from './components/Markdown';
-import GithubShields from './components/GithubShields';
-import styles from './styles/index.less';
+import styles from './styles/index.module.less';
 import DocumentStr from '../README.md';
-import hotkeys from '../dist/hotkeys.common';
+import hotkeys from '..';
 import pkg from '../package.json';
 
 export default class App extends Component {
@@ -129,31 +129,14 @@ export default class App extends Component {
           keyCode={keyCode}
         />
         <Markdown source={DocumentStrSource} />
-        <GithubShields
-          source={[
-            {
-              href: 'https://github.com/jaywcjlove/hotkeys/stargazers',
-              img: 'https://img.shields.io/github/stars/jaywcjlove/hotkeys.svg',
-            },
-            {
-              href: 'https://github.com/jaywcjlove/hotkeys/network',
-              img: 'https://img.shields.io/github/forks/jaywcjlove/hotkeys.svg',
-            },
-            {
-              href: 'https://github.com/jaywcjlove/hotkeys/watchers',
-              img: 'https://img.shields.io/github/watchers/jaywcjlove/hotkeys.svg?label=Watch',
-            },
-            {
-              href: 'https://github.com/jaywcjlove/followers',
-              img: 'https://img.shields.io/github/followers/jaywcjlove.svg',
-            },
-            {
-              href: 'https://gitee.com/jaywcjlove/hotkeys',
-              img: 'https://jaywcjlove.github.io/sb/ico/gitee.svg',
-            },
-          ]}
-        />
-        <Footer name="Kenny Wong" href="http://jaywcjlove.github.io" year="2015-present" />
+        <Footer name="Kenny Wong" href="http://jaywcjlove.github.io" year="2015-present">
+          <Github user="jaywcjlove" repo="hotkeys">
+            <Github.Social href="https://github.com/jaywcjlove/hotkeys" type="forks" />
+            <Github.Social href="https://github.com/jaywcjlove/hotkeys" type="stars" />
+            <Github.Social href="https://github.com/jaywcjlove/hotkeys" type="watchers" />
+            <Github.Social href="https://github.com/jaywcjlove/hotkeys" type="followers" />
+          </Github>
+        </Footer>
       </div>
     );
   }
