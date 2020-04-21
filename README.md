@@ -6,7 +6,7 @@
 
 HotKeys.js is an input capture library with some very special features, it is easy to pick up and use, has a reasonable footprint ([~3kb](https://bundlephobia.com/result?p=hotkeys-js)) (gzipped: 1.73kb), and has no dependencies. It should not interfere with any JavaScript libraries or frameworks. Official document [demo preview](http://jaywcjlove.github.io/hotkeys). [More examples](https://github.com/jaywcjlove/hotkeys/issues?q=label%3ADemo+).
 
-```shell
+```bash
 ╭┈┈╮          ╭┈┈╮  ╭┈┈╮
 ┆  ├┈┈..┈┈┈┈┈.┆  └┈╮┆  ├┈┈..┈┈┈┈┈..┈┈.┈┈..┈┈┈┈┈.
 ┆     ┆┆  □  ┆┆   ┈┤┆    < ┆  -__┘┆  ┆  ┆┆__ ┈┈┤
@@ -18,7 +18,7 @@ HotKeys.js is an input capture library with some very special features, it is ea
 
 You will need `Node.js` installed on your system.
 
-```shell
+```bash
 $ npm install hotkeys-js --save
 ```
 

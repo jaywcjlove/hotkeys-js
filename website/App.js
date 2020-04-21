@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import GithubCorner from '@uiw/react-github-corners';
 import { Github } from '@uiw/react-shields';
+import MarkdownPreview from '@uiw/react-markdown-preview';
 import KeyBoard from './components/KeyBoard';
 import Footer from './components/Footer';
-import Markdown from './components/Markdown';
 import styles from './styles/index.module.less';
 import DocumentStr from '../README.md';
 import hotkeys from '..';
@@ -128,7 +128,7 @@ export default class App extends Component {
           onMouseUp={this.onKeyBoardMouseUp.bind(this)}
           keyCode={keyCode}
         />
-        <Markdown source={DocumentStrSource} />
+        <MarkdownPreview style={{ maxWidth: 995, margin: '0 auto' }} source={DocumentStrSource} />
         <Footer name="Kenny Wong" href="http://jaywcjlove.github.io" year="2015-present">
           <Github user="jaywcjlove" repo="hotkeys">
             <Github.Social href="https://github.com/jaywcjlove/hotkeys" type="forks" />
