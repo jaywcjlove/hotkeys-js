@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import GithubCorner from '@uiw/react-github-corners';
 import { Github } from '@uiw/react-shields';
 import MarkdownPreview from '@uiw/react-markdown-preview';
-import KeyBoard from './components/KeyBoard';
+import KeyBoard from '@uiw/react-mac-keyboard';
 import Footer from './components/Footer';
 import styles from './styles/index.module.less';
 import DocumentStr from '../README.md';
@@ -124,6 +124,7 @@ export default class App extends Component {
           <div className={styles.info}>A robust Javascript library for capturing keyboard input and key combinations entered. It has no dependencies. Try to press your keyboard, The following button will highlight.</div>
         </div>
         <KeyBoard
+          style={{ top: -40 }}
           onMouseDown={this.onKeyBoardMouseDown.bind(this)}
           onMouseUp={this.onKeyBoardMouseUp.bind(this)}
           keyCode={keyCode}
