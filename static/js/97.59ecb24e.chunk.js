@@ -1,0 +1,2 @@
+(this["webpackJsonphotkeys-js"]=this["webpackJsonphotkeys-js"]||[]).push([[97],{135:function(e,a){var s;(s=Prism).languages.ejs={delimiter:{pattern:/^<%[-_=]?|[-_]?%>$/,alias:"punctuation"},comment:/^#[\s\S]*/,"language-javascript":{pattern:/[\s\S]+/,inside:s.languages.javascript}},s.hooks.add("before-tokenize",(function(e){s.languages["markup-templating"].buildPlaceholders(e,"ejs",/<%(?!%)[\s\S]+?%>/g)})),s.hooks.add("after-tokenize",(function(e){s.languages["markup-templating"].tokenizePlaceholders(e,"ejs")}))}}]);
+//# sourceMappingURL=97.59ecb24e.chunk.js.map
