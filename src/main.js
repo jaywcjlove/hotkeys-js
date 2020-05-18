@@ -33,7 +33,7 @@ function filter(event) {
   // ignore: isContentEditable === 'true', <input> and <textarea> when readOnly state is false, <select>
   if (
     target.isContentEditable
-    || ((tagName === 'INPUT' || tagName === 'TEXTAREA') && !target.readOnly)
+    || ((tagName === 'INPUT' || tagName === 'TEXTAREA' || tagName === 'SELECT') && !target.readOnly)
   ) {
     flag = false;
   }
