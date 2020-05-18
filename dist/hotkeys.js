@@ -1,5 +1,5 @@
 /*!
- * hotkeys-js v3.8.0
+ * hotkeys-js v3.8.1
  * A simple micro-library for defining and dispatching keyboard shortcuts. It has no dependencies.
  * 
  * Copyright (c) 2020 kenny wong <wowohoo@qq.com>
@@ -176,7 +176,7 @@
     var tagName = target.tagName;
     var flag = true; // ignore: isContentEditable === 'true', <input> and <textarea> when readOnly state is false, <select>
 
-    if (target.isContentEditable || (tagName === 'INPUT' || tagName === 'TEXTAREA') && !target.readOnly) {
+    if (target.isContentEditable || (tagName === 'INPUT' || tagName === 'TEXTAREA' || tagName === 'SELECT') && !target.readOnly) {
       flag = false;
     }
 
