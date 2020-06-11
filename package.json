@@ -55,7 +55,7 @@
     "@uiw/react-mac-keyboard": "1.0.5",
     "@uiw/react-markdown-preview": "1.0.3",
     "@uiw/react-shields": "1.1.0",
-    "@uiw/reset.css": "1.0.3",
+    "@uiw/reset.css": "1.0.4",
     "babel-eslint": "10.1.0",
     "bannerjs": "1.0.7",
     "classnames": "2.2.6",
