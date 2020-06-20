@@ -66,7 +66,7 @@
     "eslint-plugin-import": "2.20.2",
     "eslint-plugin-jsx-a11y": "6.2.3",
     "eslint-plugin-react": "7.20.0",
-    "gh-pages": "2.2.0",
+    "gh-pages": "3.1.0",
     "husky": "4.2.3",
     "jest": "25.2.7",
     "kkt": "5.8.0",
