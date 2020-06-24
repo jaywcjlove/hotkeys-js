@@ -70,7 +70,7 @@
     "husky": "4.2.3",
     "jest": "25.2.7",
     "kkt": "5.8.0",
-    "puppeteer": "2.1.1",
+    "puppeteer": "4.0.1",
     "react": "16.13.1",
     "react-dom": "16.13.1",
     "rimraf": "3.0.2",
