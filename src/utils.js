@@ -45,10 +45,15 @@ function compareArray(a1, a2) {
   return isIndex;
 }
 
+function isInteger(value) {
+  return typeof value === 'number' && Number.isFinite(value) && Math.floor(value) === value;
+}
+
 export {
   isff,
   getMods,
   getKeys,
   addEvent,
   compareArray,
+  isInteger,
 };
