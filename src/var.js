@@ -23,6 +23,7 @@ const _keyMap = {
   pageup: 33,
   pagedown: 34,
   capslock: 20,
+  printscreen: 44,
   '⇪': 20,
   ',': 188,
   '.': 190,
