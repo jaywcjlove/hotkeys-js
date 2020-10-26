@@ -64,7 +64,7 @@
     "eslint": "7.0.0",
     "eslint-config-airbnb": "18.1.0",
     "eslint-plugin-import": "2.20.2",
-    "eslint-plugin-jsx-a11y": "6.2.3",
+    "eslint-plugin-jsx-a11y": "6.4.1",
     "eslint-plugin-react": "7.20.0",
     "gh-pages": "2.2.0",
     "husky": "4.2.3",
