@@ -266,6 +266,12 @@ function example() {
 }
 ```
 
+To unbind everything.
+
+```js
+hotkeys.unbind();
+```
+
 ### isPressed
 
 For example, `hotkeys.isPressed(77)` is true if the `M` key is currently pressed.
