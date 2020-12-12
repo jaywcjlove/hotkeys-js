@@ -68,7 +68,7 @@
     "eslint-plugin-react": "7.20.0",
     "gh-pages": "2.2.0",
     "husky": "4.2.3",
-    "jest": "25.2.7",
+    "jest": "26.6.3",
     "kkt": "5.10.3",
     "puppeteer": "2.1.1",
     "react": "16.13.1",
