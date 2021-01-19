@@ -46,7 +46,7 @@ jobs:
       uses: jaywcjlove/create-tag-action@v1.1.7
       with:
         token: ${{ secrets.GITHUB_TOKEN }}
-        package-path: ./core/package.json
+        package-path: ./package.json
 
     - name: Generate Changelog
       id: changelog
