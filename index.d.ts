@@ -37,7 +37,7 @@ interface Hotkeys {
 
   noConflict(): void
 
-  unbind(key: string): void
+  unbind(key?: string): void
   unbind(key: string, scopeName: string): void
   unbind(key: string, scopeName: string, method: KeyHandler): void
   unbind(key: string, method: KeyHandler): void
