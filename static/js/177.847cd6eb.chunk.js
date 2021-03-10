@@ -1,2 +1,0 @@
-(this["webpackJsonphotkeys-js"]=this["webpackJsonphotkeys-js"]||[]).push([[177],{214:function(n,e){var g;(g=Prism).languages.ignore={comment:/^#.*/m,entry:{pattern:/\S(?:.*(?:(?:\\ )|\S))?/,alias:"string",inside:{operator:/^!|\*\*?|\?/,regex:{pattern:/(^|[^\\])\[[^\[\]]*\]/,lookbehind:!0},punctuation:/\//}}},g.languages.gitignore=g.languages.ignore,g.languages.hgignore=g.languages.ignore,g.languages.npmignore=g.languages.ignore}}]);
-//# sourceMappingURL=177.847cd6eb.chunk.js.map
