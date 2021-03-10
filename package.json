@@ -7,7 +7,6 @@
   "module": "dist/hotkeys.esm.js",
   "scripts": {
     "lint": "eslint --ext .js src website",
-    "deploy": "node scripts/build.js && npm run doc:build && gh-pages -d doc",
     "build": "node scripts/build.js && npm run doc && npm run lint",
     "watch": "node scripts/watch.js",
     "pretest": "npm run build",
@@ -66,7 +65,6 @@
     "eslint-plugin-import": "2.22.1",
     "eslint-plugin-jsx-a11y": "6.4.1",
     "eslint-plugin-react": "7.22.0",
-    "gh-pages": "2.2.0",
     "husky": "4.2.3",
     "kkt": "6.7.2",
     "jest": "26.6.0",
