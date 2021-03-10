@@ -1,13 +1,14 @@
-import { addEvent, getMods, getKeys, compareArray } from './utils';
+import { addEvent, getMods, getKeys, compareArray, isInteger } from './utils';
 import { _keyMap, _modifier, modifierMap, _mods, _handlers } from './var';
 
 let _downKeys = []; // 记录摁下的绑定键
+const _customKeyMap = {};
 
 let _scope = 'all'; // 默认热键范围
 const elementHasBindEvent = []; // 已绑定事件的节点记录
 
 // 返回键码
-const code = (x) => _keyMap[x.toLowerCase()]
+const code = (x) => _customKeyMap[x] || _keyMap[x.toLowerCase()]
   || _modifier[x.toLowerCase()]
   || x.toUpperCase().charCodeAt(0);
 
@@ -22,6 +23,28 @@ function getScope() {
 // 获取摁下绑定键的键值
 function getPressedKeyCodes() {
   return _downKeys.slice(0);
+}
+
+function addCustomKeyMap(keyMapPatch) {
+  if (typeof _keyMapPatch !== 'object') {
+    return;
+  }
+
+  const _keyMapPatch = {};
+
+  // check that all values for each key is integer
+  Object.keys(_keyMapPatch).forEach((key) => {
+    const keyCode = keyMapPatch[key];
+
+    if (isInteger(keyCode)) {
+      _keyMapPatch[key] = keyCode;
+    } else if (module.hot) {
+      window.console.warning(`[hotkeys-js] (addCustomKeyMap) key "${key}" has wrong value type, ignored`);
+    }
+  });
+
+  // merge only valid keyCodes
+  Object.assign(_customKeyMap, _keyMapPatch);
 }
 
 // 表单控件控件判断 返回 Boolean
@@ -390,6 +413,7 @@ const _api = {
   isPressed,
   filter,
   unbind,
+  addCustomKeyMap,
 };
 for (const a in _api) {
   if (Object.prototype.hasOwnProperty.call(_api, a)) {

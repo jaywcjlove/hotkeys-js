@@ -10,7 +10,7 @@ export interface KeyHandler {
   (keyboardEvent: KeyboardEvent, hotkeysEvent: HotkeysEvent): void | boolean
 }
 
-type Options = {
+export type Options = {
   scope?: string,
   element?: HTMLElement | null,
   keyup?: boolean | null
@@ -47,6 +47,8 @@ interface Hotkeys {
   getPressedKeyCodes(): number[]
 
   filter(event: KeyboardEvent): boolean
+
+  addCustomKeyMap(customKeyMap: Record<string, number>): void
 }
 // https://github.com/eiriklv/react-masonry-component/issues/57
 declare var hotkeys: Hotkeys
