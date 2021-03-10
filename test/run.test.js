@@ -651,3 +651,5 @@ describe('\n   Hotkeys.js Test Case222.\n', () => {
     await browser.close();
   });
 });
+
+jest.setTimeout(30000);

@@ -7,7 +7,7 @@ const banner = require('bannerjs');
 require('colors-cli/toxic');
 
 const watchOptions = {
-  input: 'src/main.js',
+  input: 'src/index.js',
   plugins: [
     nodeResolve(), // so Rollup can find `ms`
     commonjs(), // so Rollup can convert `ms` to an ES module

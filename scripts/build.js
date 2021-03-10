@@ -12,7 +12,7 @@ require('colors-cli/toxic');
 
 // see below for details on the options
 const inputOptions = {
-  input: 'src/main.js',
+  input: 'src/index.js',
   plugins: [
     nodeResolve(), // so Rollup can find `ms`
     commonjs(), // so Rollup can convert `ms` to an ES module
