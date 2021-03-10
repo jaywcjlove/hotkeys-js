@@ -1,8 +1,8 @@
 const path = require('path');
 const rollup = require('rollup');
-const babel = require('rollup-plugin-babel');
-const nodeResolve = require('rollup-plugin-node-resolve');
-const commonjs = require('rollup-plugin-commonjs');
+const babel = require('@rollup/plugin-babel');
+const nodeResolve = require('@rollup/plugin-node-resolve');
+const commonjs = require('@rollup/plugin-commonjs');
 const banner = require('bannerjs');
 require('colors-cli/toxic');
 
@@ -12,6 +12,7 @@ const watchOptions = {
     nodeResolve(), // so Rollup can find `ms`
     commonjs(), // so Rollup can convert `ms` to an ES module
     babel({
+      babelHelpers: 'bundled',
       exclude: 'node_modules/**', // 只编译我们的源代码
       presets: [[
         '@babel/preset-env', {

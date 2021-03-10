@@ -1,9 +1,9 @@
 const fs = require('fs');
 const path = require('path');
 const rollup = require('rollup');
-const babel = require('rollup-plugin-babel');
-const nodeResolve = require('rollup-plugin-node-resolve');
-const commonjs = require('rollup-plugin-commonjs');
+const babel = require('@rollup/plugin-babel');
+const nodeResolve = require('@rollup/plugin-node-resolve');
+const commonjs = require('@rollup/plugin-commonjs');
 const banner = require('bannerjs');
 const zlib = require('zlib');
 // const pkg = require('../package.json');
@@ -14,9 +14,10 @@ require('colors-cli/toxic');
 const inputOptions = {
   input: 'src/index.js',
   plugins: [
-    nodeResolve(), // so Rollup can find `ms`
+    nodeResolve.default(), // so Rollup can find `ms`
     commonjs(), // so Rollup can convert `ms` to an ES module
-    babel({
+    babel.default({
+      babelHelpers: 'bundled',
       exclude: 'node_modules/**', // 只编译我们的源代码
       presets: [[
         '@babel/preset-env', {
@@ -61,6 +62,7 @@ async function build() {
   const common = await bundle.generate({
     format: 'cjs',
     name: 'hotkeys',
+    exports: 'auto',
     banner: banner.multibanner(),
   });
   const commonMinified = `${banner.onebanner()}\n${uglify.minify(common.output[0].code, uglifyOption).code}`;
