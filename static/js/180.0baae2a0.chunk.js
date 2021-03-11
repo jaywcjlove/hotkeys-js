@@ -1,0 +1,2 @@
+(this["webpackJsonphotkeys-js"]=this["webpackJsonphotkeys-js"]||[]).push([[180],{222:function(t,s){Prism.languages.ini={comment:/^[ \t]*[;#].*$/m,selector:/^[ \t]*\[.*?\]/m,constant:/^[ \t]*[^\s=]+?(?=[ \t]*=)/m,"attr-value":{pattern:/=.*/,inside:{punctuation:/^[=]/}}}}}]);
+//# sourceMappingURL=180.0baae2a0.chunk.js.map

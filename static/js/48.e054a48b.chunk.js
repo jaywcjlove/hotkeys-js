@@ -1,0 +1,2 @@
+(this["webpackJsonphotkeys-js"]=this["webpackJsonphotkeys-js"]||[]).push([[48],{90:function(e,t){Prism.languages.brainfuck={pointer:{pattern:/<|>/,alias:"keyword"},increment:{pattern:/\+/,alias:"inserted"},decrement:{pattern:/-/,alias:"deleted"},branching:{pattern:/\[|\]/,alias:"important"},operator:/[.,]/,comment:/\S+/}}}]);
+//# sourceMappingURL=48.e054a48b.chunk.js.map

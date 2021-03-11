@@ -1,0 +1,2 @@
+(this["webpackJsonphotkeys-js"]=this["webpackJsonphotkeys-js"]||[]).push([[407],{449:function(s,e){var t=Prism.util.clone(Prism.languages.typescript);Prism.languages.tsx=Prism.languages.extend("jsx",t)}}]);
+//# sourceMappingURL=407.75e883bf.chunk.js.map
