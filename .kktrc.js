@@ -19,7 +19,7 @@ export default (conf, env, options) => {
     })
   );
   if (env === 'production') {
-    conf.output = { ...conf.output, publicPath: 'doc' };
+    conf.output = { ...conf.output, publicPath: './' };
   }
   return conf;
 }
