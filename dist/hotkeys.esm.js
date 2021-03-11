@@ -1,5 +1,5 @@
 /*!
- * hotkeys-js v3.8.1
+ * hotkeys-js v3.8.3
  * A simple micro-library for defining and dispatching keyboard shortcuts. It has no dependencies.
  * 
  * Copyright (c) 2021 kenny wong <wowohoo@qq.com>
@@ -67,7 +67,7 @@ var _keyMap = {
   tab: 9,
   clear: 12,
   enter: 13,
-  return: 13,
+  "return": 13,
   esc: 27,
   escape: 27,
   space: 32,
@@ -76,7 +76,7 @@ var _keyMap = {
   right: 39,
   down: 40,
   del: 46,
-  delete: 46,
+  "delete": 46,
   ins: 45,
   insert: 45,
   home: 36,
@@ -84,6 +84,22 @@ var _keyMap = {
   pageup: 33,
   pagedown: 34,
   capslock: 20,
+  num_0: 96,
+  num_1: 97,
+  num_2: 98,
+  num_3: 99,
+  num_4: 100,
+  num_5: 101,
+  num_6: 102,
+  num_7: 103,
+  num_8: 104,
+  num_9: 105,
+  num_multiply: 106,
+  num_add: 107,
+  num_enter: 108,
+  num_subtract: 109,
+  num_decimal: 110,
+  num_divide: 111,
   '⇪': 20,
   ',': 188,
   '.': 190,
