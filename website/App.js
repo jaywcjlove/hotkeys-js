@@ -57,7 +57,6 @@ export default class App extends Component {
       if (keys.indexOf(evn.keyCode) === -1) keys.push(evn.keyCode);
       this.setState({ keyCode: keys, keyStr });
     });
-    return false;
   }
 
   componentWillUnmount() {

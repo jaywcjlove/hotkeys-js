@@ -98,7 +98,7 @@ describe('\n   Hotkeys.js Test Case222.\n', () => {
       expect(e.shiftKey).toBeTruthy();
       expect(hotkeys.getPressedKeyCodes()).toEqual([16, 17, 65, 91]);
     });
-    await __triggerKeyboardEvent(document.body, 65, {
+    __triggerKeyboardEvent(document.body, 65, {
       metaKey: true,
       ctrlKey: true,
       shiftKey: true,
@@ -164,7 +164,7 @@ describe('\n   Hotkeys.js Test Case222.\n', () => {
       expect(e.ctrlKey).toBeTruthy();
       expect(hotkeys.getPressedKeyCodes()).toEqual([17, 65]);
     });
-    await __triggerKeyboardEvent(document.body, 65, {
+    __triggerKeyboardEvent(document.body, 65, {
       ctrlKey: true,
     });
     await hotkeys.unbind();
@@ -177,7 +177,7 @@ describe('\n   Hotkeys.js Test Case222.\n', () => {
       isExecuteFunction = true;
       expect(e.keyCode).toBe(13);
     });
-    await __triggerKeyboardEvent(document.body, 13);
+    __triggerKeyboardEvent(document.body, 13);
     expect(isExecuteFunction).toBeTruthy();
 
     expect(hotkeys.unbind()).toBe(undefined);
@@ -630,7 +630,7 @@ describe('\n   Hotkeys.js Test Case222.\n', () => {
       expect(e.keyCode).toBe(65);
       expect(e.which).toBe(65);
     });
-    await __triggerKeyboardEvent(document.body, 65);
+    __triggerKeyboardEvent(document.body, 65);
   });
 
   test('Event trigger on readOnly input', async () => {
@@ -639,7 +639,7 @@ describe('\n   Hotkeys.js Test Case222.\n', () => {
     await hotkeys('*', (event) => {
       expect(hotkeys.filter.call(null, event)).toBeTruthy();
     });
-    await __triggerKeyboardEvent(input, 65);
+    __triggerKeyboardEvent(input, 65);
     await hotkeys.unbind('*');
     input.removeAttribute('readOnly');
     await hotkeys('*', (event) => {
