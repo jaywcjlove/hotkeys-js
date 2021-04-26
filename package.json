@@ -50,7 +50,7 @@
   "dependencies": {},
   "devDependencies": {
     "@kkt/less-modules": "6.7.2",
-    "@kkt/raw-modules": "6.7.2",
+    "@kkt/raw-modules": "6.9.0",
     "@kkt/scope-plugin-options": "6.7.2",
     "@uiw/react-github-corners": "1.2.0",
     "@uiw/react-mac-keyboard": "1.0.5",
