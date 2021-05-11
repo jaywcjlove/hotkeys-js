@@ -1,15 +1,15 @@
 {
   "files": {
     "main.css": "/hotkeys/static/css/main.a925436b.chunk.css",
-    "main.js": "/hotkeys/static/js/main.0343b9bd.chunk.js",
-    "main.js.map": "/hotkeys/static/js/main.0343b9bd.chunk.js.map",
+    "main.js": "/hotkeys/static/js/main.d7a8baf8.chunk.js",
+    "main.js.map": "/hotkeys/static/js/main.d7a8baf8.chunk.js.map",
     "react-vendor.js": "/hotkeys/static/js/react-vendor.e2d617f7.chunk.js",
     "react-vendor.js.map": "/hotkeys/static/js/react-vendor.e2d617f7.chunk.js.map",
     "runtime-main.js": "/hotkeys/static/js/runtime-main.45bf8717.js",
     "runtime-main.js.map": "/hotkeys/static/js/runtime-main.45bf8717.js.map",
     "index.html": "/hotkeys/index.html",
     "static/css/main.a925436b.chunk.css.map": "/hotkeys/static/css/main.a925436b.chunk.css.map",
-    "static/js/main.0343b9bd.chunk.js.LICENSE.txt": "/hotkeys/static/js/main.0343b9bd.chunk.js.LICENSE.txt",
+    "static/js/main.d7a8baf8.chunk.js.LICENSE.txt": "/hotkeys/static/js/main.d7a8baf8.chunk.js.LICENSE.txt",
     "static/js/react-vendor.e2d617f7.chunk.js.LICENSE.txt": "/hotkeys/static/js/react-vendor.e2d617f7.chunk.js.LICENSE.txt",
     "static/media/reset.less": "/hotkeys/static/media/bg.c118c911.jpg"
   },
@@ -17,6 +17,6 @@
     "static/js/runtime-main.45bf8717.js",
     "static/js/react-vendor.e2d617f7.chunk.js",
     "static/css/main.a925436b.chunk.css",
-    "static/js/main.0343b9bd.chunk.js"
+    "static/js/main.d7a8baf8.chunk.js"
   ]
 }
