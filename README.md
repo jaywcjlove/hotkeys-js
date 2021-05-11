@@ -368,7 +368,7 @@ $ npm run watch
 Run Document Website Environment.
 
 ```shell
-$ npm run doc:dev
+$ npm run doc
 ```
 
 To contribute, please fork Hotkeys.js, add your patch and tests for it (in the `test/` folder) and submit a pull request.

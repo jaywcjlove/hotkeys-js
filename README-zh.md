@@ -377,7 +377,7 @@ $ npm run watch
 运行稳定环境
 
 ```shell
-$ npm run doc:dev
+$ npm run doc
 ```
 
 如果要贡献，请 fork `Hotkeys.js`, 并添加您的测试代码(在 test 目录中)，并提交一个 PR。
