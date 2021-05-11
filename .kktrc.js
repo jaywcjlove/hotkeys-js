@@ -18,6 +18,24 @@ export default (conf, env, options) => {
       VERSION: JSON.stringify(pkg.version),
     })
   );
+
+  conf.optimization = {
+    ...conf.optimization,
+    splitChunks: {
+      cacheGroups: {
+        reactvendor: {
+          test: /[\\/]node_modules[\\/](react|react-dom)[\\/]/,
+          name: 'react-vendor',
+          chunks: 'all',
+        },
+        prismjs: {
+          test: /[\\/]node_modules[\\/](prismjs)[\\/]/,
+          name: 'prismjs-vendor',
+          chunks: 'async',
+        },
+      },
+    },
+  };
   if (env === 'production') {
     conf.output = { ...conf.output, publicPath: './' };
   }
