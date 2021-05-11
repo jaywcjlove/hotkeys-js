@@ -35,7 +35,7 @@ interface Hotkeys {
   getScope(): string
   deleteScope(scopeName: string): void
 
-  noConflict(): void
+  noConflict(): Hotkeys
 
   unbind(key?: string): void
   unbind(key: string, scopeName: string): void
