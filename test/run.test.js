@@ -13,8 +13,7 @@ const isff = navigator.userAgent.toLowerCase().indexOf('firefox') > 0;
 // 模拟键盘摁键
 // http://output.jsbin.com/awenaq/3
 function __triggerKeyboardEvent(el, keyCode, opt) {
-  const eventObj = document.createEventObject ?
-    document.createEventObject() : document.createEvent('Events');
+  const eventObj = document.createEventObject ? document.createEventObject() : document.createEvent('Events');
   if (eventObj.initEvent) {
     eventObj.initEvent('keydown', true, true);
   }
@@ -32,8 +31,7 @@ function __triggerKeyboardEvent(el, keyCode, opt) {
   el.dispatchEvent ? el.dispatchEvent(eventObj) : el.fireEvent('onkeydown', eventObj);
 }
 function __triggerKeyboardUp(el, keyCode, opt) {
-  const eventObj = document.createEventObject ?
-    document.createEventObject() : document.createEvent('Events');
+  const eventObj = document.createEventObject ? document.createEventObject() : document.createEvent('Events');
   if (eventObj.initEvent) {
     eventObj.initEvent('keyup', true, true);
   }
@@ -51,8 +49,7 @@ function __triggerKeyboardUp(el, keyCode, opt) {
   el.dispatchEvent ? el.dispatchEvent(eventObj) : el.fireEvent('onkeyup', eventObj);
 }
 function __triggerKeyboardFocus(el, keyCode, opt) {
-  const eventObj = document.createEventObject ?
-    document.createEventObject() : document.createEvent('Events');
+  const eventObj = document.createEventObject ? document.createEventObject() : document.createEvent('Events');
   if (eventObj.initEvent) {
     eventObj.initEvent('focus', true, true);
   }
@@ -83,7 +80,7 @@ describe('\n   Hotkeys.js Test Case222.\n', () => {
   test('Test HTML load', async () => {
     const title = await page.title();
     expect(title).toBe('hotkeys.js');
-    const text = await page.$eval('#root', el => el.textContent);
+    const text = await page.$eval('#root', (el) => el.textContent);
     expect(text).toBe('hotkeys');
     expect(window.hotkeys).toBeTruthy();
     expect(hotkeys(() => { })).toBeUndefined();
@@ -385,7 +382,6 @@ describe('\n   Hotkeys.js Test Case222.\n', () => {
     hotkeys.unbind('⇪');
     hotkeys.unbind('CapsLock');
   });
-
 
   test('HotKeys Test Case', async () => {
     hotkeys('w', (e) => {
