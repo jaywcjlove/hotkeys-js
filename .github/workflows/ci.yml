@@ -5,6 +5,10 @@ on:
       - master
     tags:
       - v*
+
+env:
+  SKIP_PREFLIGHT_CHECK: true
+
 jobs:
   build-deploy:
     runs-on: ubuntu-18.04
