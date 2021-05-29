@@ -64,7 +64,7 @@
     "colors-cli": "1.0.27",
     "eslint": "7.26.0",
     "eslint-config-airbnb": "18.2.1",
-    "eslint-plugin-import": "2.22.1",
+    "eslint-plugin-import": "2.23.4",
     "eslint-plugin-jsx-a11y": "6.4.1",
     "eslint-plugin-react": "7.23.2",
     "husky": "4.2.3",
