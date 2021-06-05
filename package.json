@@ -53,7 +53,7 @@
     "@kkt/less-modules": "6.9.0",
     "@kkt/raw-modules": "6.9.0",
     "@kkt/scope-plugin-options": "6.9.0",
-    "@uiw/react-github-corners": "1.2.0",
+    "@uiw/react-github-corners": "1.4.0",
     "@uiw/react-mac-keyboard": "1.0.5",
     "@uiw/react-markdown-preview": "3.0.6",
     "@uiw/react-shields": "1.1.1",
