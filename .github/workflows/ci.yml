@@ -27,7 +27,7 @@ jobs:
     #       ${{ runner.os }}-node-
 
     - name: Look Changelog
-      uses: jaywcjlove/changelog-generator@v1.4.0
+      uses: jaywcjlove/changelog-generator@v1.4.1
       with:
         token: ${{ secrets.GITHUB_TOKEN }}
         filter-author: (jaywcjlove|小弟调调™|dependabot\[bot\]|Renovate Bot)
@@ -56,7 +56,7 @@ jobs:
 
     - name: Generate Changelog
       id: changelog
-      uses: jaywcjlove/changelog-generator@v1.4.0
+      uses: jaywcjlove/changelog-generator@v1.4.1
       with:
         token: ${{ secrets.GITHUB_TOKEN }}
         filter-author: (jaywcjlove|小弟调调™|dependabot\[bot\]|Renovate Bot)
