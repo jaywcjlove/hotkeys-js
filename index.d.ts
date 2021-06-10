@@ -7,7 +7,7 @@ export interface HotkeysEvent {
 }
 
 export interface KeyHandler {
-  (keyboardEvent: KeyboardEvent, hotkeysEvent: HotkeysEvent): void | boolean
+  (keyboardEvent: KeyboardEvent, hotkeysEvent?: HotkeysEvent): void | boolean
 }
 
 type Options = {
