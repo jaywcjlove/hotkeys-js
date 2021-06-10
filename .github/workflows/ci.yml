@@ -57,11 +57,15 @@ jobs:
     - name: Generate Changelog
       id: changelog
       uses: jaywcjlove/changelog-generator@v1.4.0
-      if: steps.create_tag.outputs.successful
       with:
         token: ${{ secrets.GITHUB_TOKEN }}
         filter-author: (jaywcjlove|小弟调调™|dependabot\[bot\]|Renovate Bot)
         filter: (^[\s]+?[R|r]elease)|(^[R|r]elease)
+
+    - run: |
+        echo "tag: ${{ steps.changelog.outputs.tag }}"
+        echo "version: ${{ steps.changelog.outputs.version }}"
+        echo "ref: ${{ github.ref }}"
 
     - name: Create Release
       uses: ncipollo/release-action@v1
