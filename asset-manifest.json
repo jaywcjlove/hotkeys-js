@@ -1,22 +1,22 @@
 {
   "files": {
-    "main.css": "/hotkeys/static/css/main.a925436b.chunk.css",
-    "main.js": "/hotkeys/static/js/main.d7a8baf8.chunk.js",
-    "main.js.map": "/hotkeys/static/js/main.d7a8baf8.chunk.js.map",
-    "react-vendor.js": "/hotkeys/static/js/react-vendor.e2d617f7.chunk.js",
-    "react-vendor.js.map": "/hotkeys/static/js/react-vendor.e2d617f7.chunk.js.map",
+    "main.css": "/hotkeys/static/css/main.a2230848.chunk.css",
+    "main.js": "/hotkeys/static/js/main.ec4559bf.chunk.js",
+    "main.js.map": "/hotkeys/static/js/main.ec4559bf.chunk.js.map",
+    "react-vendor.js": "/hotkeys/static/js/react-vendor.455eb214.chunk.js",
+    "react-vendor.js.map": "/hotkeys/static/js/react-vendor.455eb214.chunk.js.map",
     "runtime-main.js": "/hotkeys/static/js/runtime-main.45bf8717.js",
     "runtime-main.js.map": "/hotkeys/static/js/runtime-main.45bf8717.js.map",
     "index.html": "/hotkeys/index.html",
-    "static/css/main.a925436b.chunk.css.map": "/hotkeys/static/css/main.a925436b.chunk.css.map",
-    "static/js/main.d7a8baf8.chunk.js.LICENSE.txt": "/hotkeys/static/js/main.d7a8baf8.chunk.js.LICENSE.txt",
-    "static/js/react-vendor.e2d617f7.chunk.js.LICENSE.txt": "/hotkeys/static/js/react-vendor.e2d617f7.chunk.js.LICENSE.txt",
+    "static/css/main.a2230848.chunk.css.map": "/hotkeys/static/css/main.a2230848.chunk.css.map",
+    "static/js/main.ec4559bf.chunk.js.LICENSE.txt": "/hotkeys/static/js/main.ec4559bf.chunk.js.LICENSE.txt",
+    "static/js/react-vendor.455eb214.chunk.js.LICENSE.txt": "/hotkeys/static/js/react-vendor.455eb214.chunk.js.LICENSE.txt",
     "static/media/reset.less": "/hotkeys/static/media/bg.c118c911.jpg"
   },
   "entrypoints": [
     "static/js/runtime-main.45bf8717.js",
-    "static/js/react-vendor.e2d617f7.chunk.js",
-    "static/css/main.a925436b.chunk.css",
-    "static/js/main.d7a8baf8.chunk.js"
+    "static/js/react-vendor.455eb214.chunk.js",
+    "static/css/main.a2230848.chunk.css",
+    "static/js/main.ec4559bf.chunk.js"
   ]
 }
