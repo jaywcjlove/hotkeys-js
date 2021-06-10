@@ -39,6 +39,9 @@ jobs:
     - run: npm run build
     - run: npm run test
 
+    - run: npm install @jsdevtools/npm-publish
+    - run: ./node_modules/.bin/npm-publish --token="${{ secrets.NPM_TOKEN }}" ./package.json
+
     - name: Build and Deploy
       uses: peaceiris/actions-gh-pages@v3
       with:
