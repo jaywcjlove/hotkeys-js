@@ -13,12 +13,10 @@ jobs:
   build-deploy:
     runs-on: ubuntu-18.04
     steps:
-    - uses: actions/checkout@master
-
-    - name: Setup Node
-      uses: actions/setup-node@v1
+    - uses: actions/checkout@v2
+    - uses: actions/setup-node@v2
       with:
-        node-version: '10.x'
+        node-version: 14
 
     # - name: Cache dependencies
     #   uses: actions/cache@v1
@@ -29,11 +27,11 @@ jobs:
     #       ${{ runner.os }}-node-
 
     - name: Look Changelog
-      uses: jaywcjlove/changelog-generator@v1.3.9
+      uses: jaywcjlove/changelog-generator@v1.4.0
       with:
         token: ${{ secrets.GITHUB_TOKEN }}
         filter-author: (jaywcjlove|小弟调调™|dependabot\[bot\]|Renovate Bot)
-        filter: '[R|r]elease[d]\s+[v|V]\d(\.\d+){0,2}'
+        filter: (^[\s]+?[R|r]elease)|(^[R|r]elease)
 
     - run: npm install
     - run: npm run build
@@ -51,32 +49,32 @@ jobs:
 
     - name: Is a tag created auto?
       id: create_tag
-      uses: jaywcjlove/create-tag-action@v1.1.7
+      uses: jaywcjlove/create-tag-action@v1.1.10
       with:
         token: ${{ secrets.GITHUB_TOKEN }}
         package-path: ./package.json
 
     - name: Generate Changelog
       id: changelog
-      uses: jaywcjlove/changelog-generator@v1.3.9
+      uses: jaywcjlove/changelog-generator@v1.4.0
       if: steps.create_tag.outputs.successful
       with:
         token: ${{ secrets.GITHUB_TOKEN }}
-        head-ref: ${{ steps.create_tag.outputs.version }}
         filter-author: (jaywcjlove|小弟调调™|dependabot\[bot\]|Renovate Bot)
-        filter: '[R|r]elease[d]\s+[v|V]\d(\.\d+){0,2}'
+        filter: (^[\s]+?[R|r]elease)|(^[R|r]elease)
 
     - name: Create Release
-      id: create_release
-      uses: actions/create-release@latest
-      if: steps.create_tag.outputs.successful
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      uses: ncipollo/release-action@v1
       with:
-        tag_name: ${{ steps.create_tag.outputs.version }}
-        release_name: ${{ steps.create_tag.outputs.version }}
+        token: ${{ secrets.GITHUB_TOKEN }}
+        name: ${{ steps.changelog.outputs.tag }}
+        tag: ${{ steps.changelog.outputs.tag }}
         body: |
+          [![](https://img.shields.io/badge/Open%20in-unpkg-blue)](https://uiwjs.github.io/npm-unpkg/#/pkg/hotkeys-js@${{steps.changelog.outputs.version}}/file/README.md) [![npm bundle size](https://img.shields.io/bundlephobia/minzip/hotkeys-js)](https://bundlephobia.com/result?p=hotkeys-js@${{steps.changelog.outputs.version}}) [![npm version](https://img.shields.io/npm/v/hotkeys-js.svg)](https://www.npmjs.com/package/hotkeys-js)
+          
+          ```bash
+          npm i hotkeys-js@${{steps.changelog.outputs.version}}
+          ```
+
           ${{ steps.changelog.outputs.compareurl }}
           ${{ steps.changelog.outputs.changelog }}
-        draft: false
-        prerelease: false
