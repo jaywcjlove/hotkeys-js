@@ -1,3 +1,6 @@
+/**
+ * @jest-environment jsdom
+ */
 const puppeteer = require('puppeteer');
 const path = require('path');
 const hotkeys = require('../dist/hotkeys');
