@@ -55,7 +55,7 @@
     "@kkt/scope-plugin-options": "6.9.0",
     "@uiw/react-github-corners": "1.4.0",
     "@uiw/react-mac-keyboard": "1.0.5",
-    "@uiw/react-markdown-preview": "3.1.1",
+    "@uiw/react-markdown-preview": "3.4.0",
     "@uiw/react-shields": "1.1.1",
     "@uiw/reset.css": "1.0.4",
     "babel-eslint": "10.1.0",
