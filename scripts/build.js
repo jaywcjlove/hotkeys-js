@@ -10,10 +10,28 @@ const zlib = require('zlib');
 const uglify = require('uglify-js');
 require('colors-cli/toxic');
 
+const resolve = require('rollup-plugin-node-resolve')
+const ts = require('rollup-plugin-typescript2')
+const getPath = _path => path.resolve(__dirname, _path)
+const extensions = [
+  '.js',
+  '.ts',
+  '.tsx'
+]
+// ts
+const tsPlugin = ts({
+  tsconfig: getPath('../tsconfig.json'), // 导入本地ts配置
+  extensions
+})
+
+
 // see below for details on the options
 const inputOptions = {
-  input: 'src/index.js',
+  input: 'src/index.ts',
   plugins: [
+    resolve(extensions),
+    tsPlugin,
+    
     nodeResolve.default(), // so Rollup can find `ms`
     commonjs(), // so Rollup can convert `ms` to an ES module
     babel.default({

@@ -6,12 +6,31 @@ const commonjs = require('@rollup/plugin-commonjs');
 const banner = require('bannerjs');
 require('colors-cli/toxic');
 
+
+const resolve = require('rollup-plugin-node-resolve')
+const ts = require('rollup-plugin-typescript2')
+const getPath = _path => path.resolve(__dirname, _path)
+const extensions = [
+  '.js',
+  '.ts',
+  '.tsx'
+]
+// ts
+const tsPlugin = ts({
+  tsconfig: getPath('../tsconfig.json'), // 导入本地ts配置
+  extensions
+})
+
+
 const watchOptions = {
-  input: 'src/index.js',
+  input: 'src/index.ts',
   plugins: [
-    nodeResolve(), // so Rollup can find `ms`
+    resolve(extensions),
+    tsPlugin,
+    
+    nodeResolve.default(), // so Rollup can find `ms`
     commonjs(), // so Rollup can convert `ms` to an ES module
-    babel({
+    babel.default({
       babelHelpers: 'bundled',
       exclude: 'node_modules/**', // 只编译我们的源代码
       presets: [[

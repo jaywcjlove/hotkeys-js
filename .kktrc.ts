@@ -1,11 +1,12 @@
 import path from 'path';
-import webpack from 'webpack';
+import webpack, { Configuration } from 'webpack';
 import lessModules from '@kkt/less-modules';
 import rawModules from '@kkt/raw-modules';
+import { LoaderConfOptions } from 'kkt';
 import scopePluginOptions from '@kkt/scope-plugin-options';
 import pkg from './package.json';
 
-export default (conf, env, options) => {
+export default (conf: Configuration, env: 'development' | 'production', options: LoaderConfOptions) => {
   conf = lessModules(conf, env, options);
   conf = rawModules(conf, env, options);
   conf = scopePluginOptions(conf, env, {
@@ -39,6 +40,7 @@ export default (conf, env, options) => {
   if (env === 'production') {
     conf.output = { ...conf.output, publicPath: './' };
   }
+  conf.entry =  "./website/index.tsx"
   return conf;
 }
 

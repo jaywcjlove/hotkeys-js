@@ -51,6 +51,25 @@ const _keyMap = {
   '[': 219,
   ']': 221,
   '\\': 220,
+  f1: 112,
+  f2: 113,
+  f3: 114,
+  f4: 115,
+  f5: 116,
+  f6: 117,
+  f7: 118,
+  f8: 119,
+  f9: 120,
+  f10: 121,
+  f11: 122,
+  f12: 123,
+  f13: 124,
+  f14: 125,
+  f15: 126,
+  f16: 127,
+  f17: 128,
+  f18: 129,
+  f19: 130,
 };
 
 // Modifier Keys
@@ -72,27 +91,33 @@ const _modifier = {
   command: 91,
 };
 const modifierMap = {
-  16: 'shiftKey',
-  18: 'altKey',
-  17: 'ctrlKey',
-  91: 'metaKey',
+  "16": 'shiftKey',
+  "18": 'altKey',
+  "17": 'ctrlKey',
+  "91": 'metaKey',
 
   shiftKey: 16,
   ctrlKey: 17,
   altKey: 18,
   metaKey: 91,
 };
-const _mods = {
-  16: false,
-  18: false,
-  17: false,
-  91: false,
+interface Mods {
+  [key: string]: boolean
+}
+const _mods: Mods = {
+  "16": false,
+  "18": false,
+  "17": false,
+  "91": false,
 };
-const _handlers = {};
+interface Handlers {
+  [key: string]: any
+}
+const _handlers: Handlers = {};
 
 // F1~F12 special key
-for (let k = 1; k < 20; k++) {
-  _keyMap[`f${k}`] = 111 + k;
-}
+// for (let k = 1; k < 20; k++) {
+//   _keyMap[`f${k}`] = 111 + k;
+// }
 
 export { _keyMap, _modifier, modifierMap, _mods, _handlers };

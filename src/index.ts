@@ -1,18 +1,24 @@
 import { addEvent, getMods, getKeys, compareArray } from './utils';
 import { _keyMap, _modifier, modifierMap, _mods, _handlers } from './var';
 
-let _downKeys = []; // 记录摁下的绑定键
+type KeyMap = keyof typeof _keyMap;
+type Modifier = keyof typeof _modifier;
+type ModifierMap = keyof typeof modifierMap;
+type Mods = keyof typeof _mods;
 
-let _scope = 'all'; // 默认热键范围
-const elementHasBindEvent = []; // 已绑定事件的节点记录
+
+let _downKeys: Array<number> = []; // 记录摁下的绑定键
+
+let _scope: string = 'all'; // 默认热键范围
+const elementHasBindEvent: Array<Document> = []; // 已绑定事件的节点记录
 
 // 返回键码
-const code = (x) => _keyMap[x.toLowerCase()]
-  || _modifier[x.toLowerCase()]
-  || x.toUpperCase().charCodeAt(0);
+const code = (x: KeyMap | Modifier | string) => {
+  return _keyMap[x.toLowerCase() as KeyMap] || _modifier[x.toLowerCase() as Modifier] || x.toUpperCase().charCodeAt(0);
+};
 
 // 设置获取当前范围（默认为'所有'）
-function setScope(scope) {
+function setScope(scope: string) {
   _scope = scope || 'all';
 }
 // 获取当前范围
@@ -26,7 +32,7 @@ function getPressedKeyCodes() {
 
 // 表单控件控件判断 返回 Boolean
 // hotkey is effective only when filter return true
-function filter(event) {
+function filter(event: Event & {srcElement: any}) {
   const target = event.target || event.srcElement;
   const { tagName } = target;
   let flag = true;
@@ -41,7 +47,7 @@ function filter(event) {
 }
 
 // 判断摁下的键是否为某个键，返回true或者false
-function isPressed(keyCode) {
+function isPressed(keyCode: string|number) {
   if (typeof keyCode === 'string') {
     keyCode = code(keyCode); // 转换成键码
   }
@@ -49,7 +55,7 @@ function isPressed(keyCode) {
 }
 
 // 循环删除handlers中的所有 scope(范围)
-function deleteScope(scope, newScope) {
+function deleteScope(scope: string, newScope: string) {
   let handlers;
   let i;
 
@@ -71,7 +77,7 @@ function deleteScope(scope, newScope) {
 }
 
 // 清除修饰键
-function clearModifier(event) {
+function clearModifier(event: any) {
   let key = event.keyCode || event.which || event.charCode;
   const i = _downKeys.indexOf(key);
 
@@ -87,14 +93,14 @@ function clearModifier(event) {
   // 修饰键 shiftKey altKey ctrlKey (command||metaKey) 清除
   if (key === 93 || key === 224) key = 91;
   if (key in _mods) {
-    _mods[key] = false;
+    _mods[key as Mods] = false;
 
     // 将修饰键重置为false
-    for (const k in _modifier) if (_modifier[k] === key) hotkeys[k] = false;
+    for (const k in _modifier) if (_modifier[k as Modifier] === key) hotkeys[k] = false;
   }
 }
 
-function unbind(keysInfo, ...args) {
+function unbind(keysInfo: any, ...args: any) {
   // unbind(), unbind all keys
   if (!keysInfo) {
     Object.keys(_handlers).forEach((key) => delete _handlers[key]);
@@ -126,8 +132,13 @@ function unbind(keysInfo, ...args) {
 // 解除绑定某个范围的快捷键
 const eachUnbind = ({
   key, scope, method, splitKey = '+',
+}: {
+  key?: string,
+  scope?: string,
+  method?: Function,
+  splitKey?: string
 }) => {
-  const multipleKeys = getKeys(key);
+  const multipleKeys: Array<string> = getKeys(key);
   multipleKeys.forEach((originKey) => {
     const unbindKeys = originKey.split(splitKey);
     const len = unbindKeys.length;
@@ -137,7 +148,7 @@ const eachUnbind = ({
     // 判断是否传入范围，没有就获取范围
     if (!scope) scope = getScope();
     const mods = len > 1 ? getMods(_modifier, unbindKeys) : [];
-    _handlers[keyCode] = _handlers[keyCode].map((record) => {
+    _handlers[keyCode] = _handlers[keyCode].map((record: any) => {
       // 通过函数判断，是否解除绑定，函数相等直接返回
       const isMatchingMethod = method ? record.method === method : true;
       if (
@@ -153,7 +164,7 @@ const eachUnbind = ({
 };
 
 // 对监听对应快捷键的回调函数进行处理
-function eventHandler(event, handler, scope) {
+function eventHandler(event: KeyboardEvent, handler: any, scope: string) {
   let modifiersMatch;
 
   // 看它是否在当前范围
@@ -164,8 +175,8 @@ function eventHandler(event, handler, scope) {
     for (const y in _mods) {
       if (Object.prototype.hasOwnProperty.call(_mods, y)) {
         if (
-          (!_mods[y] && handler.mods.indexOf(+y) > -1)
-          || (_mods[y] && handler.mods.indexOf(+y) === -1)
+          (!_mods[y as Mods] && handler.mods.indexOf(+y) > -1)
+          || (_mods[y as Mods] && handler.mods.indexOf(+y) === -1)
         ) {
           modifiersMatch = false;
         }
@@ -193,7 +204,7 @@ function eventHandler(event, handler, scope) {
 }
 
 // 处理keydown事件
-function dispatch(event) {
+function dispatch(this: any, event: KeyboardEvent) {
   const asterisk = _handlers['*'];
   let key = event.keyCode || event.which || event.charCode;
 
@@ -216,18 +227,18 @@ function dispatch(event) {
    * ===============================
    */
   ['ctrlKey', 'altKey', 'shiftKey', 'metaKey'].forEach((keyName) => {
-    const keyNum = modifierMap[keyName];
-    if (event[keyName] && _downKeys.indexOf(keyNum) === -1) {
-      _downKeys.push(keyNum);
-    } else if (!event[keyName] && _downKeys.indexOf(keyNum) > -1) {
-      _downKeys.splice(_downKeys.indexOf(keyNum), 1);
+    const keyNum = modifierMap[keyName as ModifierMap];
+    if (event[keyName as keyof typeof event] && _downKeys.indexOf(keyNum as number) === -1) {
+      _downKeys.push(keyNum as number);
+    } else if (!event[keyName as keyof typeof event] && _downKeys.indexOf(keyNum as number) > -1) {
+      _downKeys.splice(_downKeys.indexOf(keyNum as number), 1);
     } else if (keyName === 'metaKey' && event[keyName] && _downKeys.length === 3) {
       /**
        * Fix if Command is pressed:
        * ===============================
        */
       if (!(event.ctrlKey || event.shiftKey || event.altKey)) {
-        _downKeys = _downKeys.slice(_downKeys.indexOf(keyNum));
+        _downKeys = _downKeys.slice(_downKeys.indexOf(keyNum as number));
       }
     }
   });
@@ -236,11 +247,11 @@ function dispatch(event) {
    */
 
   if (key in _mods) {
-    _mods[key] = true;
+    _mods[key as Mods] = true;
 
     // 将特殊字符的key注册到 hotkeys 上
     for (const k in _modifier) {
-      if (_modifier[k] === key) hotkeys[k] = true;
+      if (_modifier[k as Modifier] === key) hotkeys[k] = true;
     }
 
     if (!asterisk) return;
@@ -249,7 +260,7 @@ function dispatch(event) {
   // 将 modifierMap 里面的修饰键绑定到 event 中
   for (const e in _mods) {
     if (Object.prototype.hasOwnProperty.call(_mods, e)) {
-      _mods[e] = event[modifierMap[e]];
+      _mods[e as Mods] = (event[modifierMap[e as ModifierMap] as keyof typeof event] as boolean);
     }
   }
   /**
@@ -311,13 +322,13 @@ function dispatch(event) {
 }
 
 // 判断 element 是否已经绑定事件
-function isElementBind(element) {
+function isElementBind(element: Document) {
   return elementHasBindEvent.indexOf(element) > -1;
 }
 
-function hotkeys(key, option, method) {
+var hotkeys: Hotkeys = (key: any, option: any, method?: any): void => {
   _downKeys = [];
-  const keys = getKeys(key); // 需要处理的快捷键列表
+  const keys = getKeys(key as string); // 需要处理的快捷键列表
   let mods = [];
   let scope = 'all'; // scope默认为all，所有范围都有效
   let element = document; // 快捷键事件绑定节点
@@ -351,7 +362,7 @@ function hotkeys(key, option, method) {
 
     // 将非修饰键转化为键码
     key = key[key.length - 1];
-    key = key === '*' ? '*' : code(key); // *表示匹配所有快捷键
+    key = key === '*' ? '*' : code(key as string); // *表示匹配所有快捷键
 
     // 判断key是否在_handlers中，不在就赋一个空数组
     if (!(key in _handlers)) _handlers[key] = [];
@@ -369,18 +380,18 @@ function hotkeys(key, option, method) {
   // 在全局document上设置快捷键
   if (typeof element !== 'undefined' && !isElementBind(element) && window) {
     elementHasBindEvent.push(element);
-    addEvent(element, 'keydown', (e) => {
-      dispatch(e);
+    addEvent(element, 'keydown', (e: Event) => {
+      dispatch(e as KeyboardEvent);
     });
     addEvent(window, 'focus', () => {
       _downKeys = [];
     });
-    addEvent(element, 'keyup', (e) => {
-      dispatch(e);
+    addEvent(element, 'keyup', (e: Event) => {
+      dispatch(e as KeyboardEvent);
       clearModifier(e);
     });
   }
-}
+};
 
 const _api = {
   setScope,
@@ -393,13 +404,13 @@ const _api = {
 };
 for (const a in _api) {
   if (Object.prototype.hasOwnProperty.call(_api, a)) {
-    hotkeys[a] = _api[a];
+    hotkeys[a] = _api[a as keyof typeof _api];
   }
 }
 
 if (typeof window !== 'undefined') {
   const _hotkeys = window.hotkeys;
-  hotkeys.noConflict = (deep) => {
+  hotkeys.noConflict = (deep: any) => {
     if (deep && window.hotkeys === hotkeys) {
       window.hotkeys = _hotkeys;
     }

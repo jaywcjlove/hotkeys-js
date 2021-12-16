@@ -2,16 +2,25 @@ import React, { Component } from 'react';
 import GithubCorner from '@uiw/react-github-corners';
 import { Github } from '@uiw/react-shields';
 import MarkdownPreview from '@uiw/react-markdown-preview';
-import KeyBoard from '@uiw/react-mac-keyboard';
+import KeyBoard, { KeyCodeData } from '@uiw/react-mac-keyboard';
 import Footer from './components/Footer';
 import styles from './styles/index.module.less';
 import DocumentStr from '../README.md';
 import hotkeys from '..';
 import pkg from '../package.json';
 
-export default class App extends Component {
-  constructor() {
-    super();
+type ArrayT<T, T1=T> = Array<T | T1>
+
+interface AppProps {
+
+}
+interface AppState {
+  keyCode: ArrayT<number>;
+  keyStr: ArrayT<string, number>;
+}
+export default class App extends Component<AppProps, AppState> {
+  constructor(props: AppProps) {
+    super(props);
     this.state = {
       keyCode: [],
       keyStr: [],
@@ -20,19 +29,20 @@ export default class App extends Component {
   }
 
   componentDidMount() {
+    console.log('componentDidMount');
     document.addEventListener('keyup', this.onKeyUpEvent);
-    function pkeys(keys, key) {
+    function pkeys(keys: ArrayT<number>, key: number): ArrayT<number> {
       if (keys.indexOf(key) === -1) keys.push(key);
       return keys;
     }
-    function pkeysStr(keysStr, key) {
+    function pkeysStr(keysStr: ArrayT<string, number>, key: string): ArrayT<string, number> {
       if (keysStr.indexOf(key) === -1) keysStr.push(key);
       return keysStr;
     }
-    hotkeys('*', (evn) => {
-      evn.preventDefault();
-      const keys = [];
-      const keyStr = [];
+    hotkeys('*', (evn): void => {
+      (evn as any).preventDefault();
+      const keys: ArrayT<number> = [];
+      const keyStr: ArrayT<number, string> = [];
       if (hotkeys.shift) {
         pkeys(keys, 16);
         pkeysStr(keyStr, 'shift');
@@ -67,7 +77,7 @@ export default class App extends Component {
     this.setState({ keyCode: [], keyStr: [] });
   }
 
-  onKeyBoardMouseDown(item) {
+  onKeyBoardMouseDown(item: KeyCodeData) {
     if (item.keycode > -1) {
       this.setState({ keyStr: [item.keycode] });
     }
@@ -77,7 +87,7 @@ export default class App extends Component {
     this.setState({ keyStr: [] });
   }
 
-  openVersionWebsite(e) {
+  openVersionWebsite(e: React.ChangeEvent<HTMLSelectElement>) {
     if (e.target && e.target.value) {
       window.location.href = e.target.value;
     }
@@ -85,7 +95,7 @@ export default class App extends Component {
 
   render() {
     const { keyStr, keyCode } = this.state;
-    let DocumentStrSource = DocumentStr;
+    let DocumentStrSource: string | undefined = DocumentStr;
     if (DocumentStrSource) DocumentStrSource = DocumentStr.replace(/([\s\S]*)<!--dividing-->/, '');
     return (
       <div>
@@ -124,7 +134,7 @@ export default class App extends Component {
         </div>
         <KeyBoard
           style={{ top: -40 }}
-          onMouseDown={this.onKeyBoardMouseDown.bind(this)}
+          onMouseDown={(e: React.MouseEvent<HTMLLIElement, MouseEvent>, item:KeyCodeData) => this.onKeyBoardMouseDown(item)}
           onMouseUp={this.onKeyBoardMouseUp.bind(this)}
           keyCode={keyCode}
         />
