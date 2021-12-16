@@ -29,7 +29,6 @@ export default class App extends Component<AppProps, AppState> {
   }
 
   componentDidMount() {
-    console.log('componentDidMount');
     document.addEventListener('keyup', this.onKeyUpEvent);
     function pkeys(keys: ArrayT<number>, key: number): ArrayT<number> {
       if (keys.indexOf(key) === -1) keys.push(key);

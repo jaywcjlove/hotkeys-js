@@ -164,7 +164,7 @@ const eachUnbind = ({
 };
 
 // 对监听对应快捷键的回调函数进行处理
-function eventHandler(event: KeyboardEvent, handler: any, scope: string) {
+function eventHandler(event: Event, handler: any, scope: string) {
   let modifiersMatch;
 
   // 看它是否在当前范围
@@ -204,7 +204,7 @@ function eventHandler(event: KeyboardEvent, handler: any, scope: string) {
 }
 
 // 处理keydown事件
-function dispatch(this: any, event: KeyboardEvent) {
+function dispatch(this: any, event: Event) {
   const asterisk = _handlers['*'];
   let key = event.keyCode || event.which || event.charCode;
 
@@ -381,13 +381,13 @@ var hotkeys: Hotkeys = (key: any, option: any, method?: any): void => {
   if (typeof element !== 'undefined' && !isElementBind(element) && window) {
     elementHasBindEvent.push(element);
     addEvent(element, 'keydown', (e: Event) => {
-      dispatch(e as KeyboardEvent);
+      dispatch(e);
     });
     addEvent(window, 'focus', () => {
       _downKeys = [];
     });
     addEvent(element, 'keyup', (e: Event) => {
-      dispatch(e as KeyboardEvent);
+      dispatch(e);
       clearModifier(e);
     });
   }

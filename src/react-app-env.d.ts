@@ -8,4 +8,7 @@ declare interface Hotkeys extends Function{
   [key: string]: any;
 }
 declare interface Document extends Document, Window {attachEvent?: any}
-declare interface Event extends KeyboardEvent, Event {srcElement: any}
+declare interface Event extends KeyboardEvent, Event {
+  srcElement: any,keyCode: number,which: number,charCode: number,
+  ctrlKey: any, altKey: any, shiftKey: any, metaKey: any
+}
