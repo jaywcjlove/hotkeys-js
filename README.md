@@ -378,6 +378,16 @@ $ npm run test
 $ npm run test:watch # Development model
 ```
 
+## Contributors
+
+As always, thanks to our amazing contributors!
+
+<a href="https://github.com/jaywcjlove/hotkeys/graphs/contributors">
+  <img src="https://jaywcjlove.github.io/hotkeys/CONTRIBUTORS.svg" />
+</a>
+
+Made with [github-action-contributors](https://github.com/jaywcjlove/github-action-contributors).
+
 ## License
 
 [MIT © Kenny Wong](./LICENSE)
