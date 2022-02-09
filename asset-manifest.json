@@ -1,22 +1,20 @@
 {
   "files": {
-    "main.css": "/hotkeys/static/css/main.a2230848.chunk.css",
-    "main.js": "/hotkeys/static/js/main.a4cb7482.chunk.js",
-    "main.js.map": "/hotkeys/static/js/main.a4cb7482.chunk.js.map",
-    "react-vendor.js": "/hotkeys/static/js/react-vendor.455eb214.chunk.js",
-    "react-vendor.js.map": "/hotkeys/static/js/react-vendor.455eb214.chunk.js.map",
-    "runtime-main.js": "/hotkeys/static/js/runtime-main.45bf8717.js",
-    "runtime-main.js.map": "/hotkeys/static/js/runtime-main.45bf8717.js.map",
+    "main.css": "/hotkeys/static/css/main.0b93c389.css",
+    "main.js": "/hotkeys/static/js/main.ad1543c5.js",
+    "refractor-vendor.js": "/hotkeys/static/js/refractor-vendor.8b65bcee.js",
+    "react-vendor.js": "/hotkeys/static/js/react-vendor.0ce24379.js",
+    "static/media/bg.jpg": "/hotkeys/static/media/bg.c118c911b775de37ecf2.jpg",
     "index.html": "/hotkeys/index.html",
-    "static/css/main.a2230848.chunk.css.map": "/hotkeys/static/css/main.a2230848.chunk.css.map",
-    "static/js/main.a4cb7482.chunk.js.LICENSE.txt": "/hotkeys/static/js/main.a4cb7482.chunk.js.LICENSE.txt",
-    "static/js/react-vendor.455eb214.chunk.js.LICENSE.txt": "/hotkeys/static/js/react-vendor.455eb214.chunk.js.LICENSE.txt",
-    "static/media/reset.less": "/hotkeys/static/media/bg.c118c911.jpg"
+    "main.0b93c389.css.map": "/hotkeys/static/css/main.0b93c389.css.map",
+    "main.ad1543c5.js.map": "/hotkeys/static/js/main.ad1543c5.js.map",
+    "refractor-vendor.8b65bcee.js.map": "/hotkeys/static/js/refractor-vendor.8b65bcee.js.map",
+    "react-vendor.0ce24379.js.map": "/hotkeys/static/js/react-vendor.0ce24379.js.map"
   },
   "entrypoints": [
-    "static/js/runtime-main.45bf8717.js",
-    "static/js/react-vendor.455eb214.chunk.js",
-    "static/css/main.a2230848.chunk.css",
-    "static/js/main.a4cb7482.chunk.js"
+    "static/js/refractor-vendor.8b65bcee.js",
+    "static/js/react-vendor.0ce24379.js",
+    "static/css/main.0b93c389.css",
+    "static/js/main.ad1543c5.js"
   ]
 }

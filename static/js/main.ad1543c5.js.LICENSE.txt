@@ -5,17 +5,20 @@ object-assign
 */
 
 /*!
+ * @uiw/copy-to-clipboard v1.0.12
+ * Copy to clipboard.
+ * 
+ * Copyright (c) 2021 Kenny Wang
+ * https://github.com/uiwjs/copy-to-clipboard.git
+ * 
+ * Licensed under the MIT license.
+ */
+
+/*!
  * Determine if an object is a Buffer
  *
  * @author   Feross Aboukhadijeh <https://feross.org>
  * @license  MIT
- */
-
-/*!
- * repeat-string <https://github.com/jonschlinkert/repeat-string>
- *
- * Copyright (c) 2014-2015, Jon Schlinkert.
- * Licensed under the MIT License.
  */
 
 /**
