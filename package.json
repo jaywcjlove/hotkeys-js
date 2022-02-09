@@ -61,7 +61,7 @@
     "@uiw/reset.css": "1.0.4",
     "bannerjs": "1.0.7",
     "classnames": "2.3.1",
-    "colors-cli": "1.0.27",
+    "colors-cli": "1.0.28",
     "eslint": "8.8.0",
     "eslint-config-airbnb": "19.0.4",
     "eslint-plugin-import": "2.25.4",
