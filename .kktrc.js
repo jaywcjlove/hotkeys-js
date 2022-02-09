@@ -28,10 +28,10 @@ export default (conf, env, options) => {
           name: 'react-vendor',
           chunks: 'all',
         },
-        prismjs: {
-          test: /[\\/]node_modules[\\/](prismjs)[\\/]/,
-          name: 'prismjs-vendor',
-          chunks: 'async',
+        refractor: {
+          test: /[\\/]node_modules[\\/](refractor)[\\/]/,
+          name: 'refractor-vendor',
+          chunks: 'all',
         },
       },
     },
