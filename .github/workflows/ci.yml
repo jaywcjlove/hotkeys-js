@@ -40,6 +40,13 @@ jobs:
     - run: npm install @jsdevtools/npm-publish -g
     - run: npm-publish --token="${{ secrets.NPM_TOKEN }}" ./package.json
 
+    - name: Generate Contributors Images
+      uses: jaywcjlove/github-action-contributors@main
+      with:
+        filter-author: (renovate\[bot\]|renovate-bot|dependabot\[bot\])
+        output: build/CONTRIBUTORS.svg
+        avatarSize: 42
+
     - name: Build and Deploy
       uses: peaceiris/actions-gh-pages@v3
       with:
