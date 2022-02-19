@@ -235,7 +235,7 @@ hotkeys.setScope('scope1');
 
 `hotkeys.unbind()` 解除绑定的所有快捷键
 `hotkeys.unbind("ctrl+o, ctrl+alt+enter")` 解除绑定两组快捷键  
-`hotkeys.unbind("ctrl+o","files")` 解除绑定名字叫files钟的一组快捷键  
+`hotkeys.unbind("ctrl+o","files")` 解除绑定名字叫files的区域范围中的一组快捷键  
 
 
 ```js
