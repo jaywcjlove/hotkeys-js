@@ -328,8 +328,9 @@ hotkeys.filter = function(event){
 // 如何增加过滤可编辑标签 <div contentEditable="true"></div>
 // contentEditable老浏览器不支持滴
 hotkeys.filter = function(event) {
-  var tagName = (event.target || event.srcElement).tagName;
-  return !(tagName.isContentEditable ||
+  var target = event.target || event.srcElement;
+  var tagName = target.tagName;
+  return !(target.isContentEditable ||
   tagName == 'INPUT' ||
   tagName == 'SELECT' ||
   tagName == 'TEXTAREA');
@@ -386,6 +387,16 @@ $ npm run doc
 $ npm run test
 $ npm run test:watch # Development model
 ```
+
+## Contributors
+
+As always, thanks to our amazing contributors!
+
+<a href="https://github.com/jaywcjlove/hotkeys/graphs/contributors">
+  <img src="https://jaywcjlove.github.io/hotkeys/CONTRIBUTORS.svg" />
+</a>
+
+Made with [github-action-contributors](https://github.com/jaywcjlove/github-action-contributors).
 
 
 ## License

@@ -76,7 +76,7 @@ Chrome
 
 HotKeys understands the following modifiers: `⇧`, `shift`, `option`, `⌥`, `alt`, `ctrl`, `control`, `command`, and `⌘`.
 
-The following special keys can be used for shortcuts: backspace, tab, clear, enter, return, esc, escape, space, up, down, left, right, home, end, pageup, pagedown, del, delete and f1 through f19.
+The following special keys can be used for shortcuts: backspace, tab, clear, enter, return, esc, escape, space, up, down, left, right, home, end, pageup, pagedown, del, delete, f1 through f19, num_0 through num_9, num_multiply, num_add, num_enter, num_subtract, num_decimal, num_divide.
 
 `⌘` Command()  
 `⌃` Control  
@@ -321,8 +321,9 @@ hotkeys.filter = function(event){
 //How to add the filter to edit labels. <div contentEditable="true"></div>
 //"contentEditable" Older browsers that do not support drops
 hotkeys.filter = function(event) {
-  var tagName = (event.target || event.srcElement).tagName;
-  return !(tagName.isContentEditable || tagName == 'INPUT' || tagName == 'SELECT' || tagName == 'TEXTAREA');
+  var target = event.target || event.srcElement;
+  var tagName = target.tagName;
+  return !(target.isContentEditable || tagName == 'INPUT' || tagName == 'SELECT' || tagName == 'TEXTAREA');
 }
 
 hotkeys.filter = function(event){
@@ -377,6 +378,16 @@ To contribute, please fork Hotkeys.js, add your patch and tests for it (in the `
 $ npm run test
 $ npm run test:watch # Development model
 ```
+
+## Contributors
+
+As always, thanks to our amazing contributors!
+
+<a href="https://github.com/jaywcjlove/hotkeys/graphs/contributors">
+  <img src="https://jaywcjlove.github.io/hotkeys/CONTRIBUTORS.svg" />
+</a>
+
+Made with [github-action-contributors](https://github.com/jaywcjlove/github-action-contributors).
 
 ## License
 

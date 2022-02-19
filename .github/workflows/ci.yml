@@ -27,7 +27,7 @@ jobs:
     #       ${{ runner.os }}-node-
 
     - name: Look Changelog
-      uses: jaywcjlove/changelog-generator@v1.4.1
+      uses: jaywcjlove/changelog-generator@v1.4.8
       with:
         token: ${{ secrets.GITHUB_TOKEN }}
         filter-author: (jaywcjlove|小弟调调™|dependabot\[bot\]|Renovate Bot)
@@ -40,6 +40,13 @@ jobs:
     - run: npm install @jsdevtools/npm-publish -g
     - run: npm-publish --token="${{ secrets.NPM_TOKEN }}" ./package.json
 
+    - name: Generate Contributors Images
+      uses: jaywcjlove/github-action-contributors@main
+      with:
+        filter-author: (renovate\[bot\]|renovate-bot|dependabot\[bot\])
+        output: build/CONTRIBUTORS.svg
+        avatarSize: 42
+
     - name: Build and Deploy
       uses: peaceiris/actions-gh-pages@v3
       with:
@@ -49,14 +56,13 @@ jobs:
 
     - name: Is a tag created auto?
       id: create_tag
-      uses: jaywcjlove/create-tag-action@v1.1.10
+      uses: jaywcjlove/create-tag-action@v1.3.5
       with:
-        token: ${{ secrets.GITHUB_TOKEN }}
         package-path: ./package.json
 
     - name: Generate Changelog
       id: changelog
-      uses: jaywcjlove/changelog-generator@v1.4.1
+      uses: jaywcjlove/changelog-generator@v1.4.8
       with:
         token: ${{ secrets.GITHUB_TOKEN }}
         filter-author: (jaywcjlove|小弟调调™|dependabot\[bot\]|Renovate Bot)
@@ -69,10 +75,11 @@ jobs:
 
     - name: Create Release
       uses: ncipollo/release-action@v1
+      if: steps.create_tag.outputs.successful
       with:
         token: ${{ secrets.GITHUB_TOKEN }}
-        name: ${{ steps.changelog.outputs.tag }}
-        tag: ${{ steps.changelog.outputs.tag }}
+        name: ${{ steps.create_tag.outputs.version }}
+        tag: ${{ steps.create_tag.outputs.version }}
         body: |
           [![](https://img.shields.io/badge/Open%20in-unpkg-blue)](https://uiwjs.github.io/npm-unpkg/#/pkg/hotkeys-js@${{steps.changelog.outputs.version}}/file/README.md) [![npm bundle size](https://img.shields.io/bundlephobia/minzip/hotkeys-js)](https://bundlephobia.com/result?p=hotkeys-js@${{steps.changelog.outputs.version}}) [![npm version](https://img.shields.io/npm/v/hotkeys-js.svg)](https://www.npmjs.com/package/hotkeys-js)
           
