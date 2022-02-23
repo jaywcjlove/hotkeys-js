@@ -6,7 +6,7 @@
 ![no dependencies](http://jaywcjlove.github.io/sb/status/no-dependencies.svg)
 [![GitHub Actions CI](https://github.com/jaywcjlove/hotkeys/actions/workflows/ci.yml/badge.svg)](https://github.com/jaywcjlove/hotkeys/actions/workflows/ci.yml)
 [![Coverage Status](https://coveralls.io/repos/github/jaywcjlove/hotkeys/badge.svg?branch=master)](https://coveralls.io/github/jaywcjlove/hotkeys?branch=master)
-[![English](https://jaywcjlove.github.io/sb/lang/english.svg)](./README.md)
+[![English](https://jaywcjlove.github.io/sb/lang/english.svg)](https://jaywcjlove.github.io/hotkeys/)
 [![for Gitee](https://jaywcjlove.github.io/sb/ico/gitee.svg)](https://gitee.com/jaywcjlove/hotkeys)
 
 这是一个强健的 Javascript 库用于捕获键盘输入和输入的组合键，它易于使用，没有依赖，压缩只有([~3kb](https://bundlephobia.com/result?p=hotkeys-js))，gzip: 1.73kb。[官方文档DEMO预览](http://jaywcjlove.github.io/hotkeys/?lang=cn)，[更多实例](https://github.com/jaywcjlove/hotkeys/issues?q=label%3ADemo+)。
