@@ -1,4 +1,4 @@
-name: GitHub Actions Deploy hotkeys-js
+name: CI
 on:
   push:
     branches:
