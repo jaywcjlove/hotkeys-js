@@ -2,7 +2,7 @@
  * hotkeys-js v3.8.7
  * A simple micro-library for defining and dispatching keyboard shortcuts. It has no dependencies.
  * 
- * Copyright (c) 2021 kenny wong <wowohoo@qq.com>
+ * Copyright (c) 2022 kenny wong <wowohoo@qq.com>
  * http://jaywcjlove.github.io/hotkeys
  * 
  * Licensed under the MIT license.
@@ -12,7 +12,7 @@
   typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory() :
   typeof define === 'function' && define.amd ? define(factory) :
   (global = typeof globalThis !== 'undefined' ? globalThis : global || self, global.hotkeys = factory());
-}(this, (function () { 'use strict';
+})(this, (function () { 'use strict';
 
   var isff = typeof navigator !== 'undefined' ? navigator.userAgent.toLowerCase().indexOf('firefox') > 0 : false; // 绑定事件
 
@@ -312,15 +312,10 @@
 
       if (!scope) scope = getScope();
       var mods = len > 1 ? getMods(_modifier, unbindKeys) : [];
-      _handlers[keyCode] = _handlers[keyCode].map(function (record) {
+      _handlers[keyCode] = _handlers[keyCode].filter(function (record) {
         // 通过函数判断，是否解除绑定，函数相等直接返回
         var isMatchingMethod = method ? record.method === method : true;
-
-        if (isMatchingMethod && record.scope === scope && compareArray(record.mods, mods)) {
-          return {};
-        }
-
-        return record;
+        return !(isMatchingMethod && record.scope === scope && compareArray(record.mods, mods));
       });
     });
   }; // 对监听对应快捷键的回调函数进行处理
@@ -577,4 +572,4 @@
 
   return hotkeys;
 
-})));
+}));
