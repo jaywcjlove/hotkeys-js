@@ -1,11 +1,10 @@
-/*!
- * hotkeys-js v3.8.7
- * A simple micro-library for defining and dispatching keyboard shortcuts. It has no dependencies.
+/**! 
+ * hotkeys-js v3.8.8 
+ * A simple micro-library for defining and dispatching keyboard shortcuts. It has no dependencies. 
  * 
- * Copyright (c) 2022 kenny wong <wowohoo@qq.com>
- * http://jaywcjlove.github.io/hotkeys
- * 
- * Licensed under the MIT license.
+ * Copyright (c) 2022 kenny wong <wowohoo@qq.com> 
+ * http://jaywcjlove.github.io/hotkeys 
+ * Licensed under the MIT license 
  */
 
 (function (global, factory) {
@@ -160,6 +159,8 @@
   }
 
   var _downKeys = []; // 记录摁下的绑定键
+
+  var winListendFocus = false; // window是否已经监听了focus事件
 
   var _scope = 'all'; // 默认热键范围
 
@@ -530,9 +531,14 @@
       addEvent(element, 'keydown', function (e) {
         dispatch(e);
       });
-      addEvent(window, 'focus', function () {
-        _downKeys = [];
-      });
+
+      if (!winListendFocus) {
+        winListendFocus = true;
+        addEvent(window, 'focus', function () {
+          _downKeys = [];
+        });
+      }
+
       addEvent(element, 'keyup', function (e) {
         dispatch(e);
         clearModifier(e);
