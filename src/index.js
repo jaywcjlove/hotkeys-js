@@ -137,17 +137,14 @@ const eachUnbind = ({
     // 判断是否传入范围，没有就获取范围
     if (!scope) scope = getScope();
     const mods = len > 1 ? getMods(_modifier, unbindKeys) : [];
-    _handlers[keyCode] = _handlers[keyCode].map((record) => {
+    _handlers[keyCode] = _handlers[keyCode].filter((record) => {
       // 通过函数判断，是否解除绑定，函数相等直接返回
       const isMatchingMethod = method ? record.method === method : true;
-      if (
+      return !(
         isMatchingMethod
         && record.scope === scope
         && compareArray(record.mods, mods)
-      ) {
-        return {};
-      }
-      return record;
+      );
     });
   });
 };
