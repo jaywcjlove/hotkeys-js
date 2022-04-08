@@ -2,7 +2,7 @@ import { addEvent, getMods, getKeys, compareArray } from './utils';
 import { _keyMap, _modifier, modifierMap, _mods, _handlers } from './var';
 
 let _downKeys = []; // 记录摁下的绑定键
-
+let winListendFocus = false; // window是否已经监听了focus事件
 let _scope = 'all'; // 默认热键范围
 const elementHasBindEvent = []; // 已绑定事件的节点记录
 
@@ -372,9 +372,12 @@ function hotkeys(key, option, method) {
     addEvent(element, 'keydown', (e) => {
       dispatch(e);
     });
-    addEvent(window, 'focus', () => {
-      _downKeys = [];
-    });
+    if (!winListendFocus) {
+      winListendFocus = true;
+      addEvent(window, 'focus', () => {
+        _downKeys = [];
+      });
+    }
     addEvent(element, 'keyup', (e) => {
       dispatch(e);
       clearModifier(e);
