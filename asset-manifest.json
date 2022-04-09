@@ -1,20 +1,19 @@
 {
   "files": {
-    "main.css": "/hotkeys/static/css/main.6c9d03b5.css",
-    "main.js": "/hotkeys/static/js/main.8cb2c38d.js",
+    "main.css": "/hotkeys/static/css/main.5e7f3f5b.css",
+    "main.js": "/hotkeys/static/js/main.75b09d95.js",
     "refractor-vendor.js": "/hotkeys/static/js/refractor-vendor.b78c6645.js",
-    "react-vendor.js": "/hotkeys/static/js/react-vendor.0ce24379.js",
-    "static/media/bg.jpg": "/hotkeys/static/media/bg.c118c911b775de37ecf2.jpg",
+    "react-vendor.js": "/hotkeys/static/js/react-vendor.aea406f1.js",
     "index.html": "/hotkeys/index.html",
-    "main.6c9d03b5.css.map": "/hotkeys/static/css/main.6c9d03b5.css.map",
-    "main.8cb2c38d.js.map": "/hotkeys/static/js/main.8cb2c38d.js.map",
+    "main.5e7f3f5b.css.map": "/hotkeys/static/css/main.5e7f3f5b.css.map",
+    "main.75b09d95.js.map": "/hotkeys/static/js/main.75b09d95.js.map",
     "refractor-vendor.b78c6645.js.map": "/hotkeys/static/js/refractor-vendor.b78c6645.js.map",
-    "react-vendor.0ce24379.js.map": "/hotkeys/static/js/react-vendor.0ce24379.js.map"
+    "react-vendor.aea406f1.js.map": "/hotkeys/static/js/react-vendor.aea406f1.js.map"
   },
   "entrypoints": [
     "static/js/refractor-vendor.b78c6645.js",
-    "static/js/react-vendor.0ce24379.js",
-    "static/css/main.6c9d03b5.css",
-    "static/js/main.8cb2c38d.js"
+    "static/js/react-vendor.aea406f1.js",
+    "static/css/main.5e7f3f5b.css",
+    "static/js/main.75b09d95.js"
   ]
 }
