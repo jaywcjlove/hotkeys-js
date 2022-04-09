@@ -43,9 +43,6 @@
   "jest": {
     "testURL": "http://localhost/"
   },
-  "dependencies": {
-    "typescript": "^4.6.3"
-  },
   "devDependencies": {
     "@babel/eslint-parser": "~7.17.0",
     "@kkt/less-modules": "~7.1.2",
