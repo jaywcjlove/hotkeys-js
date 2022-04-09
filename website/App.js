@@ -3,6 +3,7 @@ import GithubCorner from '@uiw/react-github-corners';
 import { Github } from '@uiw/react-shields';
 import MarkdownPreview from '@uiw/react-markdown-preview';
 import KeyBoard from '@uiw/react-mac-keyboard';
+import '@wcj/dark-mode';
 import Footer from './components/Footer';
 import styles from './styles/index.module.less';
 import DocumentStr from '../README.md';
@@ -89,15 +90,18 @@ export default class App extends Component {
     if (DocumentStrSource) DocumentStrSource = DocumentStr.replace(/([\s\S]*)<!--dividing-->/, '');
     return (
       <div>
-        <select className={styles.version} onChange={this.openVersionWebsite.bind(this)}>
-          <option value="https://jaywcjlove.github.io/hotkeys">
-            v
-            {pkg.version}
-          </option>
-          <option value="https://unpkg.com/hotkeys-js@3.4.3/doc/index.html">v3.4.3</option>
-          <option value="https://unpkg.com/hotkeys-js@3.4.2/doc/index.html">v3.4.2</option>
-          <option value="https://unpkg.com/hotkeys-js@2.0.10/doc/index.html">v2.0.10</option>
-        </select>
+        <div className={styles.tools}>
+          <select className={styles.version} onChange={this.openVersionWebsite.bind(this)}>
+            <option value="https://jaywcjlove.github.io/hotkeys">
+              v
+              {pkg.version}
+            </option>
+            <option value="https://unpkg.com/hotkeys-js@3.4.3/doc/index.html">v3.4.3</option>
+            <option value="https://unpkg.com/hotkeys-js@3.4.2/doc/index.html">v3.4.2</option>
+            <option value="https://unpkg.com/hotkeys-js@2.0.10/doc/index.html">v2.0.10</option>
+          </select>
+          <dark-mode permanent />
+        </div>
         {keyStr.length > -1 && (
           <div className={styles.keyCodeInfo}>
             {keyStr.map((item) => <span key={`${item}`}>{item}</span>)}
