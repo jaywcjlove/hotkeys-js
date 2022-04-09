@@ -1,11 +1,12 @@
 {
   "files": {
-    "main.css": "/hotkeys/static/css/main.5e7f3f5b.css",
+    "main.css": "/hotkeys/static/css/main.6fbdbd3f.css",
     "main.js": "/hotkeys/static/js/main.75b09d95.js",
     "refractor-vendor.js": "/hotkeys/static/js/refractor-vendor.b78c6645.js",
     "react-vendor.js": "/hotkeys/static/js/react-vendor.aea406f1.js",
+    "static/media/bg.jpg": "/hotkeys/static/media/bg.c118c911b775de37ecf2.jpg",
     "index.html": "/hotkeys/index.html",
-    "main.5e7f3f5b.css.map": "/hotkeys/static/css/main.5e7f3f5b.css.map",
+    "main.6fbdbd3f.css.map": "/hotkeys/static/css/main.6fbdbd3f.css.map",
     "main.75b09d95.js.map": "/hotkeys/static/js/main.75b09d95.js.map",
     "refractor-vendor.b78c6645.js.map": "/hotkeys/static/js/refractor-vendor.b78c6645.js.map",
     "react-vendor.aea406f1.js.map": "/hotkeys/static/js/react-vendor.aea406f1.js.map"
@@ -13,7 +14,7 @@
   "entrypoints": [
     "static/js/refractor-vendor.b78c6645.js",
     "static/js/react-vendor.aea406f1.js",
-    "static/css/main.5e7f3f5b.css",
+    "static/css/main.6fbdbd3f.css",
     "static/js/main.75b09d95.js"
   ]
 }
