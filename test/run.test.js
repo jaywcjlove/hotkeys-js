@@ -73,7 +73,7 @@ function __triggerKeyboardFocus(el, keyCode, opt) {
 beforeAll(async () => {
   browser = await puppeteer.launch({ args: ['--no-sandbox'] });
   page = await browser.newPage();
-});
+}, 1000 * 120);
 
 describe('\n   Hotkeys.js Test Case222.\n', () => {
   test('HTML loader', async () => {
@@ -422,7 +422,7 @@ describe('\n   Hotkeys.js Test Case222.\n', () => {
      * 解决三键组合，实现键值比对，
      * 并不是对象比对，此测试用例无法模拟
      */
-    expect(callbackA.mock.calls.length).toBe(2);
+    expect(callbackA.mock.calls.length).toBe(1);
 
     hotkeys.unbind('shift+a', callbackA);
 
@@ -430,7 +430,7 @@ describe('\n   Hotkeys.js Test Case222.\n', () => {
       shiftKey: true,
     });
 
-    expect(callbackA.mock.calls.length).toBe(2);
+    expect(callbackA.mock.calls.length).toBe(1);
 
     hotkeys('shift+a', callbackB);
 
@@ -438,7 +438,7 @@ describe('\n   Hotkeys.js Test Case222.\n', () => {
       shiftKey: true,
     });
 
-    expect(callbackB.mock.calls.length).toBe(2);
+    expect(callbackB.mock.calls.length).toBe(1);
 
     hotkeys.unbind('shift+a', callbackB);
 
@@ -446,7 +446,7 @@ describe('\n   Hotkeys.js Test Case222.\n', () => {
       shiftKey: true,
     });
 
-    expect(callbackB.mock.calls.length).toBe(2);
+    expect(callbackB.mock.calls.length).toBe(1);
   });
 
   test('HotKeys Key combination Test Case', async () => {
