@@ -150,7 +150,10 @@ const eachUnbind = ({
 };
 
 // 对监听对应快捷键的回调函数进行处理
-function eventHandler(event, handler, scope) {
+function eventHandler(event, handler, scope, element) {
+  if (handler.element !== element) {
+    return;
+  }
   let modifiersMatch;
 
   // 看它是否在当前范围
@@ -190,7 +193,7 @@ function eventHandler(event, handler, scope) {
 }
 
 // 处理keydown事件
-function dispatch(event) {
+function dispatch(event, element) {
   const asterisk = _handlers['*'];
   let key = event.keyCode || event.which || event.charCode;
 
@@ -278,7 +281,7 @@ function dispatch(event) {
         && ((event.type === 'keydown' && asterisk[i].keydown)
         || (event.type === 'keyup' && asterisk[i].keyup))
       ) {
-        eventHandler(event, asterisk[i], scope);
+        eventHandler(event, asterisk[i], scope, element);
       }
     }
   }
@@ -300,7 +303,7 @@ function dispatch(event) {
         }
         if (_downKeysCurrent.sort().join('') === _downKeys.sort().join('')) {
           // 找到处理内容
-          eventHandler(event, record, scope);
+          eventHandler(event, record, scope, element);
         }
       }
     }
@@ -361,13 +364,14 @@ function hotkeys(key, option, method) {
       method,
       key: keys[i],
       splitKey,
+      element,
     });
   }
   // 在全局document上设置快捷键
   if (typeof element !== 'undefined' && !isElementBind(element) && window) {
     elementHasBindEvent.push(element);
     addEvent(element, 'keydown', (e) => {
-      dispatch(e);
+      dispatch(e, element);
     });
     if (!winListendFocus) {
       winListendFocus = true;
@@ -376,7 +380,7 @@ function hotkeys(key, option, method) {
       });
     }
     addEvent(element, 'keyup', (e) => {
-      dispatch(e);
+      dispatch(e, element);
       clearModifier(e);
     });
   }
