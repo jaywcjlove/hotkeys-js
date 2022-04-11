@@ -1,5 +1,5 @@
 /**! 
- * hotkeys-js v3.8.8 
+ * hotkeys-js v3.8.9 
  * A simple micro-library for defining and dispatching keyboard shortcuts. It has no dependencies. 
  * 
  * Copyright (c) 2022 kenny wong <wowohoo@qq.com> 
@@ -318,7 +318,11 @@ var eachUnbind = function eachUnbind(_ref) {
 }; // 对监听对应快捷键的回调函数进行处理
 
 
-function eventHandler(event, handler, scope) {
+function eventHandler(event, handler, scope, element) {
+  if (handler.element !== element) {
+    return;
+  }
+
   var modifiersMatch; // 看它是否在当前范围
 
   if (handler.scope === scope || handler.scope === 'all') {
@@ -345,7 +349,7 @@ function eventHandler(event, handler, scope) {
 } // 处理keydown事件
 
 
-function dispatch(event) {
+function dispatch(event, element) {
   var asterisk = _handlers['*'];
   var key = event.keyCode || event.which || event.charCode; // 表单控件过滤 默认表单控件不触发快捷键
 
@@ -430,7 +434,7 @@ function dispatch(event) {
   if (asterisk) {
     for (var i = 0; i < asterisk.length; i++) {
       if (asterisk[i].scope === scope && (event.type === 'keydown' && asterisk[i].keydown || event.type === 'keyup' && asterisk[i].keyup)) {
-        eventHandler(event, asterisk[i], scope);
+        eventHandler(event, asterisk[i], scope, element);
       }
     }
   } // key 不在 _handlers 中返回
@@ -452,7 +456,7 @@ function dispatch(event) {
 
         if (_downKeysCurrent.sort().join('') === _downKeys.sort().join('')) {
           // 找到处理内容
-          eventHandler(event, record, scope);
+          eventHandler(event, record, scope, element);
         }
       }
     }
@@ -517,7 +521,8 @@ function hotkeys(key, option, method) {
       shortcut: keys[i],
       method: method,
       key: keys[i],
-      splitKey: splitKey
+      splitKey: splitKey,
+      element: element
     });
   } // 在全局document上设置快捷键
 
@@ -525,7 +530,7 @@ function hotkeys(key, option, method) {
   if (typeof element !== 'undefined' && !isElementBind(element) && window) {
     elementHasBindEvent.push(element);
     addEvent(element, 'keydown', function (e) {
-      dispatch(e);
+      dispatch(e, element);
     });
 
     if (!winListendFocus) {
@@ -536,7 +541,7 @@ function hotkeys(key, option, method) {
     }
 
     addEvent(element, 'keyup', function (e) {
-      dispatch(e);
+      dispatch(e, element);
       clearModifier(e);
     });
   }
