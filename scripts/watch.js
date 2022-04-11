@@ -9,9 +9,9 @@ require('colors-cli/toxic');
 const watchOptions = {
   input: 'src/index.js',
   plugins: [
-    nodeResolve(), // so Rollup can find `ms`
+    nodeResolve.default(), // so Rollup can find `ms`
     commonjs(), // so Rollup can convert `ms` to an ES module
-    babel({
+    babel.default({
       babelHelpers: 'bundled',
       exclude: 'node_modules/**', // 只编译我们的源代码
       presets: [[
