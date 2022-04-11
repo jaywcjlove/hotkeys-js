@@ -29,6 +29,7 @@ const watchOptions = {
     {
       file: 'dist/hotkeys.common.js',
       name: 'hotkeys',
+      exports: 'auto',
       banner: banner.multibanner(),
       format: 'cjs',
     },
