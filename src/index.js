@@ -404,6 +404,9 @@ const _api = {
   filter,
   trigger,
   unbind,
+  keyMap: _keyMap,
+  modifier: _modifier,
+  modifierMap,
 };
 for (const a in _api) {
   if (Object.prototype.hasOwnProperty.call(_api, a)) {

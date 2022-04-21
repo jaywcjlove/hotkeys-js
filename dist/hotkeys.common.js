@@ -568,7 +568,10 @@ var _api = {
   isPressed: isPressed,
   filter: filter,
   trigger: trigger,
-  unbind: unbind
+  unbind: unbind,
+  keyMap: _keyMap,
+  modifier: _modifier,
+  modifierMap: modifierMap
 };
 
 for (var a in _api) {
