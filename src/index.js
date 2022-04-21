@@ -386,6 +386,15 @@ function hotkeys(key, option, method) {
   }
 }
 
+function trigger(shortcut, scope = 'all') {
+  Object.keys(_handlers).forEach((key) => {
+    const data = _handlers[key].find((item) => item.scope === scope && item.shortcut === shortcut);
+    if (data && data.method) {
+      data.method();
+    }
+  });
+}
+
 const _api = {
   setScope,
   getScope,
@@ -393,6 +402,7 @@ const _api = {
   getPressedKeyCodes,
   isPressed,
   filter,
+  trigger,
   unbind,
 };
 for (const a in _api) {

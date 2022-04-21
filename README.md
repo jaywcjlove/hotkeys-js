@@ -176,6 +176,22 @@ hotkeys('+', { splitKey: '-' }, function(e){
 })
 ```
 
+**keyup**
+
+**key down** and **key up** both perform callback events.
+
+```js
+hotkeys('ctrl+a,alt+a+s', {keyup: true}, function(event, handler) {
+  if (event.type === 'keydown') {
+    console.log('keydown:', event.type, handler, handler.key);
+  }
+
+  if (event.type === 'keyup') {
+    console.log('keyup:', event.type, handler, handler.key);
+  }
+});
+```
+
 ## API REFERENCE
 
 Asterisk "*"
@@ -291,20 +307,11 @@ hotkeys('a', function() {
 });
 ```
 
-## keyup
-
-**key down** and **key up** both perform callback events.
+### trigger
 
 ```js
-hotkeys('ctrl+a,alt+a+s', {keyup: true}, function(event, handler) {
-  if (event.type === 'keydown') {
-    console.log('keydown:', event.type, handler, handler.key);
-  }
-
-  if (event.type === 'keyup') {
-    console.log('keyup:', event.type, handler, handler.key);
-  }
-});
+hotkeys.trigger('ctrl+o');
+hotkeys.trigger('ctrl+o', 'scope2');
 ```
 
 ### getPressedKeyCodes

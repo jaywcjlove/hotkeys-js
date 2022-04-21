@@ -545,6 +545,19 @@ function hotkeys(key, option, method) {
   }
 }
 
+function trigger(shortcut) {
+  var scope = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 'all';
+  Object.keys(_handlers).forEach(function (key) {
+    var data = _handlers[key].find(function (item) {
+      return item.scope === scope && item.shortcut === shortcut;
+    });
+
+    if (data && data.method) {
+      data.method();
+    }
+  });
+}
+
 var _api = {
   setScope: setScope,
   getScope: getScope,
@@ -552,6 +565,7 @@ var _api = {
   getPressedKeyCodes: getPressedKeyCodes,
   isPressed: isPressed,
   filter: filter,
+  trigger: trigger,
   unbind: unbind
 };
 

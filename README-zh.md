@@ -238,6 +238,13 @@ hotkeys.getScope();
 hotkeys.setScope('scope1');
 ```
 
+## trigger
+
+```js
+hotkeys.trigger('ctrl+o')
+hotkeys.trigger('ctrl+o', 'scope2')
+```
+
 ## 解除绑定
 
 `hotkeys.unbind()` 解除绑定的所有快捷键
