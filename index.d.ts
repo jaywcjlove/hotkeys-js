@@ -31,11 +31,17 @@ interface Hotkeys {
   cmd: boolean;
   command: boolean;
 
+  keyMap: Record<string, number>;
+  modifier: Record<string, number>;
+  modifierMap: Record<string, number | string>;
+
   setScope(scopeName: string): void;
   getScope(): string;
   deleteScope(scopeName: string): void;
 
   noConflict(): Hotkeys;
+
+  trigger(shortcut: string, scope?: string): void;
 
   unbind(key?: string): void;
   unbind(key: string, scopeName: string): void;
