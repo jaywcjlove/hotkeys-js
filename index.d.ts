@@ -37,7 +37,7 @@ interface Hotkeys {
 
   setScope(scopeName: string): void;
   getScope(): string;
-  deleteScope(scopeName: string): void;
+  deleteScope(scopeName: string, newScopeName?: string): void;
 
   noConflict(): Hotkeys;
 

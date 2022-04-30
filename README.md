@@ -262,6 +262,11 @@ Use the `hotkeys.deleteScope` method to delete a scope. This will also remove al
 ```js
 hotkeys.deleteScope('issues');
 ```
+You can use second argument, if need set new scope after deleting.
+
+```js
+hotkeys.deleteScope('issues', 'newScopeName');
+```
 
 ### unbind
 
