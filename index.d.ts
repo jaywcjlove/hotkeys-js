@@ -18,7 +18,7 @@ type Options = {
   splitKey?: string;
 }
 
-interface Hotkeys {
+export interface Hotkeys {
   (key: string, method: KeyHandler): void;
   (key: string, scope: string, method: KeyHandler): void;
   (key: string, options: Options, method: KeyHandler): void;
