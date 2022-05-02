@@ -15,6 +15,7 @@ type Options = {
   element?: HTMLElement | null;
   keyup?: boolean | null;
   keydown?: boolean | null;
+  capture?: boolean
   splitKey?: string;
 }
 

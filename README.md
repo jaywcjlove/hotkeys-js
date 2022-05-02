@@ -158,6 +158,7 @@ hotkeys('*','wcj', function(event){
 - `keyup<Boolean>`
 - `keydown<Boolean>`
 - `splitKey<string>` (default is `+`)
+- `capture<Boolean>`
 
 ```js
 hotkeys('o, enter', {

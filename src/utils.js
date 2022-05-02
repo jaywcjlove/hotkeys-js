@@ -1,9 +1,9 @@
 const isff = typeof navigator !== 'undefined' ? navigator.userAgent.toLowerCase().indexOf('firefox') > 0 : false;
 
 // 绑定事件
-function addEvent(object, event, method) {
+function addEvent(object, event, method, useCapture) {
   if (object.addEventListener) {
-    object.addEventListener(event, method, false);
+    object.addEventListener(event, method, useCapture);
   } else if (object.attachEvent) {
     object.attachEvent(`on${event}`, () => { method(window.event); });
   }
