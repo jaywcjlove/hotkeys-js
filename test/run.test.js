@@ -646,6 +646,23 @@ describe('\n   Hotkeys.js Test Case222.\n', () => {
     });
   });
 
+  test('Hotkey modifier capture', async () => {
+    let isExecuteFunction = false;
+    const el = document.createElement('div');
+
+    el.addEventListener('keydown', () => {
+      isExecuteFunction = true;
+    });
+
+    await hotkeys('a', { capture: true, element: el }, (event) => {
+      event.stopImmediatePropagation();
+    });
+
+    __triggerKeyboardEvent(el, 65);
+    expect(isExecuteFunction).toBeFalsy();
+    await hotkeys.unbind('a');
+  });
+
   afterAll(async () => {
     await browser.close();
   });

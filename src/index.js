@@ -325,6 +325,7 @@ function hotkeys(key, option, method) {
   let keyup = false;
   let keydown = true;
   let splitKey = '+';
+  let capture = false;
 
   // 对为设定范围的判断
   if (method === undefined && typeof option === 'function') {
@@ -336,6 +337,7 @@ function hotkeys(key, option, method) {
     if (option.element) element = option.element; // eslint-disable-line
     if (option.keyup) keyup = option.keyup; // eslint-disable-line
     if (option.keydown !== undefined) keydown = option.keydown; // eslint-disable-line
+    if (option.capture !== undefined) capture = option.capture; // eslint-disable-line
     if (typeof option.splitKey === 'string') splitKey = option.splitKey; // eslint-disable-line
   }
 
@@ -372,17 +374,17 @@ function hotkeys(key, option, method) {
     elementHasBindEvent.push(element);
     addEvent(element, 'keydown', (e) => {
       dispatch(e, element);
-    });
+    }, capture);
     if (!winListendFocus) {
       winListendFocus = true;
       addEvent(window, 'focus', () => {
         _downKeys = [];
-      });
+      }, capture);
     }
     addEvent(element, 'keyup', (e) => {
       dispatch(e, element);
       clearModifier(e);
-    });
+    }, capture);
   }
 }
 
