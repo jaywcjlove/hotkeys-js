@@ -49,7 +49,7 @@
     "@kkt/raw-modules": "~7.1.2",
     "@kkt/scope-plugin-options": "~7.1.2",
     "@rollup/plugin-babel": "~5.3.1",
-    "@rollup/plugin-commonjs": "~21.0.3",
+    "@rollup/plugin-commonjs": "~22.0.0",
     "@rollup/plugin-node-resolve": "~13.1.3",
     "@uiw/react-github-corners": "~1.5.14",
     "@uiw/react-mac-keyboard": "~1.1.4",
