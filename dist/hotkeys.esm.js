@@ -1,5 +1,5 @@
 /**! 
- * hotkeys-js v3.9.0 
+ * hotkeys-js v3.9.3 
  * A simple micro-library for defining and dispatching keyboard shortcuts. It has no dependencies. 
  * 
  * Copyright (c) 2022 kenny wong <wowohoo@qq.com> 
@@ -9,9 +9,9 @@
 
 var isff = typeof navigator !== 'undefined' ? navigator.userAgent.toLowerCase().indexOf('firefox') > 0 : false; // 绑定事件
 
-function addEvent(object, event, method) {
+function addEvent(object, event, method, useCapture) {
   if (object.addEventListener) {
-    object.addEventListener(event, method, false);
+    object.addEventListener(event, method, useCapture);
   } else if (object.attachEvent) {
     object.attachEvent("on".concat(event), function () {
       method(window.event);
@@ -254,7 +254,7 @@ function clearModifier(event) {
 
 function unbind(keysInfo) {
   // unbind(), unbind all keys
-  if (!keysInfo) {
+  if (typeof keysInfo === 'undefined') {
     Object.keys(_handlers).forEach(function (key) {
       return delete _handlers[key];
     });
@@ -478,7 +478,8 @@ function hotkeys(key, option, method) {
   var i = 0;
   var keyup = false;
   var keydown = true;
-  var splitKey = '+'; // 对为设定范围的判断
+  var splitKey = '+';
+  var capture = false; // 对为设定范围的判断
 
   if (method === undefined && typeof option === 'function') {
     method = option;
@@ -492,6 +493,8 @@ function hotkeys(key, option, method) {
     if (option.keyup) keyup = option.keyup; // eslint-disable-line
 
     if (option.keydown !== undefined) keydown = option.keydown; // eslint-disable-line
+
+    if (option.capture !== undefined) capture = option.capture; // eslint-disable-line
 
     if (typeof option.splitKey === 'string') splitKey = option.splitKey; // eslint-disable-line
   }
@@ -529,19 +532,19 @@ function hotkeys(key, option, method) {
     elementHasBindEvent.push(element);
     addEvent(element, 'keydown', function (e) {
       dispatch(e, element);
-    });
+    }, capture);
 
     if (!winListendFocus) {
       winListendFocus = true;
       addEvent(window, 'focus', function () {
         _downKeys = [];
-      });
+      }, capture);
     }
 
     addEvent(element, 'keyup', function (e) {
       dispatch(e, element);
       clearModifier(e);
-    });
+    }, capture);
   }
 }
 

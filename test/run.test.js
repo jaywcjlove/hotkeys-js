@@ -185,6 +185,19 @@ describe('\n   Hotkeys.js Test Case222.\n', () => {
     expect(hotkeys.unbind('enter12')).toBe(undefined);
   });
 
+  test('passing an empty string to unbind does not remove all handlers', () => {
+    let isExecuteFunction = false;
+    hotkeys('enter', (e) => {
+      isExecuteFunction = true;
+      expect(e.keyCode).toBe(13);
+    });
+
+    hotkeys.unbind('');
+
+    __triggerKeyboardEvent(document.body, 13);
+    expect(isExecuteFunction).toBeTruthy();
+  });
+
   test('HotKeys Special keys Test Case', async () => {
     let isExecuteFunction = false;
     hotkeys('enter', (e) => {
