@@ -44,7 +44,7 @@
     "testURL": "http://localhost/"
   },
   "devDependencies": {
-    "@babel/eslint-parser": "~7.17.0",
+    "@babel/eslint-parser": "~7.18.0",
     "@kkt/less-modules": "~7.1.2",
     "@kkt/raw-modules": "~7.1.2",
     "@kkt/scope-plugin-options": "~7.1.2",
