@@ -3,9 +3,11 @@ import { isff } from './utils';
 // Special Keys
 const _keyMap = {
   backspace: 8,
+  '⌫': 8,
   tab: 9,
   clear: 12,
   enter: 13,
+  '↩': 13,
   return: 13,
   esc: 27,
   escape: 27,
