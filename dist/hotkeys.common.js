@@ -1,5 +1,5 @@
 /**! 
- * hotkeys-js v3.9.4 
+ * hotkeys-js v3.9.5 
  * A simple micro-library for defining and dispatching keyboard shortcuts. It has no dependencies. 
  * 
  * Copyright (c) 2022 kenny wong <wowohoo@qq.com> 
@@ -65,9 +65,11 @@ function compareArray(a1, a2) {
 
 var _keyMap = {
   backspace: 8,
+  '⌫': 8,
   tab: 9,
   clear: 12,
   enter: 13,
+  '↩': 13,
   return: 13,
   esc: 27,
   escape: 27,
