@@ -107,6 +107,24 @@ describe('\n   Hotkeys.js Test Case222.\n', () => {
     await hotkeys.unbind('command+ctrl+shift+a');
   });
 
+  test('HotKeys getPressedKeyString Test Case', async () => {
+    let isExecuteFunction = false;
+    await hotkeys('command+ctrl+shift+a', (e) => {
+      isExecuteFunction = true;
+      expect(e.metaKey).toBeTruthy();
+      expect(e.ctrlKey).toBeTruthy();
+      expect(e.shiftKey).toBeTruthy();
+      expect(hotkeys.getPressedKeyString()).toEqual(['⇧', '⌃', 'A', '⌘']);
+    });
+    __triggerKeyboardEvent(document.body, 65, {
+      metaKey: true,
+      ctrlKey: true,
+      shiftKey: true,
+    });
+    expect(isExecuteFunction).toBeTruthy();
+    await hotkeys.unbind('command+ctrl+shift+a');
+  });
+
   test('HotKeys modifier scope,setScope,getScope,deleteScope Test Case', () => {
     let isExecuteFunction = false;
     __triggerKeyboardFocus(window);

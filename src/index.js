@@ -11,6 +11,9 @@ const code = (x) => _keyMap[x.toLowerCase()]
   || _modifier[x.toLowerCase()]
   || x.toUpperCase().charCodeAt(0);
 
+const getKey = (x) => Object.keys(_keyMap).find((k) => _keyMap[k] === x);
+const getModifier = (x) => Object.keys(_modifier).find((k) => _modifier[k] === x);
+
 // 设置获取当前范围（默认为'所有'）
 function setScope(scope) {
   _scope = scope || 'all';
@@ -22,6 +25,10 @@ function getScope() {
 // 获取摁下绑定键的键值
 function getPressedKeyCodes() {
   return _downKeys.slice(0);
+}
+
+function getPressedKeyString() {
+  return _downKeys.map((c) => getKey(c) || getModifier(c) || String.fromCharCode(c));
 }
 
 // 表单控件控件判断 返回 Boolean
@@ -398,6 +405,7 @@ function trigger(shortcut, scope = 'all') {
 }
 
 const _api = {
+  getPressedKeyString,
   setScope,
   getScope,
   deleteScope,
