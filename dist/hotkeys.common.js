@@ -167,6 +167,18 @@ var elementHasBindEvent = []; // 已绑定事件的节点记录
 
 var code = function code(x) {
   return _keyMap[x.toLowerCase()] || _modifier[x.toLowerCase()] || x.toUpperCase().charCodeAt(0);
+};
+
+var getKey = function getKey(x) {
+  return Object.keys(_keyMap).find(function (k) {
+    return _keyMap[k] === x;
+  });
+};
+
+var getModifier = function getModifier(x) {
+  return Object.keys(_modifier).find(function (k) {
+    return _modifier[k] === x;
+  });
 }; // 设置获取当前范围（默认为'所有'）
 
 
@@ -182,6 +194,12 @@ function getScope() {
 
 function getPressedKeyCodes() {
   return _downKeys.slice(0);
+}
+
+function getPressedKeyString() {
+  return _downKeys.map(function (c) {
+    return getKey(c) || getModifier(c) || String.fromCharCode(c);
+  });
 } // 表单控件控件判断 返回 Boolean
 // hotkey is effective only when filter return true
 
@@ -566,6 +584,7 @@ function trigger(shortcut) {
 }
 
 var _api = {
+  getPressedKeyString: getPressedKeyString,
   setScope: setScope,
   getScope: getScope,
   deleteScope: deleteScope,

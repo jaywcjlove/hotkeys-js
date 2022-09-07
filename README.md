@@ -34,8 +34,8 @@ import hotkeys from 'hotkeys-js';
 
 hotkeys('f5', function(event, handler){
   // Prevent the default refresh event under WINDOWS system
-  event.preventDefault() 
-  alert('you pressed F5!') 
+  event.preventDefault()
+  alert('you pressed F5!')
 });
 ```
 
@@ -85,13 +85,13 @@ HotKeys understands the following modifiers: `⇧`, `shift`, `option`, `⌥`, `a
 
 The following special keys can be used for shortcuts: backspace, tab, clear, enter, return, esc, escape, space, up, down, left, right, home, end, pageup, pagedown, del, delete, f1 through f19, num_0 through num_9, num_multiply, num_add, num_enter, num_subtract, num_decimal, num_divide.
 
-`⌘` Command()  
-`⌃` Control  
-`⌥` Option(alt)  
-`⇧` Shift  
-`⇪` Caps Lock(Capital)  
-~~`fn` Does not support fn~~  
-`↩︎` return/Enter space  
+`⌘` Command()
+`⌃` Control
+`⌥` Option(alt)
+`⇧` Shift
+`⇪` Caps Lock(Capital)
+~~`fn` Does not support fn~~
+`↩︎` return/Enter space
 
 ## Defining Shortcuts
 
@@ -118,12 +118,12 @@ hotkeys('ctrl+r, command+r', function() {
 
 // Single key
 hotkeys('a', function(event,handler){
-  //event.srcElement: input 
+  //event.srcElement: input
   //event.target: input
   if(event.target === "input"){
       alert('you pressed a!')
   }
-  alert('you pressed a!') 
+  alert('you pressed a!')
 });
 
 // Key Combination
@@ -151,7 +151,7 @@ hotkeys('*','wcj', function(event){
 });
 ```
 
-#### option 
+#### option
 
 - `scope<String>`
 - `element<HTMLElement>`
@@ -164,7 +164,7 @@ hotkeys('*','wcj', function(event){
 hotkeys('o, enter', {
   scope: 'wcj',
   element: document.getElementById('wrapper'),
-}, function(){ 
+}, function(){
   console.log('do something else');
 });
 
@@ -240,7 +240,7 @@ Use the `hotkeys.setScope` method to set scope. There can only be one active sco
 hotkeys('ctrl+o, ctrl+alt+enter', 'issues', function(){
   console.log('do something');
 });
-hotkeys('o, enter', 'files', function(){ 
+hotkeys('o, enter', 'files', function(){
   console.log('do something else');
 });
 
@@ -330,6 +330,17 @@ hotkeys('command+ctrl+shift+a,f', function(){
 })
 ```
 
+
+### getPressedKeyStrings
+
+Returns an array of key codes currently pressed.
+
+```js
+hotkeys('command+ctrl+shift+a,f', function(){
+  console.log(hotkeys.getPressedKeyString()); //=> ['⌘', '⌃', '⇧', 'A', 'F']
+})
+```
+
 ### filter
 
 By default hotkeys are not enabled for `INPUT` `SELECT` `TEXTAREA` elements. `Hotkeys.filter` to return to the `true` shortcut keys set to play a role, `false` shortcut keys set up failure.
@@ -364,12 +375,12 @@ k('a', function() {
 });
 
 hotkeys()
-// -->Uncaught TypeError: hotkeys is not a function(anonymous function) 
-// @ VM2170:2InjectedScript._evaluateOn 
-// @ VM2165:883InjectedScript._evaluateAndWrap 
+// -->Uncaught TypeError: hotkeys is not a function(anonymous function)
+// @ VM2170:2InjectedScript._evaluateOn
+// @ VM2165:883InjectedScript._evaluateAndWrap
 // @ VM2165:816InjectedScript.evaluate @ VM2165:682
 ```
- 
+
 ## Development
 
 To develop, Install dependencies, Get the code:
