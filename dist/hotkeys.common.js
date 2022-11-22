@@ -1,20 +1,19 @@
-/*!
- * hotkeys-js v3.8.7
- * A simple micro-library for defining and dispatching keyboard shortcuts. It has no dependencies.
+/**! 
+ * hotkeys-js v3.10.0 
+ * A simple micro-library for defining and dispatching keyboard shortcuts. It has no dependencies. 
  * 
- * Copyright (c) 2021 kenny wong <wowohoo@qq.com>
- * http://jaywcjlove.github.io/hotkeys
- * 
- * Licensed under the MIT license.
+ * Copyright (c) 2022 kenny wong <wowohoo@qq.com> 
+ * http://jaywcjlove.github.io/hotkeys 
+ * Licensed under the MIT license 
  */
 
 'use strict';
 
 var isff = typeof navigator !== 'undefined' ? navigator.userAgent.toLowerCase().indexOf('firefox') > 0 : false; // 绑定事件
 
-function addEvent(object, event, method) {
+function addEvent(object, event, method, useCapture) {
   if (object.addEventListener) {
-    object.addEventListener(event, method, false);
+    object.addEventListener(event, method, useCapture);
   } else if (object.attachEvent) {
     object.attachEvent("on".concat(event), function () {
       method(window.event);
@@ -66,9 +65,11 @@ function compareArray(a1, a2) {
 
 var _keyMap = {
   backspace: 8,
+  '⌫': 8,
   tab: 9,
   clear: 12,
   enter: 13,
+  '↩': 13,
   return: 13,
   esc: 27,
   escape: 27,
@@ -157,6 +158,8 @@ for (var k = 1; k < 20; k++) {
 
 var _downKeys = []; // 记录摁下的绑定键
 
+var winListendFocus = false; // window是否已经监听了focus事件
+
 var _scope = 'all'; // 默认热键范围
 
 var elementHasBindEvent = []; // 已绑定事件的节点记录
@@ -164,6 +167,18 @@ var elementHasBindEvent = []; // 已绑定事件的节点记录
 
 var code = function code(x) {
   return _keyMap[x.toLowerCase()] || _modifier[x.toLowerCase()] || x.toUpperCase().charCodeAt(0);
+};
+
+var getKey = function getKey(x) {
+  return Object.keys(_keyMap).find(function (k) {
+    return _keyMap[k] === x;
+  });
+};
+
+var getModifier = function getModifier(x) {
+  return Object.keys(_modifier).find(function (k) {
+    return _modifier[k] === x;
+  });
 }; // 设置获取当前范围（默认为'所有'）
 
 
@@ -179,6 +194,12 @@ function getScope() {
 
 function getPressedKeyCodes() {
   return _downKeys.slice(0);
+}
+
+function getPressedKeyString() {
+  return _downKeys.map(function (c) {
+    return getKey(c) || getModifier(c) || String.fromCharCode(c);
+  });
 } // 表单控件控件判断 返回 Boolean
 // hotkey is effective only when filter return true
 
@@ -255,7 +276,7 @@ function clearModifier(event) {
 
 function unbind(keysInfo) {
   // unbind(), unbind all keys
-  if (!keysInfo) {
+  if (typeof keysInfo === 'undefined') {
     Object.keys(_handlers).forEach(function (key) {
       return delete _handlers[key];
     });
@@ -308,21 +329,20 @@ var eachUnbind = function eachUnbind(_ref) {
 
     if (!scope) scope = getScope();
     var mods = len > 1 ? getMods(_modifier, unbindKeys) : [];
-    _handlers[keyCode] = _handlers[keyCode].map(function (record) {
+    _handlers[keyCode] = _handlers[keyCode].filter(function (record) {
       // 通过函数判断，是否解除绑定，函数相等直接返回
       var isMatchingMethod = method ? record.method === method : true;
-
-      if (isMatchingMethod && record.scope === scope && compareArray(record.mods, mods)) {
-        return {};
-      }
-
-      return record;
+      return !(isMatchingMethod && record.scope === scope && compareArray(record.mods, mods));
     });
   });
 }; // 对监听对应快捷键的回调函数进行处理
 
 
-function eventHandler(event, handler, scope) {
+function eventHandler(event, handler, scope, element) {
+  if (handler.element !== element) {
+    return;
+  }
+
   var modifiersMatch; // 看它是否在当前范围
 
   if (handler.scope === scope || handler.scope === 'all') {
@@ -349,7 +369,7 @@ function eventHandler(event, handler, scope) {
 } // 处理keydown事件
 
 
-function dispatch(event) {
+function dispatch(event, element) {
   var asterisk = _handlers['*'];
   var key = event.keyCode || event.which || event.charCode; // 表单控件过滤 默认表单控件不触发快捷键
 
@@ -434,7 +454,7 @@ function dispatch(event) {
   if (asterisk) {
     for (var i = 0; i < asterisk.length; i++) {
       if (asterisk[i].scope === scope && (event.type === 'keydown' && asterisk[i].keydown || event.type === 'keyup' && asterisk[i].keyup)) {
-        eventHandler(event, asterisk[i], scope);
+        eventHandler(event, asterisk[i], scope, element);
       }
     }
   } // key 不在 _handlers 中返回
@@ -456,7 +476,7 @@ function dispatch(event) {
 
         if (_downKeysCurrent.sort().join('') === _downKeys.sort().join('')) {
           // 找到处理内容
-          eventHandler(event, record, scope);
+          eventHandler(event, record, scope, element);
         }
       }
     }
@@ -480,7 +500,8 @@ function hotkeys(key, option, method) {
   var i = 0;
   var keyup = false;
   var keydown = true;
-  var splitKey = '+'; // 对为设定范围的判断
+  var splitKey = '+';
+  var capture = false; // 对为设定范围的判断
 
   if (method === undefined && typeof option === 'function') {
     method = option;
@@ -494,6 +515,8 @@ function hotkeys(key, option, method) {
     if (option.keyup) keyup = option.keyup; // eslint-disable-line
 
     if (option.keydown !== undefined) keydown = option.keydown; // eslint-disable-line
+
+    if (option.capture !== undefined) capture = option.capture; // eslint-disable-line
 
     if (typeof option.splitKey === 'string') splitKey = option.splitKey; // eslint-disable-line
   }
@@ -521,7 +544,8 @@ function hotkeys(key, option, method) {
       shortcut: keys[i],
       method: method,
       key: keys[i],
-      splitKey: splitKey
+      splitKey: splitKey,
+      element: element
     });
   } // 在全局document上设置快捷键
 
@@ -529,26 +553,49 @@ function hotkeys(key, option, method) {
   if (typeof element !== 'undefined' && !isElementBind(element) && window) {
     elementHasBindEvent.push(element);
     addEvent(element, 'keydown', function (e) {
-      dispatch(e);
-    });
-    addEvent(window, 'focus', function () {
-      _downKeys = [];
-    });
+      dispatch(e, element);
+    }, capture);
+
+    if (!winListendFocus) {
+      winListendFocus = true;
+      addEvent(window, 'focus', function () {
+        _downKeys = [];
+      }, capture);
+    }
+
     addEvent(element, 'keyup', function (e) {
-      dispatch(e);
+      dispatch(e, element);
       clearModifier(e);
-    });
+    }, capture);
   }
 }
 
+function trigger(shortcut) {
+  var scope = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 'all';
+  Object.keys(_handlers).forEach(function (key) {
+    var data = _handlers[key].find(function (item) {
+      return item.scope === scope && item.shortcut === shortcut;
+    });
+
+    if (data && data.method) {
+      data.method();
+    }
+  });
+}
+
 var _api = {
+  getPressedKeyString: getPressedKeyString,
   setScope: setScope,
   getScope: getScope,
   deleteScope: deleteScope,
   getPressedKeyCodes: getPressedKeyCodes,
   isPressed: isPressed,
   filter: filter,
-  unbind: unbind
+  trigger: trigger,
+  unbind: unbind,
+  keyMap: _keyMap,
+  modifier: _modifier,
+  modifierMap: modifierMap
 };
 
 for (var a in _api) {

@@ -15,10 +15,11 @@ type Options = {
   element?: HTMLElement | null;
   keyup?: boolean | null;
   keydown?: boolean | null;
+  capture?: boolean
   splitKey?: string;
 }
 
-interface Hotkeys {
+export interface Hotkeys {
   (key: string, method: KeyHandler): void;
   (key: string, scope: string, method: KeyHandler): void;
   (key: string, options: Options, method: KeyHandler): void;
@@ -31,11 +32,17 @@ interface Hotkeys {
   cmd: boolean;
   command: boolean;
 
+  keyMap: Record<string, number>;
+  modifier: Record<string, number>;
+  modifierMap: Record<string, number | string>;
+
   setScope(scopeName: string): void;
   getScope(): string;
-  deleteScope(scopeName: string): void;
+  deleteScope(scopeName: string, newScopeName?: string): void;
 
   noConflict(): Hotkeys;
+
+  trigger(shortcut: string, scope?: string): void;
 
   unbind(key?: string): void;
   unbind(key: string, scopeName: string): void;

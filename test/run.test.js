@@ -73,7 +73,7 @@ function __triggerKeyboardFocus(el, keyCode, opt) {
 beforeAll(async () => {
   browser = await puppeteer.launch({ args: ['--no-sandbox'] });
   page = await browser.newPage();
-});
+}, 1000 * 120);
 
 describe('\n   Hotkeys.js Test Case222.\n', () => {
   test('HTML loader', async () => {
@@ -97,6 +97,24 @@ describe('\n   Hotkeys.js Test Case222.\n', () => {
       expect(e.ctrlKey).toBeTruthy();
       expect(e.shiftKey).toBeTruthy();
       expect(hotkeys.getPressedKeyCodes()).toEqual([16, 17, 65, 91]);
+    });
+    __triggerKeyboardEvent(document.body, 65, {
+      metaKey: true,
+      ctrlKey: true,
+      shiftKey: true,
+    });
+    expect(isExecuteFunction).toBeTruthy();
+    await hotkeys.unbind('command+ctrl+shift+a');
+  });
+
+  test('HotKeys getPressedKeyString Test Case', async () => {
+    let isExecuteFunction = false;
+    await hotkeys('command+ctrl+shift+a', (e) => {
+      isExecuteFunction = true;
+      expect(e.metaKey).toBeTruthy();
+      expect(e.ctrlKey).toBeTruthy();
+      expect(e.shiftKey).toBeTruthy();
+      expect(hotkeys.getPressedKeyString()).toEqual(['⇧', '⌃', 'A', '⌘']);
     });
     __triggerKeyboardEvent(document.body, 65, {
       metaKey: true,
@@ -183,6 +201,19 @@ describe('\n   Hotkeys.js Test Case222.\n', () => {
     expect(hotkeys.unbind()).toBe(undefined);
     expect(hotkeys.unbind('enter')).toBe(undefined);
     expect(hotkeys.unbind('enter12')).toBe(undefined);
+  });
+
+  test('passing an empty string to unbind does not remove all handlers', () => {
+    let isExecuteFunction = false;
+    hotkeys('enter', (e) => {
+      isExecuteFunction = true;
+      expect(e.keyCode).toBe(13);
+    });
+
+    hotkeys.unbind('');
+
+    __triggerKeyboardEvent(document.body, 13);
+    expect(isExecuteFunction).toBeTruthy();
   });
 
   test('HotKeys Special keys Test Case', async () => {
@@ -422,7 +453,7 @@ describe('\n   Hotkeys.js Test Case222.\n', () => {
      * 解决三键组合，实现键值比对，
      * 并不是对象比对，此测试用例无法模拟
      */
-    expect(callbackA.mock.calls.length).toBe(2);
+    expect(callbackA.mock.calls.length).toBe(1);
 
     hotkeys.unbind('shift+a', callbackA);
 
@@ -430,7 +461,7 @@ describe('\n   Hotkeys.js Test Case222.\n', () => {
       shiftKey: true,
     });
 
-    expect(callbackA.mock.calls.length).toBe(2);
+    expect(callbackA.mock.calls.length).toBe(1);
 
     hotkeys('shift+a', callbackB);
 
@@ -438,7 +469,7 @@ describe('\n   Hotkeys.js Test Case222.\n', () => {
       shiftKey: true,
     });
 
-    expect(callbackB.mock.calls.length).toBe(2);
+    expect(callbackB.mock.calls.length).toBe(1);
 
     hotkeys.unbind('shift+a', callbackB);
 
@@ -446,7 +477,7 @@ describe('\n   Hotkeys.js Test Case222.\n', () => {
       shiftKey: true,
     });
 
-    expect(callbackB.mock.calls.length).toBe(2);
+    expect(callbackB.mock.calls.length).toBe(1);
   });
 
   test('HotKeys Key combination Test Case', async () => {
@@ -644,6 +675,23 @@ describe('\n   Hotkeys.js Test Case222.\n', () => {
     await hotkeys('*', (event) => {
       expect(hotkeys.filter.call(null, event)).toBeFalsy();
     });
+  });
+
+  test('Hotkey modifier capture', async () => {
+    let isExecuteFunction = false;
+    const el = document.createElement('div');
+
+    el.addEventListener('keydown', () => {
+      isExecuteFunction = true;
+    });
+
+    await hotkeys('a', { capture: true, element: el }, (event) => {
+      event.stopImmediatePropagation();
+    });
+
+    __triggerKeyboardEvent(el, 65);
+    expect(isExecuteFunction).toBeFalsy();
+    await hotkeys.unbind('a');
   });
 
   afterAll(async () => {

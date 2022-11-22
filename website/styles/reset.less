@@ -1,17 +1,28 @@
+[data-color-mode*='dark'], [data-color-mode*='dark'] body {
+  --color-header-bg: var(--color-theme-bg);
+}
+[data-color-mode*='light'], [data-color-mode*='light'] body {
+  --color-header-bg: #333;
+  background: #f8f8f8 url(../assets/bg.jpg) repeat top left;
+}
+
 *, *:before, *:after {
   box-sizing: inherit !important;
 }
 
 body {
-  color:#535353;
   font-family: "PingHei","Lucida Grande", "Lucida Sans Unicode", "STHeitiSC-Light", "Helvetica","Arial","Verdana","sans-serif";
-  background: #f8f8f8 url(../assets/bg.jpg) repeat top left;
+  transition: all  0.3s;
+  margin: 0;
 }
 
 a {
   text-decoration: none;
 }
 
-.wmde-markdown pre {
-  background-color: #fff;
+.wmde-markdown {
+  background-color: transparent !important;
+  img {
+    background-color: transparent !important;
+  }
 }

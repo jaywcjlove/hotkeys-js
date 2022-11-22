@@ -1,10 +1,13 @@
-.version {
+.tools {
   position: absolute;
   margin: 15px 0 0 15px;
+}
+
+.version {
   appearance: none;
   cursor: pointer;
-  color: #182026;
   padding: 3px 6px;
+  margin-right: 10px;
   vertical-align: middle;
   box-sizing: border-box;
   border: none;
@@ -31,7 +34,8 @@
 }
 
 .header {
-  background-color: #292929;
+  background-color: var(--color-header-bg);
+  transition: all  0.3s;
   padding: 74px 0 60px 0;
   .title {
     text-align: center;

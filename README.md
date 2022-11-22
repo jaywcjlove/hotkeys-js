@@ -2,7 +2,14 @@
 
 <!--dividing-->
 
-[![](https://img.shields.io/github/issues/jaywcjlove/hotkeys.svg)](https://github.com/jaywcjlove/hotkeys/issues) [![](https://img.shields.io/github/forks/jaywcjlove/hotkeys.svg)](https://github.com/jaywcjlove/hotkeys/network) [![](https://img.shields.io/github/stars/jaywcjlove/hotkeys.svg)](https://github.com/jaywcjlove/hotkeys/stargazers) [![](https://img.shields.io/github/release/jaywcjlove/hotkeys.svg)](https://github.com/jaywcjlove/hotkeys/releases) ![](http://jaywcjlove.github.io/sb/status/no-dependencies.svg) [![Build Status](https://www.travis-ci.org/jaywcjlove/hotkeys.svg?branch=master)](https://www.travis-ci.org/jaywcjlove/hotkeys) [![Coverage Status](https://coveralls.io/repos/github/jaywcjlove/hotkeys/badge.svg?branch=master)](https://coveralls.io/github/jaywcjlove/hotkeys?branch=master) [![jaywcjlove/hotkeys](https://jaywcjlove.github.io/sb/lang/chinese.svg)](./README-zh.md) [![jaywcjlove/hotkeys](https://jaywcjlove.github.io/sb/ico/gitee.svg)](https://gitee.com/jaywcjlove/hotkeys)
+[![CDN jsdelivr](https://data.jsdelivr.com/v1/package/npm/hotkeys-js/badge?style=rounded)](https://www.jsdelivr.com/package/npm/hotkeys-js)
+[![](https://img.shields.io/npm/dm/hotkeys-js?logo=npm)](https://www.npmjs.com/package/hotkeys-js)
+[![](https://img.shields.io/github/stars/jaywcjlove/hotkeys.svg)](https://github.com/jaywcjlove/hotkeys/stargazers)
+![no dependencies](http://jaywcjlove.github.io/sb/status/no-dependencies.svg)
+[![GitHub Actions CI](https://github.com/jaywcjlove/hotkeys/actions/workflows/ci.yml/badge.svg)](https://github.com/jaywcjlove/hotkeys/actions/workflows/ci.yml)
+[![Coverage Status](https://coveralls.io/repos/github/jaywcjlove/hotkeys/badge.svg?branch=master)](https://coveralls.io/github/jaywcjlove/hotkeys?branch=master)
+[![jaywcjlove/hotkeys](https://jaywcjlove.github.io/sb/lang/chinese.svg)](https://github.com/jaywcjlove/hotkeys/blob/master/README-zh.md)
+[![jaywcjlove/hotkeys](https://jaywcjlove.github.io/sb/ico/gitee.svg)](https://gitee.com/jaywcjlove/hotkeys)
 
 HotKeys.js is an input capture library with some very special features, it is easy to pick up and use, has a reasonable footprint ([~3kb](https://bundlephobia.com/result?p=hotkeys-js)) (gzipped: 1.73kb), and has no dependencies. It should not interfere with any JavaScript libraries or frameworks. Official document [demo preview](http://jaywcjlove.github.io/hotkeys). [More examples](https://github.com/jaywcjlove/hotkeys/issues?q=label%3ADemo+).
 
@@ -27,8 +34,8 @@ import hotkeys from 'hotkeys-js';
 
 hotkeys('f5', function(event, handler){
   // Prevent the default refresh event under WINDOWS system
-  event.preventDefault() 
-  alert('you pressed F5!') 
+  event.preventDefault()
+  alert('you pressed F5!')
 });
 ```
 
@@ -78,13 +85,13 @@ HotKeys understands the following modifiers: `⇧`, `shift`, `option`, `⌥`, `a
 
 The following special keys can be used for shortcuts: backspace, tab, clear, enter, return, esc, escape, space, up, down, left, right, home, end, pageup, pagedown, del, delete, f1 through f19, num_0 through num_9, num_multiply, num_add, num_enter, num_subtract, num_decimal, num_divide.
 
-`⌘` Command()  
-`⌃` Control  
-`⌥` Option(alt)  
-`⇧` Shift  
-`⇪` Caps Lock(Capital)  
-~~`fn` Does not support fn~~  
-`↩︎` return/Enter space  
+`⌘` Command()
+`⌃` Control
+`⌥` Option(alt)
+`⇧` Shift
+`⇪` Caps Lock(Capital)
+~~`fn` Does not support fn~~
+`↩︎` return/Enter space
 
 ## Defining Shortcuts
 
@@ -111,12 +118,12 @@ hotkeys('ctrl+r, command+r', function() {
 
 // Single key
 hotkeys('a', function(event,handler){
-  //event.srcElement: input 
+  //event.srcElement: input
   //event.target: input
   if(event.target === "input"){
       alert('you pressed a!')
   }
-  alert('you pressed a!') 
+  alert('you pressed a!')
 });
 
 // Key Combination
@@ -144,19 +151,20 @@ hotkeys('*','wcj', function(event){
 });
 ```
 
-#### option 
+#### option
 
 - `scope<String>`
 - `element<HTMLElement>`
 - `keyup<Boolean>`
 - `keydown<Boolean>`
 - `splitKey<string>` (default is `+`)
+- `capture<Boolean>`
 
 ```js
 hotkeys('o, enter', {
   scope: 'wcj',
   element: document.getElementById('wrapper'),
-}, function(){ 
+}, function(){
   console.log('do something else');
 });
 
@@ -167,6 +175,22 @@ hotkeys('ctrl-+', { splitKey: '-' }, function(e) {
 hotkeys('+', { splitKey: '-' }, function(e){
   console.log('you pressed +');
 })
+```
+
+**keyup**
+
+**key down** and **key up** both perform callback events.
+
+```js
+hotkeys('ctrl+a,alt+a+s', {keyup: true}, function(event, handler) {
+  if (event.type === 'keydown') {
+    console.log('keydown:', event.type, handler, handler.key);
+  }
+
+  if (event.type === 'keyup') {
+    console.log('keyup:', event.type, handler, handler.key);
+  }
+});
 ```
 
 ## API REFERENCE
@@ -216,7 +240,7 @@ Use the `hotkeys.setScope` method to set scope. There can only be one active sco
 hotkeys('ctrl+o, ctrl+alt+enter', 'issues', function(){
   console.log('do something');
 });
-hotkeys('o, enter', 'files', function(){ 
+hotkeys('o, enter', 'files', function(){
   console.log('do something else');
 });
 
@@ -238,6 +262,11 @@ Use the `hotkeys.deleteScope` method to delete a scope. This will also remove al
 
 ```js
 hotkeys.deleteScope('issues');
+```
+You can use second argument, if need set new scope after deleting.
+
+```js
+hotkeys.deleteScope('issues', 'newScopeName');
 ```
 
 ### unbind
@@ -284,20 +313,11 @@ hotkeys('a', function() {
 });
 ```
 
-## keyup
-
-**key down** and **key up** both perform callback events.
+### trigger
 
 ```js
-hotkeys('ctrl+a,alt+a+s', {keyup: true}, function(event, handler) {
-  if (event.type === 'keydown') {
-    console.log('keydown:', event.type, handler, handler.key);
-  }
-
-  if (event.type === 'keyup') {
-    console.log('keyup:', event.type, handler, handler.key);
-  }
-});
+hotkeys.trigger('ctrl+o');
+hotkeys.trigger('ctrl+o', 'scope2');
 ```
 
 ### getPressedKeyCodes
@@ -307,6 +327,17 @@ Returns an array of key codes currently pressed.
 ```js
 hotkeys('command+ctrl+shift+a,f', function(){
   console.log(hotkeys.getPressedKeyCodes()); //=> [17, 65] or [70]
+})
+```
+
+
+### getPressedKeyStrings
+
+Returns an array of key codes currently pressed.
+
+```js
+hotkeys('command+ctrl+shift+a,f', function(){
+  console.log(hotkeys.getPressedKeyString()); //=> ['⌘', '⌃', '⇧', 'A', 'F']
 })
 ```
 
@@ -344,12 +375,12 @@ k('a', function() {
 });
 
 hotkeys()
-// -->Uncaught TypeError: hotkeys is not a function(anonymous function) 
-// @ VM2170:2InjectedScript._evaluateOn 
-// @ VM2165:883InjectedScript._evaluateAndWrap 
+// -->Uncaught TypeError: hotkeys is not a function(anonymous function)
+// @ VM2170:2InjectedScript._evaluateOn
+// @ VM2165:883InjectedScript._evaluateAndWrap
 // @ VM2165:816InjectedScript.evaluate @ VM2165:682
 ```
- 
+
 ## Development
 
 To develop, Install dependencies, Get the code:

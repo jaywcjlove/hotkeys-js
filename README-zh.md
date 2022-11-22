@@ -1,6 +1,13 @@
 # Hotkeys
 
-[![](https://img.shields.io/github/issues/jaywcjlove/hotkeys.svg)](https://github.com/jaywcjlove/hotkeys/issues) [![](https://img.shields.io/github/forks/jaywcjlove/hotkeys.svg)](https://github.com/jaywcjlove/hotkeys/network) [![](https://img.shields.io/github/stars/jaywcjlove/hotkeys.svg)](https://github.com/jaywcjlove/hotkeys/stargazers) [![](https://img.shields.io/github/release/jaywcjlove/hotkeys.svg)](https://github.com/jaywcjlove/hotkeys/releases) ![](http://jaywcjlove.github.io/sb/status/no-dependencies.svg) [![Build Status](https://www.travis-ci.org/jaywcjlove/hotkeys.svg?branch=master)](https://www.travis-ci.org/jaywcjlove/hotkeys) [![Coverage Status](https://coveralls.io/repos/github/jaywcjlove/hotkeys/badge.svg?branch=master)](https://coveralls.io/github/jaywcjlove/hotkeys?branch=master) [![jaywcjlove/sb](https://jaywcjlove.github.io/sb/lang/english.svg)](./README.md)
+[![CDN jsdelivr](https://data.jsdelivr.com/v1/package/npm/hotkeys-js/badge?style=rounded)](https://www.jsdelivr.com/package/npm/hotkeys-js)
+[![npm dowload](https://img.shields.io/npm/dm/hotkeys-js?logo=npm)](https://www.npmjs.com/package/hotkeys-js)
+[![Stargazers](https://img.shields.io/github/stars/jaywcjlove/hotkeys.svg)](https://github.com/jaywcjlove/hotkeys/stargazers)
+![no dependencies](http://jaywcjlove.github.io/sb/status/no-dependencies.svg)
+[![GitHub Actions CI](https://github.com/jaywcjlove/hotkeys/actions/workflows/ci.yml/badge.svg)](https://github.com/jaywcjlove/hotkeys/actions/workflows/ci.yml)
+[![Coverage Status](https://coveralls.io/repos/github/jaywcjlove/hotkeys/badge.svg?branch=master)](https://coveralls.io/github/jaywcjlove/hotkeys?branch=master)
+[![English](https://jaywcjlove.github.io/sb/lang/english.svg)](https://jaywcjlove.github.io/hotkeys/)
+[![for Gitee](https://jaywcjlove.github.io/sb/ico/gitee.svg)](https://gitee.com/jaywcjlove/hotkeys)
 
 这是一个强健的 Javascript 库用于捕获键盘输入和输入的组合键，它易于使用，没有依赖，压缩只有([~3kb](https://bundlephobia.com/result?p=hotkeys-js))，gzip: 1.73kb。[官方文档DEMO预览](http://jaywcjlove.github.io/hotkeys/?lang=cn)，[更多实例](https://github.com/jaywcjlove/hotkeys/issues?q=label%3ADemo+)。
 
@@ -229,6 +236,13 @@ hotkeys.getScope();
 
 ```js
 hotkeys.setScope('scope1');
+```
+
+## trigger
+
+```js
+hotkeys.trigger('ctrl+o')
+hotkeys.trigger('ctrl+o', 'scope2')
 ```
 
 ## 解除绑定
