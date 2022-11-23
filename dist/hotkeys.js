@@ -1,5 +1,5 @@
 /**! 
- * hotkeys-js v3.10.0 
+ * hotkeys-js v3.10.1 
  * A simple micro-library for defining and dispatching keyboard shortcuts. It has no dependencies. 
  * 
  * Copyright (c) 2022 kenny wong <wowohoo@qq.com> 
@@ -577,13 +577,15 @@
   function trigger(shortcut) {
     var scope = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 'all';
     Object.keys(_handlers).forEach(function (key) {
-      var data = _handlers[key].find(function (item) {
+      var dataList = _handlers[key].filter(function (item) {
         return item.scope === scope && item.shortcut === shortcut;
       });
 
-      if (data && data.method) {
-        data.method();
-      }
+      dataList.forEach(function (data) {
+        if (data && data.method) {
+          data.method();
+        }
+      });
     });
   }
 
