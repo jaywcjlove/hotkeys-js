@@ -397,10 +397,12 @@ function hotkeys(key, option, method) {
 
 function trigger(shortcut, scope = 'all') {
   Object.keys(_handlers).forEach((key) => {
-    const data = _handlers[key].find((item) => item.scope === scope && item.shortcut === shortcut);
-    if (data && data.method) {
-      data.method();
-    }
+    const dataList = _handlers[key].filter((item) => item.scope === scope && item.shortcut === shortcut);
+    dataList.forEach((data) => {
+      if (data && data.method) {
+        data.method();
+      }
+    });
   });
 }
 

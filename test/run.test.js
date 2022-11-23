@@ -694,6 +694,28 @@ describe('\n   Hotkeys.js Test Case222.\n', () => {
     await hotkeys.unbind('a');
   });
 
+  test('Hotkey trigger whith shortcut.', async () => {
+    let count = 0;
+    hotkeys('a', () => {
+      count++;
+    });
+    hotkeys.trigger('a');
+    expect(count).toBe(1);
+    hotkeys.unbind('a');
+  });
+
+  test('Hotkey trigger whith multi shortcut.', async () => {
+    let count = 0;
+    for (let i = 0; i < 3; i++) {
+      hotkeys('a', () => {
+        count++;
+      });
+    }
+    hotkeys.trigger('a');
+    expect(count).toBe(3);
+    hotkeys.unbind('a');
+  });
+
   afterAll(async () => {
     await browser.close();
   });
