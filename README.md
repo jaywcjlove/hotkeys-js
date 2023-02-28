@@ -26,7 +26,7 @@ HotKeys.js is an input capture library with some very special features, it is ea
 You will need `Node.js` installed on your system.
 
 ```bash
-$ npm install hotkeys-js --save
+npm install hotkeys-js --save
 ```
 
 ```js
