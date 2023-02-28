@@ -1,13 +1,13 @@
 {
   "files": {
     "main.css": "/hotkeys/static/css/main.43d08dfb.css",
-    "main.js": "/hotkeys/static/js/main.4fc11833.js",
+    "main.js": "/hotkeys/static/js/main.ade238e5.js",
     "refractor-vendor.js": "/hotkeys/static/js/refractor-vendor.5a67e873.js",
     "react-vendor.js": "/hotkeys/static/js/react-vendor.a606ee0f.js",
     "static/media/bg.jpg": "/hotkeys/static/media/bg.c118c911b775de37ecf2.jpg",
     "index.html": "/hotkeys/index.html",
     "main.43d08dfb.css.map": "/hotkeys/static/css/main.43d08dfb.css.map",
-    "main.4fc11833.js.map": "/hotkeys/static/js/main.4fc11833.js.map",
+    "main.ade238e5.js.map": "/hotkeys/static/js/main.ade238e5.js.map",
     "refractor-vendor.5a67e873.js.map": "/hotkeys/static/js/refractor-vendor.5a67e873.js.map",
     "react-vendor.a606ee0f.js.map": "/hotkeys/static/js/react-vendor.a606ee0f.js.map"
   },
@@ -15,6 +15,6 @@
     "static/js/refractor-vendor.5a67e873.js",
     "static/js/react-vendor.a606ee0f.js",
     "static/css/main.43d08dfb.css",
-    "static/js/main.4fc11833.js"
+    "static/js/main.ade238e5.js"
   ]
 }
