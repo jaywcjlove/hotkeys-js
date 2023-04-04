@@ -17,6 +17,7 @@ jobs:
     - uses: actions/setup-node@v3
       with:
         node-version: 16
+        registry-url: 'https://registry.npmjs.org'
 
     # - name: Cache dependencies
     #   uses: actions/cache@v1
@@ -27,7 +28,7 @@ jobs:
     #       ${{ runner.os }}-node-
 
     - name: Look Changelog
-      uses: jaywcjlove/changelog-generator@v1.4.8
+      uses: jaywcjlove/changelog-generator@main
       with:
         token: ${{ secrets.GITHUB_TOKEN }}
         filter-author: (jaywcjlove|小弟调调™|dependabot\[bot\]|Renovate Bot)
@@ -36,9 +37,6 @@ jobs:
     - run: npm install
     - run: npm run build
     - run: npm run test
-
-    - run: npm install @jsdevtools/npm-publish -g
-    - run: npm-publish --token="${{ secrets.NPM_TOKEN }}" ./package.json
 
     - name: Generate Contributors Images
       uses: jaywcjlove/github-action-contributors@main
@@ -49,13 +47,13 @@ jobs:
 
     - name: Create Tag
       id: create_tag
-      uses: jaywcjlove/create-tag-action@v1.3.6
+      uses: jaywcjlove/create-tag-action@main
       with:
         package-path: ./package.json
 
     - name: get tag version
       id: tag_version
-      uses: jaywcjlove/changelog-generator@v1.5.3
+      uses: jaywcjlove/changelog-generator@main
 
     - name: Build and Deploy
       uses: peaceiris/actions-gh-pages@v3
@@ -66,7 +64,7 @@ jobs:
 
     - name: Generate Changelog
       id: changelog
-      uses: jaywcjlove/changelog-generator@v1.5.3
+      uses: jaywcjlove/changelog-generator@main
       with:
         token: ${{ secrets.GITHUB_TOKEN }}
         filter-author: (jaywcjlove|小弟调调™|dependabot\[bot\]|Renovate Bot)
@@ -95,3 +93,11 @@ jobs:
           ```
 
           ${{ steps.changelog.outputs.changelog }}
+
+    # - run: npm install @jsdevtools/npm-publish -g
+    # - run: npm-publish --token="${{ secrets.NPM_TOKEN }}" ./package.json
+    - run: npm publish --access public
+      name: 📦  hotkeys-js to NPM
+      continue-on-error: true
+      env:
+        NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
