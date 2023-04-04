@@ -52,6 +52,7 @@ export interface Hotkeys {
   isPressed(keyCode: number): boolean;
   isPressed(keyCode: string): boolean;
   getPressedKeyCodes(): number[];
+  getPressedKeyString(): string[];
 
   filter(event: KeyboardEvent): boolean;
 }
