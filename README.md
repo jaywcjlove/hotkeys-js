@@ -4,14 +4,14 @@
 
 [![CDN jsdelivr](https://data.jsdelivr.com/v1/package/npm/hotkeys-js/badge?style=rounded)](https://www.jsdelivr.com/package/npm/hotkeys-js)
 [![](https://img.shields.io/npm/dm/hotkeys-js?logo=npm)](https://www.npmjs.com/package/hotkeys-js)
-[![](https://img.shields.io/github/stars/jaywcjlove/hotkeys.svg)](https://github.com/jaywcjlove/hotkeys/stargazers)
+[![](https://img.shields.io/github/stars/jaywcjlove/hotkeys-js.svg)](https://github.com/jaywcjlove/hotkeys/stargazers)
 ![no dependencies](http://jaywcjlove.github.io/sb/status/no-dependencies.svg)
-[![GitHub Actions CI](https://github.com/jaywcjlove/hotkeys/actions/workflows/ci.yml/badge.svg)](https://github.com/jaywcjlove/hotkeys/actions/workflows/ci.yml)
+[![GitHub Actions CI](https://github.com/jaywcjlove/hotkeys-js/actions/workflows/ci.yml/badge.svg)](https://github.com/jaywcjlove/hotkeys-js/actions/workflows/ci.yml)
 [![Coverage Status](https://coveralls.io/repos/github/jaywcjlove/hotkeys/badge.svg?branch=master)](https://coveralls.io/github/jaywcjlove/hotkeys?branch=master)
-[![jaywcjlove/hotkeys](https://jaywcjlove.github.io/sb/lang/chinese.svg)](https://github.com/jaywcjlove/hotkeys/blob/master/README-zh.md)
-[![jaywcjlove/hotkeys](https://jaywcjlove.github.io/sb/ico/gitee.svg)](https://gitee.com/jaywcjlove/hotkeys)
+[![jaywcjlove/hotkeys-js](https://jaywcjlove.github.io/sb/lang/chinese.svg)](https://github.com/jaywcjlove/hotkeys-js/blob/master/README-zh.md)
+[![jaywcjlove/hotkeys-js](https://jaywcjlove.github.io/sb/ico/gitee.svg)](https://gitee.com/jaywcjlove/hotkeys)
 
-HotKeys.js is an input capture library with some very special features, it is easy to pick up and use, has a reasonable footprint ([~3kb](https://bundlephobia.com/result?p=hotkeys-js)) (gzipped: 1.73kb), and has no dependencies. It should not interfere with any JavaScript libraries or frameworks. Official document [demo preview](http://jaywcjlove.github.io/hotkeys). [More examples](https://github.com/jaywcjlove/hotkeys/issues?q=label%3ADemo+).
+HotKeys.js is an input capture library with some very special features, it is easy to pick up and use, has a reasonable footprint ([~3kb](https://bundlephobia.com/result?p=hotkeys-js)) (gzipped: 1.73kb), and has no dependencies. It should not interfere with any JavaScript libraries or frameworks. Official document [demo preview](https://jaywcjlove.github.io/hotkeys-js). [More examples](https://github.com/jaywcjlove/hotkeys-js/issues?q=label%3ADemo+).
 
 ```bash
 ╭┈┈╮          ╭┈┈╮  ╭┈┈╮
