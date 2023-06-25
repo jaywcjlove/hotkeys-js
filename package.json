@@ -7,7 +7,7 @@
   "module": "dist/hotkeys.esm.js",
   "scripts": {
     "prepare": "npm run build:lib && husky install",
-    "lint": "eslint --ext .js src website",
+    "lint": "eslint --ignore-pattern dist --ext .js src website",
     "build:lib": "node scripts/build.js",
     "build": "npm run build:lib && npm run doc && npm run lint",
     "watch": "node scripts/watch.js",
@@ -89,6 +89,6 @@
     ]
   },
   "lint-staged": {
-    "*.js": "eslint --ext .js src website"
+    "src/**/*.js": "eslint --ext .js src website"
   }
 }
