@@ -300,7 +300,7 @@ function dispatch(event, element) {
       (event.type === 'keydown' && _handlers[key][i].keydown)
       || (event.type === 'keyup' && _handlers[key][i].keyup)
     ) {
-      if (_handlers[key][i].key) {
+      if (_handlers[key][i].key && _handlers[key][i].scope === scope) {
         const record = _handlers[key][i];
         const { splitKey } = record;
         const keyShortcut = record.key.split(splitKey);
@@ -308,7 +308,7 @@ function dispatch(event, element) {
         for (let a = 0; a < keyShortcut.length; a++) {
           _downKeysCurrent.push(code(keyShortcut[a]));
         }
-        if (_downKeysCurrent.sort().join('') === _downKeys.sort().join('')) {
+        if (_downKeysCurrent.sort().join('') === _downKeys.slice().sort().join('')) {
           // 找到处理内容
           eventHandler(event, record, scope, element);
         }
