@@ -478,7 +478,7 @@
             _downKeysCurrent.push(code(keyShortcut[a]));
           }
 
-          if (_downKeysCurrent.sort().join('') === _downKeys.slice().sort().join('')) {
+          if (_downKeysCurrent.sort().join('') === _downKeys.sort().join('')) {
             // 找到处理内容
             eventHandler(event, record, scope, element);
           }

@@ -96,7 +96,7 @@ describe('\n   Hotkeys.js Test Case222.\n', () => {
       expect(e.metaKey).toBeTruthy();
       expect(e.ctrlKey).toBeTruthy();
       expect(e.shiftKey).toBeTruthy();
-      expect(hotkeys.getPressedKeyCodes()).toEqual([65, 17, 16, 91]);
+      expect(hotkeys.getPressedKeyCodes()).toEqual([16, 17, 65, 91]);
     });
     __triggerKeyboardEvent(document.body, 65, {
       metaKey: true,
@@ -114,7 +114,7 @@ describe('\n   Hotkeys.js Test Case222.\n', () => {
       expect(e.metaKey).toBeTruthy();
       expect(e.ctrlKey).toBeTruthy();
       expect(e.shiftKey).toBeTruthy();
-      expect(hotkeys.getPressedKeyString()).toEqual(['A', '⌃', '⇧', '⌘']);
+      expect(hotkeys.getPressedKeyString()).toEqual(['⇧', '⌘', '⌃', 'A']);
     });
     __triggerKeyboardEvent(document.body, 65, {
       metaKey: true,
@@ -180,7 +180,7 @@ describe('\n   Hotkeys.js Test Case222.\n', () => {
     await hotkeys('ctrl-a', { splitKey: '-' }, (e) => {
       isExecuteFunction = true;
       expect(e.ctrlKey).toBeTruthy();
-      expect(hotkeys.getPressedKeyCodes()).toEqual([65, 17]);
+      expect(hotkeys.getPressedKeyCodes()).toEqual([17, 65]);
     });
     __triggerKeyboardEvent(document.body, 65, {
       ctrlKey: true,
