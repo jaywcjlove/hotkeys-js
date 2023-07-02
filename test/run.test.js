@@ -114,7 +114,7 @@ describe('\n   Hotkeys.js Test Case222.\n', () => {
       expect(e.metaKey).toBeTruthy();
       expect(e.ctrlKey).toBeTruthy();
       expect(e.shiftKey).toBeTruthy();
-      expect(hotkeys.getPressedKeyString()).toEqual(['⇧', '⌘', '⌃', 'A']);
+      expect(hotkeys.getPressedKeyString()).toEqual(['⇧', '⌃', 'A', '⌘']);
     });
     __triggerKeyboardEvent(document.body, 65, {
       metaKey: true,
