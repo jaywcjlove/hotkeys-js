@@ -189,6 +189,8 @@ function eventHandler(event, handler, scope, element) {
       || modifiersMatch
       || handler.shortcut === '*'
     ) {
+      handler.keys = [];
+      handler.keys = handler.keys.concat(_downKeys);
       if (handler.method(event, handler) === false) {
         if (event.preventDefault) event.preventDefault();
         else event.returnValue = false;

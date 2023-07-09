@@ -1,5 +1,6 @@
 export interface HotkeysEvent {
   key: string;
+  keys: number[];
   method: KeyHandler;
   mods: number[];
   scope: string;

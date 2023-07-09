@@ -363,6 +363,9 @@
 
 
       if (handler.mods.length === 0 && !_mods[16] && !_mods[18] && !_mods[17] && !_mods[91] || modifiersMatch || handler.shortcut === '*') {
+        handler.keys = [];
+        handler.keys = handler.keys.concat(_downKeys);
+
         if (handler.method(event, handler) === false) {
           if (event.preventDefault) event.preventDefault();else event.returnValue = false;
           if (event.stopPropagation) event.stopPropagation();
