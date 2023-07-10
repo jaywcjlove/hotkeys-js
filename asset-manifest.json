@@ -1,20 +1,20 @@
 {
   "files": {
-    "main.css": "/hotkeys/static/css/main.43d08dfb.css",
-    "main.js": "/hotkeys/static/js/main.e4e13a3c.js",
-    "refractor-vendor.js": "/hotkeys/static/js/refractor-vendor.5a67e873.js",
-    "react-vendor.js": "/hotkeys/static/js/react-vendor.a606ee0f.js",
-    "static/media/bg.jpg": "/hotkeys/static/media/bg.c118c911b775de37ecf2.jpg",
-    "index.html": "/hotkeys/index.html",
-    "main.43d08dfb.css.map": "/hotkeys/static/css/main.43d08dfb.css.map",
-    "main.e4e13a3c.js.map": "/hotkeys/static/js/main.e4e13a3c.js.map",
-    "refractor-vendor.5a67e873.js.map": "/hotkeys/static/js/refractor-vendor.5a67e873.js.map",
-    "react-vendor.a606ee0f.js.map": "/hotkeys/static/js/react-vendor.a606ee0f.js.map"
+    "main.css": "/hotkeys-js/static/css/main.43d08dfb.css",
+    "main.js": "/hotkeys-js/static/js/main.b2df34c8.js",
+    "refractor-vendor.js": "/hotkeys-js/static/js/refractor-vendor.5a67e873.js",
+    "react-vendor.js": "/hotkeys-js/static/js/react-vendor.a606ee0f.js",
+    "static/media/bg.jpg": "/hotkeys-js/static/media/bg.c118c911b775de37ecf2.jpg",
+    "index.html": "/hotkeys-js/index.html",
+    "main.43d08dfb.css.map": "/hotkeys-js/static/css/main.43d08dfb.css.map",
+    "main.b2df34c8.js.map": "/hotkeys-js/static/js/main.b2df34c8.js.map",
+    "refractor-vendor.5a67e873.js.map": "/hotkeys-js/static/js/refractor-vendor.5a67e873.js.map",
+    "react-vendor.a606ee0f.js.map": "/hotkeys-js/static/js/react-vendor.a606ee0f.js.map"
   },
   "entrypoints": [
     "static/js/refractor-vendor.5a67e873.js",
     "static/js/react-vendor.a606ee0f.js",
     "static/css/main.43d08dfb.css",
-    "static/js/main.e4e13a3c.js"
+    "static/js/main.b2df34c8.js"
   ]
 }
