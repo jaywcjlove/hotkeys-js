@@ -92,7 +92,7 @@ export default class App extends Component {
       <div>
         <div className={styles.tools}>
           <select className={styles.version} onChange={this.openVersionWebsite.bind(this)}>
-            <option value="https://jaywcjlove.github.io/hotkeys">
+            <option value="https://jaywcjlove.github.io/hotkeys-js">
               v
               {pkg.version}
             </option>
@@ -107,17 +107,17 @@ export default class App extends Component {
             {keyStr.map((item) => <span key={`${item}`}>{item}</span>)}
           </div>
         )}
-        <GithubCorner href="https://github.com/jaywcjlove/hotkeys" target="__blank" />
+        <GithubCorner href="https://github.com/jaywcjlove/hotkeys-js" target="__blank" />
         <div className={styles.header}>
           <div className={styles.title}>HotKeys.js</div>
           <div className={styles.github}>
             <a href="https://www.npmjs.com/package/hotkeys-js">
               <button type="button">On NPM</button>
             </a>
-            <a href="https://github.com/jaywcjlove/hotkeys/">
+            <a href="https://github.com/jaywcjlove/hotkeys-js/">
               <button type="button">Fork on Github</button>
             </a>
-            <a href="https://github.com/jaywcjlove/hotkeys/">
+            <a href="https://github.com/jaywcjlove/hotkeys-js/">
               <button type="button">Doc on Github</button>
             </a>
             <a href="https://jaywcjlove.gitee.io/hotkeys/">
@@ -134,11 +134,11 @@ export default class App extends Component {
         />
         <MarkdownPreview style={{ maxWidth: 995, margin: '0 auto' }} source={DocumentStrSource} />
         <Footer name="Kenny Wong" href="http://jaywcjlove.github.io" year="2015-present">
-          <Github user="jaywcjlove" repo="hotkeys">
-            <Github.Social href="https://github.com/jaywcjlove/hotkeys" type="forks" />
-            <Github.Social href="https://github.com/jaywcjlove/hotkeys" type="stars" />
-            <Github.Social href="https://github.com/jaywcjlove/hotkeys" type="watchers" />
-            <Github.Social href="https://github.com/jaywcjlove/hotkeys" type="followers" />
+          <Github user="jaywcjlove" repo="hotkeys-js">
+            <Github.Social href="https://github.com/jaywcjlove/hotkeys-js" type="forks" />
+            <Github.Social href="https://github.com/jaywcjlove/hotkeys-js" type="stars" />
+            <Github.Social href="https://github.com/jaywcjlove/hotkeys-js" type="watchers" />
+            <Github.Social href="https://github.com/jaywcjlove/hotkeys-js" type="followers" />
           </Github>
         </Footer>
       </div>

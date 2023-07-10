@@ -414,8 +414,8 @@ $ npm run test:watch # Development model
 
 As always, thanks to our amazing contributors!
 
-<a href="https://github.com/jaywcjlove/hotkeys/graphs/contributors">
-  <img src="https://jaywcjlove.github.io/hotkeys/CONTRIBUTORS.svg" />
+<a href="https://github.com/jaywcjlove/hotkeys-js/graphs/contributors">
+  <img src="https://jaywcjlove.github.io/hotkeys-js/CONTRIBUTORS.svg" />
 </a>
 
 Made with [github-action-contributors](https://github.com/jaywcjlove/github-action-contributors).
