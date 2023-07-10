@@ -50,7 +50,7 @@
     "@kkt/scope-plugin-options": "^7.2.0",
     "@rollup/plugin-babel": "~5.3.1",
     "@rollup/plugin-commonjs": "~22.0.2",
-    "@rollup/plugin-node-resolve": "~13.3.0",
+    "@rollup/plugin-node-resolve": "~15.1.0",
     "@uiw/react-github-corners": "~1.5.14",
     "@uiw/react-mac-keyboard": "~1.1.4",
     "@uiw/react-markdown-preview": "~4.0.24",
