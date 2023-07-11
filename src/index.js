@@ -302,7 +302,7 @@ function dispatch(event, element) {
       (event.type === 'keydown' && _handlers[key][i].keydown)
       || (event.type === 'keyup' && _handlers[key][i].keyup)
     ) {
-      if (_handlers[key][i].key && _handlers[key][i].scope === scope) {
+      if (_handlers[key][i].key) {
         const record = _handlers[key][i];
         const { splitKey } = record;
         const keyShortcut = record.key.split(splitKey);

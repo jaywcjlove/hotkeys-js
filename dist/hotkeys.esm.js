@@ -435,7 +435,7 @@ function dispatch(event, element) {
   if (!(key in _handlers)) return;
   for (var _i = 0; _i < _handlers[key].length; _i++) {
     if (event.type === 'keydown' && _handlers[key][_i].keydown || event.type === 'keyup' && _handlers[key][_i].keyup) {
-      if (_handlers[key][_i].key && _handlers[key][_i].scope === scope) {
+      if (_handlers[key][_i].key) {
         var record = _handlers[key][_i];
         var splitKey = record.splitKey;
         var keyShortcut = record.key.split(splitKey);
