@@ -1,14 +1,4 @@
 /*!
- * @uiw/copy-to-clipboard v1.0.12
- * Copy to clipboard.
- * 
- * Copyright (c) 2021 Kenny Wang
- * https://github.com/uiwjs/copy-to-clipboard.git
- * 
- * Licensed under the MIT license.
- */
-
-/*!
  * Determine if an object is a Buffer
  *
  * @author   Feross Aboukhadijeh <https://feross.org>
@@ -33,4 +23,16 @@
  *
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
+ */
+
+/**! 
+ * @uiw/copy-to-clipboard v1.0.15 
+ * Copy to clipboard. 
+ * 
+ * Copyright (c) 2023 Kenny Wang 
+ * https://github.com/uiwjs/copy-to-clipboard.git 
+ * 
+ * @website: https://uiwjs.github.io/copy-to-clipboard
+ 
+ * Licensed under the MIT license 
  */
