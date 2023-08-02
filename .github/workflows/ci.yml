@@ -94,6 +94,11 @@ jobs:
 
           ${{ steps.changelog.outputs.changelog }}
 
+    - name: package.json info
+      uses: jaywcjlove/github-action-package@main
+      with:
+        unset: browserslist,lint-staged,devDependencies,jest,scripts
+
     # - run: npm install @jsdevtools/npm-publish -g
     # - run: npm-publish --token="${{ secrets.NPM_TOKEN }}" ./package.json
     - run: npm publish --access public
