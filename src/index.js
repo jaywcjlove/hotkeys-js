@@ -32,18 +32,18 @@ function getPressedKeyString() {
 }
 
 function getAllKeyCodes() {
-  return []
-    .concat(...Object.values(_handlers))
-    .map(({ key, scope, mods, shortcut }) => {
-      return {
+  const result = [];
+  Object.keys(_handlers).forEach((k) => {
+    _handlers[k].forEach(({ key, scope, mods, shortcut }) => {
+      result.push({
         scope,
         shortcut,
         mods,
-        keys: key.split('+').map((k) => {
-          return code(k);
-        }),
-      };
+        keys: key.split('+').map((v) => code(v)),
+      });
     });
+  });
+  return result;
 }
 
 // 表单控件控件判断 返回 Boolean
