@@ -7,6 +7,32 @@
  * Licensed under the MIT license 
  */
 
+function _toConsumableArray(arr) {
+  return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread();
+}
+function _arrayWithoutHoles(arr) {
+  if (Array.isArray(arr)) return _arrayLikeToArray(arr);
+}
+function _iterableToArray(iter) {
+  if (typeof Symbol !== "undefined" && iter[Symbol.iterator] != null || iter["@@iterator"] != null) return Array.from(iter);
+}
+function _unsupportedIterableToArray(o, minLen) {
+  if (!o) return;
+  if (typeof o === "string") return _arrayLikeToArray(o, minLen);
+  var n = Object.prototype.toString.call(o).slice(8, -1);
+  if (n === "Object" && o.constructor) n = o.constructor.name;
+  if (n === "Map" || n === "Set") return Array.from(o);
+  if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen);
+}
+function _arrayLikeToArray(arr, len) {
+  if (len == null || len > arr.length) len = arr.length;
+  for (var i = 0, arr2 = new Array(len); i < len; i++) arr2[i] = arr[i];
+  return arr2;
+}
+function _nonIterableSpread() {
+  throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");
+}
+
 var isff = typeof navigator !== 'undefined' ? navigator.userAgent.toLowerCase().indexOf('firefox') > 0 : false;
 
 // 绑定事件
@@ -187,6 +213,23 @@ function getPressedKeyString() {
     return getKey(c) || getModifier(c) || String.fromCharCode(c);
   });
 }
+function getAllKeyCodes() {
+  var _ref;
+  return (_ref = []).concat.apply(_ref, _toConsumableArray(Object.values(_handlers))).map(function (_ref2) {
+    var key = _ref2.key,
+      scope = _ref2.scope,
+      mods = _ref2.mods,
+      shortcut = _ref2.shortcut;
+    return {
+      scope: scope,
+      shortcut: shortcut,
+      mods: mods,
+      keys: key.split('+').map(function (k) {
+        return code(k);
+      })
+    };
+  });
+}
 
 // 表单控件控件判断 返回 Boolean
 // hotkey is effective only when filter return true
@@ -289,12 +332,12 @@ function unbind(keysInfo) {
 }
 
 // 解除绑定某个范围的快捷键
-var eachUnbind = function eachUnbind(_ref) {
-  var key = _ref.key,
-    scope = _ref.scope,
-    method = _ref.method,
-    _ref$splitKey = _ref.splitKey,
-    splitKey = _ref$splitKey === void 0 ? '+' : _ref$splitKey;
+var eachUnbind = function eachUnbind(_ref3) {
+  var key = _ref3.key,
+    scope = _ref3.scope,
+    method = _ref3.method,
+    _ref3$splitKey = _ref3.splitKey,
+    splitKey = _ref3$splitKey === void 0 ? '+' : _ref3$splitKey;
   var multipleKeys = getKeys(key);
   multipleKeys.forEach(function (originKey) {
     var unbindKeys = originKey.split(splitKey);
@@ -546,6 +589,7 @@ var _api = {
   getScope: getScope,
   deleteScope: deleteScope,
   getPressedKeyCodes: getPressedKeyCodes,
+  getAllKeyCodes: getAllKeyCodes,
   isPressed: isPressed,
   filter: filter,
   trigger: trigger,

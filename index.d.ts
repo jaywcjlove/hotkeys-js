@@ -37,6 +37,8 @@ export interface Hotkeys {
   modifier: Record<string, number>;
   modifierMap: Record<string, number | string>;
 
+  getAllKeyCodes(): Omit<HotkeysEvent, 'method'>;
+
   setScope(scopeName: string): void;
   getScope(): string;
   deleteScope(scopeName: string, newScopeName?: string): void;
