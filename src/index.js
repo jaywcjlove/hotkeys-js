@@ -31,6 +31,21 @@ function getPressedKeyString() {
   return _downKeys.map((c) => getKey(c) || getModifier(c) || String.fromCharCode(c));
 }
 
+function getAllKeyCodes() {
+  return []
+    .concat(...Object.values(_handlers))
+    .map(({ key, scope, mods, shortcut }) => {
+      return {
+        scope,
+        shortcut,
+        mods,
+        keys: key.split('+').map((k) => {
+          return code(k);
+        }),
+      };
+    });
+}
+
 // 表单控件控件判断 返回 Boolean
 // hotkey is effective only when filter return true
 function filter(event) {
@@ -414,6 +429,7 @@ const _api = {
   getScope,
   deleteScope,
   getPressedKeyCodes,
+  getAllKeyCodes,
   isPressed,
   filter,
   trigger,
