@@ -164,7 +164,7 @@ hotkeys('*','wcj', function(event){
 hotkeys('o, enter', {
   scope: 'wcj',
   element: document.getElementById('wrapper'),
-}, function(){
+}, function() {
   console.log('do something else');
 });
 
@@ -237,10 +237,10 @@ Use the `hotkeys.setScope` method to set scope. There can only be one active sco
 
 ```js
 // Define shortcuts with a scope
-hotkeys('ctrl+o, ctrl+alt+enter', 'issues', function(){
+hotkeys('ctrl+o, ctrl+alt+enter', 'issues', function() {
   console.log('do something');
 });
-hotkeys('o, enter', 'files', function(){
+hotkeys('o, enter', 'files', function() {
   console.log('do something else');
 });
 
@@ -315,6 +315,8 @@ hotkeys('a', function() {
 
 ### trigger
 
+trigger shortcut key event
+
 ```js
 hotkeys.trigger('ctrl+o');
 hotkeys.trigger('ctrl+o', 'scope2');
@@ -325,19 +327,32 @@ hotkeys.trigger('ctrl+o', 'scope2');
 Returns an array of key codes currently pressed.
 
 ```js
-hotkeys('command+ctrl+shift+a,f', function(){
+hotkeys('command+ctrl+shift+a,f', function() {
   console.log(hotkeys.getPressedKeyCodes()); //=> [17, 65] or [70]
 })
 ```
 
-
-### getPressedKeyStrings
+### getPressedKeyString
 
 Returns an array of key codes currently pressed.
 
 ```js
-hotkeys('command+ctrl+shift+a,f', function(){
+hotkeys('command+ctrl+shift+a,f', function() {
   console.log(hotkeys.getPressedKeyString()); //=> ['⌘', '⌃', '⇧', 'A', 'F']
+})
+```
+
+### getAllKeyCodes
+
+Get a list of all registration codes.
+
+```js
+hotkeys('command+ctrl+shift+a,f', function() {
+  console.log(hotkeys.getAllKeyCodes());
+  // [
+  //   { scope: 'all', shortcut: 'command+ctrl+shift+a', mods: [91, 17, 16], keys: [91, 17, 16, 65] },
+  //   { scope: 'all', shortcut: 'f', mods: [], keys: [42] }
+  // ]
 })
 ```
 
