@@ -36,6 +36,7 @@
   "author": "kenny wong <wowohoo@qq.com>",
   "license": "MIT",
   "homepage": "https://jaywcjlove.github.io/hotkeys-js",
+  "funding": "https://jaywcjlove.github.io/#/sponsor",
   "repository": {
     "type": "git",
     "url": "https://github.com/jaywcjlove/hotkeys-js.git"
