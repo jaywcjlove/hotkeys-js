@@ -86,7 +86,7 @@ jobs:
         name: ${{ steps.create_tag.outputs.version }}
         tag: ${{ steps.create_tag.outputs.version }}
         body: |
-          [![](https://img.shields.io/badge/Open%20in-unpkg-blue)](https://uiwjs.github.io/npm-unpkg/#/pkg/hotkeys-js@${{steps.changelog.outputs.version}}/file/README.md) [![npm bundle size](https://img.shields.io/bundlephobia/minzip/hotkeys-js)](https://bundlephobia.com/result?p=hotkeys-js@${{steps.changelog.outputs.version}}) [![npm version](https://img.shields.io/npm/v/hotkeys-js.svg)](https://www.npmjs.com/package/hotkeys-js)
+          [![Buy me a coffee](https://img.shields.io/badge/Buy%20me%20a%20coffee-048754?logo=buymeacoffee)](https://jaywcjlove.github.io/#/sponsor) [![](https://img.shields.io/badge/Open%20in-unpkg-blue)](https://uiwjs.github.io/npm-unpkg/#/pkg/hotkeys-js@${{steps.changelog.outputs.version}}/file/README.md) [![npm bundle size](https://img.shields.io/bundlephobia/minzip/hotkeys-js)](https://bundlephobia.com/result?p=hotkeys-js@${{steps.changelog.outputs.version}}) [![npm version](https://img.shields.io/npm/v/hotkeys-js.svg)](https://www.npmjs.com/package/hotkeys-js)
           
           Documentation ${{ steps.changelog.outputs.tag }}: https://raw.githack.com/jaywcjlove/hotkeys/${{ steps.changelog.outputs.gh-pages-short-hash }}/index.html  
           Comparing Changes: ${{ steps.changelog.outputs.compareurl }}  
