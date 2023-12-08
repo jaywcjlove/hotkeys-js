@@ -68,7 +68,7 @@
     "husky": "^8.0.3",
     "jest": "~27.5.1",
     "kkt": "^7.5.2",
-    "lint-staged": "^13.2.3",
+    "lint-staged": "^15.0.0",
     "puppeteer": "~13.5.2",
     "react": "~18.2.0",
     "react-dom": "~18.2.0",
