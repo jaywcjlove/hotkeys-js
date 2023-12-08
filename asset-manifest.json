@@ -1,20 +1,20 @@
 {
   "files": {
-    "main.css": "/hotkeys-js/static/css/main.f00f83fe.css",
-    "main.js": "/hotkeys-js/static/js/main.2e99d0ff.js",
-    "refractor-vendor.js": "/hotkeys-js/static/js/refractor-vendor.390356d6.js",
-    "react-vendor.js": "/hotkeys-js/static/js/react-vendor.be17bb13.js",
+    "main.css": "/hotkeys-js/static/css/main.ff7ef0b5.css",
+    "main.js": "/hotkeys-js/static/js/main.a2b9123c.js",
+    "refractor-vendor.js": "/hotkeys-js/static/js/refractor-vendor.f1950cb6.js",
+    "react-vendor.js": "/hotkeys-js/static/js/react-vendor.9808e2f4.js",
     "static/media/bg.jpg": "/hotkeys-js/static/media/bg.c118c911b775de37ecf2.jpg",
     "index.html": "/hotkeys-js/index.html",
-    "main.f00f83fe.css.map": "/hotkeys-js/static/css/main.f00f83fe.css.map",
-    "main.2e99d0ff.js.map": "/hotkeys-js/static/js/main.2e99d0ff.js.map",
-    "refractor-vendor.390356d6.js.map": "/hotkeys-js/static/js/refractor-vendor.390356d6.js.map",
-    "react-vendor.be17bb13.js.map": "/hotkeys-js/static/js/react-vendor.be17bb13.js.map"
+    "main.ff7ef0b5.css.map": "/hotkeys-js/static/css/main.ff7ef0b5.css.map",
+    "main.a2b9123c.js.map": "/hotkeys-js/static/js/main.a2b9123c.js.map",
+    "refractor-vendor.f1950cb6.js.map": "/hotkeys-js/static/js/refractor-vendor.f1950cb6.js.map",
+    "react-vendor.9808e2f4.js.map": "/hotkeys-js/static/js/react-vendor.9808e2f4.js.map"
   },
   "entrypoints": [
-    "static/js/refractor-vendor.390356d6.js",
-    "static/js/react-vendor.be17bb13.js",
-    "static/css/main.f00f83fe.css",
-    "static/js/main.2e99d0ff.js"
+    "static/js/refractor-vendor.f1950cb6.js",
+    "static/js/react-vendor.9808e2f4.js",
+    "static/css/main.ff7ef0b5.css",
+    "static/js/main.a2b9123c.js"
   ]
 }
