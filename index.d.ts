@@ -18,6 +18,7 @@ type Options = {
   keydown?: boolean | null;
   capture?: boolean
   splitKey?: string;
+  single?: boolean;
 }
 
 export interface Hotkeys {
@@ -39,7 +40,7 @@ export interface Hotkeys {
 
   /**
    * Use the `hotkeys.setScope` method to set scope. There can only be one active scope besides 'all'.  By default 'all' is always active.
-   * 
+   *
    * ```js
    * // Define shortcuts with a scope
    * hotkeys('ctrl+o, ctrl+alt+enter', 'issues', function() {
@@ -48,7 +49,7 @@ export interface Hotkeys {
    * hotkeys('o, enter', 'files', function() {
    *   console.log('do something else');
    * });
-   * 
+   *
    * // Set the scope (only 'all' and 'issues' shortcuts will be honored)
    * hotkeys.setScope('issues'); // default scope is 'all'
    * ```
@@ -56,7 +57,7 @@ export interface Hotkeys {
   setScope(scopeName: string): void;
   /**
    * Use the `hotkeys.getScope` method to get scope.
-   * 
+   *
    * ```js
    * hotkeys.getScope();
    * ```
@@ -64,12 +65,12 @@ export interface Hotkeys {
   getScope(): string;
   /**
    * Use the `hotkeys.deleteScope` method to delete a scope. This will also remove all associated hotkeys with it.
-   * 
+   *
    * ```js
    * hotkeys.deleteScope('issues');
    * ```
    * You can use second argument, if need set new scope after deleting.
-   * 
+   *
    * ```js
    * hotkeys.deleteScope('issues', 'newScopeName');
    * ```
@@ -78,13 +79,13 @@ export interface Hotkeys {
 
   /**
    * Relinquish HotKeys’s control of the `hotkeys` variable.
-   * 
+   *
    * ```js
    * var k = hotkeys.noConflict();
    * k('a', function() {
    *   console.log("do something")
    * });
-   * 
+   *
    * hotkeys()
    * // -->Uncaught TypeError: hotkeys is not a function(anonymous function)
    * // @ VM2170:2InjectedScript._evaluateOn
@@ -96,7 +97,7 @@ export interface Hotkeys {
 
   /**
    * trigger shortcut key event
-   * 
+   *
    * ```js
    * hotkeys.trigger('ctrl+o');
    * hotkeys.trigger('ctrl+o', 'scope2');
@@ -115,7 +116,7 @@ export interface Hotkeys {
   isPressed(keyCode: string): boolean;
   /**
    * Returns an array of key codes currently pressed.
-   * 
+   *
    * ```js
    * hotkeys('command+ctrl+shift+a,f', function() {
    *   console.log(hotkeys.getPressedKeyCodes()); //=> [17, 65] or [70]
@@ -125,7 +126,7 @@ export interface Hotkeys {
   getPressedKeyCodes(): number[];
   /**
    * Returns an array of key codes currently pressed.
-   * 
+   *
    * ```js
    * hotkeys('command+ctrl+shift+a,f', function() {
    *   console.log(hotkeys.getPressedKeyString()); //=> ['⌘', '⌃', '⇧', 'A', 'F']
@@ -135,7 +136,7 @@ export interface Hotkeys {
   getPressedKeyString(): string[];
   /**
    * Get a list of all registration codes.
-   * 
+   *
    * ```js
    * hotkeys('command+ctrl+shift+a,f', function() {
    *   console.log(hotkeys.getAllKeyCodes());
@@ -145,7 +146,7 @@ export interface Hotkeys {
    *   // ]
    * })
    * ```
-   * 
+   *
    */
   getAllKeyCodes(): Omit<HotkeysEvent, 'method' | 'key'>;
 
@@ -153,7 +154,7 @@ export interface Hotkeys {
    * By default hotkeys are not enabled for `INPUT` `SELECT` `TEXTAREA` elements.
    * `Hotkeys.filter` to return to the `true` shortcut keys set to play a role,
    * `false` shortcut keys set up failure.
-   * 
+   *
    * ```js
    * hotkeys.filter = function(event){
    *   return true;
@@ -165,7 +166,7 @@ export interface Hotkeys {
    *   var tagName = target.tagName;
    *   return !(target.isContentEditable || tagName == 'INPUT' || tagName == 'SELECT' || tagName == 'TEXTAREA');
    * }
-   * 
+   *
    * hotkeys.filter = function(event){
    *   var tagName = (event.target || event.srcElement).tagName;
    *   hotkeys.setScope(/^(INPUT|TEXTAREA|SELECT)$/.test(tagName) ? 'input' : 'other');
