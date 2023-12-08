@@ -178,4 +178,4 @@ export interface Hotkeys {
 }
 // https://github.com/eiriklv/react-masonry-component/issues/57
 declare var hotkeys: Hotkeys;
-export default hotkeys;
+export = hotkeys;
