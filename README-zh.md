@@ -188,6 +188,7 @@ hotkeys('ctrl-y, ctrl-a', {splitKey: '-'}, function(e){
 - `keydown<Boolean>`
 - `splitKey<string>` (默认值 `+`)
 - `capture<Boolean>`
+- `single<Boolean>`
 
 ```js
 hotkeys('o, enter', {
