@@ -1,5 +1,5 @@
 /**! 
- * hotkeys-js v3.12.0 
+ * hotkeys-js v3.12.2 
  * A simple micro-library for defining and dispatching keyboard shortcuts. It has no dependencies. 
  * 
  * Copyright (c) 2023 kenny wong <wowohoo@qq.com> 
@@ -505,6 +505,7 @@
       if (option.keydown !== undefined) keydown = option.keydown; // eslint-disable-line
       if (option.capture !== undefined) capture = option.capture; // eslint-disable-line
       if (typeof option.splitKey === 'string') splitKey = option.splitKey; // eslint-disable-line
+      if (option.singleton === true) ; // eslint-disable-line
     }
 
     if (typeof option === 'string') scope = option;
