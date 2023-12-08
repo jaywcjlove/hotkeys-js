@@ -1,22 +1,21 @@
-const fs = require('fs');
-const path = require('path');
-const rollup = require('rollup');
-const babel = require('@rollup/plugin-babel');
-const nodeResolve = require('@rollup/plugin-node-resolve');
-const commonjs = require('@rollup/plugin-commonjs');
-const banner = require('bannerjs');
-const zlib = require('zlib');
-// const pkg = require('../package.json');
-const uglify = require('uglify-js');
-require('colors-cli/toxic');
+import { nodeResolve } from '@rollup/plugin-node-resolve';
+import commonjs from '@rollup/plugin-commonjs';
+import path from 'path';
+import fs from 'fs';
+import zlib from 'zlib';
+import { rollup } from 'rollup';
+import { multibanner, onebanner } from 'bannerjs';
+import { babel } from '@rollup/plugin-babel';
+import uglify from 'uglify-js';
+import 'colors-cli/toxic';
 
 // see below for details on the options
 const inputOptions = {
   input: 'src/index.js',
   plugins: [
-    nodeResolve.default(), // so Rollup can find `ms`
+    nodeResolve(), // so Rollup can find `ms`
     commonjs(), // so Rollup can convert `ms` to an ES module
-    babel.default({
+    babel({
       babelHelpers: 'bundled',
       exclude: 'node_modules/**', // 只编译我们的源代码
       presets: [[
@@ -34,7 +33,7 @@ const inputOptions = {
 
 async function build() {
   // create a bundle
-  const bundle = await rollup.rollup(inputOptions);
+  const bundle = await rollup(inputOptions);
 
   const uglifyOption = {
     compress: {
@@ -54,23 +53,23 @@ async function build() {
   const umd = await bundle.generate({
     format: 'umd',
     name: 'hotkeys',
-    banner: banner.multibanner(),
+    banner: multibanner(),
   });
 
-  const umdMinified = `${banner.onebanner()}\n${uglify.minify(umd.output[0].code, uglifyOption).code}`;
+  const umdMinified = `${onebanner()}\n${uglify.minify(umd.output[0].code, uglifyOption).code}`;
 
   const common = await bundle.generate({
     format: 'cjs',
     name: 'hotkeys',
     exports: 'auto',
-    banner: banner.multibanner(),
+    banner: multibanner(),
   });
-  const commonMinified = `${banner.onebanner()}\n${uglify.minify(common.output[0].code, uglifyOption).code}`;
+  const commonMinified = `${onebanner()}\n${uglify.minify(common.output[0].code, uglifyOption).code}`;
 
   const es = await bundle.generate({
     format: 'es',
     name: 'hotkeys',
-    banner: banner.multibanner(),
+    banner: multibanner(),
   });
 
   write('dist/hotkeys.js', umd.output[0].code)
