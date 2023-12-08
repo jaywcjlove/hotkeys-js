@@ -350,6 +350,7 @@ function hotkeys(key, option, method) {
   let keydown = true;
   let splitKey = '+';
   let capture = false;
+  let single = false; // 单个callback
 
   // 对为设定范围的判断
   if (method === undefined && typeof option === 'function') {
@@ -363,6 +364,7 @@ function hotkeys(key, option, method) {
     if (option.keydown !== undefined) keydown = option.keydown; // eslint-disable-line
     if (option.capture !== undefined) capture = option.capture; // eslint-disable-line
     if (typeof option.splitKey === 'string') splitKey = option.splitKey; // eslint-disable-line
+    if (option.single === true) single = true; // eslint-disable-line
   }
 
   if (typeof option === 'string') scope = option;
@@ -381,6 +383,9 @@ function hotkeys(key, option, method) {
 
     // 判断key是否在_handlers中，不在就赋一个空数组
     if (!(key in _handlers)) _handlers[key] = [];
+    // 如果只允许单个callback，重新设置_handlers
+    if (single) _handlers[key] = [];
+
     _handlers[key].push({
       keyup,
       keydown,
