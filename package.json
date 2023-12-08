@@ -42,7 +42,9 @@
     "url": "https://github.com/jaywcjlove/hotkeys-js.git"
   },
   "jest": {
-    "testURL": "http://localhost/"
+    "testEnvironmentOptions": {
+      "url": "http://localhost/"
+    }
   },
   "devDependencies": {
     "@babel/eslint-parser": "^7.18.9",
