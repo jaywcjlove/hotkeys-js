@@ -148,7 +148,7 @@ export interface Hotkeys {
    * ```
    *
    */
-  getAllKeyCodes(): Omit<HotkeysEvent, 'method' | 'key'>;
+  getAllKeyCodes(): Omit<HotkeysEvent, 'method' | 'key'>[];
 
   /**
    * By default hotkeys are not enabled for `INPUT` `SELECT` `TEXTAREA` elements.
