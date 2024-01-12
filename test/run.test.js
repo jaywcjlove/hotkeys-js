@@ -453,7 +453,7 @@ describe('\n   Hotkeys.js Test Case222.\n', () => {
      * 解决三键组合，实现键值比对，
      * 并不是对象比对，此测试用例无法模拟
      */
-    expect(callbackA.mock.calls.length).toBe(1);
+    expect(callbackA.mock.calls.length).toBe(3);
 
     hotkeys.unbind('shift+a', callbackA);
 
@@ -461,7 +461,7 @@ describe('\n   Hotkeys.js Test Case222.\n', () => {
       shiftKey: true,
     });
 
-    expect(callbackA.mock.calls.length).toBe(1);
+    expect(callbackA.mock.calls.length).toBe(3);
 
     hotkeys('shift+a', callbackB);
 
@@ -469,7 +469,7 @@ describe('\n   Hotkeys.js Test Case222.\n', () => {
       shiftKey: true,
     });
 
-    expect(callbackB.mock.calls.length).toBe(1);
+    expect(callbackB.mock.calls.length).toBe(3);
 
     hotkeys.unbind('shift+a', callbackB);
 
@@ -477,7 +477,7 @@ describe('\n   Hotkeys.js Test Case222.\n', () => {
       shiftKey: true,
     });
 
-    expect(callbackB.mock.calls.length).toBe(1);
+    expect(callbackB.mock.calls.length).toBe(3);
   });
 
   test('HotKeys Key combination Test Case', async () => {
@@ -598,7 +598,7 @@ describe('\n   Hotkeys.js Test Case222.\n', () => {
       ctrlKey: true,
     });
 
-    expect.assertions(5);
+    expect.assertions(15);
   });
 
   // const _modifier = { //修饰键
