@@ -5,7 +5,14 @@ function addEvent(object, event, method, useCapture) {
   if (object.addEventListener) {
     object.addEventListener(event, method, useCapture);
   } else if (object.attachEvent) {
-    object.attachEvent(`on${event}`, () => { method(window.event); });
+    object.attachEvent(`on${event}`, method);
+  }
+}
+function removeEvent(object, event, method, useCapture) {
+  if (object.removeEventListener) {
+    object.removeEventListener(event, method, useCapture);
+  } else if (object.deachEvent) {
+    object.deachEvent(`on${event}`, method);
   }
 }
 
@@ -50,5 +57,6 @@ export {
   getMods,
   getKeys,
   addEvent,
+  removeEvent,
   compareArray,
 };
