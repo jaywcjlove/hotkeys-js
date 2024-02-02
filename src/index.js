@@ -51,11 +51,12 @@ function getAllKeyCodes() {
 function filter(event) {
   const target = event.target || event.srcElement;
   const { tagName } = target;
-  let flag = true;
+  let flag = true,
+      isInput = tagName == 'INPUT' && !['checkbox', 'radio', 'range', 'button', 'file', 'reset', 'submit', 'color'].includes(target.type);
   // ignore: isContentEditable === 'true', <input> and <textarea> when readOnly state is false, <select>
   if (
     target.isContentEditable
-    || ((tagName === 'INPUT' || tagName === 'TEXTAREA' || tagName === 'SELECT') && !target.readOnly)
+    || ((isInput || tagName === 'TEXTAREA' || tagName === 'SELECT') && !target.readOnly)
   ) {
     flag = false;
   }
