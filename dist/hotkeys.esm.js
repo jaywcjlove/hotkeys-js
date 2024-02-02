@@ -212,8 +212,9 @@ function filter(event) {
     tagName
   } = target;
   let flag = true;
+  const isInput = tagName === 'INPUT' && !['checkbox', 'radio', 'range', 'button', 'file', 'reset', 'submit', 'color'].includes(target.type);
   // ignore: isContentEditable === 'true', <input> and <textarea> when readOnly state is false, <select>
-  if (target.isContentEditable || (tagName === 'INPUT' || tagName === 'TEXTAREA' || tagName === 'SELECT') && !target.readOnly) {
+  if (target.isContentEditable || (isInput || tagName === 'TEXTAREA' || tagName === 'SELECT') && !target.readOnly) {
     flag = false;
   }
   return flag;

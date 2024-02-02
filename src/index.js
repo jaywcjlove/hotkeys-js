@@ -51,8 +51,8 @@ function getAllKeyCodes() {
 function filter(event) {
   const target = event.target || event.srcElement;
   const { tagName } = target;
-  let flag = true,
-      isInput = tagName == 'INPUT' && !['checkbox', 'radio', 'range', 'button', 'file', 'reset', 'submit', 'color'].includes(target.type);
+  let flag = true;
+  const isInput = tagName === 'INPUT' && !['checkbox', 'radio', 'range', 'button', 'file', 'reset', 'submit', 'color'].includes(target.type);
   // ignore: isContentEditable === 'true', <input> and <textarea> when readOnly state is false, <select>
   if (
     target.isContentEditable
