@@ -11,8 +11,8 @@ function addEvent(object, event, method, useCapture) {
 function removeEvent(object, event, method, useCapture) {
   if (object.removeEventListener) {
     object.removeEventListener(event, method, useCapture);
-  } else if (object.deachEvent) {
-    object.deachEvent(`on${event}`, method);
+  } else if (object.detachEvent) {
+    object.detachEvent(`on${event}`, method);
   }
 }
 
