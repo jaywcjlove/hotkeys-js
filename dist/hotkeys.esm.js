@@ -1,5 +1,5 @@
 /**! 
- * hotkeys-js v3.13.6 
+ * hotkeys-js v3.13.7 
  * A simple micro-library for defining and dispatching keyboard shortcuts. It has no dependencies. 
  * 
  * Copyright (c) 2024 kenny wong <wowohoo@qq.com> 
@@ -23,8 +23,8 @@ function addEvent(object, event, method, useCapture) {
 function removeEvent(object, event, method, useCapture) {
   if (object.removeEventListener) {
     object.removeEventListener(event, method, useCapture);
-  } else if (object.deachEvent) {
-    object.deachEvent("on".concat(event), method);
+  } else if (object.detachEvent) {
+    object.detachEvent("on".concat(event), method);
   }
 }
 
