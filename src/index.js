@@ -350,7 +350,10 @@ function hotkeys(key, option, method) {
   const keys = getKeys(key); // 需要处理的快捷键列表
   let mods = [];
   let scope = 'all'; // scope默认为all，所有范围都有效
-  let element = document; // 快捷键事件绑定节点
+  let element; // 快捷键事件绑定节点
+  if (typeof window !== 'undefined') {
+    element = document;
+  }
   let i = 0;
   let keyup = false;
   let keydown = true;
