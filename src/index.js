@@ -248,20 +248,19 @@ function dispatch(event, element) {
    * Jest test cases are required.
    * ===============================
    */
-  ['ctrlKey', 'altKey', 'shiftKey', 'metaKey'].forEach((keyName) => {
+  ['metaKey', 'ctrlKey', 'altKey', 'shiftKey'].forEach((keyName) => {
     const keyNum = modifierMap[keyName];
     if (event[keyName] && _downKeys.indexOf(keyNum) === -1) {
       _downKeys.push(keyNum);
     } else if (!event[keyName] && _downKeys.indexOf(keyNum) > -1) {
       _downKeys.splice(_downKeys.indexOf(keyNum), 1);
     } else if (keyName === 'metaKey' && event[keyName] && _downKeys.length === 3) {
-      /**
-       * Fix if Command is pressed:
-       * ===============================
-       */
-      if (!(event.ctrlKey || event.shiftKey || event.altKey)) {
-        _downKeys = _downKeys.slice(_downKeys.indexOf(keyNum));
-      }
+      // 如果command被按下，那就清空所有除event按键外的非装饰键。
+      // 因为command被按下的情况下非装饰键的keyup永远都不会触发。这是已知的浏览器限制。
+      // If command key is pressed, clear all non-decorating keys except for key in event.
+      // This is because keyup for a non-decorating key will NEVER be triggered when command is pressed.
+      // This is a known browser limitation.
+      _downKeys = _downKeys.filter((k) => k in modifierMap || k === key);
     }
   });
   /**
