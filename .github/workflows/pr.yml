@@ -1,0 +1,31 @@
+name: CI-PR
+on:
+  pull_request:
+
+env:
+  SKIP_PREFLIGHT_CHECK: true
+
+jobs:
+  build-deploy:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      id-token: write
+    steps:
+    - uses: actions/checkout@v4
+    - uses: actions/setup-node@v4
+      with:
+        node-version: 20
+        registry-url: 'https://registry.npmjs.org'
+
+    - name: Look Changelog
+      uses: jaywcjlove/changelog-generator@main
+      with:
+        token: ${{ secrets.GITHUB_TOKEN }}
+        filter-author: (jaywcjlove|小弟调调™|dependabot\[bot\]|Renovate Bot)
+        filter: (^[\s]+?[R|r]elease)|(^[R|r]elease)
+
+    - run: npm install
+    - run: npm run build
+    - run: npm run test
+    
