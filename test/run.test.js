@@ -70,6 +70,21 @@ function __triggerKeyboardFocus(el, keyCode, opt) {
   el.dispatchEvent ? el.dispatchEvent(eventObj) : el.fireEvent('onfocus', eventObj);
 }
 
+jest.mock('ws', () => {
+  return {
+    WebSocket: class {
+      constructor(url) {
+        this.url = url;
+        this.readyState = 1;
+        this.send = jest.fn();
+        this.close = jest.fn();
+        this.addEventListener = jest.fn();
+        this.removeEventListener = jest.fn();
+      }
+    }
+  };
+});
+
 beforeAll(async () => {
   browser = await puppeteer.launch({ args: ['--no-sandbox'] });
   page = await browser.newPage();
