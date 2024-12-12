@@ -254,7 +254,7 @@ function dispatch(event, element) {
       _downKeys.push(keyNum);
     } else if (!event[keyName] && _downKeys.indexOf(keyNum) > -1) {
       _downKeys.splice(_downKeys.indexOf(keyNum), 1);
-    } else if (keyName === 'metaKey' && event[keyName] && _downKeys.length === 3) {
+    } else if (keyName === 'metaKey' && event[keyName]) {
       // 如果command被按下，那就清空所有除event按键外的非装饰键。
       // 因为command被按下的情况下非装饰键的keyup永远都不会触发。这是已知的浏览器限制。
       // If command key is pressed, clear all non-decorating keys except for key in event.
