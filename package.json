@@ -59,7 +59,7 @@
     "@uiw/react-mac-keyboard": "^1.1.5",
     "@uiw/react-markdown-preview": "^5.0.3",
     "@uiw/react-shields": "^2.0.1",
-    "@wcj/dark-mode": "~1.0.15",
+    "@wcj/dark-mode": "~1.1.0",
     "bannerjs": "^3.0.2",
     "classnames": "^2.3.2",
     "colors-cli": "^1.0.32",
