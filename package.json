@@ -76,7 +76,7 @@
     "puppeteer": "~13.5.2",
     "react": "~18.2.0",
     "react-dom": "~18.2.0",
-    "rimraf": "^5.0.1",
+    "rimraf": "^6.0.0",
     "rollup": "^4.7.0",
     "uglify-js": "^3.17.4"
   },
