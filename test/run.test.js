@@ -215,7 +215,11 @@ describe('\n   Hotkeys.js Test Case222.\n', () => {
 
     expect(hotkeys.unbind()).toBe(undefined);
     expect(hotkeys.unbind('enter')).toBe(undefined);
-    expect(hotkeys.unbind('enter12')).toBe(undefined);
+    expect(hotkeys.unbind('enter12')).toBeUndefined();
+  });
+
+  test('getAllKeyCodes Test Case', async () => {
+    expect(hotkeys.getAllKeyCodes()).toEqual([]);
   });
 
   test('passing an empty string to unbind does not remove all handlers', () => {
