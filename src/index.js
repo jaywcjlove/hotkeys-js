@@ -266,13 +266,14 @@ function dispatch(event, element) {
   /**
    * -------------------------------
    */
-
   if (key in _mods) {
     _mods[key] = true;
-
     // 将特殊字符的key注册到 hotkeys 上
     for (const k in _modifier) {
-      if (_modifier[k] === key) hotkeys[k] = true;
+      if (Object.prototype.hasOwnProperty.call(_modifier, k)) {
+        const eventKey = modifierMap[_modifier[k]];
+        hotkeys[k] = event[eventKey];
+      }
     }
 
     if (!asterisk) return;
