@@ -153,13 +153,13 @@ hotkeys('*','wcj', function(event){
 
 #### option
 
-- `scope<String>`
-- `element<HTMLElement>`
-- `keyup<Boolean>`
-- `keydown<Boolean>`
-- `splitKey<string>` (default is `+`)
-- `capture<Boolean>`
-- `single<Boolean>`
+- `scope<String>`: Sets the scope in which the shortcut key is active
+- `element<HTMLElement>`: Specifies the DOM element to bind the event to
+- `keyup<Boolean>`: Whether to trigger the shortcut on key release
+- `keydown<Boolean>`: Whether to trigger the shortcut on key press
+- `splitKey<String>`: Delimiter for key combinations (default is `+`)
+- `capture<Boolean>`: Whether to trigger the listener during the capture phase (before the event bubbles down)
+- `single<Boolean>`: Allows only one callback function (automatically unbinds previous one)
 
 ```js
 hotkeys('o, enter', {

@@ -182,13 +182,14 @@ hotkeys('ctrl-y, ctrl-a', {splitKey: '-'}, function(e){
 
 #### option 
 
-- `scope<String>`
-- `element<HTMLElement>`
-- `keyup<Boolean>`
-- `keydown<Boolean>`
-- `splitKey<string>` (默认值 `+`)
-- `capture<Boolean>`
-- `single<Boolean>`
+- `scope<String>`：设置快捷键的作用范围
+- `element<HTMLElement>`：指定要绑定事件的 DOM 节点
+- `keyup<Boolean>`：是否在按键抬起时触发快捷键
+- `keydown<Boolean>`：是否在按键按下时触发快捷键
+- `splitKey<String>`：组合键的分隔符（默认值为 `+`）
+- `capture<Boolean>`：是否在事件捕获阶段触发监听器（即事件向下传播前）
+- `single<Boolean>`：是否只允许一个回调函数（启用时将先执行 unbind）
+
 
 ```js
 hotkeys('o, enter', {
