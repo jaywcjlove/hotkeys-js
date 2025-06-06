@@ -52,7 +52,13 @@ function compareArray(a1, a2) {
   return isIndex;
 }
 
+// 检测是否为 Mac 系统
+const isMac = () => {
+  return typeof navigator !== 'undefined' && /Mac|iPod|iPhone|iPad/.test(navigator.platform);
+};
+
 export {
+  isMac,
   isff,
   getMods,
   getKeys,
