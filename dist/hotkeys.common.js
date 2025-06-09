@@ -64,6 +64,11 @@ function compareArray(a1, a2) {
   return isIndex;
 }
 
+// 检测是否为 Mac 系统
+const isMac = () => {
+  return typeof navigator !== 'undefined' && /Mac|iPod|iPhone|iPad/.test(navigator.platform);
+};
+
 // Special Keys
 const _keyMap = {
   backspace: 8,
@@ -165,10 +170,87 @@ let winListendFocus = null; // window是否已经监听了focus事件
 let _scope = 'all'; // 默认热键范围
 const elementEventMap = new Map(); // 已绑定事件的节点记录
 
+// Mac 系统 CapsLock 状态跟踪
+let _capsLockState = false; // 当前 CapsLock 状态
+let _capsLockPressed = false; // CapsLock 是否被按下
+let _capsLockTimer = null; // CapsLock 检测定时器
+
 // 返回键码
 const code = x => _keyMap[x.toLowerCase()] || _modifier[x.toLowerCase()] || x.toUpperCase().charCodeAt(0);
 const getKey = x => Object.keys(_keyMap).find(k => _keyMap[k] === x);
 const getModifier = x => Object.keys(_modifier).find(k => _modifier[k] === x);
+
+// 检测 CapsLock 状态变化
+const detectCapsLockState = event => {
+  if (!isMac()) return;
+
+  // 检查浏览器支持
+  if (!event.getModifierState) return;
+  try {
+    const currentCapsLockState = event.getModifierState('CapsLock');
+    // 如果 CapsLock 状态发生变化
+    if (currentCapsLockState !== _capsLockState) {
+      const previousState = _capsLockState;
+      _capsLockState = currentCapsLockState;
+
+      // 如果 CapsLock 从开启变为关闭，且之前有按下记录，触发 keyup
+      if (previousState && !currentCapsLockState && _capsLockPressed && _downKeys.indexOf(20) !== -1) {
+        // 触发模拟的 keyup 事件
+        triggerCapsLockKeyup(event);
+        _capsLockPressed = false;
+      }
+    }
+    // eslint-disable-next-line no-unused-vars
+  } catch (error) {
+    // 静默处理 getModifierState 可能的异常
+  }
+};
+
+// 清除 CapsLock 定时器和状态
+const clearCapsLockState = () => {
+  _capsLockPressed = false;
+  if (_capsLockTimer) {
+    clearTimeout(_capsLockTimer);
+    _capsLockTimer = null;
+  }
+};
+
+// 触发 CapsLock 模拟 keyup 事件
+const triggerCapsLockKeyup = originalEvent => {
+  // 使用 requestAnimationFrame 而不是 setTimeout 以获得更好的性能
+  requestAnimationFrame(() => {
+    const targetElement = originalEvent.target || document;
+    const currentScope = getScope();
+    const syntheticEvent = {
+      type: 'keyup',
+      keyCode: 20,
+      which: 20,
+      charCode: 20,
+      key: 'CapsLock',
+      target: targetElement,
+      preventDefault: () => {},
+      stopPropagation: () => {},
+      cancelBubble: false,
+      isSynthetic: true,
+      // 标记为模拟事件
+      getModifierState: originalEvent.getModifierState ? originalEvent.getModifierState.bind(originalEvent) : null
+    };
+
+    // 清除 CapsLock 键的按下状态
+    clearModifier(syntheticEvent);
+
+    // 触发相关的 keyup 处理
+    if (_handlers[20]) {
+      const handlerKey = _handlers[20];
+      for (let i = 0; i < handlerKey.length; i++) {
+        const handler = handlerKey[i];
+        if (handler.keyup && (handler.element === targetElement || handler.element === document)) {
+          eventHandler(syntheticEvent, handler, currentScope, targetElement);
+        }
+      }
+    }
+  });
+};
 
 // 设置获取当前范围（默认为'所有'）
 function setScope(scope) {
@@ -281,6 +363,11 @@ function clearModifier(event) {
 
     // 将修饰键重置为false
     for (const k in _modifier) if (_modifier[k] === key) hotkeys[k] = false;
+
+    // 特殊处理 CapsLock 键
+    if (key === 20 && isMac()) {
+      clearCapsLockState();
+    }
   }
 }
 function unbind(keysInfo) {
@@ -393,6 +480,31 @@ function dispatch(event, element) {
   // Webkit左右 command 键值不一样
   if (key === 93 || key === 224) key = 91;
 
+  // 特殊处理 Mac 系统的 CapsLock 键
+  if (key === 20 && isMac()) {
+    if (event.type === 'keydown') {
+      _capsLockPressed = true;
+      // 清除之前的定时器
+      if (_capsLockTimer) {
+        clearTimeout(_capsLockTimer);
+      }
+      // 设置一个定时器来检测 CapsLock 释放
+      // 在 Mac 上，CapsLock 的 keyup 事件可能不会触发，所以我们用定时器来模拟
+      _capsLockTimer = setTimeout(() => {
+        if (_capsLockPressed && _downKeys.indexOf(20) !== -1) {
+          // 使用统一的辅助函数触发 keyup 事件
+          triggerCapsLockKeyup(event);
+          clearCapsLockState();
+        }
+      }, 100); // 100ms 后触发 keyup
+      // 检测 CapsLock 状态变化
+      detectCapsLockState(event);
+    } else if (event.type === 'keyup') {
+      // 如果收到了真实的 keyup 事件，清除定时器和状态
+      clearCapsLockState();
+    }
+  }
+
   /**
    * Collect bound keys
    * If an Input Method Editor is processing key input and the event is keydown, return 229.
@@ -489,6 +601,12 @@ function dispatch(event, element) {
         }
       }
     }
+  }
+
+  // 只在非 CapsLock 键的事件时检测 CapsLock 状态变化，避免重复调用
+  // 因为在上面 CapsLock 键处理中已经调用过了
+  if (isMac() && key !== 20 && event.type === 'keydown') {
+    detectCapsLockState(event);
   }
 }
 function hotkeys(key, option, method) {

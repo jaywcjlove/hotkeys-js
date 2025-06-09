@@ -40,10 +40,18 @@ const detectCapsLockState = (event) => {
         _capsLockPressed = false;
       }
     }
-  } catch (error) {
-    // 静默处理 getModifierState 可能的异常，避免影响正常功能
     // eslint-disable-next-line no-unused-vars
-    const silentError = error;
+  } catch (error) {
+    // 静默处理 getModifierState 可能的异常
+  }
+};
+
+// 清除 CapsLock 定时器和状态
+const clearCapsLockState = () => {
+  _capsLockPressed = false;
+  if (_capsLockTimer) {
+    clearTimeout(_capsLockTimer);
+    _capsLockTimer = null;
   }
 };
 
@@ -51,13 +59,15 @@ const detectCapsLockState = (event) => {
 const triggerCapsLockKeyup = (originalEvent) => {
   // 使用 requestAnimationFrame 而不是 setTimeout 以获得更好的性能
   requestAnimationFrame(() => {
+    const targetElement = originalEvent.target || document;
+    const currentScope = getScope();
     const syntheticEvent = {
       type: 'keyup',
       keyCode: 20,
       which: 20,
       charCode: 20,
       key: 'CapsLock',
-      target: originalEvent.target || document,
+      target: targetElement,
       preventDefault: () => {},
       stopPropagation: () => {},
       cancelBubble: false,
@@ -68,11 +78,9 @@ const triggerCapsLockKeyup = (originalEvent) => {
     // 清除 CapsLock 键的按下状态
     clearModifier(syntheticEvent);
 
-    // 触发相关的 keyup 处理 - 改进处理逻辑
+    // 触发相关的 keyup 处理
     if (_handlers[20]) {
       const handlerKey = _handlers[20];
-      const targetElement = originalEvent.target || document;
-      const currentScope = getScope();
       for (let i = 0; i < handlerKey.length; i++) {
         const handler = handlerKey[i];
         if (handler.keyup && (handler.element === targetElement || handler.element === document)) {
@@ -190,12 +198,7 @@ function clearModifier(event) {
 
     // 特殊处理 CapsLock 键
     if (key === 20 && isMac()) {
-      _capsLockPressed = false;
-      // 清除 CapsLock 定时器
-      if (_capsLockTimer) {
-        clearTimeout(_capsLockTimer);
-        _capsLockTimer = null;
-      }
+      clearCapsLockState();
     }
   }
 }
@@ -330,19 +333,14 @@ function dispatch(event, element) {
         if (_capsLockPressed && _downKeys.indexOf(20) !== -1) {
           // 使用统一的辅助函数触发 keyup 事件
           triggerCapsLockKeyup(event);
-          _capsLockPressed = false;
+          clearCapsLockState();
         }
-        _capsLockTimer = null;
       }, 100); // 100ms 后触发 keyup
       // 检测 CapsLock 状态变化
       detectCapsLockState(event);
     } else if (event.type === 'keyup') {
       // 如果收到了真实的 keyup 事件，清除定时器和状态
-      _capsLockPressed = false;
-      if (_capsLockTimer) {
-        clearTimeout(_capsLockTimer);
-        _capsLockTimer = null;
-      }
+      clearCapsLockState();
     }
   }
 
@@ -453,8 +451,9 @@ function dispatch(event, element) {
     }
   }
 
-  // 在每次键盘事件后检测 CapsLock 状态变化（仅在非 CapsLock 键事件时检测）
-  if (isMac() && key !== 20) {
+  // 只在非 CapsLock 键的事件时检测 CapsLock 状态变化，避免重复调用
+  // 因为在上面 CapsLock 键处理中已经调用过了
+  if (isMac() && key !== 20 && event.type === 'keydown') {
     detectCapsLockState(event);
   }
 }
