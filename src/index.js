@@ -22,13 +22,17 @@ const getModifier = (x) => Object.keys(_modifier).find((k) => _modifier[k] === x
 // 检测 CapsLock 状态变化
 const detectCapsLockState = (event) => {
   if (!isMac()) return;
-  // 通过 getModifierState 检测 CapsLock 状态
-  if (event.getModifierState) {
+
+  // 检查浏览器支持
+  if (!event.getModifierState) return;
+
+  try {
     const currentCapsLockState = event.getModifierState('CapsLock');
     // 如果 CapsLock 状态发生变化
     if (currentCapsLockState !== _capsLockState) {
       const previousState = _capsLockState;
       _capsLockState = currentCapsLockState;
+
       // 如果 CapsLock 从开启变为关闭，且之前有按下记录，触发 keyup
       if (previousState && !currentCapsLockState && _capsLockPressed && _downKeys.indexOf(20) !== -1) {
         // 触发模拟的 keyup 事件
@@ -36,12 +40,17 @@ const detectCapsLockState = (event) => {
         _capsLockPressed = false;
       }
     }
+  } catch (error) {
+    // 静默处理 getModifierState 可能的异常，避免影响正常功能
+    // eslint-disable-next-line no-unused-vars
+    const silentError = error;
   }
 };
 
 // 触发 CapsLock 模拟 keyup 事件
 const triggerCapsLockKeyup = (originalEvent) => {
-  setTimeout(() => {
+  // 使用 requestAnimationFrame 而不是 setTimeout 以获得更好的性能
+  requestAnimationFrame(() => {
     const syntheticEvent = {
       type: 'keyup',
       keyCode: 20,
@@ -55,19 +64,23 @@ const triggerCapsLockKeyup = (originalEvent) => {
       isSynthetic: true, // 标记为模拟事件
       getModifierState: originalEvent.getModifierState ? originalEvent.getModifierState.bind(originalEvent) : null,
     };
+
     // 清除 CapsLock 键的按下状态
     clearModifier(syntheticEvent);
-    // 触发相关的 keyup 处理
-    const targetElement = originalEvent.target || document;
+
+    // 触发相关的 keyup 处理 - 改进处理逻辑
     if (_handlers[20]) {
       const handlerKey = _handlers[20];
+      const targetElement = originalEvent.target || document;
+      const currentScope = getScope();
       for (let i = 0; i < handlerKey.length; i++) {
-        if (handlerKey[i].keyup && handlerKey[i].element === targetElement) {
-          eventHandler(syntheticEvent, handlerKey[i], getScope(), targetElement);
+        const handler = handlerKey[i];
+        if (handler.keyup && (handler.element === targetElement || handler.element === document)) {
+          eventHandler(syntheticEvent, handler, currentScope, targetElement);
         }
       }
     }
-  }, 0);
+  });
 };
 
 // 设置获取当前范围（默认为'所有'）
