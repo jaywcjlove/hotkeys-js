@@ -100,6 +100,13 @@ function deleteScope(scope, newScope) {
 // 清除修饰键
 function clearModifier(event) {
   let key = event.keyCode || event.which || event.charCode;
+  if (event.key) {
+    // Ensure that when capturing keystrokes in modern browsers,
+    // uppercase and lowercase letters (such as R and r) return the same key value.
+    // https://github.com/jaywcjlove/hotkeys-js/pull/514
+    // https://developer.mozilla.org/zh-CN/docs/Web/API/KeyboardEvent/key
+    key = code(event.key);
+  }
   const i = _downKeys.indexOf(key);
 
   // 从列表中清除按压过的键
@@ -229,6 +236,21 @@ function eventHandler(event, handler, scope, element) {
 function dispatch(event, element) {
   const asterisk = _handlers['*'];
   let key = event.keyCode || event.which || event.charCode;
+
+  // Ensure that when capturing keystrokes in modern browsers,
+  // uppercase and lowercase letters (such as R and r) return the same key value.
+  // https://github.com/jaywcjlove/hotkeys-js/pull/514
+  // https://developer.mozilla.org/zh-CN/docs/Web/API/KeyboardEvent/key
+  if (event.key) {
+    key = code(event.key);
+  }
+  // CapsLock key
+  // There's an issue where `keydown` and `keyup` events are not triggered after CapsLock is enabled to activate uppercase.
+  // https://github.com/jaywcjlove/hotkeys-js/pull/514
+  // https://developer.mozilla.org/zh-CN/docs/Web/API/KeyboardEvent/key
+  if (key === _keyMap.capslock) {
+    return;
+  }
 
   // 表单控件过滤 默认表单控件不触发快捷键
   if (!hotkeys.filter.call(this, event)) return;
