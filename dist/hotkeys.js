@@ -1,5 +1,5 @@
 /**! 
- * hotkeys-js v3.13.11 
+ * hotkeys-js v3.13.12 
  * A simple micro-library for defining and dispatching keyboard shortcuts. It has no dependencies. 
  * 
  * Copyright (c) 2025 kenny wong <wowohoo@qq.com> 
@@ -84,6 +84,11 @@
     up: 38,
     right: 39,
     down: 40,
+    /// https://w3c.github.io/uievents/#events-keyboard-key-location
+    arrowup: 38,
+    arrowdown: 40,
+    arrowleft: 37,
+    arrowright: 39,
     del: 46,
     delete: 46,
     ins: 45,
