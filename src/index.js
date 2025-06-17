@@ -245,7 +245,6 @@ function dispatch(event, element) {
   if (event.key && event.key.toLowerCase() === 'capslock') {
     return;
   }
-  console.log('hotkeys.js: ', event.key, event);
   // 表单控件过滤 默认表单控件不触发快捷键
   if (!hotkeys.filter.call(this, event)) return;
 
