@@ -117,6 +117,8 @@ const _keyMap = {
   '=': isff ? 61 : 187,
   ';': isff ? 59 : 186,
   '\'': 222,
+  '{': 219,
+  '}': 221,
   '[': 219,
   ']': 221,
   '\\': 220
@@ -138,6 +140,7 @@ const _modifier = {
   // metaKey
   '⌘': 91,
   cmd: 91,
+  meta: 91,
   command: 91
 };
 const modifierMap = {
@@ -266,7 +269,7 @@ function deleteScope(scope, newScope) {
 // 清除修饰键
 function clearModifier(event) {
   let key = event.keyCode || event.which || event.charCode;
-  if (event.key) {
+  if (event.key && event.key.toLowerCase() === 'capslock') {
     // Ensure that when capturing keystrokes in modern browsers,
     // uppercase and lowercase letters (such as R and r) return the same key value.
     // https://github.com/jaywcjlove/hotkeys-js/pull/514
@@ -395,22 +398,16 @@ function eventHandler(event, handler, scope, element) {
 function dispatch(event, element) {
   const asterisk = _handlers['*'];
   let key = event.keyCode || event.which || event.charCode;
-
   // Ensure that when capturing keystrokes in modern browsers,
   // uppercase and lowercase letters (such as R and r) return the same key value.
   // https://github.com/jaywcjlove/hotkeys-js/pull/514
   // https://developer.mozilla.org/zh-CN/docs/Web/API/KeyboardEvent/key
-  if (event.key) {
-    key = code(event.key);
-  }
   // CapsLock key
   // There's an issue where `keydown` and `keyup` events are not triggered after CapsLock is enabled to activate uppercase.
-  // https://github.com/jaywcjlove/hotkeys-js/pull/514
-  // https://developer.mozilla.org/zh-CN/docs/Web/API/KeyboardEvent/key
-  if (key === _keyMap.capslock) {
+  if (event.key && event.key.toLowerCase() === 'capslock') {
     return;
   }
-
+  console.log('hotkeys.js: ', event.key, event);
   // 表单控件过滤 默认表单控件不触发快捷键
   if (!hotkeys.filter.call(this, event)) return;
 

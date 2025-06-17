@@ -55,6 +55,8 @@ const _keyMap = {
   '=': isff ? 61 : 187,
   ';': isff ? 59 : 186,
   '\'': 222,
+  '{': 219,
+  '}': 221,
   '[': 219,
   ']': 221,
   '\\': 220,
@@ -76,6 +78,7 @@ const _modifier = {
   // metaKey
   '⌘': 91,
   cmd: 91,
+  meta: 91,
   command: 91,
 };
 const modifierMap = {
