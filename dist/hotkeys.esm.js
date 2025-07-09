@@ -177,6 +177,8 @@ const elementEventMap = new Map();
 
 /** Return key code */
 const code = x => _keyMap[x.toLowerCase()] || _modifier[x.toLowerCase()] || x.toUpperCase().charCodeAt(0);
+const getKey = x => Object.keys(_keyMap).find(k => _keyMap[k] === x);
+const getModifier = x => Object.keys(_modifier).find(k => _modifier[k] === x);
 
 /** Set or get the current scope (defaults to 'all') */
 function setScope(scope) {
@@ -189,6 +191,9 @@ function getScope() {
 /** Get the key codes of the currently pressed keys */
 function getPressedKeyCodes() {
   return _downKeys.slice(0);
+}
+function getPressedKeyString() {
+  return _downKeys.map(c => getKey(c) || getModifier(c) || String.fromCharCode(c));
 }
 function getAllKeyCodes() {
   const result = [];
@@ -522,7 +527,8 @@ function hotkeys(key, option, method) {
   let keydown = true;
   let splitKey = '+';
   let capture = false;
-  let single = false; /** Allow only a single callback */
+  /** Allow only a single callback */
+  let single = false;
 
   // Determine if the second argument is a function (no options provided)
   if (method === undefined && typeof option === 'function') {
