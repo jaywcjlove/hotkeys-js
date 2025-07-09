@@ -1,12 +1,16 @@
 import { addEvent, removeEvent, getMods, getKeys, compareArray } from './utils';
 import { _keyMap, _modifier, modifierMap, _mods, _handlers } from './var';
 
-let _downKeys = []; // 记录摁下的绑定键
-let winListendFocus = null; // window是否已经监听了focus事件
-let _scope = 'all'; // 默认热键范围
-const elementEventMap = new Map(); // 已绑定事件的节点记录
+/** Record the pressed keys */
+let _downKeys = [];
+/** Whether the window has already listened to the focus event */
+let winListendFocus = null;
+/** Default hotkey scope */
+let _scope = 'all';
+/** Map to record elements with bound events */
+const elementEventMap = new Map();
 
-// 返回键码
+/** Return key code */
 const code = (x) => _keyMap[x.toLowerCase()]
   || _modifier[x.toLowerCase()]
   || x.toUpperCase().charCodeAt(0);
@@ -14,15 +18,15 @@ const code = (x) => _keyMap[x.toLowerCase()]
 const getKey = (x) => Object.keys(_keyMap).find((k) => _keyMap[k] === x);
 const getModifier = (x) => Object.keys(_modifier).find((k) => _modifier[k] === x);
 
-// 设置获取当前范围（默认为'所有'）
+/** Set or get the current scope (defaults to 'all') */
 function setScope(scope) {
   _scope = scope || 'all';
 }
-// 获取当前范围
+/** Get the current scope */
 function getScope() {
   return _scope || 'all';
 }
-// 获取摁下绑定键的键值
+/** Get the key codes of the currently pressed keys */
 function getPressedKeyCodes() {
   return _downKeys.slice(0);
 }
@@ -46,8 +50,7 @@ function getAllKeyCodes() {
   return result;
 }
 
-// 表单控件控件判断 返回 Boolean
-// hotkey is effective only when filter return true
+/** hotkey is effective only when filter return true */
 function filter(event) {
   const target = event.target || event.srcElement;
   const { tagName } = target;
@@ -63,20 +66,20 @@ function filter(event) {
   return flag;
 }
 
-// 判断摁下的键是否为某个键，返回true或者false
+/** Determine whether the pressed key matches a specific key, returns true or false */
 function isPressed(keyCode) {
   if (typeof keyCode === 'string') {
-    keyCode = code(keyCode); // 转换成键码
+    keyCode = code(keyCode); // Convert to key code
   }
   return _downKeys.indexOf(keyCode) !== -1;
 }
 
-// 循环删除handlers中的所有 scope(范围)
+/** Loop through and delete all handlers with the specified scope */
 function deleteScope(scope, newScope) {
   let handlers;
   let i;
 
-  // 没有指定scope，获取scope
+  // If no scope is specified, get the current scope
   if (!scope) scope = getScope();
 
   for (const key in _handlers) {
@@ -93,37 +96,37 @@ function deleteScope(scope, newScope) {
     }
   }
 
-  // 如果scope被删除，将scope重置为all
+  // If the current scope has been deleted, reset the scope to 'all'
   if (getScope() === scope) setScope(newScope || 'all');
 }
 
-// 清除修饰键
+/** Clear modifier keys */
 function clearModifier(event) {
   let key = event.keyCode || event.which || event.charCode;
   if (event.key && event.key.toLowerCase() === 'capslock') {
     // Ensure that when capturing keystrokes in modern browsers,
     // uppercase and lowercase letters (such as R and r) return the same key value.
     // https://github.com/jaywcjlove/hotkeys-js/pull/514
-    // https://developer.mozilla.org/zh-CN/docs/Web/API/KeyboardEvent/key
+    // https://developer.mozilla.org/en-US/docs/Web/API/KeyboardEvent/key
     key = code(event.key);
   }
   const i = _downKeys.indexOf(key);
 
-  // 从列表中清除按压过的键
+  // Remove the pressed key from the list
   if (i >= 0) {
     _downKeys.splice(i, 1);
   }
-  // 特殊处理 cmmand 键，在 cmmand 组合快捷键 keyup 只执行一次的问题
+  // Special handling for the command key: fix the issue where keyup only triggers once for command combos
   if (event.key && event.key.toLowerCase() === 'meta') {
     _downKeys.splice(0, _downKeys.length);
   }
 
-  // 修饰键 shiftKey altKey ctrlKey (command||metaKey) 清除
+  // Clear modifier keys: shiftKey, altKey, ctrlKey, (command || metaKey)
   if (key === 93 || key === 224) key = 91;
   if (key in _mods) {
     _mods[key] = false;
 
-    // 将修饰键重置为false
+    // Reset the modifier key status to false
     for (const k in _modifier) if (_modifier[k] === key) hotkeys[k] = false;
   }
 }
@@ -161,7 +164,7 @@ function unbind(keysInfo, ...args) {
   }
 }
 
-// 解除绑定某个范围的快捷键
+/** Unbind hotkeys for a specific scope */
 const eachUnbind = ({
   key, scope, method, splitKey = '+',
 }) => {
@@ -172,12 +175,12 @@ const eachUnbind = ({
     const lastKey = unbindKeys[len - 1];
     const keyCode = lastKey === '*' ? '*' : code(lastKey);
     if (!_handlers[keyCode]) return;
-    // 判断是否传入范围，没有就获取范围
+    // If scope is not provided, get the current scope
     if (!scope) scope = getScope();
     const mods = len > 1 ? getMods(_modifier, unbindKeys) : [];
     const unbindElements = [];
     _handlers[keyCode] = _handlers[keyCode].filter((record) => {
-      // 通过函数判断，是否解除绑定，函数相等直接返回
+      // Check if the method matches; if method is provided, must be equal to unbind
       const isMatchingMethod = method ? record.method === method : true;
       const isUnbind = isMatchingMethod && record.scope === scope && compareArray(record.mods, mods);
       if (isUnbind) unbindElements.push(record.element);
@@ -187,16 +190,16 @@ const eachUnbind = ({
   });
 };
 
-// 对监听对应快捷键的回调函数进行处理
+/** Handle the callback function for the corresponding hotkey */
 function eventHandler(event, handler, scope, element) {
   if (handler.element !== element) {
     return;
   }
   let modifiersMatch;
 
-  // 看它是否在当前范围
+  // Check if it is within the current scope
   if (handler.scope === scope || handler.scope === 'all') {
-    // 检查是否匹配修饰符（如果有返回true）
+    // Check whether modifier keys match (returns true if they do)
     modifiersMatch = handler.mods.length > 0;
 
     for (const y in _mods) {
@@ -210,7 +213,7 @@ function eventHandler(event, handler, scope, element) {
       }
     }
 
-    // 调用处理程序，如果是修饰键不做处理
+    // Call the handler function; ignore if it's only a modifier key
     if (
       (handler.mods.length === 0
         && !_mods[16]
@@ -232,24 +235,24 @@ function eventHandler(event, handler, scope, element) {
   }
 }
 
-// 处理keydown事件
+/** Handle the keydown event */
 function dispatch(event, element) {
   const asterisk = _handlers['*'];
   let key = event.keyCode || event.which || event.charCode;
   // Ensure that when capturing keystrokes in modern browsers,
   // uppercase and lowercase letters (such as R and r) return the same key value.
   // https://github.com/jaywcjlove/hotkeys-js/pull/514
-  // https://developer.mozilla.org/zh-CN/docs/Web/API/KeyboardEvent/key
+  // https://developer.mozilla.org/en-US/docs/Web/API/KeyboardEvent/key
   // CapsLock key
   // There's an issue where `keydown` and `keyup` events are not triggered after CapsLock is enabled to activate uppercase.
   if (event.key && event.key.toLowerCase() === 'capslock') {
     return;
   }
-  // 表单控件过滤 默认表单控件不触发快捷键
+  // Form control filter: by default, shortcut keys are not triggered in form elements
   if (!hotkeys.filter.call(this, event)) return;
 
-  // Gecko(Firefox)的command键值224，在Webkit(Chrome)中保持一致
-  // Webkit左右 command 键值不一样
+  // In Gecko (Firefox), the command key code is 224; unify it with WebKit (Chrome)
+  // In WebKit, left and right command keys have different codes
   if (key === 93 || key === 224) key = 91;
 
   /**
@@ -270,10 +273,8 @@ function dispatch(event, element) {
     } else if (!event[keyName] && _downKeys.indexOf(keyNum) > -1) {
       _downKeys.splice(_downKeys.indexOf(keyNum), 1);
     } else if (keyName === 'metaKey' && event[keyName]) {
-      // 如果command被按下，那就清空所有除event按键外的非装饰键。
-      // 因为command被按下的情况下非装饰键的keyup永远都不会触发。这是已知的浏览器限制。
-      // If command key is pressed, clear all non-decorating keys except for key in event.
-      // This is because keyup for a non-decorating key will NEVER be triggered when command is pressed.
+      // If the command key is pressed, clear all non-modifier keys except the current event key.
+      // This is because keyup for non-modifier keys will NEVER be triggered when command is pressed.
       // This is a known browser limitation.
       _downKeys = _downKeys.filter((k) => k in modifierMap || k === key);
     }
@@ -283,7 +284,7 @@ function dispatch(event, element) {
    */
   if (key in _mods) {
     _mods[key] = true;
-    // 将特殊字符的key注册到 hotkeys 上
+    // Register special modifier keys to the `hotkeys` object
     for (const k in _modifier) {
       if (Object.prototype.hasOwnProperty.call(_modifier, k)) {
         const eventKey = modifierMap[_modifier[k]];
@@ -294,7 +295,7 @@ function dispatch(event, element) {
     if (!asterisk) return;
   }
 
-  // 将 modifierMap 里面的修饰键绑定到 event 中
+  // Bind the modifier keys in modifierMap to the event
   for (const e in _mods) {
     if (Object.prototype.hasOwnProperty.call(_mods, e)) {
       _mods[e] = event[modifierMap[e]];
@@ -319,9 +320,9 @@ function dispatch(event, element) {
     _mods[18] = true;
   }
 
-  // 获取范围 默认为 `all`
+  // Get the current scope (defaults to 'all')
   const scope = getScope();
-  // 对任何快捷键都需要做的处理
+  // Handle any hotkeys registered as '*'
   if (asterisk) {
     for (let i = 0; i < asterisk.length; i++) {
       if (
@@ -333,7 +334,7 @@ function dispatch(event, element) {
       }
     }
   }
-  // key 不在 _handlers 中返回
+  // If the key is not registered, return
   if (!(key in _handlers)) return;
 
   const handlerKey = _handlers[key];
@@ -347,12 +348,12 @@ function dispatch(event, element) {
         const record = handlerKey[i];
         const { splitKey } = record;
         const keyShortcut = record.key.split(splitKey);
-        const _downKeysCurrent = []; // 记录当前按键键值
+        const _downKeysCurrent = []; // Store the current key codes
         for (let a = 0; a < keyShortcut.length; a++) {
           _downKeysCurrent.push(code(keyShortcut[a]));
         }
         if (_downKeysCurrent.sort().join('') === _downKeys.sort().join('')) {
-          // 找到处理内容
+          // Match found, call the handler
           eventHandler(event, record, scope, element);
         }
       }
@@ -362,50 +363,55 @@ function dispatch(event, element) {
 
 function hotkeys(key, option, method) {
   _downKeys = [];
-  const keys = getKeys(key); // 需要处理的快捷键列表
+  /** List of hotkeys to handle */
+  const keys = getKeys(key);
   let mods = [];
-  let scope = 'all'; // scope默认为all，所有范围都有效
-  let element = document; // 快捷键事件绑定节点
+  /** Default scope is 'all', meaning effective in all scopes */
+  let scope = 'all';
+  /** Element to which the hotkey events are bound */
+  let element = document;
   let i = 0;
   let keyup = false;
   let keydown = true;
   let splitKey = '+';
   let capture = false;
-  let single = false; // 单个callback
+  /** Allow only a single callback */
+  let single = false;
 
-  // 对为设定范围的判断
+  // Determine if the second argument is a function (no options provided)
   if (method === undefined && typeof option === 'function') {
     method = option;
   }
 
+  // Parse options object
   if (Object.prototype.toString.call(option) === '[object Object]') {
-    if (option.scope) scope = option.scope; // eslint-disable-line
-    if (option.element) element = option.element; // eslint-disable-line
-    if (option.keyup) keyup = option.keyup; // eslint-disable-line
-    if (option.keydown !== undefined) keydown = option.keydown; // eslint-disable-line
-    if (option.capture !== undefined) capture = option.capture; // eslint-disable-line
-    if (typeof option.splitKey === 'string') splitKey = option.splitKey; // eslint-disable-line
-    if (option.single === true) single = true; // eslint-disable-line
+    if (option.scope) scope = option.scope; // Set scope
+    if (option.element) element = option.element; // Set binding element
+    if (option.keyup) keyup = option.keyup;
+    if (option.keydown !== undefined) keydown = option.keydown;
+    if (option.capture !== undefined) capture = option.capture;
+    if (typeof option.splitKey === 'string') splitKey = option.splitKey;
+    if (option.single === true) single = true;
   }
 
   if (typeof option === 'string') scope = option;
 
-  // 如果只允许单个callback，先unbind
+  // If only one callback is allowed, unbind the existing one first
   if (single) unbind(key, scope);
 
-  // 对于每个快捷键进行处理
+  // Handle each hotkey
   for (; i < keys.length; i++) {
-    key = keys[i].split(splitKey); // 按键列表
+    key = keys[i].split(splitKey); // Split into individual keys
     mods = [];
 
-    // 如果是组合快捷键取得组合快捷键
+    // If it's a combination, extract modifier keys
     if (key.length > 1) mods = getMods(_modifier, key);
 
-    // 将非修饰键转化为键码
+    // Convert non-modifier key to key code
     key = key[key.length - 1];
-    key = key === '*' ? '*' : code(key); // *表示匹配所有快捷键
+    key = key === '*' ? '*' : code(key); // '*' means match all hotkeys
 
-    // 判断key是否在_handlers中，不在就赋一个空数组
+    // Initialize handler array if this key has no handlers yet
     if (!(key in _handlers)) _handlers[key] = [];
 
     _handlers[key].push({
@@ -420,7 +426,7 @@ function hotkeys(key, option, method) {
       element,
     });
   }
-  // 在全局document上设置快捷键
+  // Register hotkey event listeners on the global document
   if (typeof element !== 'undefined' && window) {
     if (!elementEventMap.has(element)) {
       const keydownListener = (event = window.event) => dispatch(event, element);
@@ -432,6 +438,7 @@ function hotkeys(key, option, method) {
       addEvent(element, 'keydown', keydownListener, capture);
       addEvent(element, 'keyup', keyupListenr, capture);
     }
+    // Register focus event listener once to clear pressed keys on window focus
     if (!winListendFocus) {
       const listener = () => { _downKeys = []; };
       winListendFocus = { listener, capture };
@@ -451,7 +458,7 @@ function trigger(shortcut, scope = 'all') {
   });
 }
 
-// 销毁事件,unbind之后判断element上是否还有键盘快捷键，如果没有移除监听
+/** Clean up event listeners. After unbinding, check whether the element still has any hotkeys bound. If not, remove its event listeners. */
 function removeKeyEvent(element) {
   const values = Object.values(_handlers).flat();
   const findindex = values.findIndex(({ element: el }) => el === element);
@@ -466,7 +473,7 @@ function removeKeyEvent(element) {
   }
 
   if (values.length <= 0 || elementEventMap.size <= 0) {
-    // 移除所有的元素上的监听
+    // Remove all event listeners from all elements
     const eventKeys = Object.keys(elementEventMap);
     eventKeys.forEach((el) => {
       const { keydownListener, keyupListenr, capture } = elementEventMap.get(el) || {};
@@ -476,11 +483,11 @@ function removeKeyEvent(element) {
         elementEventMap.delete(el);
       }
     });
-    // 清空 elementEventMap
+    // Clear the elementEventMap
     elementEventMap.clear();
-    // 清空 _handlers
+    // Clear all handlers
     Object.keys(_handlers).forEach((key) => delete _handlers[key]);
-    // 移除window上的focus监听
+    // Remove the global window focus event listener
     if (winListendFocus) {
       const { listener, capture } = winListendFocus;
       removeEvent(window, 'focus', listener, capture);
