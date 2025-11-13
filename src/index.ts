@@ -196,7 +196,6 @@ function unbind(
     if (keysInfo.key) eachUnbind(keysInfo);
   } else if (typeof keysInfo === 'string') {
     // support old method
-    // eslint-disable-line
     let [scope, method] = args;
     if (typeof scope === 'function') {
       method = scope;

@@ -25,4 +25,3 @@ export default function Footer({ name, href, year, children }: FooterProps) {
     </div>
   );
 }
-

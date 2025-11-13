@@ -8,7 +8,7 @@
   "types": "dist/index.d.ts",
   "scripts": {
     "prepare": "npm run build:lib && husky install",
-    "lint": "eslint --ignore-pattern dist --ext .js,.ts src website",
+    "lint": "eslint src website",
     "type-check": "tsc --noEmit",
     "build:lib": "vite build",
     "build": "npm run type-check && npm run build:lib && npm run doc && npm run lint",
@@ -47,24 +47,23 @@
     }
   },
   "devDependencies": {
-    "@babel/eslint-parser": "^7.28.5",
-    "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
+    "@eslint/js": "^9.39.1",
+    "globals": "^16.5.0",
     "@types/node": "^24.10.1",
     "@types/react": "^19.2.4",
     "@types/react-dom": "^19.2.3",
-    "@typescript-eslint/eslint-plugin": "^8.46.4",
-    "@typescript-eslint/parser": "^8.46.4",
+    "typescript-eslint": "^8.46.4",
     "@uiw/react-github-corners": "^1.5.15",
     "@uiw/react-mac-keyboard": "^1.1.5",
     "@uiw/react-markdown-preview": "^5.0.3",
     "@uiw/react-shields": "^2.0.1",
     "@vitejs/plugin-react": "^5.1.1",
     "@wcj/dark-mode": "~1.0.15",
-    "eslint": "^8.57.1",
-    "eslint-config-airbnb": "^19.0.4",
+    "eslint": "^9.39.1",
     "eslint-plugin-import": "^2.32.0",
     "eslint-plugin-jsx-a11y": "^6.10.2",
     "eslint-plugin-react": "^7.37.5",
+    "eslint-plugin-react-hooks": "^5.1.0",
     "husky": "^8.0.3",
     "jest": "^29.7.0",
     "jest-environment-jsdom": "^29.7.0",
@@ -89,7 +88,8 @@
     ]
   },
   "lint-staged": {
-    "src/**/*.{js,ts}": "eslint --ext .js,.ts src website"
+    "src/**/*.{js,ts}": "eslint",
+    "website/**/*.{js,jsx,ts,tsx}": "eslint"
   },
   "overrides": {
     "react": "^19.2.0",
