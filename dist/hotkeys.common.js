@@ -13,7 +13,6 @@
 'use strict';
 
 const isff = typeof navigator !== 'undefined' ? navigator.userAgent.toLowerCase().indexOf('firefox') > 0 : false;
-
 /** Bind event */
 function addEvent(object, event, method, useCapture) {
   if (object.addEventListener) {
@@ -23,27 +22,25 @@ function addEvent(object, event, method, useCapture) {
   }
 }
 function removeEvent(object, event, method, useCapture) {
+  if (!object) return;
   if (object.removeEventListener) {
     object.removeEventListener(event, method, useCapture);
   } else if (object.detachEvent) {
     object.detachEvent("on".concat(event), method);
   }
 }
-
 /** Convert modifier keys to their corresponding key codes */
 function getMods(modifier, key) {
   const mods = key.slice(0, key.length - 1);
   for (let i = 0; i < mods.length; i++) mods[i] = modifier[mods[i].toLowerCase()];
   return mods;
 }
-
 /** Process the input key string and convert it to an array */
 function getKeys(key) {
   if (typeof key !== 'string') key = '';
   key = key.replace(/\s/g, ''); // Match any whitespace character, including spaces, tabs, form feeds, etc.
   const keys = key.split(','); // Allow multiple shortcuts separated by ','
   let index = keys.lastIndexOf('');
-
   // Shortcut may include ',' — special handling needed
   for (; index >= 0;) {
     keys[index - 1] += ',';
@@ -52,7 +49,6 @@ function getKeys(key) {
   }
   return keys;
 }
-
 /** Compare arrays of modifier keys */
 function compareArray(a1, a2) {
   const arr1 = a1.length >= a2.length ? a1 : a2;
@@ -125,7 +121,6 @@ const _keyMap = {
   ']': 221,
   '\\': 220
 };
-
 // Modifier Keys
 const _modifier = {
   // shiftKey
@@ -162,7 +157,6 @@ const _mods = {
   91: false
 };
 const _handlers = {};
-
 // F1~F12 special key
 for (let k = 1; k < 20; k++) {
   _keyMap["f".concat(k)] = 111 + k;
@@ -176,12 +170,10 @@ let winListendFocus = null;
 let _scope = 'all';
 /** Map to record elements with bound events */
 const elementEventMap = new Map();
-
 /** Return key code */
 const code = x => _keyMap[x.toLowerCase()] || _modifier[x.toLowerCase()] || x.toUpperCase().charCodeAt(0);
 const getKey = x => Object.keys(_keyMap).find(k => _keyMap[k] === x);
 const getModifier = x => Object.keys(_modifier).find(k => _modifier[k] === x);
-
 /** Set or get the current scope (defaults to 'all') */
 function setScope(scope) {
   _scope = scope || 'all';
@@ -217,7 +209,6 @@ function getAllKeyCodes() {
   });
   return result;
 }
-
 /** hotkey is effective only when filter return true */
 function filter(event) {
   const target = event.target || event.srcElement;
@@ -232,7 +223,6 @@ function filter(event) {
   }
   return flag;
 }
-
 /** Determine whether the pressed key matches a specific key, returns true or false */
 function isPressed(keyCode) {
   if (typeof keyCode === 'string') {
@@ -240,12 +230,10 @@ function isPressed(keyCode) {
   }
   return _downKeys.indexOf(keyCode) !== -1;
 }
-
 /** Loop through and delete all handlers with the specified scope */
 function deleteScope(scope, newScope) {
   let handlers;
   let i;
-
   // If no scope is specified, get the current scope
   if (!scope) scope = getScope();
   for (const key in _handlers) {
@@ -266,11 +254,9 @@ function deleteScope(scope, newScope) {
       }
     }
   }
-
   // If the current scope has been deleted, reset the scope to 'all'
   if (getScope() === scope) setScope(newScope || 'all');
 }
-
 /** Clear modifier keys */
 function clearModifier(event) {
   let key = event.keyCode || event.which || event.charCode;
@@ -282,7 +268,6 @@ function clearModifier(event) {
     key = code(event.key);
   }
   const i = _downKeys.indexOf(key);
-
   // Remove the pressed key from the list
   if (i >= 0) {
     _downKeys.splice(i, 1);
@@ -291,12 +276,10 @@ function clearModifier(event) {
   if (event.key && event.key.toLowerCase() === 'meta') {
     _downKeys.splice(0, _downKeys.length);
   }
-
   // Clear modifier keys: shiftKey, altKey, ctrlKey, (command || metaKey)
   if (key === 93 || key === 224) key = 91;
   if (key in _mods) {
     _mods[key] = false;
-
     // Reset the modifier key status to false
     for (const k in _modifier) if (_modifier[k] === key) hotkeys[k] = false;
   }
@@ -336,7 +319,6 @@ function unbind(keysInfo) {
     });
   }
 }
-
 /** Unbind hotkeys for a specific scope */
 const eachUnbind = _ref3 => {
   let {
@@ -366,14 +348,12 @@ const eachUnbind = _ref3 => {
     unbindElements.forEach(element => removeKeyEvent(element));
   });
 };
-
 /** Handle the callback function for the corresponding hotkey */
 function eventHandler(event, handler, scope, element) {
   if (handler.element !== element) {
     return;
   }
   let modifiersMatch;
-
   // Check if it is within the current scope
   if (handler.scope === scope || handler.scope === 'all') {
     // Check whether modifier keys match (returns true if they do)
@@ -385,7 +365,6 @@ function eventHandler(event, handler, scope, element) {
         }
       }
     }
-
     // Call the handler function; ignore if it's only a modifier key
     if (handler.mods.length === 0 && !_mods[16] && !_mods[18] && !_mods[17] && !_mods[91] || modifiersMatch || handler.shortcut === '*') {
       handler.keys = [];
@@ -398,7 +377,6 @@ function eventHandler(event, handler, scope, element) {
     }
   }
 }
-
 /** Handle the keydown event */
 function dispatch(event, element) {
   const asterisk = _handlers['*'];
@@ -413,12 +391,11 @@ function dispatch(event, element) {
     return;
   }
   // Form control filter: by default, shortcut keys are not triggered in form elements
-  if (!hotkeys.filter.call(this, event)) return;
-
+  const filterFn = hotkeys.filter || filter;
+  if (!filterFn.call(this, event)) return;
   // In Gecko (Firefox), the command key code is 224; unify it with WebKit (Chrome)
   // In WebKit, left and right command keys have different codes
   if (key === 93 || key === 224) key = 91;
-
   /**
    * Collect bound keys
    * If an Input Method Editor is processing key input and the event is keydown, return 229.
@@ -457,7 +434,6 @@ function dispatch(event, element) {
     }
     if (!asterisk) return;
   }
-
   // Bind the modifier keys in modifierMap to the event
   for (const e in _mods) {
     if (Object.prototype.hasOwnProperty.call(_mods, e)) {
@@ -480,7 +456,6 @@ function dispatch(event, element) {
     _mods[17] = true;
     _mods[18] = true;
   }
-
   // Get the current scope (defaults to 'all')
   const scope = getScope();
   // Handle any hotkeys registered as '*'
@@ -531,55 +506,49 @@ function hotkeys(key, option, method) {
   let capture = false;
   /** Allow only a single callback */
   let single = false;
-
   // Determine if the second argument is a function (no options provided)
   if (method === undefined && typeof option === 'function') {
     method = option;
   }
-
   // Parse options object
   if (Object.prototype.toString.call(option) === '[object Object]') {
-    if (option.scope) scope = option.scope; // Set scope
-    if (option.element) element = option.element; // Set binding element
-    if (option.keyup) keyup = option.keyup;
-    if (option.keydown !== undefined) keydown = option.keydown;
-    if (option.capture !== undefined) capture = option.capture;
-    if (typeof option.splitKey === 'string') splitKey = option.splitKey;
-    if (option.single === true) single = true;
+    const opts = option;
+    if (opts.scope) scope = opts.scope; // Set scope
+    if (opts.element) element = opts.element; // Set binding element
+    if (opts.keyup) keyup = opts.keyup;
+    if (opts.keydown !== undefined) keydown = opts.keydown;
+    if (opts.capture !== undefined) capture = opts.capture;
+    if (typeof opts.splitKey === 'string') splitKey = opts.splitKey;
+    if (opts.single === true) single = true;
   }
   if (typeof option === 'string') scope = option;
-
   // If only one callback is allowed, unbind the existing one first
   if (single) unbind(key, scope);
-
   // Handle each hotkey
   for (; i < keys.length; i++) {
-    key = keys[i].split(splitKey); // Split into individual keys
+    const currentKey = keys[i].split(splitKey); // Split into individual keys
     mods = [];
-
     // If it's a combination, extract modifier keys
-    if (key.length > 1) mods = getMods(_modifier, key);
-
+    if (currentKey.length > 1) mods = getMods(_modifier, currentKey);
     // Convert non-modifier key to key code
-    key = key[key.length - 1];
-    key = key === '*' ? '*' : code(key); // '*' means match all hotkeys
-
+    let finalKey = currentKey[currentKey.length - 1];
+    finalKey = finalKey === '*' ? '*' : code(finalKey); // '*' means match all hotkeys
     // Initialize handler array if this key has no handlers yet
-    if (!(key in _handlers)) _handlers[key] = [];
-    _handlers[key].push({
+    if (!(finalKey in _handlers)) _handlers[finalKey] = [];
+    _handlers[finalKey].push({
       keyup,
       keydown,
       scope,
       mods,
       shortcut: keys[i],
-      method,
+      method: method,
       key: keys[i],
       splitKey,
       element
     });
   }
   // Register hotkey event listeners on the global document
-  if (typeof element !== 'undefined' && window) {
+  if (typeof element !== 'undefined' && typeof window !== 'undefined') {
     if (!elementEventMap.has(element)) {
       const keydownListener = function () {
         let event = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : window.event;
@@ -617,12 +586,11 @@ function trigger(shortcut) {
     const dataList = _handlers[key].filter(item => item.scope === scope && item.shortcut === shortcut);
     dataList.forEach(data => {
       if (data && data.method) {
-        data.method();
+        data.method({}, data);
       }
     });
   });
 }
-
 /** Clean up event listeners. After unbinding, check whether the element still has any hotkeys bound. If not, remove its event listeners. */
 function removeKeyEvent(element) {
   const values = Object.values(_handlers).flat();
@@ -632,7 +600,7 @@ function removeKeyEvent(element) {
     } = _ref4;
     return el === element;
   });
-  if (findindex < 0) {
+  if (findindex < 0 && element) {
     const {
       keydownListener,
       keyupListenr,
@@ -646,7 +614,7 @@ function removeKeyEvent(element) {
   }
   if (values.length <= 0 || elementEventMap.size <= 0) {
     // Remove all event listeners from all elements
-    const eventKeys = Object.keys(elementEventMap);
+    const eventKeys = Array.from(elementEventMap.keys());
     eventKeys.forEach(el => {
       const {
         keydownListener,
