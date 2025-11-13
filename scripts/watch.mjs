@@ -1,6 +1,7 @@
 
 import { nodeResolve } from '@rollup/plugin-node-resolve';
 import commonjs from '@rollup/plugin-commonjs';
+import typescript from '@rollup/plugin-typescript';
 import path from 'path';
 import { watch } from 'rollup';
 import { multibanner } from 'bannerjs';
@@ -8,13 +9,18 @@ import { babel } from '@rollup/plugin-babel';
 import 'colors-cli/toxic';
 
 const watchOptions = {
-  input: 'src/index.js',
+  input: 'src/index.ts',
   plugins: [
+    typescript({
+      tsconfig: './tsconfig.json',
+      declaration: false,
+    }),
     nodeResolve(), // so Rollup can find `ms`
     commonjs(), // so Rollup can convert `ms` to an ES module
     babel({
       babelHelpers: 'bundled',
       exclude: 'node_modules/**', // 只编译我们的源代码
+      extensions: ['.js', '.ts'],
       presets: [[
         '@babel/preset-env', {
           /**

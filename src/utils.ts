@@ -1,31 +1,42 @@
-const isff = typeof navigator !== 'undefined' ? navigator.userAgent.toLowerCase().indexOf('firefox') > 0 : false;
+const isff: boolean = typeof navigator !== 'undefined' ? navigator.userAgent.toLowerCase().indexOf('firefox') > 0 : false;
 
 /** Bind event */
-function addEvent(object, event, method, useCapture) {
-  if (object.addEventListener) {
+function addEvent(
+  object: HTMLElement | Document | Window,
+  event: string,
+  method: EventListenerOrEventListenerObject,
+  useCapture?: boolean
+): void {
+  if ((object as any).addEventListener) {
     object.addEventListener(event, method, useCapture);
-  } else if (object.attachEvent) {
-    object.attachEvent(`on${event}`, method);
+  } else if ((object as any).attachEvent) {
+    (object as any).attachEvent(`on${event}`, method);
   }
 }
 
-function removeEvent(object, event, method, useCapture) {
-  if (object.removeEventListener) {
+function removeEvent(
+  object: HTMLElement | Document | Window | null,
+  event: string,
+  method: EventListenerOrEventListenerObject,
+  useCapture?: boolean
+): void {
+  if (!object) return;
+  if ((object as any).removeEventListener) {
     object.removeEventListener(event, method, useCapture);
-  } else if (object.detachEvent) {
-    object.detachEvent(`on${event}`, method);
+  } else if ((object as any).detachEvent) {
+    (object as any).detachEvent(`on${event}`, method);
   }
 }
 
 /** Convert modifier keys to their corresponding key codes */
-function getMods(modifier, key) {
+function getMods(modifier: Record<string, number>, key: string[]): number[] {
   const mods = key.slice(0, key.length - 1);
-  for (let i = 0; i < mods.length; i++) mods[i] = modifier[mods[i].toLowerCase()];
-  return mods;
+  for (let i = 0; i < mods.length; i++) mods[i] = modifier[mods[i].toLowerCase()] as any;
+  return mods as any;
 }
 
 /** Process the input key string and convert it to an array */
-function getKeys(key) {
+function getKeys(key: string | undefined): string[] {
   if (typeof key !== 'string') key = '';
   key = key.replace(/\s/g, ''); // Match any whitespace character, including spaces, tabs, form feeds, etc.
   const keys = key.split(','); // Allow multiple shortcuts separated by ','
@@ -42,7 +53,7 @@ function getKeys(key) {
 }
 
 /** Compare arrays of modifier keys */
-function compareArray(a1, a2) {
+function compareArray(a1: number[], a2: number[]): boolean {
   const arr1 = a1.length >= a2.length ? a1 : a2;
   const arr2 = a1.length >= a2.length ? a2 : a1;
   let isIndex = true;
