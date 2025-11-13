@@ -3,8 +3,7 @@
     "target": "ES2015",
     "module": "ESNext",
     "lib": ["ES2015", "DOM"],
-    "declaration": true,
-    "declarationDir": "./",
+    "declaration": false,
     "outDir": "./dist",
     "rootDir": "./src",
     "strict": true,
@@ -24,6 +23,6 @@
     "noImplicitThis": true,
     "alwaysStrict": true
   },
-  "include": ["src/**/*"],
-  "exclude": ["node_modules", "dist", "test", "website"]
+  "include": ["src/**/*.ts"],
+  "exclude": ["node_modules", "test", "website"]
 }

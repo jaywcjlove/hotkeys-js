@@ -17,7 +17,7 @@ const banner = `/*!
 
 export default defineConfig({
   publicDir: false,
-  plugins: [dts()],
+  plugins: [dts({ rollupTypes: true, tsconfigPath: "./tsconfig.json" })],
   build: {
     lib: {
       entry: resolve(__dirname, "src/index.ts"),
