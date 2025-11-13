@@ -6,7 +6,7 @@ import KeyBoard from '@uiw/react-mac-keyboard';
 import '@wcj/dark-mode';
 import Footer from './components/Footer';
 import styles from './styles/index.module.less';
-import DocumentStr from '../README.md';
+import DocumentStr from '../README.md?raw';
 import hotkeys from '..';
 import pkg from '../package.json';
 
@@ -139,3 +139,4 @@ export default function AppRoot() {
     </div>
   );
 }
+

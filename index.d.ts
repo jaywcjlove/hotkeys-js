@@ -1,4 +1,4 @@
-import { KeyHandler } from './var';
+import { KeyHandler } from "./var";
 /** Set or get the current scope (defaults to 'all') */
 declare function setScope(scope: string): void;
 /** Get the current scope */

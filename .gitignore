@@ -4,6 +4,7 @@ node_modules
 build
 doc
 coverage
+dist
 
 .DS_Store
 .cache
