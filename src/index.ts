@@ -1,5 +1,13 @@
 import { addEvent, removeEvent, getMods, getKeys, compareArray } from './utils';
-import { _keyMap, _modifier, modifierMap, _mods, _handlers, Handler, KeyHandler } from './var';
+import {
+  _keyMap,
+  _modifier,
+  modifierMap,
+  _mods,
+  _handlers,
+  Handler,
+  KeyHandler,
+} from './var';
 
 /** Record the pressed keys */
 let _downKeys: number[] = [];
@@ -8,7 +16,14 @@ let winListendFocus: { listener: EventListener; capture: boolean } | null = null
 /** Default hotkey scope */
 let _scope: string = 'all';
 /** Map to record elements with bound events */
-const elementEventMap = new Map<HTMLElement | Document, { keydownListener: EventListener; keyupListenr: EventListener; capture: boolean }>();
+const elementEventMap = new Map<
+  HTMLElement | Document,
+  {
+    keydownListener: EventListener;
+    keyupListenr: EventListener;
+    capture: boolean;
+  }
+>();
 
 /** Return key code */
 const code = (x: string): number => _keyMap[x.toLowerCase()]
@@ -32,7 +47,9 @@ function getPressedKeyCodes(): number[] {
 }
 
 function getPressedKeyString(): string[] {
-  return _downKeys.map((c) => getKey(c) || getModifier(c) || String.fromCharCode(c));
+  return _downKeys.map(
+    (c) => getKey(c) || getModifier(c) || String.fromCharCode(c)
+  );
 }
 
 interface KeyCodeInfo {
@@ -62,11 +79,22 @@ function filter(event: KeyboardEvent): boolean {
   const target = (event.target || event.srcElement) as HTMLElement;
   const { tagName } = target;
   let flag = true;
-  const isInput = tagName === 'INPUT' && !['checkbox', 'radio', 'range', 'button', 'file', 'reset', 'submit', 'color'].includes((target as HTMLInputElement).type);
+  const isInput = tagName === 'INPUT'
+    && ![
+      'checkbox',
+      'radio',
+      'range',
+      'button',
+      'file',
+      'reset',
+      'submit',
+      'color',
+    ].includes((target as HTMLInputElement).type);
   // ignore: isContentEditable === 'true', <input> and <textarea> when readOnly state is false, <select>
   if (
     (target as any).isContentEditable
-    || ((isInput || tagName === 'TEXTAREA' || tagName === 'SELECT') && !(target as HTMLInputElement | HTMLTextAreaElement).readOnly)
+    || ((isInput || tagName === 'TEXTAREA' || tagName === 'SELECT')
+      && !(target as HTMLInputElement | HTMLTextAreaElement).readOnly)
   ) {
     flag = false;
   }
@@ -145,11 +173,15 @@ interface UnbindInfo {
   splitKey?: string;
 }
 
-function unbind(keysInfo?: string | UnbindInfo | UnbindInfo[], ...args: any[]): void {
+function unbind(
+  keysInfo?: string | UnbindInfo | UnbindInfo[],
+  ...args: any[]
+): void {
   // unbind(), unbind all keys
   if (typeof keysInfo === 'undefined') {
     Object.keys(_handlers).forEach((key) => {
-      Array.isArray(_handlers[key]) && _handlers[key].forEach((info) => eachUnbind(info));
+      Array.isArray(_handlers[key])
+        && _handlers[key].forEach((info) => eachUnbind(info));
       delete _handlers[key];
     });
     removeKeyEvent(null);
@@ -180,7 +212,10 @@ function unbind(keysInfo?: string | UnbindInfo | UnbindInfo[], ...args: any[]): 
 
 /** Unbind hotkeys for a specific scope */
 const eachUnbind = ({
-  key, scope, method, splitKey = '+',
+  key,
+  scope,
+  method,
+  splitKey = '+',
 }: UnbindInfo): void => {
   const multipleKeys = getKeys(key);
   multipleKeys.forEach((originKey) => {
@@ -196,7 +231,9 @@ const eachUnbind = ({
     _handlers[keyCode] = _handlers[keyCode].filter((record) => {
       // Check if the method matches; if method is provided, must be equal to unbind
       const isMatchingMethod = method ? record.method === method : true;
-      const isUnbind = isMatchingMethod && record.scope === scope && compareArray(record.mods, mods);
+      const isUnbind = isMatchingMethod
+        && record.scope === scope
+        && compareArray(record.mods, mods);
       if (isUnbind) unbindElements.push(record.element);
       return !isUnbind;
     });
@@ -205,7 +242,12 @@ const eachUnbind = ({
 };
 
 /** Handle the callback function for the corresponding hotkey */
-function eventHandler(event: KeyboardEvent, handler: Handler, scope: string, element: HTMLElement | Document): void {
+function eventHandler(
+  event: KeyboardEvent,
+  handler: Handler,
+  scope: string,
+  element: HTMLElement | Document
+): void {
   if (handler.element !== element) {
     return;
   }
@@ -250,9 +292,50 @@ function eventHandler(event: KeyboardEvent, handler: Handler, scope: string, ele
 }
 
 /** Handle the keydown event */
-function dispatch(this: any, event: KeyboardEvent, element: HTMLElement | Document): void {
+function dispatch(
+  this: any,
+  event: KeyboardEvent,
+  element: HTMLElement | Document
+): void {
   const asterisk = _handlers['*'];
   let key = event.keyCode || event.which || (event as any).charCode;
+
+  // LAYOUT INDEPENDENCE: Convert event.code to keyCode for layout-independent hotkeys
+  // This makes 'ctrl+a' work on Russian/German/any keyboard layout
+  if (event.code) {
+    const codeMap = {
+      KeyA: 65,
+      KeyB: 66,
+      KeyC: 67,
+      KeyD: 68,
+      KeyE: 69,
+      KeyF: 70,
+      KeyG: 71,
+      KeyH: 72,
+      KeyI: 73,
+      KeyJ: 74,
+      KeyK: 75,
+      KeyL: 76,
+      KeyM: 77,
+      KeyN: 78,
+      KeyO: 79,
+      KeyP: 80,
+      KeyQ: 81,
+      KeyR: 82,
+      KeyS: 83,
+      KeyT: 84,
+      KeyU: 85,
+      KeyV: 86,
+      KeyW: 87,
+      KeyX: 88,
+      KeyY: 89,
+      KeyZ: 90,
+    };
+    if (codeMap[event.code as keyof typeof codeMap]) {
+      key = codeMap[event.code as keyof typeof codeMap];
+    }
+  }
+
   // Ensure that when capturing keystrokes in modern browsers,
   // uppercase and lowercase letters (such as R and r) return the same key value.
   // https://github.com/jaywcjlove/hotkeys-js/pull/514
@@ -322,7 +405,11 @@ function dispatch(this: any, event: KeyboardEvent, element: HTMLElement | Docume
    * An example of this is ctrl+alt+m on a Swedish keyboard which is used to type μ.
    * Browser support: https://caniuse.com/#feat=keyboardevent-getmodifierstate
    */
-  if (event.getModifierState && (!(event.altKey && !event.ctrlKey) && event.getModifierState('AltGraph'))) {
+  if (
+    event.getModifierState
+    && !(event.altKey && !event.ctrlKey)
+    && event.getModifierState('AltGraph')
+  ) {
     if (_downKeys.indexOf(17) === -1) {
       _downKeys.push(17);
     }
@@ -343,7 +430,7 @@ function dispatch(this: any, event: KeyboardEvent, element: HTMLElement | Docume
       if (
         asterisk[i].scope === scope
         && ((event.type === 'keydown' && asterisk[i].keydown)
-        || (event.type === 'keyup' && asterisk[i].keyup))
+          || (event.type === 'keyup' && asterisk[i].keyup))
       ) {
         eventHandler(event, asterisk[i], scope, element);
       }
@@ -499,7 +586,9 @@ function hotkeys(
     }
     // Register focus event listener once to clear pressed keys on window focus
     if (!winListendFocus) {
-      const listener = () => { _downKeys = []; };
+      const listener = () => {
+        _downKeys = [];
+      };
       winListendFocus = { listener, capture };
       addEvent(window, 'focus', listener, capture);
     }
@@ -508,7 +597,9 @@ function hotkeys(
 
 function trigger(shortcut: string, scope: string = 'all'): void {
   Object.keys(_handlers).forEach((key) => {
-    const dataList = _handlers[key].filter((item) => item.scope === scope && item.shortcut === shortcut);
+    const dataList = _handlers[key].filter(
+      (item) => item.scope === scope && item.shortcut === shortcut
+    );
     dataList.forEach((data) => {
       if (data && data.method) {
         data.method({} as KeyboardEvent, data);
@@ -523,7 +614,7 @@ function removeKeyEvent(element: HTMLElement | Document | null): void {
   const findindex = values.findIndex(({ element: el }) => el === element);
 
   if (findindex < 0 && element) {
-    const { keydownListener, keyupListenr, capture } = elementEventMap.get(element) || {} as any;
+    const { keydownListener, keyupListenr, capture } = elementEventMap.get(element) || ({} as any);
     if (keydownListener && keyupListenr) {
       removeEvent(element, 'keyup', keyupListenr, capture);
       removeEvent(element, 'keydown', keydownListener, capture);
@@ -535,7 +626,7 @@ function removeKeyEvent(element: HTMLElement | Document | null): void {
     // Remove all event listeners from all elements
     const eventKeys = Array.from(elementEventMap.keys());
     eventKeys.forEach((el) => {
-      const { keydownListener, keyupListenr, capture } = elementEventMap.get(el) || {} as any;
+      const { keydownListener, keyupListenr, capture } = elementEventMap.get(el) || ({} as any);
       if (keydownListener && keyupListenr) {
         removeEvent(el, 'keyup', keyupListenr, capture);
         removeEvent(el, 'keydown', keydownListener, capture);
