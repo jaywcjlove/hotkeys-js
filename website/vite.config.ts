@@ -8,13 +8,6 @@ export default defineConfig({
       jsxRuntime: 'automatic',
     }),
   ],
-  css: {
-    preprocessorOptions: {
-      less: {
-        javascriptEnabled: true,
-      },
-    },
-  },
   assetsInclude: ['**/*.md'],
   root: resolve(__dirname),
   publicDir: resolve(__dirname, '../public'),

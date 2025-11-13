@@ -1,7 +1,14 @@
 import React from 'react';
-import style from './Footer.module.less';
+import style from './Footer.module.css';
 
-export default function Footer({ name, href, year, children }) {
+interface FooterProps {
+  name: string;
+  href: string;
+  year: string;
+  children?: React.ReactNode;
+}
+
+export default function Footer({ name, href, year, children }: FooterProps) {
   return (
     <div className={style.footer}>
       {children}

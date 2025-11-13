@@ -242,8 +242,7 @@ var hotkeys = function() {
     if (key === 93 || key === 224) key = 91;
     if (key in _mods) {
       _mods[key] = false;
-      for (const k in _modifier)
-        if (_modifier[k] === key) hotkeys2[k] = false;
+      for (const k in _modifier) if (_modifier[k] === key) hotkeys2[k] = false;
     }
   }
   function unbind(keysInfo, ...args) {
