@@ -66,5 +66,37 @@
     "ecmaFeatures": {
       "experimentalObjectRestSpread": true
     }
-  }
+  },
+  "overrides": [
+    {
+      "files": ["*.ts", "*.tsx"],
+      "parser": "@typescript-eslint/parser",
+      "parserOptions": {
+        "ecmaVersion": 2020,
+        "sourceType": "module"
+      },
+      "plugins": ["@typescript-eslint"],
+      "extends": [
+        "airbnb",
+        "plugin:@typescript-eslint/recommended"
+      ],
+      "rules": {
+        "@typescript-eslint/no-explicit-any": "off",
+        "@typescript-eslint/explicit-module-boundary-types": "off",
+        "@typescript-eslint/no-inferrable-types": "off",
+        "import/extensions": 0,
+        "import/no-unresolved": 0,
+        "max-len": 0,
+        "no-underscore-dangle": 0,
+        "no-plusplus": 0,
+        "no-param-reassign": 0,
+        "no-restricted-syntax": 0,
+        "object-curly-newline": 0,
+        "no-use-before-define": 0,
+        "no-unused-expressions": 0,
+        "comma-dangle": 0,
+        "@typescript-eslint/no-non-null-assertion": "off"
+      }
+    }
+  ]
 }

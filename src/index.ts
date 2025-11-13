@@ -390,7 +390,7 @@ interface HotkeysInterface {
   (key: string, method: KeyHandler): void;
   (key: string, scope: string, method: KeyHandler): void;
   (key: string, option: HotkeysOptions, method: KeyHandler): void;
-  
+
   shift?: boolean;
   ctrl?: boolean;
   alt?: boolean;
@@ -398,7 +398,7 @@ interface HotkeysInterface {
   control?: boolean;
   cmd?: boolean;
   command?: boolean;
-  
+
   setScope: typeof setScope;
   getScope: typeof getScope;
   deleteScope: typeof deleteScope;

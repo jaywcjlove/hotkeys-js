@@ -61,6 +61,8 @@
     "@rollup/plugin-node-resolve": "^15.2.3",
     "@rollup/plugin-typescript": "^12.3.0",
     "@types/node": "^24.10.1",
+    "@typescript-eslint/eslint-plugin": "^5.62.0",
+    "@typescript-eslint/parser": "^5.62.0",
     "@uiw/react-github-corners": "^1.5.15",
     "@uiw/react-mac-keyboard": "^1.1.5",
     "@uiw/react-markdown-preview": "^5.0.3",
