@@ -180,8 +180,9 @@ function unbind(
   // unbind(), unbind all keys
   if (typeof keysInfo === 'undefined') {
     Object.keys(_handlers).forEach((key) => {
-      Array.isArray(_handlers[key])
-        && _handlers[key].forEach((info) => eachUnbind(info));
+      if (Array.isArray(_handlers[key])) {
+        _handlers[key].forEach((info) => eachUnbind(info));
+      }
       delete _handlers[key];
     });
     removeKeyEvent(null);

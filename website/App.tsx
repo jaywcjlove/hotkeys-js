@@ -141,7 +141,7 @@ export default function AppRoot() {
       </div>
       <KeyBoard
         style={{ top: -40 }}
-        onMouseDown={onKeyBoardMouseDown.bind(this)}
+        onMouseDown={(_, item) => onKeyBoardMouseDown(item)}
         onMouseUp={onKeyBoardMouseUp}
         keyCode={keyCode}
       />
