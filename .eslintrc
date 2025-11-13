@@ -97,7 +97,13 @@
         "comma-dangle": 0,
         "@typescript-eslint/no-non-null-assertion": "off",
         "import/no-extraneous-dependencies": "off",
-        "no-multiple-empty-lines": ["error", { "max": 1, "maxEOF": 0 }]
+        "no-multiple-empty-lines": ["error", { "max": 1, "maxEOF": 0 }],
+        "react/jsx-filename-extension": [
+          1,
+          {
+            "extensions": [".js", ".jsx", ".ts", ".tsx"]
+          }
+        ]
       }
     }
   ]
