@@ -1,13 +1,22 @@
-import { addEvent, removeEvent, getMods, getKeys, compareArray } from './utils';
 import {
-  _keyMap,
-  _modifier,
-  modifierMap,
-  _mods,
-  _handlers,
-  Handler,
+  KeyCodeInfo,
+  HotkeysEvent,
+  UnbindInfo,
+  HotkeysOptions,
   KeyHandler,
-} from './var';
+  HotkeysInterface,
+  SetScope,
+  GetScope,
+  GetPressedKeyCodes,
+  GetPressedKeyString,
+  GetAllKeyCodes,
+  Filter,
+  IsPressed,
+  DeleteScope,
+  Unbind,
+} from './types';
+import { addEvent, removeEvent, getMods, getKeys, compareArray } from './utils';
+import { _keyMap, _modifier, modifierMap, _mods, _handlers } from './var';
 
 /** Record the pressed keys */
 let _downKeys: number[] = [];
@@ -38,32 +47,25 @@ const getModifier = (x: number): string | undefined =>
   Object.keys(_modifier).find((k) => _modifier[k] === x);
 
 /** Set or get the current scope (defaults to 'all') */
-function setScope(scope: string): void {
+const setScope: SetScope = (scope) => {
   _scope = scope || 'all';
-}
+};
 /** Get the current scope */
-function getScope(): string {
+const getScope: GetScope = () => {
   return _scope || 'all';
-}
+};
 /** Get the key codes of the currently pressed keys */
-function getPressedKeyCodes(): number[] {
+const getPressedKeyCodes: GetPressedKeyCodes = () => {
   return _downKeys.slice(0);
-}
+};
 
-function getPressedKeyString(): string[] {
+const getPressedKeyString: GetPressedKeyString = () => {
   return _downKeys.map(
     (c) => getKey(c) || getModifier(c) || String.fromCharCode(c)
   );
-}
+};
 
-interface KeyCodeInfo {
-  scope: string;
-  shortcut: string;
-  mods: number[];
-  keys: number[];
-}
-
-function getAllKeyCodes(): KeyCodeInfo[] {
+const getAllKeyCodes: GetAllKeyCodes = () => {
   const result: KeyCodeInfo[] = [];
   Object.keys(_handlers).forEach((k) => {
     _handlers[k].forEach(({ key, scope, mods, shortcut }) => {
@@ -76,10 +78,10 @@ function getAllKeyCodes(): KeyCodeInfo[] {
     });
   });
   return result;
-}
+};
 
 /** hotkey is effective only when filter return true */
-function filter(event: KeyboardEvent): boolean {
+const filter: Filter = (event) => {
   const target = (event.target || event.srcElement) as HTMLElement;
   const { tagName } = target;
   let flag = true;
@@ -104,19 +106,19 @@ function filter(event: KeyboardEvent): boolean {
     flag = false;
   }
   return flag;
-}
+};
 
 /** Determine whether the pressed key matches a specific key, returns true or false */
-function isPressed(keyCode: number | string): boolean {
+const isPressed: IsPressed = (keyCode) => {
   if (typeof keyCode === 'string') {
     keyCode = code(keyCode); // Convert to key code
   }
   return _downKeys.indexOf(keyCode) !== -1;
-}
+};
 
 /** Loop through and delete all handlers with the specified scope */
-function deleteScope(scope?: string, newScope?: string): void {
-  let handlers: Handler[];
+const deleteScope: DeleteScope = (scope, newScope) => {
+  let handlers: HotkeysEvent[];
   let i: number;
 
   // If no scope is specified, get the current scope
@@ -138,7 +140,7 @@ function deleteScope(scope?: string, newScope?: string): void {
 
   // If the current scope has been deleted, reset the scope to 'all'
   if (getScope() === scope) setScope(newScope || 'all');
-}
+};
 
 /** Clear modifier keys */
 function clearModifier(event: KeyboardEvent): void {
@@ -172,17 +174,10 @@ function clearModifier(event: KeyboardEvent): void {
   }
 }
 
-interface UnbindInfo {
-  key: string;
-  scope?: string;
-  method?: KeyHandler;
-  splitKey?: string;
-}
-
-function unbind(
+const unbind: Unbind = (
   keysInfo?: string | UnbindInfo | UnbindInfo[],
   ...args: any[]
-): void {
+): void => {
   // unbind(), unbind all keys
   if (typeof keysInfo === 'undefined') {
     Object.keys(_handlers).forEach((key) => {
@@ -214,7 +209,7 @@ function unbind(
       splitKey: '+',
     });
   }
-}
+};
 
 /** Unbind hotkeys for a specific scope */
 const eachUnbind = ({
@@ -251,7 +246,7 @@ const eachUnbind = ({
 /** Handle the callback function for the corresponding hotkey */
 function eventHandler(
   event: KeyboardEvent,
-  handler: Handler,
+  handler: HotkeysEvent,
   scope: string,
   element: HTMLElement | Document
 ): void {
@@ -470,45 +465,6 @@ function dispatch(
   }
 }
 
-interface HotkeysOptions {
-  scope?: string;
-  element?: HTMLElement | Document;
-  keyup?: boolean;
-  keydown?: boolean;
-  capture?: boolean;
-  splitKey?: string;
-  single?: boolean;
-}
-
-interface HotkeysInterface {
-  (key: string, method: KeyHandler): void;
-  (key: string, scope: string, method: KeyHandler): void;
-  (key: string, option: HotkeysOptions, method: KeyHandler): void;
-
-  shift?: boolean;
-  ctrl?: boolean;
-  alt?: boolean;
-  option?: boolean;
-  control?: boolean;
-  cmd?: boolean;
-  command?: boolean;
-
-  setScope: typeof setScope;
-  getScope: typeof getScope;
-  deleteScope: typeof deleteScope;
-  getPressedKeyCodes: typeof getPressedKeyCodes;
-  getPressedKeyString: typeof getPressedKeyString;
-  getAllKeyCodes: typeof getAllKeyCodes;
-  isPressed: typeof isPressed;
-  filter: typeof filter;
-  trigger: typeof trigger;
-  unbind: typeof unbind;
-  noConflict?: (deep?: boolean) => HotkeysInterface;
-  keyMap: Record<string, number>;
-  modifier: Record<string, number>;
-  modifierMap: Record<string | number, number | string>;
-}
-
 function hotkeys(
   key: string,
   option?: string | HotkeysOptions | KeyHandler,
@@ -690,4 +646,4 @@ if (typeof window !== 'undefined') {
 }
 
 export default hotkeys as HotkeysInterface;
-export type { KeyHandler, Handler as HotkeysHandler };
+export type { KeyHandler, HotkeysEvent };

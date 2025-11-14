@@ -1,23 +1,19 @@
 declare const _default: HotkeysInterface;
 export default _default;
 
-/** Loop through and delete all handlers with the specified scope */
-declare function deleteScope(scope?: string, newScope?: string): void;
+declare type DeleteScope = (scope?: string, newScope?: string) => void;
 
-/** hotkey is effective only when filter return true */
-declare function filter(event: KeyboardEvent): boolean;
+declare type Filter = (event: KeyboardEvent) => boolean;
 
-declare function getAllKeyCodes(): KeyCodeInfo[];
+declare type GetAllKeyCodes = () => KeyCodeInfo[];
 
-/** Get the key codes of the currently pressed keys */
-declare function getPressedKeyCodes(): number[];
+declare type GetPressedKeyCodes = () => number[];
 
-declare function getPressedKeyString(): string[];
+declare type GetPressedKeyString = () => string[];
 
-/** Get the current scope */
-declare function getScope(): string;
+declare type GetScope = () => string;
 
-export declare interface HotkeysHandler {
+export declare interface HotkeysEvent {
     keyup: boolean;
     keydown: boolean;
     scope: string;
@@ -41,20 +37,145 @@ declare interface HotkeysInterface {
     control?: boolean;
     cmd?: boolean;
     command?: boolean;
-    setScope: typeof setScope;
-    getScope: typeof getScope;
-    deleteScope: typeof deleteScope;
-    getPressedKeyCodes: typeof getPressedKeyCodes;
-    getPressedKeyString: typeof getPressedKeyString;
-    getAllKeyCodes: typeof getAllKeyCodes;
-    isPressed: typeof isPressed;
-    filter: typeof filter;
-    trigger: typeof trigger;
-    unbind: typeof unbind;
-    noConflict?: (deep?: boolean) => HotkeysInterface;
     keyMap: Record<string, number>;
     modifier: Record<string, number>;
     modifierMap: Record<string | number, number | string>;
+    /**
+     * Use the `hotkeys.setScope` method to set scope. There can only be one active scope besides 'all'.  By default 'all' is always active.
+     *
+     * ```js
+     * // Define shortcuts with a scope
+     * hotkeys('ctrl+o, ctrl+alt+enter', 'issues', function() {
+     *   console.log('do something');
+     * });
+     * hotkeys('o, enter', 'files', function() {
+     *   console.log('do something else');
+     * });
+     *
+     * // Set the scope (only 'all' and 'issues' shortcuts will be honored)
+     * hotkeys.setScope('issues'); // default scope is 'all'
+     * ```
+     */
+    setScope: SetScope;
+    /**
+     * Use the `hotkeys.getScope` method to get scope.
+     *
+     * ```js
+     * hotkeys.getScope();
+     * ```
+     */
+    getScope: GetScope;
+    /**
+     * Use the `hotkeys.deleteScope` method to delete a scope. This will also remove all associated hotkeys with it.
+     *
+     * ```js
+     * hotkeys.deleteScope('issues');
+     * ```
+     * You can use second argument, if need set new scope after deleting.
+     *
+     * ```js
+     * hotkeys.deleteScope('issues', 'newScopeName');
+     * ```
+     */
+    deleteScope: DeleteScope;
+    /**
+     * Returns an array of key codes currently pressed.
+     *
+     * ```js
+     * hotkeys('command+ctrl+shift+a,f', function() {
+     *   console.log(hotkeys.getPressedKeyCodes()); //=> [17, 65] or [70]
+     * })
+     * ```
+     */
+    getPressedKeyCodes: GetPressedKeyCodes;
+    /**
+     * Returns an array of key codes currently pressed.
+     *
+     * ```js
+     * hotkeys('command+ctrl+shift+a,f', function() {
+     *   console.log(hotkeys.getPressedKeyString()); //=> ['⌘', '⌃', '⇧', 'A', 'F']
+     * })
+     * ```
+     */
+    getPressedKeyString: GetPressedKeyString;
+    /**
+     * Get a list of all registration codes.
+     *
+     * ```js
+     * hotkeys('command+ctrl+shift+a,f', function() {
+     *   console.log(hotkeys.getAllKeyCodes());
+     *   // [
+     *   //   { scope: 'all', shortcut: 'command+ctrl+shift+a', mods: [91, 17, 16], keys: [91, 17, 16, 65] },
+     *   //   { scope: 'all', shortcut: 'f', mods: [], keys: [42] }
+     *   // ]
+     * })
+     * ```
+     *
+     */
+    getAllKeyCodes: GetAllKeyCodes;
+    isPressed: IsPressed;
+    /**
+     * By default hotkeys are not enabled for `INPUT` `SELECT` `TEXTAREA` elements.
+     * `Hotkeys.filter` to return to the `true` shortcut keys set to play a role,
+     * `false` shortcut keys set up failure.
+     *
+     * ```js
+     * hotkeys.filter = function(event){
+     *   return true;
+     * }
+     * //How to add the filter to edit labels. <div contentEditable="true"></div>
+     * //"contentEditable" Older browsers that do not support drops
+     * hotkeys.filter = function(event) {
+     *   var target = event.target || event.srcElement;
+     *   var tagName = target.tagName;
+     *   return !(target.isContentEditable || tagName == 'INPUT' || tagName == 'SELECT' || tagName == 'TEXTAREA');
+     * }
+     *
+     * hotkeys.filter = function(event){
+     *   var tagName = (event.target || event.srcElement).tagName;
+     *   hotkeys.setScope(/^(INPUT|TEXTAREA|SELECT)$/.test(tagName) ? 'input' : 'other');
+     *   return true;
+     * }
+     * ```
+     */
+    filter: Filter;
+    /**
+     * trigger shortcut key event
+     *
+     * ```js
+     * hotkeys.trigger('ctrl+o');
+     * hotkeys.trigger('ctrl+o', 'scope2');
+     * ```
+     */
+    trigger: Trigger;
+    /**
+     * Unbinds a shortcut key event.
+     *
+     * ```js
+     * hotkeys.unbind('ctrl+o');
+     * hotkeys.unbind('ctrl+o', 'scope1');
+     * hotkeys.unbind('ctrl+o', 'scope1', method);
+     * hotkeys.unbind('ctrl+o', method);
+     * ```
+     */
+    unbind: Unbind;
+    /**
+     * Relinquish HotKeys’s control of the `hotkeys` variable.
+     *
+     * ```js
+     * var k = hotkeys.noConflict();
+     * k('a', function() {
+     *   console.log("do something")
+     * });
+     *
+     * hotkeys()
+     * // -->Uncaught TypeError: hotkeys is not a function(anonymous function)
+     * // @ VM2170:2InjectedScript._evaluateOn
+     * // @ VM2165:883InjectedScript._evaluateAndWrap
+     * // @ VM2165:816InjectedScript.evaluate @ VM2165:682
+     * ```
+     */
+    noConflict?: NoConflict;
 }
 
 declare interface HotkeysOptions {
@@ -67,8 +188,12 @@ declare interface HotkeysOptions {
     single?: boolean;
 }
 
-/** Determine whether the pressed key matches a specific key, returns true or false */
-declare function isPressed(keyCode: number | string): boolean;
+declare interface IsPressed {
+    /** For example, `hotkeys.isPressed(77)` is true if the `M` key is currently pressed. */
+    (keyCode: number): boolean;
+    /** For example, `hotkeys.isPressed('m')` is true if the `M` key is currently pressed. */
+    (keyCode: string): boolean;
+}
 
 declare interface KeyCodeInfo {
     scope: string;
@@ -78,21 +203,20 @@ declare interface KeyCodeInfo {
 }
 
 export declare interface KeyHandler {
-    (keyboardEvent: KeyboardEvent, hotkeysEvent: HotkeysHandler): void | boolean;
+    (keyboardEvent: KeyboardEvent, hotkeysEvent: HotkeysEvent): void | boolean;
 }
 
-/** Set or get the current scope (defaults to 'all') */
-declare function setScope(scope: string): void;
+declare type NoConflict = (deep?: boolean) => HotkeysInterface;
 
-declare function trigger(shortcut: string, scope?: string): void;
+declare type SetScope = (scope: string) => void;
 
-declare function unbind(keysInfo?: string | UnbindInfo | UnbindInfo[], ...args: any[]): void;
+declare type Trigger = (shortcut: string, scope?: string) => void;
 
-declare interface UnbindInfo {
-    key: string;
-    scope?: string;
-    method?: KeyHandler;
-    splitKey?: string;
+declare interface Unbind {
+    (key?: string): void;
+    (key: string, scopeName: string): void;
+    (key: string, scopeName: string, method: KeyHandler): void;
+    (key: string, method: KeyHandler): void;
 }
 
 export { }

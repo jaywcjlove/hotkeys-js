@@ -1,3 +1,4 @@
+import { HotkeysEvent } from './types';
 import { isff } from './utils';
 
 // Special Keys
@@ -101,24 +102,7 @@ const _mods: Record<number, boolean> = {
   91: false,
 };
 
-export interface Handler {
-  keyup: boolean;
-  keydown: boolean;
-  scope: string;
-  mods: number[];
-  shortcut: string;
-  method: KeyHandler;
-  key: string;
-  splitKey: string;
-  element: HTMLElement | Document;
-  keys?: number[];
-}
-
-export interface KeyHandler {
-  (keyboardEvent: KeyboardEvent, hotkeysEvent: Handler): void | boolean;
-}
-
-const _handlers: Record<string | number, Handler[]> = {};
+const _handlers: Record<string | number, HotkeysEvent[]> = {};
 
 // F1~F12 special key
 for (let k = 1; k < 20; k++) {

@@ -30,8 +30,8 @@ function B(e) {
 function I(e, t) {
   const n = e.length >= t.length ? e : t, i = e.length >= t.length ? t : e;
   let o = !0;
-  for (let f = 0; f < n.length; f++)
-    i.indexOf(n[f]) === -1 && (o = !1);
+  for (let r = 0; r < n.length; r++)
+    i.indexOf(n[r]) === -1 && (o = !1);
   return o;
 }
 const L = {
@@ -128,35 +128,23 @@ const L = {
 for (let e = 1; e < 20; e++)
   L[`f${e}`] = 111 + e;
 let l = [], _ = null, D = "all";
-const m = /* @__PURE__ */ new Map(), O = (e) => L[e.toLowerCase()] || g[e.toLowerCase()] || e.toUpperCase().charCodeAt(0), R = (e) => Object.keys(L).find((t) => L[t] === e), V = (e) => Object.keys(g).find((t) => g[t] === e);
-function $(e) {
+const m = /* @__PURE__ */ new Map(), O = (e) => L[e.toLowerCase()] || g[e.toLowerCase()] || e.toUpperCase().charCodeAt(0), R = (e) => Object.keys(L).find((t) => L[t] === e), V = (e) => Object.keys(g).find((t) => g[t] === e), $ = (e) => {
   D = e || "all";
-}
-function x() {
-  return D || "all";
-}
-function X() {
-  return l.slice(0);
-}
-function z() {
-  return l.map(
-    (e) => R(e) || V(e) || String.fromCharCode(e)
-  );
-}
-function J() {
+}, x = () => D || "all", X = () => l.slice(0), z = () => l.map(
+  (e) => R(e) || V(e) || String.fromCharCode(e)
+), J = () => {
   const e = [];
   return Object.keys(a).forEach((t) => {
-    a[t].forEach(({ key: n, scope: i, mods: o, shortcut: f }) => {
+    a[t].forEach(({ key: n, scope: i, mods: o, shortcut: r }) => {
       e.push({
         scope: i,
-        shortcut: f,
+        shortcut: r,
         mods: o,
         keys: n.split("+").map((c) => O(c))
       });
     });
   }), e;
-}
-function G(e) {
+}, G = (e) => {
   const t = e.target || e.srcElement, { tagName: n } = t;
   let i = !0;
   const o = n === "INPUT" && ![
@@ -170,11 +158,7 @@ function G(e) {
     "color"
   ].includes(t.type);
   return (t.isContentEditable || (o || n === "TEXTAREA" || n === "SELECT") && !t.readOnly) && (i = !1), i;
-}
-function Q(e) {
-  return typeof e == "string" && (e = O(e)), l.indexOf(e) !== -1;
-}
-function W(e, t) {
+}, Q = (e) => (typeof e == "string" && (e = O(e)), l.indexOf(e) !== -1), W = (e, t) => {
   let n, i;
   e || (e = x());
   for (const o in a)
@@ -182,7 +166,7 @@ function W(e, t) {
       for (n = a[o], i = 0; i < n.length; )
         n[i].scope === e ? n.splice(i, 1).forEach(({ element: c }) => S(c)) : i++;
   x() === e && $(t || "all");
-}
+};
 function Y(e) {
   let t = e.keyCode || e.which || e.charCode;
   e.key && e.key.toLowerCase() === "capslock" && (t = O(e.key));
@@ -193,7 +177,7 @@ function Y(e) {
       g[i] === t && (k[i] = !1);
   }
 }
-function H(e, ...t) {
+const H = (e, ...t) => {
   if (typeof e == "undefined")
     Object.keys(a).forEach((n) => {
       Array.isArray(a[n]) && a[n].forEach((i) => M(i)), delete a[n];
@@ -213,15 +197,14 @@ function H(e, ...t) {
       splitKey: "+"
     });
   }
-}
-const M = ({
+}, M = ({
   key: e,
   scope: t,
   method: n,
   splitKey: i = "+"
 }) => {
-  B(e).forEach((f) => {
-    const c = f.split(i), d = c.length, s = c[d - 1], y = s === "*" ? "*" : O(s);
+  B(e).forEach((r) => {
+    const c = r.split(i), d = c.length, s = c[d - 1], y = s === "*" ? "*" : O(s);
     if (!a[y]) return;
     t || (t = x());
     const w = d > 1 ? F(g, c) : [], p = [];
@@ -237,8 +220,8 @@ function T(e, t, n, i) {
   let o;
   if (t.scope === n || t.scope === "all") {
     o = t.mods.length > 0;
-    for (const f in u)
-      Object.prototype.hasOwnProperty.call(u, f) && (!u[f] && t.mods.indexOf(+f) > -1 || u[f] && t.mods.indexOf(+f) === -1) && (o = !1);
+    for (const r in u)
+      Object.prototype.hasOwnProperty.call(u, r) && (!u[r] && t.mods.indexOf(+r) > -1 || u[r] && t.mods.indexOf(+r) === -1) && (o = !1);
     (t.mods.length === 0 && !u[16] && !u[18] && !u[17] && !u[91] || o || t.shortcut === "*") && (t.keys = [], t.keys = t.keys.concat(l), t.method(e, t) === !1 && (e.preventDefault ? e.preventDefault() : e.returnValue = !1, e.stopPropagation && e.stopPropagation(), e.cancelBubble && (e.cancelBubble = !0)));
   }
 }
@@ -292,36 +275,36 @@ function U(e, t) {
   for (const s in u)
     Object.prototype.hasOwnProperty.call(u, s) && (u[s] = e[b[s]]);
   e.getModifierState && !(e.altKey && !e.ctrlKey) && e.getModifierState("AltGraph") && (l.indexOf(17) === -1 && l.push(17), l.indexOf(18) === -1 && l.push(18), u[17] = !0, u[18] = !0);
-  const f = x();
+  const r = x();
   if (n)
     for (let s = 0; s < n.length; s++)
-      n[s].scope === f && (e.type === "keydown" && n[s].keydown || e.type === "keyup" && n[s].keyup) && T(e, n[s], f, t);
+      n[s].scope === r && (e.type === "keydown" && n[s].keydown || e.type === "keyup" && n[s].keyup) && T(e, n[s], r, t);
   if (!(i in a)) return;
   const c = a[i], d = c.length;
   for (let s = 0; s < d; s++)
     if ((e.type === "keydown" && c[s].keydown || e.type === "keyup" && c[s].keyup) && c[s].key) {
       const y = c[s], { splitKey: w } = y, p = y.key.split(w), h = [];
-      for (let r = 0; r < p.length; r++)
-        h.push(O(p[r]));
-      h.sort().join("") === l.sort().join("") && T(e, y, f, t);
+      for (let f = 0; f < p.length; f++)
+        h.push(O(p[f]));
+      h.sort().join("") === l.sort().join("") && T(e, y, r, t);
     }
 }
 function k(e, t, n) {
   l = [];
   const i = B(e);
-  let o = [], f = "all", c = document, d = 0, s = !1, y = !0, w = "+", p = !1, h = !1;
+  let o = [], r = "all", c = document, d = 0, s = !1, y = !0, w = "+", p = !1, h = !1;
   if (n === void 0 && typeof t == "function" && (n = t), Object.prototype.toString.call(t) === "[object Object]") {
-    const r = t;
-    r.scope && (f = r.scope), r.element && (c = r.element), r.keyup && (s = r.keyup), r.keydown !== void 0 && (y = r.keydown), r.capture !== void 0 && (p = r.capture), typeof r.splitKey == "string" && (w = r.splitKey), r.single === !0 && (h = !0);
+    const f = t;
+    f.scope && (r = f.scope), f.element && (c = f.element), f.keyup && (s = f.keyup), f.keydown !== void 0 && (y = f.keydown), f.capture !== void 0 && (p = f.capture), typeof f.splitKey == "string" && (w = f.splitKey), f.single === !0 && (h = !0);
   }
-  for (typeof t == "string" && (f = t), h && H(e, f); d < i.length; d++) {
-    const r = i[d].split(w);
-    o = [], r.length > 1 && (o = F(g, r));
-    let K = r[r.length - 1];
+  for (typeof t == "string" && (r = t), h && H(e, r); d < i.length; d++) {
+    const f = i[d].split(w);
+    o = [], f.length > 1 && (o = F(g, f));
+    let K = f[f.length - 1];
     K = K === "*" ? "*" : O(K), K in a || (a[K] = []), a[K].push({
       keyup: s,
       keydown: y,
-      scope: f,
+      scope: r,
       mods: o,
       shortcut: i[d],
       method: n,
@@ -332,16 +315,16 @@ function k(e, t, n) {
   }
   if (typeof c != "undefined" && typeof window != "undefined") {
     if (!m.has(c)) {
-      const r = (C = window.event) => U(C, c), K = (C = window.event) => {
+      const f = (C = window.event) => U(C, c), K = (C = window.event) => {
         U(C, c), Y(C);
       };
-      m.set(c, { keydownListener: r, keyupListenr: K, capture: p }), P(c, "keydown", r, p), P(c, "keyup", K, p);
+      m.set(c, { keydownListener: f, keyupListenr: K, capture: p }), P(c, "keydown", f, p), P(c, "keyup", K, p);
     }
     if (!_) {
-      const r = () => {
+      const f = () => {
         l = [];
       };
-      _ = { listener: r, capture: p }, P(window, "focus", r, p);
+      _ = { listener: f, capture: p }, P(window, "focus", f, p);
     }
   }
 }
@@ -357,15 +340,15 @@ function Z(e, t = "all") {
 function S(e) {
   const t = Object.values(a).flat();
   if (t.findIndex(({ element: i }) => i === e) < 0 && e) {
-    const { keydownListener: i, keyupListenr: o, capture: f } = m.get(e) || {};
-    i && o && (E(e, "keyup", o, f), E(e, "keydown", i, f), m.delete(e));
+    const { keydownListener: i, keyupListenr: o, capture: r } = m.get(e) || {};
+    i && o && (E(e, "keyup", o, r), E(e, "keydown", i, r), m.delete(e));
   }
   if ((t.length <= 0 || m.size <= 0) && (Array.from(m.keys()).forEach((o) => {
-    const { keydownListener: f, keyupListenr: c, capture: d } = m.get(o) || {};
-    f && c && (E(o, "keyup", c, d), E(o, "keydown", f, d), m.delete(o));
+    const { keydownListener: r, keyupListenr: c, capture: d } = m.get(o) || {};
+    r && c && (E(o, "keyup", c, d), E(o, "keydown", r, d), m.delete(o));
   }), m.clear(), Object.keys(a).forEach((o) => delete a[o]), _)) {
-    const { listener: o, capture: f } = _;
-    E(window, "focus", o, f), _ = null;
+    const { listener: o, capture: r } = _;
+    E(window, "focus", o, r), _ = null;
   }
 }
 const j = {
