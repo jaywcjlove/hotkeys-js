@@ -6,20 +6,20 @@
  * @license MIT
  * @homepage https://jaywcjlove.github.io/hotkeys-js
  */
-const A = typeof navigator != "undefined" ? navigator.userAgent.toLowerCase().indexOf("firefox") > 0 : !1;
-function P(e, t, n, i) {
-  e.addEventListener ? e.addEventListener(t, n, i) : e.attachEvent && e.attachEvent(`on${t}`, n);
+const P = typeof navigator != "undefined" ? navigator.userAgent.toLowerCase().indexOf("firefox") > 0 : !1;
+function j(e, t, n, o) {
+  e.addEventListener ? e.addEventListener(t, n, o) : e.attachEvent && e.attachEvent(`on${t}`, n);
 }
-function E(e, t, n, i) {
-  e && (e.removeEventListener ? e.removeEventListener(t, n, i) : e.detachEvent && e.detachEvent(`on${t}`, n));
+function b(e, t, n, o) {
+  e && (e.removeEventListener ? e.removeEventListener(t, n, o) : e.detachEvent && e.detachEvent(`on${t}`, n));
 }
-function F(e, t) {
-  const n = t.slice(0, t.length - 1);
-  for (let i = 0; i < n.length; i++)
-    n[i] = e[n[i].toLowerCase()];
-  return n;
+function B(e, t) {
+  const n = t.slice(0, t.length - 1), o = [];
+  for (let s = 0; s < n.length; s++)
+    o.push(e[n[s].toLowerCase()]);
+  return o;
 }
-function B(e) {
+function D(e) {
   typeof e != "string" && (e = ""), e = e.replace(/\s/g, "");
   const t = e.split(",");
   let n = t.lastIndexOf("");
@@ -27,14 +27,14 @@ function B(e) {
     t[n - 1] += ",", t.splice(n, 1), n = t.lastIndexOf("");
   return t;
 }
-function I(e, t) {
-  const n = e.length >= t.length ? e : t, i = e.length >= t.length ? t : e;
-  let o = !0;
+function R(e, t) {
+  const n = e.length >= t.length ? e : t, o = e.length >= t.length ? t : e;
+  let s = !0;
   for (let r = 0; r < n.length; r++)
-    i.indexOf(n[r]) === -1 && (o = !1);
-  return o;
+    o.indexOf(n[r]) === -1 && (s = !1);
+  return s;
 }
-const L = {
+const C = {
   backspace: 8,
   "⌫": 8,
   tab: 9,
@@ -84,16 +84,16 @@ const L = {
   ".": 190,
   "/": 191,
   "`": 192,
-  "-": A ? 173 : 189,
-  "=": A ? 61 : 187,
-  ";": A ? 59 : 186,
+  "-": P ? 173 : 189,
+  "=": P ? 61 : 187,
+  ";": P ? 59 : 186,
   "'": 222,
   "{": 219,
   "}": 221,
   "[": 219,
   "]": 221,
   "\\": 220
-}, g = {
+}, h = {
   // shiftKey
   "⇧": 16,
   shift: 16,
@@ -110,7 +110,7 @@ const L = {
   cmd: 91,
   meta: 91,
   command: 91
-}, b = {
+}, _ = {
   16: "shiftKey",
   18: "altKey",
   17: "ctrlKey",
@@ -119,35 +119,35 @@ const L = {
   ctrlKey: 17,
   altKey: 18,
   metaKey: 91
-}, u = {
+}, d = {
   16: !1,
   18: !1,
   17: !1,
   91: !1
-}, a = {};
+}, l = {};
 for (let e = 1; e < 20; e++)
-  L[`f${e}`] = 111 + e;
-let l = [], _ = null, D = "all";
-const m = /* @__PURE__ */ new Map(), O = (e) => L[e.toLowerCase()] || g[e.toLowerCase()] || e.toUpperCase().charCodeAt(0), R = (e) => Object.keys(L).find((t) => L[t] === e), V = (e) => Object.keys(g).find((t) => g[t] === e), $ = (e) => {
-  D = e || "all";
-}, x = () => D || "all", X = () => l.slice(0), z = () => l.map(
-  (e) => R(e) || V(e) || String.fromCharCode(e)
-), J = () => {
+  C[`f${e}`] = 111 + e;
+let c = [], L = null, $ = "all";
+const k = /* @__PURE__ */ new Map(), E = (e) => C[e.toLowerCase()] || h[e.toLowerCase()] || e.toUpperCase().charCodeAt(0), V = (e) => Object.keys(C).find((t) => C[t] === e), X = (e) => Object.keys(h).find((t) => h[t] === e), G = (e) => {
+  $ = e || "all";
+}, x = () => $ || "all", z = () => c.slice(0), J = () => c.map(
+  (e) => V(e) || X(e) || String.fromCharCode(e)
+), Q = () => {
   const e = [];
-  return Object.keys(a).forEach((t) => {
-    a[t].forEach(({ key: n, scope: i, mods: o, shortcut: r }) => {
+  return Object.keys(l).forEach((t) => {
+    l[t].forEach(({ key: n, scope: o, mods: s, shortcut: r }) => {
       e.push({
-        scope: i,
+        scope: o,
         shortcut: r,
-        mods: o,
-        keys: n.split("+").map((c) => O(c))
+        mods: s,
+        keys: n.split("+").map((y) => E(y))
       });
     });
   }), e;
-}, G = (e) => {
+}, H = (e) => {
   const t = e.target || e.srcElement, { tagName: n } = t;
-  let i = !0;
-  const o = n === "INPUT" && ![
+  let o = !0;
+  const s = n === "INPUT" && ![
     "checkbox",
     "radio",
     "range",
@@ -157,79 +157,79 @@ const m = /* @__PURE__ */ new Map(), O = (e) => L[e.toLowerCase()] || g[e.toLowe
     "submit",
     "color"
   ].includes(t.type);
-  return (t.isContentEditable || (o || n === "TEXTAREA" || n === "SELECT") && !t.readOnly) && (i = !1), i;
-}, Q = (e) => (typeof e == "string" && (e = O(e)), l.indexOf(e) !== -1), W = (e, t) => {
-  let n, i;
+  return (t.isContentEditable || (s || n === "TEXTAREA" || n === "SELECT") && !t.readOnly) && (o = !1), o;
+}, W = (e) => (typeof e == "string" && (e = E(e)), c.indexOf(e) !== -1), Y = (e, t) => {
+  let n, o;
   e || (e = x());
-  for (const o in a)
-    if (Object.prototype.hasOwnProperty.call(a, o))
-      for (n = a[o], i = 0; i < n.length; )
-        n[i].scope === e ? n.splice(i, 1).forEach(({ element: c }) => S(c)) : i++;
-  x() === e && $(t || "all");
+  for (const s in l)
+    if (Object.prototype.hasOwnProperty.call(l, s))
+      for (n = l[s], o = 0; o < n.length; )
+        n[o].scope === e ? n.splice(o, 1).forEach(({ element: y }) => T(y)) : o++;
+  x() === e && G(t || "all");
 };
-function Y(e) {
+function Z(e) {
   let t = e.keyCode || e.which || e.charCode;
-  e.key && e.key.toLowerCase() === "capslock" && (t = O(e.key));
-  const n = l.indexOf(t);
-  if (n >= 0 && l.splice(n, 1), e.key && e.key.toLowerCase() === "meta" && l.splice(0, l.length), (t === 93 || t === 224) && (t = 91), t in u) {
-    u[t] = !1;
-    for (const i in g)
-      g[i] === t && (k[i] = !1);
+  e.key && e.key.toLowerCase() === "capslock" && (t = E(e.key));
+  const n = c.indexOf(t);
+  if (n >= 0 && c.splice(n, 1), e.key && e.key.toLowerCase() === "meta" && c.splice(0, c.length), (t === 93 || t === 224) && (t = 91), t in d) {
+    d[t] = !1;
+    for (const o in h)
+      h[o] === t && (m[o] = !1);
   }
 }
-const H = (e, ...t) => {
+const I = (e, ...t) => {
   if (typeof e == "undefined")
-    Object.keys(a).forEach((n) => {
-      Array.isArray(a[n]) && a[n].forEach((i) => M(i)), delete a[n];
-    }), S(null);
+    Object.keys(l).forEach((n) => {
+      Array.isArray(l[n]) && l[n].forEach((o) => A(o)), delete l[n];
+    }), T(null);
   else if (Array.isArray(e))
     e.forEach((n) => {
-      n.key && M(n);
+      n.key && A(n);
     });
   else if (typeof e == "object")
-    e.key && M(e);
+    e.key && A(e);
   else if (typeof e == "string") {
-    let [n, i] = t;
-    typeof n == "function" && (i = n, n = ""), M({
+    let [n, o] = t;
+    typeof n == "function" && (o = n, n = ""), A({
       key: e,
       scope: n,
-      method: i,
+      method: o,
       splitKey: "+"
     });
   }
-}, M = ({
+}, A = ({
   key: e,
   scope: t,
   method: n,
-  splitKey: i = "+"
+  splitKey: o = "+"
 }) => {
-  B(e).forEach((r) => {
-    const c = r.split(i), d = c.length, s = c[d - 1], y = s === "*" ? "*" : O(s);
-    if (!a[y]) return;
+  D(e).forEach((r) => {
+    const y = r.split(o), a = y.length, i = y[a - 1], u = i === "*" ? "*" : E(i);
+    if (!l[u]) return;
     t || (t = x());
-    const w = d > 1 ? F(g, c) : [], p = [];
-    a[y] = a[y].filter((h) => {
-      const K = (n ? h.method === n : !0) && h.scope === t && I(h.mods, w);
-      return K && p.push(h.element), !K;
-    }), p.forEach((h) => S(h));
+    const K = a > 1 ? B(h, y) : [], g = [];
+    l[u] = l[u].filter((p) => {
+      const f = (n ? p.method === n : !0) && p.scope === t && R(p.mods, K);
+      return f && g.push(p.element), !f;
+    }), g.forEach((p) => T(p));
   });
 };
-function T(e, t, n, i) {
-  if (t.element !== i)
+function U(e, t, n, o) {
+  if (t.element !== o)
     return;
-  let o;
+  let s;
   if (t.scope === n || t.scope === "all") {
-    o = t.mods.length > 0;
-    for (const r in u)
-      Object.prototype.hasOwnProperty.call(u, r) && (!u[r] && t.mods.indexOf(+r) > -1 || u[r] && t.mods.indexOf(+r) === -1) && (o = !1);
-    (t.mods.length === 0 && !u[16] && !u[18] && !u[17] && !u[91] || o || t.shortcut === "*") && (t.keys = [], t.keys = t.keys.concat(l), t.method(e, t) === !1 && (e.preventDefault ? e.preventDefault() : e.returnValue = !1, e.stopPropagation && e.stopPropagation(), e.cancelBubble && (e.cancelBubble = !0)));
+    s = t.mods.length > 0;
+    for (const r in d)
+      Object.prototype.hasOwnProperty.call(d, r) && (!d[r] && t.mods.indexOf(+r) > -1 || d[r] && t.mods.indexOf(+r) === -1) && (s = !1);
+    (t.mods.length === 0 && !d[16] && !d[18] && !d[17] && !d[91] || s || t.shortcut === "*") && (t.keys = [], t.keys = t.keys.concat(c), t.method(e, t) === !1 && (e.preventDefault ? e.preventDefault() : e.returnValue = !1, e.stopPropagation && e.stopPropagation(), e.cancelBubble && (e.cancelBubble = !0)));
   }
 }
-function U(e, t) {
-  const n = a["*"];
-  let i = e.keyCode || e.which || e.charCode;
+function F(e, t) {
+  const n = l["*"];
+  let o = e.keyCode || e.which || e.charCode;
   if (e.code) {
-    const s = {
+    const i = {
       KeyA: 65,
       KeyB: 66,
       KeyC: 67,
@@ -257,122 +257,124 @@ function U(e, t) {
       KeyY: 89,
       KeyZ: 90
     };
-    s[e.code] && (i = s[e.code]);
+    i[e.code] && (o = i[e.code]);
   }
-  if (e.key && e.key.toLowerCase() === "capslock" || !(k.filter || G).call(this, e)) return;
-  if ((i === 93 || i === 224) && (i = 91), l.indexOf(i) === -1 && i !== 229 && l.push(i), ["metaKey", "ctrlKey", "altKey", "shiftKey"].forEach((s) => {
-    const y = b[s];
-    e[s] && l.indexOf(y) === -1 ? l.push(y) : !e[s] && l.indexOf(y) > -1 ? l.splice(l.indexOf(y), 1) : s === "metaKey" && e[s] && (l = l.filter((w) => w in b || w === i));
-  }), i in u) {
-    u[i] = !0;
-    for (const s in g)
-      if (Object.prototype.hasOwnProperty.call(g, s)) {
-        const y = b[g[s]];
-        k[s] = e[y];
+  if (e.key && e.key.toLowerCase() === "capslock" || !(m.filter || H).call(this, e)) return;
+  if ((o === 93 || o === 224) && (o = 91), c.indexOf(o) === -1 && o !== 229 && c.push(o), ["metaKey", "ctrlKey", "altKey", "shiftKey"].forEach((i) => {
+    const u = _[i];
+    e[i] && c.indexOf(u) === -1 ? c.push(u) : !e[i] && c.indexOf(u) > -1 ? c.splice(c.indexOf(u), 1) : i === "metaKey" && e[i] && (c = c.filter((K) => K in _ || K === o));
+  }), o in d) {
+    d[o] = !0;
+    for (const i in h)
+      if (Object.prototype.hasOwnProperty.call(h, i)) {
+        const u = _[h[i]];
+        m[i] = e[u];
       }
     if (!n) return;
   }
-  for (const s in u)
-    Object.prototype.hasOwnProperty.call(u, s) && (u[s] = e[b[s]]);
-  e.getModifierState && !(e.altKey && !e.ctrlKey) && e.getModifierState("AltGraph") && (l.indexOf(17) === -1 && l.push(17), l.indexOf(18) === -1 && l.push(18), u[17] = !0, u[18] = !0);
+  for (const i in d)
+    Object.prototype.hasOwnProperty.call(d, i) && (d[i] = e[_[i]]);
+  e.getModifierState && !(e.altKey && !e.ctrlKey) && e.getModifierState("AltGraph") && (c.indexOf(17) === -1 && c.push(17), c.indexOf(18) === -1 && c.push(18), d[17] = !0, d[18] = !0);
   const r = x();
   if (n)
-    for (let s = 0; s < n.length; s++)
-      n[s].scope === r && (e.type === "keydown" && n[s].keydown || e.type === "keyup" && n[s].keyup) && T(e, n[s], r, t);
-  if (!(i in a)) return;
-  const c = a[i], d = c.length;
-  for (let s = 0; s < d; s++)
-    if ((e.type === "keydown" && c[s].keydown || e.type === "keyup" && c[s].keyup) && c[s].key) {
-      const y = c[s], { splitKey: w } = y, p = y.key.split(w), h = [];
-      for (let f = 0; f < p.length; f++)
-        h.push(O(p[f]));
-      h.sort().join("") === l.sort().join("") && T(e, y, r, t);
+    for (let i = 0; i < n.length; i++)
+      n[i].scope === r && (e.type === "keydown" && n[i].keydown || e.type === "keyup" && n[i].keyup) && U(e, n[i], r, t);
+  if (!(o in l)) return;
+  const y = l[o], a = y.length;
+  for (let i = 0; i < a; i++)
+    if ((e.type === "keydown" && y[i].keydown || e.type === "keyup" && y[i].keyup) && y[i].key) {
+      const u = y[i], { splitKey: K } = u, g = u.key.split(K), p = [];
+      for (let O = 0; O < g.length; O++)
+        p.push(E(g[O]));
+      p.sort().join("") === c.sort().join("") && U(e, u, r, t);
     }
 }
-function k(e, t, n) {
-  l = [];
-  const i = B(e);
-  let o = [], r = "all", c = document, d = 0, s = !1, y = !0, w = "+", p = !1, h = !1;
-  if (n === void 0 && typeof t == "function" && (n = t), Object.prototype.toString.call(t) === "[object Object]") {
-    const f = t;
-    f.scope && (r = f.scope), f.element && (c = f.element), f.keyup && (s = f.keyup), f.keydown !== void 0 && (y = f.keydown), f.capture !== void 0 && (p = f.capture), typeof f.splitKey == "string" && (w = f.splitKey), f.single === !0 && (h = !0);
+const m = function(t, n, o) {
+  c = [];
+  const s = D(t);
+  let r = [], y = "all", a = document, i = 0, u = !1, K = !0, g = "+", p = !1, O = !1;
+  if (o === void 0 && typeof n == "function" && (o = n), Object.prototype.toString.call(n) === "[object Object]") {
+    const f = n;
+    f.scope && (y = f.scope), f.element && (a = f.element), f.keyup && (u = f.keyup), f.keydown !== void 0 && (K = f.keydown), f.capture !== void 0 && (p = f.capture), typeof f.splitKey == "string" && (g = f.splitKey), f.single === !0 && (O = !0);
   }
-  for (typeof t == "string" && (r = t), h && H(e, r); d < i.length; d++) {
-    const f = i[d].split(w);
-    o = [], f.length > 1 && (o = F(g, f));
-    let K = f[f.length - 1];
-    K = K === "*" ? "*" : O(K), K in a || (a[K] = []), a[K].push({
-      keyup: s,
-      keydown: y,
-      scope: r,
-      mods: o,
-      shortcut: i[d],
-      method: n,
-      key: i[d],
-      splitKey: w,
-      element: c
+  for (typeof n == "string" && (y = n), O && I(t, y); i < s.length; i++) {
+    const f = s[i].split(g);
+    r = [], f.length > 1 && (r = B(h, f));
+    let w = f[f.length - 1];
+    w = w === "*" ? "*" : E(w), w in l || (l[w] = []), l[w].push({
+      keyup: u,
+      keydown: K,
+      scope: y,
+      mods: r,
+      shortcut: s[i],
+      method: o,
+      key: s[i],
+      splitKey: g,
+      element: a
     });
   }
-  if (typeof c != "undefined" && typeof window != "undefined") {
-    if (!m.has(c)) {
-      const f = (C = window.event) => U(C, c), K = (C = window.event) => {
-        U(C, c), Y(C);
+  if (typeof a != "undefined" && typeof window != "undefined") {
+    if (!k.has(a)) {
+      const f = (M = window.event) => F(M, a), w = (M = window.event) => {
+        F(M, a), Z(M);
       };
-      m.set(c, { keydownListener: f, keyupListenr: K, capture: p }), P(c, "keydown", f, p), P(c, "keyup", K, p);
+      k.set(a, { keydownListener: f, keyupListenr: w, capture: p }), j(a, "keydown", f, p), j(a, "keyup", w, p);
     }
-    if (!_) {
+    if (!L) {
       const f = () => {
-        l = [];
+        c = [];
       };
-      _ = { listener: f, capture: p }, P(window, "focus", f, p);
+      L = { listener: f, capture: p }, j(window, "focus", f, p);
     }
   }
-}
-function Z(e, t = "all") {
-  Object.keys(a).forEach((n) => {
-    a[n].filter(
-      (o) => o.scope === t && o.shortcut === e
-    ).forEach((o) => {
-      o && o.method && o.method({}, o);
+};
+function q(e, t = "all") {
+  Object.keys(l).forEach((n) => {
+    l[n].filter(
+      (s) => s.scope === t && s.shortcut === e
+    ).forEach((s) => {
+      s && s.method && s.method({}, s);
     });
   });
 }
-function S(e) {
-  const t = Object.values(a).flat();
-  if (t.findIndex(({ element: i }) => i === e) < 0 && e) {
-    const { keydownListener: i, keyupListenr: o, capture: r } = m.get(e) || {};
-    i && o && (E(e, "keyup", o, r), E(e, "keydown", i, r), m.delete(e));
+function T(e) {
+  const t = Object.values(l).flat();
+  if (t.findIndex(({ element: o }) => o === e) < 0 && e) {
+    const { keydownListener: o, keyupListenr: s, capture: r } = k.get(e) || {};
+    o && s && (b(e, "keyup", s, r), b(e, "keydown", o, r), k.delete(e));
   }
-  if ((t.length <= 0 || m.size <= 0) && (Array.from(m.keys()).forEach((o) => {
-    const { keydownListener: r, keyupListenr: c, capture: d } = m.get(o) || {};
-    r && c && (E(o, "keyup", c, d), E(o, "keydown", r, d), m.delete(o));
-  }), m.clear(), Object.keys(a).forEach((o) => delete a[o]), _)) {
-    const { listener: o, capture: r } = _;
-    E(window, "focus", o, r), _ = null;
+  if ((t.length <= 0 || k.size <= 0) && (Array.from(k.keys()).forEach((s) => {
+    const { keydownListener: r, keyupListenr: y, capture: a } = k.get(s) || {};
+    r && y && (b(s, "keyup", y, a), b(s, "keydown", r, a), k.delete(s));
+  }), k.clear(), Object.keys(l).forEach((s) => delete l[s]), L)) {
+    const { listener: s, capture: r } = L;
+    b(window, "focus", s, r), L = null;
   }
 }
-const j = {
-  getPressedKeyString: z,
-  setScope: $,
+const S = {
+  getPressedKeyString: J,
+  setScope: G,
   getScope: x,
-  deleteScope: W,
-  getPressedKeyCodes: X,
-  getAllKeyCodes: J,
-  isPressed: Q,
-  filter: G,
-  trigger: Z,
-  unbind: H,
-  keyMap: L,
-  modifier: g,
-  modifierMap: b
+  deleteScope: Y,
+  getPressedKeyCodes: z,
+  getAllKeyCodes: Q,
+  isPressed: W,
+  filter: H,
+  trigger: q,
+  unbind: I,
+  keyMap: C,
+  modifier: h,
+  modifierMap: _
 };
-for (const e in j)
-  Object.prototype.hasOwnProperty.call(j, e) && (k[e] = j[e]);
+for (const e in S) {
+  const t = e;
+  Object.prototype.hasOwnProperty.call(S, t) && (m[t] = S[t]);
+}
 if (typeof window != "undefined") {
   const e = window.hotkeys;
-  k.noConflict = (t) => (t && window.hotkeys === k && (window.hotkeys = e), k), window.hotkeys = k;
+  m.noConflict = (t) => (t && window.hotkeys === m && (window.hotkeys = e), m), window.hotkeys = m;
 }
 export {
-  k as default
+  m as default
 };
 //# sourceMappingURL=hotkeys-js.js.map

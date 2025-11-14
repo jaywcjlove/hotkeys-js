@@ -40,6 +40,7 @@ export type GetPressedKeyCodes = () => number[];
 export type GetPressedKeyString = () => string[];
 
 export type GetAllKeyCodes = () => KeyCodeInfo[];
+
 export interface IsPressed {
   /** For example, `hotkeys.isPressed(77)` is true if the `M` key is currently pressed. */
   (keyCode: number): boolean;
@@ -50,6 +51,7 @@ export interface IsPressed {
 export type Filter = (event: KeyboardEvent) => boolean;
 
 export type Trigger = (shortcut: string, scope?: string) => void;
+
 export interface Unbind {
   (key?: string): void;
   (key: string, scopeName: string): void;
@@ -69,23 +71,7 @@ export interface HotkeysOptions {
   single?: boolean;
 }
 
-export interface HotkeysInterface {
-  (key: string, method: KeyHandler): void;
-  (key: string, scope: string, method: KeyHandler): void;
-  (key: string, option: HotkeysOptions, method: KeyHandler): void;
-
-  shift?: boolean;
-  ctrl?: boolean;
-  alt?: boolean;
-  option?: boolean;
-  control?: boolean;
-  cmd?: boolean;
-  command?: boolean;
-
-  keyMap: Record<string, number>;
-  modifier: Record<string, number>;
-  modifierMap: Record<string | number, number | string>;
-
+export interface HotkeysAPI {
   /**
    * Use the `hotkeys.setScope` method to set scope. There can only be one active scope besides 'all'.  By default 'all' is always active.
    *
@@ -221,5 +207,23 @@ export interface HotkeysInterface {
    * // @ VM2165:816InjectedScript.evaluate @ VM2165:682
    * ```
    */
-  noConflict?: NoConflict;
+  noConflict: NoConflict;
+
+  keyMap: Record<string, number>;
+  modifier: Record<string, number>;
+  modifierMap: Record<string | number, number | string>;
+}
+
+export interface HotkeysInterface extends HotkeysAPI {
+  (key: string, method: KeyHandler): void;
+  (key: string, scope: string, method: KeyHandler): void;
+  (key: string, option: HotkeysOptions, method: KeyHandler): void;
+
+  shift?: boolean;
+  ctrl?: boolean;
+  alt?: boolean;
+  option?: boolean;
+  control?: boolean;
+  cmd?: boolean;
+  command?: boolean;
 }

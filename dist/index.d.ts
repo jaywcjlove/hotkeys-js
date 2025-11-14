@@ -13,33 +13,7 @@ declare type GetPressedKeyString = () => string[];
 
 declare type GetScope = () => string;
 
-export declare interface HotkeysEvent {
-    keyup: boolean;
-    keydown: boolean;
-    scope: string;
-    mods: number[];
-    shortcut: string;
-    method: KeyHandler;
-    key: string;
-    splitKey: string;
-    element: HTMLElement | Document;
-    keys?: number[];
-}
-
-declare interface HotkeysInterface {
-    (key: string, method: KeyHandler): void;
-    (key: string, scope: string, method: KeyHandler): void;
-    (key: string, option: HotkeysOptions, method: KeyHandler): void;
-    shift?: boolean;
-    ctrl?: boolean;
-    alt?: boolean;
-    option?: boolean;
-    control?: boolean;
-    cmd?: boolean;
-    command?: boolean;
-    keyMap: Record<string, number>;
-    modifier: Record<string, number>;
-    modifierMap: Record<string | number, number | string>;
+declare interface HotkeysAPI {
     /**
      * Use the `hotkeys.setScope` method to set scope. There can only be one active scope besides 'all'.  By default 'all' is always active.
      *
@@ -175,7 +149,36 @@ declare interface HotkeysInterface {
      * // @ VM2165:816InjectedScript.evaluate @ VM2165:682
      * ```
      */
-    noConflict?: NoConflict;
+    noConflict: NoConflict;
+    keyMap: Record<string, number>;
+    modifier: Record<string, number>;
+    modifierMap: Record<string | number, number | string>;
+}
+
+export declare interface HotkeysEvent {
+    keyup: boolean;
+    keydown: boolean;
+    scope: string;
+    mods: number[];
+    shortcut: string;
+    method: KeyHandler;
+    key: string;
+    splitKey: string;
+    element: HTMLElement | Document;
+    keys?: number[];
+}
+
+declare interface HotkeysInterface extends HotkeysAPI {
+    (key: string, method: KeyHandler): void;
+    (key: string, scope: string, method: KeyHandler): void;
+    (key: string, option: HotkeysOptions, method: KeyHandler): void;
+    shift?: boolean;
+    ctrl?: boolean;
+    alt?: boolean;
+    option?: boolean;
+    control?: boolean;
+    cmd?: boolean;
+    command?: boolean;
 }
 
 declare interface HotkeysOptions {

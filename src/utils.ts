@@ -37,10 +37,12 @@ function removeEvent(
 
 /** Convert modifier keys to their corresponding key codes */
 function getMods(modifier: Record<string, number>, key: string[]): number[] {
-  const mods = key.slice(0, key.length - 1);
-  for (let i = 0; i < mods.length; i++)
-    mods[i] = modifier[mods[i].toLowerCase()] as any;
-  return mods as any;
+  const modsKeys = key.slice(0, key.length - 1);
+  const modsCodes: number[] = [];
+  for (let i = 0; i < modsKeys.length; i++) {
+    modsCodes.push(modifier[modsKeys[i].toLowerCase()]);
+  }
+  return modsCodes;
 }
 
 /** Process the input key string and convert it to an array */

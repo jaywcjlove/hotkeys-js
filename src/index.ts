@@ -14,6 +14,7 @@ import {
   IsPressed,
   DeleteScope,
   Unbind,
+  HotkeysAPI,
 } from './types';
 import { addEvent, removeEvent, getMods, getKeys, compareArray } from './utils';
 import { _keyMap, _modifier, modifierMap, _mods, _handlers } from './var';
@@ -99,7 +100,7 @@ const filter: Filter = (event) => {
     ].includes((target as HTMLInputElement).type);
   // ignore: isContentEditable === 'true', <input> and <textarea> when readOnly state is false, <select>
   if (
-    (target as any).isContentEditable ||
+    target.isContentEditable ||
     ((isInput || tagName === 'TEXTAREA' || tagName === 'SELECT') &&
       !(target as HTMLInputElement | HTMLTextAreaElement).readOnly)
   ) {
@@ -144,7 +145,7 @@ const deleteScope: DeleteScope = (scope, newScope) => {
 
 /** Clear modifier keys */
 function clearModifier(event: KeyboardEvent): void {
-  let key = event.keyCode || event.which || (event as any).charCode;
+  let key = event.keyCode || event.which || event.charCode;
   if (event.key && event.key.toLowerCase() === 'capslock') {
     // Ensure that when capturing keystrokes in modern browsers,
     // uppercase and lowercase letters (such as R and r) return the same key value.
@@ -285,9 +286,9 @@ function eventHandler(
       handler.keys = handler.keys.concat(_downKeys);
       if (handler.method(event, handler) === false) {
         if (event.preventDefault) event.preventDefault();
-        else (event as any).returnValue = false;
+        else event.returnValue = false;
         if (event.stopPropagation) event.stopPropagation();
-        if ((event as any).cancelBubble) (event as any).cancelBubble = true;
+        if (event.cancelBubble) event.cancelBubble = true;
       }
     }
   }
@@ -300,12 +301,12 @@ function dispatch(
   element: HTMLElement | Document
 ): void {
   const asterisk = _handlers['*'];
-  let key = event.keyCode || event.which || (event as any).charCode;
+  let key = event.keyCode || event.which || event.charCode;
 
   // LAYOUT INDEPENDENCE: Convert event.code to keyCode for layout-independent hotkeys
   // This makes 'ctrl+a' work on Russian/German/any keyboard layout
   if (event.code) {
-    const codeMap = {
+    const codeMap: Record<string, number> = {
       KeyA: 65,
       KeyB: 66,
       KeyC: 67,
@@ -333,8 +334,9 @@ function dispatch(
       KeyY: 89,
       KeyZ: 90,
     };
-    if (codeMap[event.code as keyof typeof codeMap]) {
-      key = codeMap[event.code as keyof typeof codeMap];
+
+    if (codeMap[event.code]) {
+      key = codeMap[event.code];
     }
   }
 
@@ -465,7 +467,7 @@ function dispatch(
   }
 }
 
-function hotkeys(
+const hotkeys = function hotkeys(
   key: string,
   option?: string | HotkeysOptions | KeyHandler,
   method?: KeyHandler
@@ -538,9 +540,11 @@ function hotkeys(
   // Register hotkey event listeners on the global document
   if (typeof element !== 'undefined' && typeof window !== 'undefined') {
     if (!elementEventMap.has(element)) {
-      const keydownListener = (event: Event = (window as any).event) =>
+      // @ts-expect-error - window.event is deprecated IE property
+      const keydownListener = (event: Event = window.event) =>
         dispatch(event as KeyboardEvent, element);
-      const keyupListenr = (event: Event = (window as any).event) => {
+      // @ts-expect-error - window.event is deprecated IE property
+      const keyupListenr = (event: Event = window.event) => {
         dispatch(event as KeyboardEvent, element);
         clearModifier(event as KeyboardEvent);
       };
@@ -557,7 +561,7 @@ function hotkeys(
       addEvent(window, 'focus', listener, capture);
     }
   }
-}
+} as HotkeysInterface;
 
 function trigger(shortcut: string, scope: string = 'all'): void {
   Object.keys(_handlers).forEach((key) => {
@@ -579,7 +583,7 @@ function removeKeyEvent(element: HTMLElement | Document | null): void {
 
   if (findindex < 0 && element) {
     const { keydownListener, keyupListenr, capture } =
-      elementEventMap.get(element) || ({} as any);
+      elementEventMap.get(element) || {};
     if (keydownListener && keyupListenr) {
       removeEvent(element, 'keyup', keyupListenr, capture);
       removeEvent(element, 'keydown', keydownListener, capture);
@@ -592,7 +596,7 @@ function removeKeyEvent(element: HTMLElement | Document | null): void {
     const eventKeys = Array.from(elementEventMap.keys());
     eventKeys.forEach((el) => {
       const { keydownListener, keyupListenr, capture } =
-        elementEventMap.get(el) || ({} as any);
+        elementEventMap.get(el) || {};
       if (keydownListener && keyupListenr) {
         removeEvent(el, 'keyup', keyupListenr, capture);
         removeEvent(el, 'keydown', keydownListener, capture);
@@ -612,7 +616,7 @@ function removeKeyEvent(element: HTMLElement | Document | null): void {
   }
 }
 
-const _api = {
+const _api: Omit<HotkeysAPI, 'noConflict'> = {
   getPressedKeyString,
   setScope,
   getScope,
@@ -629,8 +633,9 @@ const _api = {
 };
 
 for (const a in _api) {
-  if (Object.prototype.hasOwnProperty.call(_api, a)) {
-    (hotkeys as any)[a] = (_api as any)[a];
+  const key = a as keyof typeof _api;
+  if (Object.prototype.hasOwnProperty.call(_api, key)) {
+    (hotkeys as any)[key] = _api[key];
   }
 }
 
