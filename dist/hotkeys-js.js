@@ -15,7 +15,8 @@ function E(e, t, n, i) {
 }
 function F(e, t) {
   const n = t.slice(0, t.length - 1);
-  for (let i = 0; i < n.length; i++) n[i] = e[n[i].toLowerCase()];
+  for (let i = 0; i < n.length; i++)
+    n[i] = e[n[i].toLowerCase()];
   return n;
 }
 function B(e) {
