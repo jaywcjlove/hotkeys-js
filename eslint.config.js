@@ -1,4 +1,5 @@
 // @ts-check
+import { defineConfig } from 'eslint/config';
 import eslint from '@eslint/js';
 import tseslint from 'typescript-eslint';
 import reactPlugin from 'eslint-plugin-react';
@@ -7,7 +8,7 @@ import importPlugin from 'eslint-plugin-import';
 import jsxA11yPlugin from 'eslint-plugin-jsx-a11y';
 import globals from 'globals';
 
-export default tseslint.config(
+export default defineConfig([
   eslint.configs.recommended,
   ...tseslint.configs.recommended,
   {
@@ -56,6 +57,24 @@ export default tseslint.config(
       'max-len': 'off',
       'comma-dangle': 'off',
       'no-multiple-empty-lines': ['error', { max: 1, maxEOF: 0 }],
+      'quotes': ['error', 'single', { avoidEscape: true, allowTemplateLiterals: true }],
+      'indent': ['error', 2, { SwitchCase: 1 }],
+      'linebreak-style': ['error', 'unix'],
+      'no-trailing-spaces': 'error',
+      'eol-last': ['error', 'always'],
+      'object-curly-newline': 'off',
+      'arrow-body-style': 'off',
+      'consistent-return': 'off',
+      'generator-star-spacing': 'off',
+      'global-require': 'warn',
+      'no-bitwise': 'off',
+      'no-cond-assign': 'off',
+      'no-else-return': 'off',
+      'no-nested-ternary': 'off',
+      'require-yield': 'warn',
+      'class-methods-use-this': 'off',
+      'no-confusing-arrow': 'off',
+      'no-unused-expressions': 'off',
 
       // React rules
       'react/jsx-filename-extension': [
@@ -97,5 +116,4 @@ export default tseslint.config(
   {
     ignores: ['dist/**', 'node_modules/**', 'coverage/**', 'build/**', 'doc/**'],
   },
-);
-
+]);

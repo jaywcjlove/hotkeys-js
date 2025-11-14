@@ -1,21 +1,21 @@
-import React, { useEffect, useState } from "react";
-import GithubCorner from "@uiw/react-github-corners";
-import { Github } from "@uiw/react-shields";
-import MarkdownPreview from "@uiw/react-markdown-preview";
-import KeyBoard from "@uiw/react-mac-keyboard";
-import "@wcj/dark-mode";
-import Footer from "./components/Footer";
-import styles from "./styles/index.module.css";
-import DocumentStr from "../README.md?raw";
-import hotkeys from "../src";
-import pkg from "../package.json";
+import React, { useEffect, useState } from 'react';
+import GithubCorner from '@uiw/react-github-corners';
+import { Github } from '@uiw/react-shields';
+import MarkdownPreview from '@uiw/react-markdown-preview';
+import KeyBoard from '@uiw/react-mac-keyboard';
+import '@wcj/dark-mode';
+import Footer from './components/Footer';
+import styles from './styles/index.module.css';
+import DocumentStr from '../README.md?raw';
+import hotkeys from '../src';
+import pkg from '../package.json';
 
 export default function AppRoot() {
   const [keyCode, setKeyCode] = useState<number[]>([]);
   const [keyStr, setKeyStr] = useState<(string | number)[]>([]);
 
   useEffect(() => {
-    document.addEventListener("keyup", onKeyUpEvent);
+    document.addEventListener('keyup', onKeyUpEvent);
 
     function pkeys(keys: number[], key: number): number[] {
       if (keys.indexOf(key) === -1) keys.push(key);
@@ -29,29 +29,29 @@ export default function AppRoot() {
       return keysStr;
     }
 
-    hotkeys("*", (evn) => {
+    hotkeys('*', (evn) => {
       evn.preventDefault();
       const keys: number[] = [];
       const kStr: (string | number)[] = [];
       if (hotkeys.shift) {
         pkeys(keys, 16);
-        pkeysStr(kStr, "shift");
+        pkeysStr(kStr, 'shift');
       }
       if (hotkeys.ctrl) {
         pkeys(keys, 17);
-        pkeysStr(kStr, "ctrl");
+        pkeysStr(kStr, 'ctrl');
       }
       if (hotkeys.alt) {
         pkeys(keys, 18);
-        pkeysStr(kStr, "alt");
+        pkeysStr(kStr, 'alt');
       }
       if (hotkeys.control) {
         pkeys(keys, 17);
-        pkeysStr(kStr, "control");
+        pkeysStr(kStr, 'control');
       }
       if (hotkeys.command) {
         pkeys(keys, 91);
-        pkeysStr(kStr, "command");
+        pkeysStr(kStr, 'command');
       }
       kStr.push(evn.keyCode);
       if (keys.indexOf(evn.keyCode) === -1) keys.push(evn.keyCode);
@@ -61,13 +61,13 @@ export default function AppRoot() {
     });
 
     return () => {
-      document.removeEventListener("keyup", onKeyUpEvent);
+      document.removeEventListener('keyup', onKeyUpEvent);
     };
   }, []);
 
   let DocumentStrSource = DocumentStr;
   if (DocumentStrSource)
-    DocumentStrSource = DocumentStr.replace(/([\s\S]*)<!--dividing-->/, "");
+    DocumentStrSource = DocumentStr.replace(/([\s\S]*)<!--dividing-->/, '');
   const openVersionWebsite = (e: React.ChangeEvent<HTMLSelectElement>) => {
     if (e.target && e.target.value) {
       window.location.href = e.target.value;
@@ -146,7 +146,7 @@ export default function AppRoot() {
         keyCode={keyCode}
       />
       <MarkdownPreview
-        style={{ maxWidth: 995, margin: "0 auto" }}
+        style={{ maxWidth: 995, margin: '0 auto' }}
         source={DocumentStrSource}
       />
       <Footer

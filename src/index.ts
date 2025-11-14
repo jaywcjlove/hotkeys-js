@@ -1,4 +1,4 @@
-import { addEvent, removeEvent, getMods, getKeys, compareArray } from "./utils";
+import { addEvent, removeEvent, getMods, getKeys, compareArray } from './utils';
 import {
   _keyMap,
   _modifier,
@@ -7,7 +7,7 @@ import {
   _handlers,
   Handler,
   KeyHandler,
-} from "./var";
+} from './var';
 
 /** Record the pressed keys */
 let _downKeys: number[] = [];
@@ -15,7 +15,7 @@ let _downKeys: number[] = [];
 let winListendFocus: { listener: EventListener; capture: boolean } | null =
   null;
 /** Default hotkey scope */
-let _scope: string = "all";
+let _scope: string = 'all';
 /** Map to record elements with bound events */
 const elementEventMap = new Map<
   HTMLElement | Document,
@@ -39,11 +39,11 @@ const getModifier = (x: number): string | undefined =>
 
 /** Set or get the current scope (defaults to 'all') */
 function setScope(scope: string): void {
-  _scope = scope || "all";
+  _scope = scope || 'all';
 }
 /** Get the current scope */
 function getScope(): string {
-  return _scope || "all";
+  return _scope || 'all';
 }
 /** Get the key codes of the currently pressed keys */
 function getPressedKeyCodes(): number[] {
@@ -71,7 +71,7 @@ function getAllKeyCodes(): KeyCodeInfo[] {
         scope,
         shortcut,
         mods,
-        keys: key.split("+").map((v) => code(v)),
+        keys: key.split('+').map((v) => code(v)),
       });
     });
   });
@@ -84,21 +84,21 @@ function filter(event: KeyboardEvent): boolean {
   const { tagName } = target;
   let flag = true;
   const isInput =
-    tagName === "INPUT" &&
+    tagName === 'INPUT' &&
     ![
-      "checkbox",
-      "radio",
-      "range",
-      "button",
-      "file",
-      "reset",
-      "submit",
-      "color",
+      'checkbox',
+      'radio',
+      'range',
+      'button',
+      'file',
+      'reset',
+      'submit',
+      'color',
     ].includes((target as HTMLInputElement).type);
   // ignore: isContentEditable === 'true', <input> and <textarea> when readOnly state is false, <select>
   if (
     (target as any).isContentEditable ||
-    ((isInput || tagName === "TEXTAREA" || tagName === "SELECT") &&
+    ((isInput || tagName === 'TEXTAREA' || tagName === 'SELECT') &&
       !(target as HTMLInputElement | HTMLTextAreaElement).readOnly)
   ) {
     flag = false;
@@ -108,7 +108,7 @@ function filter(event: KeyboardEvent): boolean {
 
 /** Determine whether the pressed key matches a specific key, returns true or false */
 function isPressed(keyCode: number | string): boolean {
-  if (typeof keyCode === "string") {
+  if (typeof keyCode === 'string') {
     keyCode = code(keyCode); // Convert to key code
   }
   return _downKeys.indexOf(keyCode) !== -1;
@@ -137,13 +137,13 @@ function deleteScope(scope?: string, newScope?: string): void {
   }
 
   // If the current scope has been deleted, reset the scope to 'all'
-  if (getScope() === scope) setScope(newScope || "all");
+  if (getScope() === scope) setScope(newScope || 'all');
 }
 
 /** Clear modifier keys */
 function clearModifier(event: KeyboardEvent): void {
   let key = event.keyCode || event.which || (event as any).charCode;
-  if (event.key && event.key.toLowerCase() === "capslock") {
+  if (event.key && event.key.toLowerCase() === 'capslock') {
     // Ensure that when capturing keystrokes in modern browsers,
     // uppercase and lowercase letters (such as R and r) return the same key value.
     // https://github.com/jaywcjlove/hotkeys-js/pull/514
@@ -157,7 +157,7 @@ function clearModifier(event: KeyboardEvent): void {
     _downKeys.splice(i, 1);
   }
   // Special handling for the command key: fix the issue where keyup only triggers once for command combos
-  if (event.key && event.key.toLowerCase() === "meta") {
+  if (event.key && event.key.toLowerCase() === 'meta') {
     _downKeys.splice(0, _downKeys.length);
   }
 
@@ -184,7 +184,7 @@ function unbind(
   ...args: any[]
 ): void {
   // unbind(), unbind all keys
-  if (typeof keysInfo === "undefined") {
+  if (typeof keysInfo === 'undefined') {
     Object.keys(_handlers).forEach((key) => {
       if (Array.isArray(_handlers[key])) {
         _handlers[key].forEach((info) => eachUnbind(info));
@@ -197,21 +197,21 @@ function unbind(
     keysInfo.forEach((info) => {
       if (info.key) eachUnbind(info);
     });
-  } else if (typeof keysInfo === "object") {
+  } else if (typeof keysInfo === 'object') {
     // support like unbind({key: 'ctrl+a, ctrl+b', scope:'abc'})
     if (keysInfo.key) eachUnbind(keysInfo);
-  } else if (typeof keysInfo === "string") {
+  } else if (typeof keysInfo === 'string') {
     // support old method
     let [scope, method] = args;
-    if (typeof scope === "function") {
+    if (typeof scope === 'function') {
       method = scope;
-      scope = "";
+      scope = '';
     }
     eachUnbind({
       key: keysInfo,
       scope,
       method,
-      splitKey: "+",
+      splitKey: '+',
     });
   }
 }
@@ -221,14 +221,14 @@ const eachUnbind = ({
   key,
   scope,
   method,
-  splitKey = "+",
+  splitKey = '+',
 }: UnbindInfo): void => {
   const multipleKeys = getKeys(key);
   multipleKeys.forEach((originKey) => {
     const unbindKeys = originKey.split(splitKey);
     const len = unbindKeys.length;
     const lastKey = unbindKeys[len - 1];
-    const keyCode = lastKey === "*" ? "*" : code(lastKey);
+    const keyCode = lastKey === '*' ? '*' : code(lastKey);
     if (!_handlers[keyCode]) return;
     // If scope is not provided, get the current scope
     if (!scope) scope = getScope();
@@ -261,7 +261,7 @@ function eventHandler(
   let modifiersMatch: boolean;
 
   // Check if it is within the current scope
-  if (handler.scope === scope || handler.scope === "all") {
+  if (handler.scope === scope || handler.scope === 'all') {
     // Check whether modifier keys match (returns true if they do)
     modifiersMatch = handler.mods.length > 0;
 
@@ -284,7 +284,7 @@ function eventHandler(
         !_mods[17] &&
         !_mods[91]) ||
       modifiersMatch ||
-      handler.shortcut === "*"
+      handler.shortcut === '*'
     ) {
       handler.keys = [];
       handler.keys = handler.keys.concat(_downKeys);
@@ -304,7 +304,7 @@ function dispatch(
   event: KeyboardEvent,
   element: HTMLElement | Document
 ): void {
-  const asterisk = _handlers["*"];
+  const asterisk = _handlers['*'];
   let key = event.keyCode || event.which || (event as any).charCode;
 
   // LAYOUT INDEPENDENCE: Convert event.code to keyCode for layout-independent hotkeys
@@ -349,7 +349,7 @@ function dispatch(
   // https://developer.mozilla.org/en-US/docs/Web/API/KeyboardEvent/key
   // CapsLock key
   // There's an issue where `keydown` and `keyup` events are not triggered after CapsLock is enabled to activate uppercase.
-  if (event.key && event.key.toLowerCase() === "capslock") {
+  if (event.key && event.key.toLowerCase() === 'capslock') {
     return;
   }
   // Form control filter: by default, shortcut keys are not triggered in form elements
@@ -371,13 +371,13 @@ function dispatch(
    * Jest test cases are required.
    * ===============================
    */
-  ["metaKey", "ctrlKey", "altKey", "shiftKey"].forEach((keyName) => {
+  ['metaKey', 'ctrlKey', 'altKey', 'shiftKey'].forEach((keyName) => {
     const keyNum = (modifierMap as any)[keyName] as number;
     if ((event as any)[keyName] && _downKeys.indexOf(keyNum) === -1) {
       _downKeys.push(keyNum);
     } else if (!(event as any)[keyName] && _downKeys.indexOf(keyNum) > -1) {
       _downKeys.splice(_downKeys.indexOf(keyNum), 1);
-    } else if (keyName === "metaKey" && (event as any)[keyName]) {
+    } else if (keyName === 'metaKey' && (event as any)[keyName]) {
       // If the command key is pressed, clear all non-modifier keys except the current event key.
       // This is because keyup for non-modifier keys will NEVER be triggered when command is pressed.
       // This is a known browser limitation.
@@ -415,7 +415,7 @@ function dispatch(
   if (
     event.getModifierState &&
     !(event.altKey && !event.ctrlKey) &&
-    event.getModifierState("AltGraph")
+    event.getModifierState('AltGraph')
   ) {
     if (_downKeys.indexOf(17) === -1) {
       _downKeys.push(17);
@@ -436,8 +436,8 @@ function dispatch(
     for (let i = 0; i < asterisk.length; i++) {
       if (
         asterisk[i].scope === scope &&
-        ((event.type === "keydown" && asterisk[i].keydown) ||
-          (event.type === "keyup" && asterisk[i].keyup))
+        ((event.type === 'keydown' && asterisk[i].keydown) ||
+          (event.type === 'keyup' && asterisk[i].keyup))
       ) {
         eventHandler(event, asterisk[i], scope, element);
       }
@@ -450,8 +450,8 @@ function dispatch(
   const keyLen = handlerKey.length;
   for (let i = 0; i < keyLen; i++) {
     if (
-      (event.type === "keydown" && handlerKey[i].keydown) ||
-      (event.type === "keyup" && handlerKey[i].keyup)
+      (event.type === 'keydown' && handlerKey[i].keydown) ||
+      (event.type === 'keyup' && handlerKey[i].keyup)
     ) {
       if (handlerKey[i].key) {
         const record = handlerKey[i];
@@ -461,7 +461,7 @@ function dispatch(
         for (let a = 0; a < keyShortcut.length; a++) {
           _downKeysCurrent.push(code(keyShortcut[a]));
         }
-        if (_downKeysCurrent.sort().join("") === _downKeys.sort().join("")) {
+        if (_downKeysCurrent.sort().join('') === _downKeys.sort().join('')) {
           // Match found, call the handler
           eventHandler(event, record, scope, element);
         }
@@ -519,35 +519,35 @@ function hotkeys(
   const keys = getKeys(key);
   let mods: number[] = [];
   /** Default scope is 'all', meaning effective in all scopes */
-  let scope: string = "all";
+  let scope: string = 'all';
   /** Element to which the hotkey events are bound */
   let element: HTMLElement | Document = document;
   let i = 0;
   let keyup = false;
   let keydown = true;
-  let splitKey = "+";
+  let splitKey = '+';
   let capture = false;
   /** Allow only a single callback */
   let single = false;
 
   // Determine if the second argument is a function (no options provided)
-  if (method === undefined && typeof option === "function") {
+  if (method === undefined && typeof option === 'function') {
     method = option;
   }
 
   // Parse options object
-  if (Object.prototype.toString.call(option) === "[object Object]") {
+  if (Object.prototype.toString.call(option) === '[object Object]') {
     const opts = option as HotkeysOptions;
     if (opts.scope) scope = opts.scope; // Set scope
     if (opts.element) element = opts.element; // Set binding element
     if (opts.keyup) keyup = opts.keyup;
     if (opts.keydown !== undefined) keydown = opts.keydown;
     if (opts.capture !== undefined) capture = opts.capture;
-    if (typeof opts.splitKey === "string") splitKey = opts.splitKey;
+    if (typeof opts.splitKey === 'string') splitKey = opts.splitKey;
     if (opts.single === true) single = true;
   }
 
-  if (typeof option === "string") scope = option;
+  if (typeof option === 'string') scope = option;
 
   // If only one callback is allowed, unbind the existing one first
   if (single) unbind(key, scope);
@@ -562,7 +562,7 @@ function hotkeys(
 
     // Convert non-modifier key to key code
     let finalKey: string | number = currentKey[currentKey.length - 1];
-    finalKey = finalKey === "*" ? "*" : code(finalKey); // '*' means match all hotkeys
+    finalKey = finalKey === '*' ? '*' : code(finalKey); // '*' means match all hotkeys
 
     // Initialize handler array if this key has no handlers yet
     if (!(finalKey in _handlers)) _handlers[finalKey] = [];
@@ -580,7 +580,7 @@ function hotkeys(
     });
   }
   // Register hotkey event listeners on the global document
-  if (typeof element !== "undefined" && typeof window !== "undefined") {
+  if (typeof element !== 'undefined' && typeof window !== 'undefined') {
     if (!elementEventMap.has(element)) {
       const keydownListener = (event: Event = (window as any).event) =>
         dispatch(event as KeyboardEvent, element);
@@ -589,8 +589,8 @@ function hotkeys(
         clearModifier(event as KeyboardEvent);
       };
       elementEventMap.set(element, { keydownListener, keyupListenr, capture });
-      addEvent(element, "keydown", keydownListener, capture);
-      addEvent(element, "keyup", keyupListenr, capture);
+      addEvent(element, 'keydown', keydownListener, capture);
+      addEvent(element, 'keyup', keyupListenr, capture);
     }
     // Register focus event listener once to clear pressed keys on window focus
     if (!winListendFocus) {
@@ -598,12 +598,12 @@ function hotkeys(
         _downKeys = [];
       };
       winListendFocus = { listener, capture };
-      addEvent(window, "focus", listener, capture);
+      addEvent(window, 'focus', listener, capture);
     }
   }
 }
 
-function trigger(shortcut: string, scope: string = "all"): void {
+function trigger(shortcut: string, scope: string = 'all'): void {
   Object.keys(_handlers).forEach((key) => {
     const dataList = _handlers[key].filter(
       (item) => item.scope === scope && item.shortcut === shortcut
@@ -625,8 +625,8 @@ function removeKeyEvent(element: HTMLElement | Document | null): void {
     const { keydownListener, keyupListenr, capture } =
       elementEventMap.get(element) || ({} as any);
     if (keydownListener && keyupListenr) {
-      removeEvent(element, "keyup", keyupListenr, capture);
-      removeEvent(element, "keydown", keydownListener, capture);
+      removeEvent(element, 'keyup', keyupListenr, capture);
+      removeEvent(element, 'keydown', keydownListener, capture);
       elementEventMap.delete(element);
     }
   }
@@ -638,8 +638,8 @@ function removeKeyEvent(element: HTMLElement | Document | null): void {
       const { keydownListener, keyupListenr, capture } =
         elementEventMap.get(el) || ({} as any);
       if (keydownListener && keyupListenr) {
-        removeEvent(el, "keyup", keyupListenr, capture);
-        removeEvent(el, "keydown", keydownListener, capture);
+        removeEvent(el, 'keyup', keyupListenr, capture);
+        removeEvent(el, 'keydown', keydownListener, capture);
         elementEventMap.delete(el);
       }
     });
@@ -650,7 +650,7 @@ function removeKeyEvent(element: HTMLElement | Document | null): void {
     // Remove the global window focus event listener
     if (winListendFocus) {
       const { listener, capture } = winListendFocus;
-      removeEvent(window, "focus", listener, capture);
+      removeEvent(window, 'focus', listener, capture);
       winListendFocus = null;
     }
   }
@@ -678,7 +678,7 @@ for (const a in _api) {
   }
 }
 
-if (typeof window !== "undefined") {
+if (typeof window !== 'undefined') {
   const _hotkeys = (window as any).hotkeys;
   (hotkeys as HotkeysInterface).noConflict = (deep?: boolean) => {
     if (deep && (window as any).hotkeys === hotkeys) {

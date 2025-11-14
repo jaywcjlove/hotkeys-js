@@ -1,6 +1,6 @@
 const isff: boolean =
-  typeof navigator !== "undefined"
-    ? navigator.userAgent.toLowerCase().indexOf("firefox") > 0
+  typeof navigator !== 'undefined'
+    ? navigator.userAgent.toLowerCase().indexOf('firefox') > 0
     : false;
 
 /** Bind event */
@@ -45,16 +45,16 @@ function getMods(modifier: Record<string, number>, key: string[]): number[] {
 
 /** Process the input key string and convert it to an array */
 function getKeys(key: string | undefined): string[] {
-  if (typeof key !== "string") key = "";
-  key = key.replace(/\s/g, ""); // Match any whitespace character, including spaces, tabs, form feeds, etc.
-  const keys = key.split(","); // Allow multiple shortcuts separated by ','
-  let index = keys.lastIndexOf("");
+  if (typeof key !== 'string') key = '';
+  key = key.replace(/\s/g, ''); // Match any whitespace character, including spaces, tabs, form feeds, etc.
+  const keys = key.split(','); // Allow multiple shortcuts separated by ','
+  let index = keys.lastIndexOf('');
 
   // Shortcut may include ',' — special handling needed
   for (; index >= 0; ) {
-    keys[index - 1] += ",";
+    keys[index - 1] += ',';
     keys.splice(index, 1);
-    index = keys.lastIndexOf("");
+    index = keys.lastIndexOf('');
   }
 
   return keys;
