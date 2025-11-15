@@ -147,7 +147,7 @@ export default function AppRoot() {
         target="__blank"
       />
       <div className={styles.header}>
-        <div className={styles.title}>HotKeys.js</div>
+        <a className={styles.title} href="http://jaywcjlove.github.io">HotKeys.js</a>
         <div className={styles.github}>
           <a href="https://www.npmjs.com/package/hotkeys-js">
             <button type="button">On NPM</button>
@@ -158,14 +158,14 @@ export default function AppRoot() {
           <a href="https://github.com/jaywcjlove/hotkeys-js/">
             <button type="button">Doc on Github</button>
           </a>&nbsp;
-          <a href="https://jaywcjlove.gitee.io/hotkeys/">
+          <a href="https://gitee.com/jaywcjlove/hotkeys/">
             <button type="button">Doc on Gitee</button>
           </a>&nbsp;
           <button
             onClick={toggleLanguage}
             title={isChineseDoc ? 'Switch to English' : '切换到中文'}
           >
-            {isChineseDoc ? 'EN' : '中文'}
+            {isChineseDoc ? 'EN' : '🇨🇳中文'}
           </button>
         </div>
         <div className={styles.info}>

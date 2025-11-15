@@ -45,6 +45,10 @@
   font-weight: bold;
   color: #fff;
   text-shadow: -3px -3px 0 #676767, -3px -3px 0 #676767, -3px -3px 0 #676767, -2px -2px 0 #676767, -2px -2px 0 #676767, -1px -1px 0 #676767;
+  transition: all 0.3s;
+}
+.header .title:hover {
+  text-shadow: -3px -3px 0 #363636, -3px -3px 0 #363636, -3px -3px 0 #363636, -2px -2px 0 #363636, -2px -2px 0 #363636, -1px -1px 0 #363636;
 }
 .header .lang {
   text-align: center;
