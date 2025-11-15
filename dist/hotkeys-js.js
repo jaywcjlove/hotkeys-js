@@ -1,5 +1,5 @@
 /*!
- * hotkeys-js v3.13.15
+ * hotkeys-js v4.0.0-beta.1
  * A simple micro-library for defining and dispatching keyboard shortcuts. It has no dependencies.
  * 
  * @author kenny wong <wowohoo@qq.com>
