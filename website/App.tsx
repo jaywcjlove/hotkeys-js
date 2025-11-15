@@ -120,6 +120,9 @@ export default function AppRoot() {
           <option value="https://jaywcjlove.github.io/hotkeys-js">
             v{pkg.version}
           </option>
+          <option value="https://raw.githack.com/jaywcjlove/hotkeys/dbdc32d/index.html">
+            v3.13.15
+          </option>
           <option value="https://unpkg.com/hotkeys-js@3.7.5/doc/index.html">
             v3.7.5
           </option>
