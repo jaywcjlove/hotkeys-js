@@ -3,8 +3,8 @@ on:
   push:
     branches:
       - master
-    tags:
-      - v*
+    # tags:
+    #   - v*
 
 env:
   SKIP_PREFLIGHT_CHECK: true
@@ -22,14 +22,6 @@ jobs:
         node-version: 20
         registry-url: 'https://registry.npmjs.org'
 
-    # - name: Cache dependencies
-    #   uses: actions/cache@v1
-    #   with:
-    #     path: ~/.npm
-    #     key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
-    #     restore-keys: |
-    #       ${{ runner.os }}-node-
-
     - name: Look Changelog
       uses: jaywcjlove/changelog-generator@main
       with:
@@ -45,7 +37,7 @@ jobs:
       uses: jaywcjlove/github-action-contributors@main
       with:
         filter-author: (renovate\[bot\]|renovate-bot|dependabot\[bot\])
-        output: build/CONTRIBUTORS.svg
+        output: doc/CONTRIBUTORS.svg
         avatarSize: 42
 
     - name: Create Tag
@@ -63,7 +55,7 @@ jobs:
       with:
         commit_message: ${{steps.tag_version.outputs.tag}} ${{ github.event.head_commit.message }}
         github_token: ${{ secrets.GITHUB_TOKEN }}
-        publish_dir: ./build
+        publish_dir: ./doc
 
     - name: Generate Changelog
       id: changelog
