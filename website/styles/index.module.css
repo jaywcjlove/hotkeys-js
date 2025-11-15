@@ -37,6 +37,7 @@
   background-color: var(--color-header-bg);
   transition: all  0.3s;
   padding: 74px 0 60px 0;
+  text-align: center;
 }
 .header .title {
   text-align: center;
@@ -66,18 +67,16 @@
   text-align: center;
   padding: 60px 0 22px 0;
 }
-.header .github a + a {
-  margin-left: 10px;
-}
 .header .github button {
   position: relative;
   display: inline-block;
   border: 1px solid #ddd;
   border-bottom-color: #bbb;
-  padding: 9px 15px;
+  padding: 0 15px;
   font-family: Helvetica, arial, freesans, clean, sans-serif;
   font-size: 12px;
   font-weight: bold;
+  line-height: 23px;
   color: #666;
   text-shadow: 0 1px rgba(255, 255, 255, 0.9);
   cursor: pointer;

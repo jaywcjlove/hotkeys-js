@@ -7,12 +7,26 @@ import '@wcj/dark-mode';
 import Footer from './components/Footer';
 import styles from './styles/index.module.css';
 import DocumentStr from '../README.md?raw';
+import DocumentChinese from '../README-zh.md?raw';
 import hotkeys from '../src';
 import pkg from '../package.json';
+
+const englishDescription = `A robust Javascript library for capturing keyboard input and key combinations entered. It has no dependencies. Try to press your keyboard, The following button will highlight.`;
+const chineseDescription = `一个强大的Javascript库，用于捕获键盘输入和键组合。它没有依赖。尝试按下你的键盘，下面的按钮将会高亮显示。`;
 
 export default function AppRoot() {
   const [keyCode, setKeyCode] = useState<number[]>([]);
   const [keyStr, setKeyStr] = useState<(string | number)[]>([]);
+  // 检查URL参数来决定初始语言
+  const getInitialLanguage = () => {
+    const urlParams = new URLSearchParams(window.location.search);
+    const lang = urlParams.get('lang');
+    return lang === 'zh' || lang === 'zh-CN';
+  };
+  const [isChineseDoc, setIsChineseDoc] = useState<boolean>(getInitialLanguage());
+  const [documentContent, setDocumentContent] = useState<string>(
+    getInitialLanguage() ? DocumentChinese : DocumentStr
+  );
 
   useEffect(() => {
     document.addEventListener('keyup', onKeyUpEvent);
@@ -65,9 +79,6 @@ export default function AppRoot() {
     };
   }, []);
 
-  let DocumentStrSource = DocumentStr;
-  if (DocumentStrSource)
-    DocumentStrSource = DocumentStr.replace(/([\s\S]*)<!--dividing-->/, '');
   const openVersionWebsite = (e: React.ChangeEvent<HTMLSelectElement>) => {
     if (e.target && e.target.value) {
       window.location.href = e.target.value;
@@ -77,6 +88,21 @@ export default function AppRoot() {
   const onKeyUpEvent = () => {
     setKeyCode([]);
     setKeyStr([]);
+  };
+
+  const toggleLanguage = () => {
+    const newIsChineseDoc = !isChineseDoc;
+    setIsChineseDoc(newIsChineseDoc);
+    setDocumentContent(newIsChineseDoc ? DocumentChinese : DocumentStr);
+
+    // 更新URL参数
+    const url = new URL(window.location.href);
+    if (newIsChineseDoc) {
+      url.searchParams.set('lang', 'zh');
+    } else {
+      url.searchParams.delete('lang');
+    }
+    window.history.pushState({}, '', url.toString());
   };
 
   const onKeyBoardMouseDown = (item: { keycode: number }) => {
@@ -94,8 +120,8 @@ export default function AppRoot() {
           <option value="https://jaywcjlove.github.io/hotkeys-js">
             v{pkg.version}
           </option>
-          <option value="https://unpkg.com/hotkeys-js@3.4.3/doc/index.html">
-            v3.4.3
+          <option value="https://unpkg.com/hotkeys-js@3.7.5/doc/index.html">
+            v3.7.5
           </option>
           <option value="https://unpkg.com/hotkeys-js@3.4.2/doc/index.html">
             v3.4.2
@@ -122,21 +148,25 @@ export default function AppRoot() {
         <div className={styles.github}>
           <a href="https://www.npmjs.com/package/hotkeys-js">
             <button type="button">On NPM</button>
-          </a>
+          </a>&nbsp;
           <a href="https://github.com/jaywcjlove/hotkeys-js/">
             <button type="button">Fork on Github</button>
-          </a>
+          </a>&nbsp;
           <a href="https://github.com/jaywcjlove/hotkeys-js/">
             <button type="button">Doc on Github</button>
-          </a>
+          </a>&nbsp;
           <a href="https://jaywcjlove.gitee.io/hotkeys/">
             <button type="button">Doc on Gitee</button>
-          </a>
+          </a>&nbsp;
+          <button
+            onClick={toggleLanguage}
+            title={isChineseDoc ? 'Switch to English' : '切换到中文'}
+          >
+            {isChineseDoc ? 'EN' : '中文'}
+          </button>
         </div>
         <div className={styles.info}>
-          A robust Javascript library for capturing keyboard input and key
-          combinations entered. It has no dependencies. Try to press your
-          keyboard, The following button will highlight.
+          {isChineseDoc ? chineseDescription : englishDescription}
         </div>
       </div>
       <KeyBoard
@@ -147,7 +177,7 @@ export default function AppRoot() {
       />
       <MarkdownPreview
         style={{ maxWidth: 995, margin: '0 auto' }}
-        source={DocumentStrSource}
+        source={documentContent}
       />
       <Footer
         name="Kenny Wong"

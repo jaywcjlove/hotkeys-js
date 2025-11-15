@@ -1,5 +1,5 @@
 <div markdown="1">
-  <sup>Using <a href="https://wangchujiang.com/#/app" target="_blank">my app</a> is also a way to <a href="https://wangchujiang.com/#/sponsor" target="_blank">support</a> me:</sup>
+  <sup>使用<a href="https://wangchujiang.com/#/app" target="_blank">我的应用</a>也是一种<a href="https://wangchujiang.com/#/sponsor" target="_blank">支持</a>我的方式：</sup>
   <br>
   <a target="_blank" href="https://apps.apple.com/app/Keyzer/6500434773" title="Keyzer for macOS"><img alt="Keyzer" height="52" width="52" src="https://wangchujiang.com/appicon/keyzer.png"></a>
   <a target="_blank" href="https://github.com/jaywcjlove/vidwall-hub" title="Vidwall Hub for macOS"><img alt="Vidwall Hub" height="52" width="52" src="https://wangchujiang.com/appicon/vidwall-hub.png"></a>
@@ -35,16 +35,18 @@
 
 # Hotkeys
 
+<!--dividing-->
+
 [![Buy me a coffee](https://img.shields.io/badge/Buy%20me%20a%20coffee-048754?logo=buymeacoffee)](https://jaywcjlove.github.io/#/sponsor)
 [![](https://img.shields.io/npm/dm/hotkeys-js?logo=npm)](https://www.npmjs.com/package/hotkeys-js)
 [![](https://img.shields.io/github/stars/jaywcjlove/hotkeys-js.svg)](https://github.com/jaywcjlove/hotkeys/stargazers)
 ![no dependencies](http://jaywcjlove.github.io/sb/status/no-dependencies.svg)
 [![GitHub Actions CI](https://github.com/jaywcjlove/hotkeys-js/actions/workflows/ci.yml/badge.svg)](https://github.com/jaywcjlove/hotkeys-js/actions/workflows/ci.yml)
 [![Coverage Status](https://coveralls.io/repos/github/jaywcjlove/hotkeys/badge.svg?branch=master)](https://coveralls.io/github/jaywcjlove/hotkeys?branch=master)
-[![Chinese](https://jaywcjlove.github.io/sb/lang/chinese.svg)](https://wangchujiang.com/hotkeys-js/?lang=zh)
+[![English](https://jaywcjlove.github.io/sb/lang/english.svg)](https://jaywcjlove.github.io/hotkeys-js/)
 [![jaywcjlove/hotkeys-js](https://jaywcjlove.github.io/sb/ico/gitee.svg)](https://gitee.com/jaywcjlove/hotkeys)
 
-HotKeys.js is an input capture library with some very special features, it is easy to pick up and use, has a reasonable footprint ([~6kB](https://bundlephobia.com/result?p=hotkeys-js)) (gzipped: **`2.8kB`**), and has no dependencies. It should not interfere with any JavaScript libraries or frameworks. Official document [demo preview](https://jaywcjlove.github.io/hotkeys-js). [More examples](https://github.com/jaywcjlove/hotkeys-js/issues?q=label%3ADemo+).
+HotKeys.js 是一个具有一些非常特殊功能的输入捕获库，它易于上手和使用，占用空间合理（[~6kB](https://bundlephobia.com/result?p=hotkeys-js)）（压缩后：**`2.8kB`**），无依赖。它不应该干扰任何 JavaScript 库或框架。官方文档 [演示预览](https://jaywcjlove.github.io/hotkeys-js)。[更多示例](https://github.com/jaywcjlove/hotkeys-js/issues?q=label%3ADemo+)。
 
 ```bash
 ╭┈┈╮          ╭┈┈╮  ╭┈┈╮
@@ -54,9 +56,9 @@ HotKeys.js is an input capture library with some very special features, it is ea
                                   ╰┈┈┈┈┈╯
 ```
 
-## Usage
+## 使用
 
-You will need `Node.js` installed on your system.
+您的系统需要安装 `Node.js`。
 
 ```bash
 npm install hotkeys-js --save
@@ -66,28 +68,28 @@ npm install hotkeys-js --save
 import hotkeys from 'hotkeys-js';
 
 hotkeys('f5', function(event, handler){
-  // Prevent the default refresh event under WINDOWS system
+  // 阻止 WINDOWS 系统下的默认刷新事件
   event.preventDefault()
-  alert('you pressed F5!')
+  alert('你按下了 F5!')
 });
 ```
 
-Or manually download and link **hotkeys.js** in your HTML, It can also be downloaded via [UNPKG](https://unpkg.com/hotkeys-js/dist/):
+或者手动下载并在 HTML 中链接 **hotkeys.js**，也可以通过 [UNPKG](https://unpkg.com/hotkeys-js/dist/) 下载：
 
-CDN: [UNPKG](https://unpkg.com/hotkeys-js/dist/) | [jsDelivr](https://cdn.jsdelivr.net/npm/hotkeys-js@3.7.3/) | [Githack](https://raw.githack.com/jaywcjlove/hotkeys/master/dist/hotkeys-js.umd.cjs) | [Statically](https://cdn.statically.io/gh/jaywcjlove/hotkeys/master/dist/hotkeys-js.umd.cjs) | [bundle.run](https://bundle.run/hotkeys-js@3.7.3)
+CDN: [UNPKG](https://unpkg.com/hotkeys-js/dist/) | [jsDelivr](https://cdn.jsdelivr.net/npm/hotkeys-js/) | [Githack](https://raw.githack.com/jaywcjlove/hotkeys/master/dist/hotkeys-js.umd.cjs) | [Statically](https://cdn.statically.io/gh/jaywcjlove/hotkeys/master/dist/hotkeys-js.umd.cjs) | [bundle.run](https://bundle.run/hotkeys-js@3.7.3)
 
 ```html
 <script src="https://unpkg.com/hotkeys-js/dist/hotkeys-js.umd.cjs"></script>
 <script type="text/javascript">
 hotkeys('ctrl+a,ctrl+b,r,f', function (event, handler){
   switch (handler.key) {
-    case 'ctrl+a': alert('you pressed ctrl+a!');
+    case 'ctrl+a': alert('你按下了 ctrl+a!');
       break;
-    case 'ctrl+b': alert('you pressed ctrl+b!');
+    case 'ctrl+b': alert('你按下了 ctrl+b!');
       break;
-    case 'r': alert('you pressed r!');
+    case 'r': alert('你按下了 r!');
       break;
-    case 'f': alert('you pressed f!');
+    case 'f': alert('你按下了 f!');
       break;
     default: alert(event);
   }
@@ -95,15 +97,14 @@ hotkeys('ctrl+a,ctrl+b,r,f', function (event, handler){
 </script>
 ```
 
-### Used in React
+### 在 React 中使用
 
-[react-hotkeys](https://github.com/jaywcjlove/react-hotkeys) is the React component that listen to keydown and keyup keyboard events, defining and dispatching keyboard shortcuts. Detailed use method please see its documentation [react-hotkeys](https://github.com/jaywcjlove/react-hotkeys).
+[react-hotkeys](https://github.com/jaywcjlove/react-hotkeys) 是监听 keydown 和 keyup 键盘事件的 React 组件，定义和调度键盘快捷键。详细的使用方法请查看其文档 [react-hotkeys](https://github.com/jaywcjlove/react-hotkeys)。  
+[react-hotkeys-hook](https://github.com/JohannesKlauss/react-hotkeys-hook) - 在组件中使用键盘快捷键的 React hook。请确保您至少安装了 react 和 react-dom 的 16.8 版本，否则 hooks 将不会为您工作。
 
-[react-hotkeys-hook](https://github.com/JohannesKlauss/react-hotkeys-hook) - React hook for using keyboard shortcuts in components. Make sure that you have at least version 16.8 of react and react-dom installed, or otherwise hooks won't work for you.
+## 浏览器支持
 
-## Browser Support
-
-Hotkeys.js has been tested and should work in.
+Hotkeys.js 已经过测试，应该在以下浏览器中工作。
 
 ```shell
 Internet Explorer 6+
@@ -112,108 +113,107 @@ Firefox
 Chrome
 ```
 
-## Supported Keys
+## 支持的按键
 
-HotKeys understands the following modifiers: `⇧`, `shift`, `option`, `⌥`, `alt`, `ctrl`, `control`, `command`, and `⌘`.
+HotKeys 理解以下修饰符：`⇧`、`shift`、`option`、`⌥`、`alt`、`ctrl`、`control`、`command` 和 `⌘`。
 
-The following special keys can be used for shortcuts: backspace, tab, clear, enter, return, esc, escape, space, up, down, left, right, home, end, pageup, pagedown, del, delete, f1 through f19, num_0 through num_9, num_multiply, num_add, num_enter, num_subtract, num_decimal, num_divide.
+以下特殊按键可用于快捷键：backspace、tab、clear、enter、return、esc、escape、space、up、down、left、right、home、end、pageup、pagedown、del、delete、f1 到 f19、num_0 到 num_9、num_multiply、num_add、num_enter、num_subtract、num_decimal、num_divide。
 
-`⌘` Command()
+`⌘` Command()
 `⌃` Control
 `⌥` Option(alt)
 `⇧` Shift
 `⇪` Caps Lock(Capital)
-~~`fn` Does not support fn~~
+~~`fn` 不支持 fn~~
 `↩︎` return/Enter space
 
-## Defining Shortcuts
+## 定义快捷键
 
-One global method is exposed, key which defines shortcuts when called directly.
+暴露了一个全局方法，当直接调用时定义快捷键。
 
 ```js
 hotkeys([keys:<String>], [option:[string|object|function]], [callback:<function>])
 ```
 
-
 ```js
 hotkeys('f5', function(event, handler) {
-  // Prevent the default refresh event under WINDOWS system
+  // 阻止 WINDOWS 系统下的默认刷新事件
   event.preventDefault();
-  alert('you pressed F5!');
+  alert('你按下了 F5!');
 });
 
-// Returning false stops the event and prevents default browser events
-// Mac OS system defines `command + r` as a refresh shortcut
+// 返回 false 停止事件并阻止默认浏览器事件
+// Mac OS 系统将 `command + r` 定义为刷新快捷键
 hotkeys('ctrl+r, command+r', function() {
-  alert('stopped reload!');
+  alert('停止刷新!');
   return false;
 });
 
-// Single key
+// 单个按键
 hotkeys('a', function(event,handler){
   //event.srcElement: input
   //event.target: input
   if(event.target === "input"){
-      alert('you pressed a!')
+      alert('你按下了 a!')
   }
-  alert('you pressed a!')
+  alert('你按下了 a!')
 });
 
-// Key Combination
+// 组合键
 hotkeys('ctrl+a,ctrl+b,r,f', function (event, handler){
   switch (handler.key) {
-    case 'ctrl+a': alert('you pressed ctrl+a!');
+    case 'ctrl+a': alert('你按下了 ctrl+a!');
       break;
-    case 'ctrl+b': alert('you pressed ctrl+b!');
+    case 'ctrl+b': alert('你按下了 ctrl+b!');
       break;
-    case 'r': alert('you pressed r!');
+    case 'r': alert('你按下了 r!');
       break;
-    case 'f': alert('you pressed f!');
+    case 'f': alert('你按下了 f!');
       break;
     default: alert(event);
   }
 });
 
 hotkeys('ctrl+a+s', function() {
-    alert('you pressed ctrl+a+s!');
+    alert('你按下了 ctrl+a+s!');
 });
 
-// Using a scope
+// 使用作用域
 hotkeys('*','wcj', function(event){
-  console.log('do something', event);
+  console.log('做一些事情', event);
 });
 ```
 
-#### option
+#### option 选项
 
-- `scope<String>`: Sets the scope in which the shortcut key is active
-- `element<HTMLElement>`: Specifies the DOM element to bind the event to
-- `keyup<Boolean>`: Whether to trigger the shortcut on key release
-- `keydown<Boolean>`: Whether to trigger the shortcut on key press
-- `splitKey<String>`: Delimiter for key combinations (default is `+`)
-- `capture<Boolean>`: Whether to trigger the listener during the capture phase (before the event bubbles down)
-- `single<Boolean>`: Allows only one callback function (automatically unbinds previous one)
+- `scope<String>`：设置快捷键生效的作用域
+- `element<HTMLElement>`：指定要绑定事件的 DOM 元素
+- `keyup<Boolean>`：是否在按键释放时触发快捷键
+- `keydown<Boolean>`：是否在按键按下时触发快捷键
+- `splitKey<String>`：组合键的分隔符（默认为 `+`）
+- `capture<Boolean>`：是否在捕获阶段触发监听器（在事件冒泡之前）
+- `single<Boolean>`：只允许一个回调函数（自动解绑之前的）
 
 ```js
 hotkeys('o, enter', {
   scope: 'wcj',
   element: document.getElementById('wrapper'),
 }, function() {
-  console.log('do something else');
+  console.log('做其他事情');
 });
 
 hotkeys('ctrl-+', { splitKey: '-' }, function(e) {
-  console.log('you pressed ctrl and +');
+  console.log('你按下了 ctrl 和 +');
 });
 
 hotkeys('+', { splitKey: '-' }, function(e){
-  console.log('you pressed +');
+  console.log('你按下了 +');
 })
 ```
 
 **keyup**
 
-**key down** and **key up** both perform callback events.
+**按键按下** 和 **按键释放** 都执行回调事件。
 
 ```js
 hotkeys('ctrl+a,alt+a+s', {keyup: true}, function(event, handler) {
@@ -227,64 +227,64 @@ hotkeys('ctrl+a,alt+a+s', {keyup: true}, function(event, handler) {
 });
 ```
 
-## API REFERENCE
+## API 参考
 
-Asterisk "*"
+星号 "*"
 
-Modifier key judgments
+修饰键判断
 
 ```js
 hotkeys('*', function() {
   if (hotkeys.shift) {
-    console.log('shift is pressed!');
+    console.log('按下了 shift!');
   }
 
   if (hotkeys.ctrl) {
-    console.log('ctrl is pressed!');
+    console.log('按下了 ctrl!');
   }
 
   if (hotkeys.alt) {
-    console.log('alt is pressed!');
+    console.log('按下了 alt!');
   }
 
   if (hotkeys.option) {
-    console.log('option is pressed!');
+    console.log('按下了 option!');
   }
 
   if (hotkeys.control) {
-    console.log('control is pressed!');
+    console.log('按下了 control!');
   }
 
   if (hotkeys.cmd) {
-    console.log('cmd is pressed!');
+    console.log('按下了 cmd!');
   }
 
   if (hotkeys.command) {
-    console.log('command is pressed!');
+    console.log('按下了 command!');
   }
 });
 ```
 
 ### setScope
 
-Use the `hotkeys.setScope` method to set scope. There can only be one active scope besides 'all'.  By default 'all' is always active.
+使用 `hotkeys.setScope` 方法来设置作用域。除了 'all' 之外，只能有一个活动作用域。默认情况下 'all' 总是活动的。
 
 ```js
-// Define shortcuts with a scope
+// 定义带有作用域的快捷键
 hotkeys('ctrl+o, ctrl+alt+enter', 'issues', function() {
-  console.log('do something');
+  console.log('做一些事情');
 });
 hotkeys('o, enter', 'files', function() {
-  console.log('do something else');
+  console.log('做其他事情');
 });
 
-// Set the scope (only 'all' and 'issues' shortcuts will be honored)
-hotkeys.setScope('issues'); // default scope is 'all'
+// 设置作用域（只有 'all' 和 'issues' 快捷键会被处理）
+hotkeys.setScope('issues'); // 默认作用域是 'all'
 ```
 
 ### getScope
 
-Use the `hotkeys.getScope` method to get scope.
+使用 `hotkeys.getScope` 方法来获取作用域。
 
 ```js
 hotkeys.getScope();
@@ -292,12 +292,12 @@ hotkeys.getScope();
 
 ### deleteScope
 
-Use the `hotkeys.deleteScope` method to delete a scope. This will also remove all associated hotkeys with it.
+使用 `hotkeys.deleteScope` 方法来删除作用域。这也会移除与之关联的所有热键。
 
 ```js
 hotkeys.deleteScope('issues');
 ```
-You can use second argument, if need set new scope after deleting.
+如果需要在删除后设置新的作用域，可以使用第二个参数。
 
 ```js
 hotkeys.deleteScope('issues', 'newScopeName');
@@ -305,19 +305,19 @@ hotkeys.deleteScope('issues', 'newScopeName');
 
 ### unbind
 
-Similar to defining shortcuts, they can be unbound using `hotkeys.unbind`.
+与定义快捷键类似，它们可以使用 `hotkeys.unbind` 来解绑。
 
 ```js
-// unbind 'a' handler
+// 解绑 'a' 处理器
 hotkeys.unbind('a');
 
-// Unbind a hotkeys only for a single scope
-// If no scope is specified it defaults to the current scope (hotkeys.getScope())
+// 只为单个作用域解绑热键
+// 如果没有指定作用域，默认为当前作用域（hotkeys.getScope()）
 hotkeys.unbind('o, enter', 'issues');
 hotkeys.unbind('o, enter', 'files');
 ```
 
-Unbind events through functions.
+通过函数解绑事件。
 
 ```js
 function example() {
@@ -329,7 +329,7 @@ function example() {
 }
 ```
 
-To unbind everything.
+解绑所有。
 
 ```js
 hotkeys.unbind();
@@ -337,7 +337,7 @@ hotkeys.unbind();
 
 ### isPressed
 
-For example, `hotkeys.isPressed(77)` is true if the `M` key is currently pressed.
+例如，如果当前按下了 `M` 键，`hotkeys.isPressed(77)` 返回 true。
 
 ```js
 hotkeys('a', function() {
@@ -349,7 +349,7 @@ hotkeys('a', function() {
 
 ### trigger
 
-trigger shortcut key event
+触发快捷键事件
 
 ```js
 hotkeys.trigger('ctrl+o');
@@ -358,17 +358,17 @@ hotkeys.trigger('ctrl+o', 'scope2');
 
 ### getPressedKeyCodes
 
-Returns an array of key codes currently pressed.
+返回当前按下的键码数组。
 
 ```js
 hotkeys('command+ctrl+shift+a,f', function() {
-  console.log(hotkeys.getPressedKeyCodes()); //=> [17, 65] or [70]
+  console.log(hotkeys.getPressedKeyCodes()); //=> [17, 65] 或 [70]
 })
 ```
 
 ### getPressedKeyString
 
-Returns an array of key codes currently pressed.
+返回当前按下的键字符串数组。
 
 ```js
 hotkeys('command+ctrl+shift+a,f', function() {
@@ -378,7 +378,7 @@ hotkeys('command+ctrl+shift+a,f', function() {
 
 ### getAllKeyCodes
 
-Get a list of all registration codes.
+获取所有注册码的列表。
 
 ```js
 hotkeys('command+ctrl+shift+a,f', function() {
@@ -392,14 +392,14 @@ hotkeys('command+ctrl+shift+a,f', function() {
 
 ### filter
 
-By default hotkeys are not enabled for `INPUT` `SELECT` `TEXTAREA` elements. `Hotkeys.filter` to return to the `true` shortcut keys set to play a role, `false` shortcut keys set up failure.
+默认情况下，`INPUT` `SELECT` `TEXTAREA` 元素不启用热键。`Hotkeys.filter` 返回 `true` 快捷键设置发挥作用，`false` 快捷键设置失败。
 
 ```js
 hotkeys.filter = function(event){
   return true;
 }
-//How to add the filter to edit labels. <div contentEditable="true"></div>
-//"contentEditable" Older browsers that do not support drops
+//如何为编辑标签添加过滤器。<div contentEditable="true"></div>
+//"contentEditable" 不支持的较旧浏览器会被丢弃
 hotkeys.filter = function(event) {
   var target = event.target || event.srcElement;
   var tagName = target.tagName;
@@ -415,12 +415,12 @@ hotkeys.filter = function(event){
 
 ### noConflict
 
-Relinquish HotKeys’s control of the `hotkeys` variable.
+放弃 HotKeys 对 `hotkeys` 变量的控制。
 
 ```js
 var k = hotkeys.noConflict();
 k('a', function() {
-  console.log("do something")
+  console.log("做一些事情")
 });
 
 hotkeys()
@@ -430,47 +430,47 @@ hotkeys()
 // @ VM2165:816InjectedScript.evaluate @ VM2165:682
 ```
 
-## Development
+## 开发
 
-To develop, Install dependencies, Get the code:
+要开发，需要安装依赖，获取代码：
 
 ```shell
 $ git https://github.com/jaywcjlove/hotkeys.git
-$ cd hotkeys     # Into the directory
-$ npm install    # or  yarn install
+$ cd hotkeys     # 进入目录
+$ npm install    # 或者 yarn install
 ```
 
-To develop, run the self-reloading build:
+要开发，运行自重载构建：
 
 ```shell
 $ npm run watch
 ```
 
-Run Document Website Environment.
+运行文档网站环境。
 
 ```shell
 $ npm run doc
 ```
 
-To contribute, please fork Hotkeys.js, add your patch and tests for it (in the `test/` folder) and submit a pull request.
+要贡献，请 fork Hotkeys.js，添加您的补丁和测试（在 `test/` 文件夹中）并提交拉取请求。
 
 ```shell
 $ npm run test
-$ npm run test:watch # Development model
+$ npm run test:watch # 开发模式
 ```
 
-## Contributors
+## 贡献者
 
-As always, thanks to our amazing contributors!
+一如既往，感谢我们出色的贡献者！
 
 <a href="https://github.com/jaywcjlove/hotkeys-js/graphs/contributors">
   <img src="https://jaywcjlove.github.io/hotkeys-js/CONTRIBUTORS.svg" />
 </a>
 
-Made with [action-contributors](https://github.com/jaywcjlove/github-action-contributors).
+使用 [action-contributors](https://github.com/jaywcjlove/github-action-contributors) 制作。
 
-Special thanks to [@dimensi](https://github.com/dimensi) for the refactoring of version [4.0](https://github.com/jaywcjlove/hotkeys-js/issues/313).
+特别感谢 [@dimensi](https://github.com/dimensi) 对版本 [4.0](https://github.com/jaywcjlove/hotkeys-js/issues/313) 的重构。
 
-## License
+## 许可证
 
 [MIT © Kenny Wong](./LICENSE)
