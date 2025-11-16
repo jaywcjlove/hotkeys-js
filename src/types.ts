@@ -54,6 +54,8 @@ export type Trigger = (shortcut: string, scope?: string) => void;
 
 export interface Unbind {
   (key?: string): void;
+  (keysInfo: UnbindInfo): void;
+  (keysInfo: UnbindInfo[]): void;
   (key: string, scopeName: string): void;
   (key: string, scopeName: string, method: KeyHandler): void;
   (key: string, method: KeyHandler): void;
