@@ -382,6 +382,169 @@ describe("\n   Hotkeys.js Test Case\n", () => {
     expect(result).toBe(3);
   });
 
+  test("Layout-independent hotkeys (Cyrillic/Russian keyboard)", async () => {
+    const result = await page.evaluate(async () => {
+      const results = {
+        altMTriggered: false,
+        altVTriggered: false,
+        downKeysAfterAltM: [],
+        downKeysAfterAltV: [],
+        downKeysAfterRelease: [],
+      };
+
+      // Register hotkeys for alt+m and alt+v
+      window.hotkeys("alt+m", () => {
+        results.altMTriggered = true;
+        results.downKeysAfterAltM = window.hotkeys.getPressedKeyCodes();
+      });
+
+      window.hotkeys("alt+v", () => {
+        results.altVTriggered = true;
+        results.downKeysAfterAltV = window.hotkeys.getPressedKeyCodes();
+      });
+
+      // Simulate Alt+M on Russian keyboard layout
+      // On Russian layout, M key produces "Ь" character (code 1068 or ~126)
+      // But the physical key is still KeyM
+      await new Promise((resolve) => {
+        // Press Alt
+        const altDown = new KeyboardEvent("keydown", {
+          keyCode: 18,
+          which: 18,
+          code: "AltLeft",
+          altKey: true,
+          bubbles: true,
+          cancelable: true,
+        });
+        document.body.dispatchEvent(altDown);
+
+        setTimeout(() => {
+          // Press M (with wrong keyCode but correct code)
+          const mDown = new KeyboardEvent("keydown", {
+            keyCode: 126, // Wrong keyCode (~ character on Cyrillic layout)
+            which: 126,
+            code: "KeyM", // Correct physical key code
+            altKey: true,
+            bubbles: true,
+            cancelable: true,
+          });
+          document.body.dispatchEvent(mDown);
+
+          setTimeout(() => {
+            // Release M
+            const mUp = new KeyboardEvent("keyup", {
+              keyCode: 126,
+              which: 126,
+              code: "KeyM",
+              altKey: true,
+              bubbles: true,
+              cancelable: true,
+            });
+            document.body.dispatchEvent(mUp);
+
+            setTimeout(() => {
+              // Release Alt
+              const altUp = new KeyboardEvent("keyup", {
+                keyCode: 18,
+                which: 18,
+                code: "AltLeft",
+                altKey: false,
+                bubbles: true,
+                cancelable: true,
+              });
+              document.body.dispatchEvent(altUp);
+
+              resolve();
+            }, 20);
+          }, 20);
+        }, 20);
+      });
+
+      // Small delay between combinations
+      await new Promise((resolve) => setTimeout(resolve, 50));
+
+      // Simulate Alt+V on Russian keyboard layout
+      // On Russian layout, V key produces "М" character
+      await new Promise((resolve) => {
+        // Press Alt
+        const altDown = new KeyboardEvent("keydown", {
+          keyCode: 18,
+          which: 18,
+          code: "AltLeft",
+          altKey: true,
+          bubbles: true,
+          cancelable: true,
+        });
+        document.body.dispatchEvent(altDown);
+
+        setTimeout(() => {
+          // Press V (with wrong keyCode but correct code)
+          const vDown = new KeyboardEvent("keydown", {
+            keyCode: 1052, // Wrong keyCode (М character on Cyrillic layout)
+            which: 1052,
+            code: "KeyV", // Correct physical key code
+            altKey: true,
+            bubbles: true,
+            cancelable: true,
+          });
+          document.body.dispatchEvent(vDown);
+
+          setTimeout(() => {
+            // Release V
+            const vUp = new KeyboardEvent("keyup", {
+              keyCode: 1052,
+              which: 1052,
+              code: "KeyV",
+              altKey: true,
+              bubbles: true,
+              cancelable: true,
+            });
+            document.body.dispatchEvent(vUp);
+
+            setTimeout(() => {
+              // Release Alt
+              const altUp = new KeyboardEvent("keyup", {
+                keyCode: 18,
+                which: 18,
+                code: "AltLeft",
+                altKey: false,
+                bubbles: true,
+                cancelable: true,
+              });
+              document.body.dispatchEvent(altUp);
+
+              // Check downKeys after all keys released
+              setTimeout(() => {
+                results.downKeysAfterRelease =
+                  window.hotkeys.getPressedKeyCodes();
+                resolve();
+              }, 20);
+            }, 20);
+          }, 20);
+        }, 20);
+      });
+
+      // Cleanup
+      window.hotkeys.unbind("alt+m");
+      window.hotkeys.unbind("alt+v");
+
+      return results;
+    });
+
+    // Both hotkeys should be triggered
+    expect(result.altMTriggered).toBeTruthy();
+    expect(result.altVTriggered).toBeTruthy();
+
+    // Alt (18) + M (77) should be in downKeys during Alt+M
+    expect(result.downKeysAfterAltM).toEqual(expect.arrayContaining([18, 77]));
+
+    // Alt (18) + V (86) should be in downKeys during Alt+V
+    expect(result.downKeysAfterAltV).toEqual(expect.arrayContaining([18, 86]));
+
+    // After all keys released, downKeys should be empty (this was the bug)
+    expect(result.downKeysAfterRelease).toEqual([]);
+  });
+
   afterAll(async () => {
     await browser.close();
   });
