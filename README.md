@@ -498,7 +498,10 @@ $ npm run watch
 Run Document Website Environment.
 
 ```shell
-$ npm run doc
+# Generate documentation website
+$ npm run doc 
+# Live-generate documentation website
+$ npm run start 
 ```
 
 To contribute, please fork Hotkeys.js, add your patch and tests for it (in the `test/` folder) and submit a pull request.

@@ -19,6 +19,7 @@
     "prepare": "npm run build:lib && husky install",
     "lint": "eslint src website",
     "type-check": "tsc --noEmit",
+    "watch": "vite build --watch",
     "build:lib": "vite build",
     "build": "npm run type-check && npm run build:lib && npm run doc && npm run lint",
     "pretest": "npm run build",

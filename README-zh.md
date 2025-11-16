@@ -500,7 +500,9 @@ $ npm run watch
 运行文档网站环境。
 
 ```shell
-$ npm run doc
+$ npm run doc # 生成文档网页
+# 实时生成文档网页
+$ npm run start 
 ```
 
 要贡献，请 fork Hotkeys.js，添加您的补丁和测试（在 `test/` 文件夹中）并提交拉取请求。
