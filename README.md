@@ -154,7 +154,18 @@ The following special keys can be used for shortcuts: backspace, tab, clear, ent
 One global method is exposed, key which defines shortcuts when called directly.
 
 ```js
-hotkeys([keys:<String>], [option:[string|object|function]], [callback:<function>])
+declare interface HotkeysInterface extends HotkeysAPI {
+  (key: string, method: KeyHandler): void;
+  (key: string, scope: string, method: KeyHandler): void;
+  (key: string, option: HotkeysOptions, method: KeyHandler): void;
+  shift?: boolean;
+  ctrl?: boolean;
+  alt?: boolean;
+  option?: boolean;
+  control?: boolean;
+  cmd?: boolean;
+  command?: boolean;
+}
 ```
 
 

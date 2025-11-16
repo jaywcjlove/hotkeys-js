@@ -157,7 +157,18 @@ HotKeys 理解以下修饰符：`⇧`、`shift`、`option`、`⌥`、`alt`、`ct
 暴露了一个全局方法，当直接调用时定义快捷键。
 
 ```js
-hotkeys([keys:<String>], [option:[string|object|function]], [callback:<function>])
+declare interface HotkeysInterface extends HotkeysAPI {
+  (key: string, method: KeyHandler): void;
+  (key: string, scope: string, method: KeyHandler): void;
+  (key: string, option: HotkeysOptions, method: KeyHandler): void;
+  shift?: boolean;
+  ctrl?: boolean;
+  alt?: boolean;
+  option?: boolean;
+  control?: boolean;
+  cmd?: boolean;
+  command?: boolean;
+}
 ```
 
 ```js
