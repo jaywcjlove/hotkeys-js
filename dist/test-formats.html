@@ -55,7 +55,7 @@
     </div>
 
     <!-- Test IIFE -->
-    <script src="../dist/hotkeys-js.min.js"></script>
+    <script src="./hotkeys-js.min.js"></script>
     <script>
         try {
             if (typeof hotkeys !== 'undefined') {
@@ -77,7 +77,7 @@
         // Clear previous hotkeys instance to test UMD independently
         window.hotkeys = undefined;
     </script>
-    <script src="../dist/hotkeys-js.umd.cjs"></script>
+    <script src="./hotkeys-js.umd.cjs"></script>
     <script>
         try {
             if (typeof hotkeys !== 'undefined') {
@@ -97,7 +97,7 @@
     <!-- Test ES Module -->
     <script type="module">
         try {
-            const { default: hotkeys } = await import('../dist/hotkeys-js.js');
+            const { default: hotkeys } = await import('./hotkeys-js.js');
             hotkeys('f3', function(event, handler) {
                 event.preventDefault();
                 alert('ES Module Format: F3 pressed successfully!');

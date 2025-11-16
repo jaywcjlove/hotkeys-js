@@ -1,0 +1,22 @@
+# Exclude test files
+dist/test-formats.html
+
+# Exclude development files
+src/
+test/
+website/
+coverage/
+
+# Exclude configuration files
+*.config.ts
+*.config.js
+eslint.config.js
+tsconfig.json
+
+# Exclude other unnecessary files
+README-zh.md
+DISTRIBUTION-GUIDE.md
+DISTRIBUTION-GUIDE-zh.md
+.github/
+.gitignore
+.husky/
