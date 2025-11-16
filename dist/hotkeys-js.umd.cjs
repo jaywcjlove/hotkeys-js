@@ -1,5 +1,5 @@
 (function(O,E){typeof exports=="object"&&typeof module!="undefined"?module.exports=E():typeof define=="function"&&define.amd?define(E):(O=typeof globalThis!="undefined"?globalThis:O||self,O.hotkeys=E())})(this,function(){"use strict";/*!
- * hotkeys-js v4.0.0-beta.4
+ * hotkeys-js v4.0.0-beta.5
  * A simple micro-library for defining and dispatching keyboard shortcuts. It has no dependencies.
  * 
  * @author kenny wong <wowohoo@qq.com>
