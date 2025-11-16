@@ -5,11 +5,13 @@
   "type": "module",
   "main": "dist/hotkeys-js.umd.cjs",
   "module": "dist/hotkeys-js.js",
+  "browser": "dist/hotkeys-js.min.js",
   "types": "dist/index.d.ts",
   "exports": {
     ".": {
       "import": "./dist/hotkeys-js.js",
       "require": "./dist/hotkeys-js.umd.cjs",
+      "browser": "./dist/hotkeys-js.min.js",
       "types": "./dist/index.d.ts"
     }
   },

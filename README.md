@@ -72,12 +72,18 @@ hotkeys('f5', function(event, handler){
 });
 ```
 
-Or manually download and link **hotkeys.js** in your HTML, It can also be downloaded via [UNPKG](https://unpkg.com/hotkeys-js/dist/):
+### Browser Usage
 
-CDN: [UNPKG](https://unpkg.com/hotkeys-js/dist/) | [jsDelivr](https://cdn.jsdelivr.net/npm/hotkeys-js@3.7.3/) | [Githack](https://raw.githack.com/jaywcjlove/hotkeys/master/dist/hotkeys-js.umd.cjs) | [Statically](https://cdn.statically.io/gh/jaywcjlove/hotkeys/master/dist/hotkeys-js.umd.cjs) | [bundle.run](https://bundle.run/hotkeys-js@3.7.3)
+Or manually download and link **hotkeys.js** in your HTML. The library provides different formats for different use cases:
+
+**CDN Links:** [UNPKG](https://unpkg.com/hotkeys-js/dist/) | [jsDelivr](https://cdn.jsdelivr.net/npm/hotkeys-js/) | [Githack](https://raw.githack.com/jaywcjlove/hotkeys/master/dist/) | [Statically](https://cdn.statically.io/gh/jaywcjlove/hotkeys/master/dist/)
+
+**Available Formats:**
+
+**IIFE (Immediately Invoked Function Expression) - Recommended for direct browser usage:**
 
 ```html
-<script src="https://unpkg.com/hotkeys-js/dist/hotkeys-js.umd.cjs"></script>
+<script src="https://unpkg.com/hotkeys-js/dist/hotkeys-js.min.js"></script>
 <script type="text/javascript">
 hotkeys('ctrl+a,ctrl+b,r,f', function (event, handler){
   switch (handler.key) {
@@ -91,6 +97,23 @@ hotkeys('ctrl+a,ctrl+b,r,f', function (event, handler){
       break;
     default: alert(event);
   }
+});
+</script>
+```
+
+**UMD (Universal Module Definition) - For CommonJS/AMD environments:**
+
+```html
+<script src="https://unpkg.com/hotkeys-js/dist/hotkeys-js.umd.cjs"></script>
+```
+
+**ES Module - For modern browsers with module support:**
+
+```html
+<script type="module">
+import hotkeys from 'https://unpkg.com/hotkeys-js/dist/hotkeys-js.js';
+hotkeys('ctrl+a', function(event, handler){
+  alert('you pressed ctrl+a!');
 });
 </script>
 ```

@@ -74,12 +74,18 @@ hotkeys('f5', function(event, handler){
 });
 ```
 
-或者手动下载并在 HTML 中链接 **hotkeys.js**，也可以通过 [UNPKG](https://unpkg.com/hotkeys-js/dist/) 下载：
+### 浏览器使用
 
-CDN: [UNPKG](https://unpkg.com/hotkeys-js/dist/) | [jsDelivr](https://cdn.jsdelivr.net/npm/hotkeys-js/) | [Githack](https://raw.githack.com/jaywcjlove/hotkeys/master/dist/hotkeys-js.umd.cjs) | [Statically](https://cdn.statically.io/gh/jaywcjlove/hotkeys/master/dist/hotkeys-js.umd.cjs) | [bundle.run](https://bundle.run/hotkeys-js@3.7.3)
+或者手动下载并在 HTML 中链接 **hotkeys.js**。该库提供了不同格式以满足不同的使用需求：
+
+**CDN 链接：** [UNPKG](https://unpkg.com/hotkeys-js/dist/) | [jsDelivr](https://cdn.jsdelivr.net/npm/hotkeys-js/) | [Githack](https://raw.githack.com/jaywcjlove/hotkeys/master/dist/) | [Statically](https://cdn.statically.io/gh/jaywcjlove/hotkeys/master/dist/)
+
+**可用格式：**
+
+**IIFE（立即调用函数表达式）- 推荐用于直接浏览器使用：**
 
 ```html
-<script src="https://unpkg.com/hotkeys-js/dist/hotkeys-js.umd.cjs"></script>
+<script src="https://unpkg.com/hotkeys-js/dist/hotkeys-js.min.js"></script>
 <script type="text/javascript">
 hotkeys('ctrl+a,ctrl+b,r,f', function (event, handler){
   switch (handler.key) {
@@ -93,6 +99,23 @@ hotkeys('ctrl+a,ctrl+b,r,f', function (event, handler){
       break;
     default: alert(event);
   }
+});
+</script>
+```
+
+**UMD（通用模块定义）- 用于 CommonJS/AMD 环境：**
+
+```html
+<script src="https://unpkg.com/hotkeys-js/dist/hotkeys-js.umd.cjs"></script>
+```
+
+**ES 模块 - 用于支持模块的现代浏览器：**
+
+```html
+<script type="module">
+import hotkeys from 'https://unpkg.com/hotkeys-js/dist/hotkeys-js.js';
+hotkeys('ctrl+a', function(event, handler){
+  alert('你按下了 ctrl+a!');
 });
 </script>
 ```

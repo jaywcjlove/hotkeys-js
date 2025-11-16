@@ -32,6 +32,7 @@ jobs:
     - run: npm install
     - run: npm run build
     - run: npm run test
+    - run: cp test/test-formats.html doc/test-formats.html
 
     - name: Generate Contributors Images
       uses: jaywcjlove/github-action-contributors@main

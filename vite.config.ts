@@ -22,11 +22,35 @@ export default defineConfig({
     lib: {
       entry: resolve(__dirname, "src/index.ts"),
       name: "hotkeys",
+      formats: ["es", "umd", "iife"],
+      fileName: (format) => {
+        if (format === "es") return "hotkeys-js.js";
+        if (format === "umd") return "hotkeys-js.umd.cjs";
+        if (format === "iife") return "hotkeys-js.min.js";
+        return `hotkeys-js.${format}.js`;
+      },
     },
     rollupOptions: {
-      output: {
-        banner,
-      },
+      output: [
+        {
+          format: "es",
+          banner,
+          entryFileNames: "hotkeys-js.js",
+        },
+        {
+          format: "umd",
+          banner,
+          entryFileNames: "hotkeys-js.umd.cjs",
+          name: "hotkeys",
+        },
+        {
+          format: "iife",
+          banner,
+          entryFileNames: "hotkeys-js.min.js",
+          name: "hotkeys",
+          compact: true, // UMD 格式进行压缩
+        },
+      ],
     },
     minify: true,
     sourcemap: true,
