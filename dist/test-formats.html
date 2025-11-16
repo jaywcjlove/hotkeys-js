@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HotKeys.js Test</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+        }
+        .test-section {
+            margin: 30px 0;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        .test-section h3 {
+            margin-top: 0;
+            color: #333;
+        }
+        .success {
+            color: green;
+            font-weight: bold;
+        }
+        .error {
+            color: red;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <h1>HotKeys.js Format Test</h1>
+    <p>Test different distribution formats of hotkeys-js library:</p>
+    
+    <div class="test-section">
+        <h3>1. IIFE Format Test (hotkeys-js.min.js)</h3>
+        <p>Press <kbd>F1</kbd> to test IIFE version</p>
+        <div id="iife-status">Loading...</div>
+    </div>
+
+    <div class="test-section">
+        <h3>2. UMD Format Test (hotkeys-js.umd.cjs)</h3>
+        <p>Press <kbd>F2</kbd> to test UMD version</p>
+        <div id="umd-status">Loading...</div>
+    </div>
+
+    <div class="test-section">
+        <h3>3. ES Module Format Test (hotkeys-js.js)</h3>
+        <p>Press <kbd>F3</kbd> to test ES Module version</p>
+        <div id="esm-status">Loading...</div>
+        <p><em>Note: This test requires a server environment to work properly due to module loading restrictions in browsers.</em></p>
+    </div>
+
+    <!-- Test IIFE -->
+    <script src="./hotkeys-js.min.js"></script>
+    <script>
+        try {
+            if (typeof hotkeys !== 'undefined') {
+                hotkeys('f1', function(event, handler) {
+                    event.preventDefault();
+                    alert('IIFE Format: F1 pressed successfully!');
+                });
+                document.getElementById('iife-status').innerHTML = '<span class="success">✓ IIFE loaded successfully</span>';
+            } else {
+                throw new Error('hotkeys not defined');
+            }
+        } catch (e) {
+            document.getElementById('iife-status').innerHTML = '<span class="error">✗ IIFE failed: ' + e.message + '</span>';
+        }
+    </script>
+
+    <!-- Test UMD -->
+    <script>
+        // Clear previous hotkeys instance to test UMD independently
+        window.hotkeys = undefined;
+    </script>
+    <script src="./hotkeys-js.umd.cjs"></script>
+    <script>
+        try {
+            if (typeof hotkeys !== 'undefined') {
+                hotkeys('f2', function(event, handler) {
+                    event.preventDefault();
+                    alert('UMD Format: F2 pressed successfully!');
+                });
+                document.getElementById('umd-status').innerHTML = '<span class="success">✓ UMD loaded successfully</span>';
+            } else {
+                throw new Error('hotkeys not defined');
+            }
+        } catch (e) {
+            document.getElementById('umd-status').innerHTML = '<span class="error">✗ UMD failed: ' + e.message + '</span>';
+        }
+    </script>
+
+    <!-- Test ES Module -->
+    <script type="module">
+        try {
+            const { default: hotkeys } = await import('./hotkeys-js.js');
+            hotkeys('f3', function(event, handler) {
+                event.preventDefault();
+                alert('ES Module Format: F3 pressed successfully!');
+            });
+            document.getElementById('esm-status').innerHTML = '<span class="success">✓ ES Module loaded successfully</span>';
+        } catch (e) {
+            document.getElementById('esm-status').innerHTML = '<span class="error">✗ ES Module failed: ' + e.message + '</span>';
+        }
+    </script>
+</body>
+</html>
