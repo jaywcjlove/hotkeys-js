@@ -55,5 +55,6 @@ export default defineConfig({
     minify: true,
     sourcemap: true,
     target: "es2015",
+    emptyOutDir: false, // Don't empty the output directory
   },
 });
