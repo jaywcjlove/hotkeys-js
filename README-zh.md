@@ -407,7 +407,12 @@ hotkeys('command+ctrl+shift+a,f', function() {
 hotkeys('command+ctrl+shift+a,f', function() {
   console.log(hotkeys.getAllKeyCodes());
   // [
-  //   { scope: 'all', shortcut: 'command+ctrl+shift+a', mods: [91, 17, 16], keys: [91, 17, 16, 65] },
+  //   { 
+  //      scope: 'all', 
+  //      shortcut: 'command+ctrl+shift+a', 
+  //      mods: [91, 17, 16], 
+  //      keys: [91, 17, 16, 65] 
+  //    },
   //   { scope: 'all', shortcut: 'f', mods: [], keys: [42] }
   // ]
 })
@@ -426,7 +431,12 @@ hotkeys.filter = function(event){
 hotkeys.filter = function(event) {
   var target = event.target || event.srcElement;
   var tagName = target.tagName;
-  return !(target.isContentEditable || tagName == 'INPUT' || tagName == 'SELECT' || tagName == 'TEXTAREA');
+  return !(
+    target.isContentEditable ||
+    tagName == 'INPUT' ||
+    tagName == 'SELECT' ||
+    tagName == 'TEXTAREA'
+  );
 }
 
 hotkeys.filter = function(event){
