@@ -141,13 +141,13 @@ HotKeys understands the following modifiers: `⇧`, `shift`, `option`, `⌥`, `a
 
 The following special keys can be used for shortcuts: backspace, tab, clear, enter, return, esc, escape, space, up, down, left, right, home, end, pageup, pagedown, del, delete, f1 through f19, num_0 through num_9, num_multiply, num_add, num_enter, num_subtract, num_decimal, num_divide.
 
-`⌘` Command()
-`⌃` Control
-`⌥` Option(alt)
-`⇧` Shift
-`⇪` Caps Lock(Capital)
-~~`fn` Does not support fn~~
-`↩︎` return/Enter space
+`⌘` Command()  
+`⌃` Control  
+`⌥` Option(alt)  
+`⇧` Shift  
+`⇪` Caps Lock(Capital)  
+~~`fn` Does not support fn~~  
+`↩︎` return/Enter space  
 
 ## Defining Shortcuts
 
@@ -335,7 +335,8 @@ Similar to defining shortcuts, they can be unbound using `hotkeys.unbind`.
 hotkeys.unbind('a');
 
 // Unbind a hotkeys only for a single scope
-// If no scope is specified it defaults to the current scope (hotkeys.getScope())
+// If no scope is specified it defaults to the current 
+// scope (hotkeys.getScope())
 hotkeys.unbind('o, enter', 'issues');
 hotkeys.unbind('o, enter', 'files');
 ```
@@ -395,7 +396,8 @@ Returns an array of key codes currently pressed.
 
 ```js
 hotkeys('command+ctrl+shift+a,f', function() {
-  console.log(hotkeys.getPressedKeyString()); //=> ['⌘', '⌃', '⇧', 'A', 'F']
+  console.log(hotkeys.getPressedKeyString()); 
+  //=> ['⌘', '⌃', '⇧', 'A', 'F']
 })
 ```
 
@@ -426,8 +428,9 @@ By default hotkeys are not enabled for `INPUT` `SELECT` `TEXTAREA` elements. `Ho
 hotkeys.filter = function(event){
   return true;
 }
-//How to add the filter to edit labels. <div contentEditable="true"></div>
-//"contentEditable" Older browsers that do not support drops
+// How to add the filter to edit labels. 
+// <div contentEditable="true"></div>
+// "contentEditable" Older browsers that do not support drops
 hotkeys.filter = function(event) {
   var target = event.target || event.srcElement;
   var tagName = target.tagName;
@@ -441,7 +444,9 @@ hotkeys.filter = function(event) {
 
 hotkeys.filter = function(event){
   var tagName = (event.target || event.srcElement).tagName;
-  hotkeys.setScope(/^(INPUT|TEXTAREA|SELECT)$/.test(tagName) ? 'input' : 'other');
+  hotkeys.setScope(
+    /^(INPUT|TEXTAREA|SELECT)$/.test(tagName) ? 'input' : 'other'
+  );
   return true;
 }
 ```

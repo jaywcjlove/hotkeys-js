@@ -85,7 +85,8 @@ hotkeys('f5', function(event, handler){
 **IIFE（立即调用函数表达式）- 推荐用于直接浏览器使用：**
 
 ```html
-<script src="https://unpkg.com/hotkeys-js/dist/hotkeys-js.min.js"></script>
+<script src="https://unpkg.com/hotkeys-js/dist/hotkeys-js.min.js">
+</script>
 <script type="text/javascript">
 hotkeys('ctrl+a,ctrl+b,r,f', function (event, handler){
   switch (handler.key) {
@@ -106,7 +107,8 @@ hotkeys('ctrl+a,ctrl+b,r,f', function (event, handler){
 **UMD（通用模块定义）- 用于 CommonJS/AMD 环境：**
 
 ```html
-<script src="https://unpkg.com/hotkeys-js/dist/hotkeys-js.umd.cjs"></script>
+<script src="https://unpkg.com/hotkeys-js/dist/hotkeys-js.umd.cjs">
+</script>
 ```
 
 **ES 模块 - 用于支持模块的现代浏览器：**
@@ -142,13 +144,13 @@ HotKeys 理解以下修饰符：`⇧`、`shift`、`option`、`⌥`、`alt`、`ct
 
 以下特殊按键可用于快捷键：backspace、tab、clear、enter、return、esc、escape、space、up、down、left、right、home、end、pageup、pagedown、del、delete、f1 到 f19、num_0 到 num_9、num_multiply、num_add、num_enter、num_subtract、num_decimal、num_divide。
 
-`⌘` Command()
-`⌃` Control
-`⌥` Option(alt)
-`⇧` Shift
-`⇪` Caps Lock(Capital)
-~~`fn` 不支持 fn~~
-`↩︎` return/Enter space
+`⌘` Command()  
+`⌃` Control  
+`⌥` Option(alt)  
+`⇧` Shift  
+`⇪` Caps Lock(Capital)  
+~~`fn` 不支持 fn~~  
+`↩︎` return/Enter space  
 
 ## 定义快捷键
 
@@ -335,7 +337,8 @@ hotkeys.deleteScope('issues', 'newScopeName');
 hotkeys.unbind('a');
 
 // 只为单个作用域解绑热键
-// 如果没有指定作用域，默认为当前作用域（hotkeys.getScope()）
+// 如果没有指定作用域，默认为当前作用域
+// （hotkeys.getScope()）
 hotkeys.unbind('o, enter', 'issues');
 hotkeys.unbind('o, enter', 'files');
 ```
@@ -395,7 +398,8 @@ hotkeys('command+ctrl+shift+a,f', function() {
 
 ```js
 hotkeys('command+ctrl+shift+a,f', function() {
-  console.log(hotkeys.getPressedKeyString()); //=> ['⌘', '⌃', '⇧', 'A', 'F']
+  console.log(hotkeys.getPressedKeyString()); 
+  //=> ['⌘', '⌃', '⇧', 'A', 'F']
 })
 ```
 
@@ -426,8 +430,9 @@ hotkeys('command+ctrl+shift+a,f', function() {
 hotkeys.filter = function(event){
   return true;
 }
-//如何为编辑标签添加过滤器。<div contentEditable="true"></div>
-//"contentEditable" 不支持的较旧浏览器会被丢弃
+// 如何为编辑标签添加过滤器。
+// <div contentEditable="true"></div>
+// "contentEditable" 不支持的较旧浏览器会被丢弃
 hotkeys.filter = function(event) {
   var target = event.target || event.srcElement;
   var tagName = target.tagName;
@@ -441,7 +446,9 @@ hotkeys.filter = function(event) {
 
 hotkeys.filter = function(event){
   var tagName = (event.target || event.srcElement).tagName;
-  hotkeys.setScope(/^(INPUT|TEXTAREA|SELECT)$/.test(tagName) ? 'input' : 'other');
+  hotkeys.setScope(
+    /^(INPUT|TEXTAREA|SELECT)$/.test(tagName) ? 'input' : 'other'
+  );
   return true;
 }
 ```
