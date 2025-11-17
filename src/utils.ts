@@ -74,4 +74,29 @@ function compareArray(a1: number[], a2: number[]): boolean {
   return isIndex;
 }
 
-export { isff, getMods, getKeys, addEvent, removeEvent, compareArray };
+/**
+ * Get layout-independent key code from keyboard event
+ * This makes hotkeys work regardless of keyboard layout (Russian, German, etc.)
+ * Uses event.code (physical key) instead of keyCode (character) for letter keys
+ */
+function getLayoutIndependentKeyCode(event: KeyboardEvent): number {
+  let key = event.keyCode || event.which || event.charCode;
+
+  // Convert physical key code (KeyA-KeyZ) to corresponding ASCII code (65-90)
+  // This makes 'ctrl+a' work on any keyboard layout
+  if (event.code && /^Key[A-Z]$/.test(event.code)) {
+    key = event.code.charCodeAt(3); // "KeyA"[3] = "A" -> 65
+  }
+
+  return key;
+}
+
+export {
+  isff,
+  getMods,
+  getKeys,
+  addEvent,
+  removeEvent,
+  compareArray,
+  getLayoutIndependentKeyCode,
+};
