@@ -42,6 +42,7 @@ export default defineConfig({
           banner,
           entryFileNames: "hotkeys-js.umd.cjs",
           name: "hotkeys",
+          footer: `if (typeof module === "object" && module.exports) { module.exports.default = module.exports; }`,
         },
         {
           format: "iife",
