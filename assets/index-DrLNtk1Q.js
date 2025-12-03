@@ -144,6 +144,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
     `,n.appendChild(o)}i(n,a){this.dispatchEvent(new CustomEvent(n,{bubbles:!0,composed:!0,detail:a}))}}customElements.define("dark-mode",P4);const H4="_footer_kasec_1",z4={footer:H4};function G4({name:e,href:t,year:n,children:a}){return X.jsxs("div",{className:z4.footer,children:[a,X.jsxs("div",{children:["Licensed under MIT. (Yes it´s free and",X.jsx("a",{href:"https://github.com/jaywcjlove/hotkeys",children:" open-sourced"}),")"]}),X.jsxs("div",{children:["©",X.jsx("a",{target:"_blank",rel:"noopener noreferrer",href:t,children:e}),n]})]})}const j4="_tools_1xs8f_1",$4="_version_1xs8f_6",Y4="_keyCodeInfo_1xs8f_17",q4="_header_1xs8f_36",V4="_title_1xs8f_42",K4="_lang_1xs8f_53",W4="_info_1xs8f_61",X4="_github_1xs8f_70",Qa={tools:j4,version:$4,keyCodeInfo:Y4,header:q4,title:V4,lang:K4,info:W4,github:X4},SS=`<div markdown="1">
   <sup>Using <a href="https://wangchujiang.com/#/app" target="_blank">my app</a> is also a way to <a href="https://wangchujiang.com/#/sponsor" target="_blank">support</a> me:</sup>
   <br>
+  <a target="_blank" href="https://apps.apple.com/app/Deskmark/6755948110" title="Deskmark for macOS"><img alt="Deskmark" height="52" width="52" src="https://wangchujiang.com/appicon/deskmark.png"></a>
   <a target="_blank" href="https://apps.apple.com/app/Keyzer/6500434773" title="Keyzer for macOS"><img alt="Keyzer" height="52" width="52" src="https://wangchujiang.com/appicon/keyzer.png"></a>
   <a target="_blank" href="https://github.com/jaywcjlove/vidwall-hub" title="Vidwall Hub for macOS"><img alt="Vidwall Hub" height="52" width="52" src="https://wangchujiang.com/appicon/vidwall-hub.png"></a>
   <a target="_blank" href="https://apps.apple.com/app/VidCrop/6752624705" title="VidCrop for macOS"><img alt="VidCrop" height="52" width="52" src="https://wangchujiang.com/appicon/vidcrop.png"></a>
@@ -672,6 +673,7 @@ Special thanks to [@dimensi](https://github.com/dimensi) for the refactoring of 
 `,AS=`<div markdown="1">
   <sup>使用<a href="https://wangchujiang.com/#/app" target="_blank">我的应用</a>也是一种<a href="https://wangchujiang.com/#/sponsor" target="_blank">支持</a>我的方式：</sup>
   <br>
+  <a target="_blank" href="https://apps.apple.com/app/Deskmark/6755948110" title="Deskmark for macOS"><img alt="Deskmark" height="52" width="52" src="https://wangchujiang.com/appicon/deskmark.png"></a>
   <a target="_blank" href="https://apps.apple.com/app/Keyzer/6500434773" title="Keyzer for macOS"><img alt="Keyzer" height="52" width="52" src="https://wangchujiang.com/appicon/keyzer.png"></a>
   <a target="_blank" href="https://github.com/jaywcjlove/vidwall-hub" title="Vidwall Hub for macOS"><img alt="Vidwall Hub" height="52" width="52" src="https://wangchujiang.com/appicon/vidwall-hub.png"></a>
   <a target="_blank" href="https://apps.apple.com/app/VidCrop/6752624705" title="VidCrop for macOS"><img alt="VidCrop" height="52" width="52" src="https://wangchujiang.com/appicon/vidcrop.png"></a>
