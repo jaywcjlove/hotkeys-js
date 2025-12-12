@@ -95,11 +95,13 @@ jobs:
       uses: jaywcjlove/github-action-package@main
       with:
         unset: browserslist,lint-staged,devDependencies,jest,scripts
-
-    # - run: npm install @jsdevtools/npm-publish -g
-    # - run: npm-publish --token="${{ secrets.NPM_TOKEN }}" ./package.json
-    - run: npm publish --access public --provenance
-      name: 📦  hotkeys-js to NPM
+    
+    # npm@v11.5.0+ is required for OIDC support
+    - name: Upgrade npm for OIDC support
+      run: npm install -g npm@latest
+    # node@v22.0.0+ 
+    # https://github.com/orgs/community/discussions/176761
+    # https://github.com/actions/setup-node/issues/1440#issuecomment-3571890875
+    - run: NODE_AUTH_TOKEN="" npm publish --access public --provenance
+      name: 📦 hotkeys-js to NPM
       continue-on-error: true
-      env:
-        NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
