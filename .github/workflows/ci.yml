@@ -96,9 +96,8 @@ jobs:
       with:
         unset: browserslist,lint-staged,devDependencies,jest,scripts
     
-    # node@v22.0.0+ 
-    # https://github.com/orgs/community/discussions/176761
-    # https://github.com/actions/setup-node/issues/1440#issuecomment-3571890875
-    - run: npm publish --access public --provenance
+    # node@v24.0.0+ 
+    # https://gist.github.com/jaywcjlove/a178278521a6f72c74525d3f1d9c4bf9
+    - run: NODE_AUTH_TOKEN="" npm publish --access public --provenance
       name: 📦 hotkeys-js to NPM
       continue-on-error: true
