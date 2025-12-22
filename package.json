@@ -1,7 +1,7 @@
 {
   "name": "hotkeys-js",
   "description": "A simple micro-library for defining and dispatching keyboard shortcuts. It has no dependencies.",
-  "version": "4.0.0-beta.8",
+  "version": "4.0.0",
   "type": "module",
   "main": "dist/hotkeys-js.umd.cjs",
   "module": "dist/hotkeys-js.js",
@@ -49,7 +49,7 @@
   "funding": "https://jaywcjlove.github.io/#/sponsor",
   "repository": {
     "type": "git",
-    "url": "https://github.com/jaywcjlove/hotkeys-js.git"
+    "url": "git+https://github.com/jaywcjlove/hotkeys-js.git"
   },
   "jest": {
     "testEnvironmentOptions": {
