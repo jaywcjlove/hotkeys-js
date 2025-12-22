@@ -84,7 +84,8 @@ Or manually download and link **hotkeys.js** in your HTML. The library provides 
 **IIFE (Immediately Invoked Function Expression) - Recommended for direct browser usage:**
 
 ```html
-<script src="https://unpkg.com/hotkeys-js/dist/hotkeys-js.min.js"></script>
+<script src="https://unpkg.com/hotkeys-js/dist/hotkeys-js.min.js">
+</script>
 <script type="text/javascript">
 hotkeys('ctrl+a,ctrl+b,r,f', function (event, handler){
   switch (handler.key) {
@@ -105,7 +106,8 @@ hotkeys('ctrl+a,ctrl+b,r,f', function (event, handler){
 **UMD (Universal Module Definition) - For CommonJS/AMD environments:**
 
 ```html
-<script src="https://unpkg.com/hotkeys-js/dist/hotkeys-js.umd.cjs"></script>
+<script src="https://unpkg.com/hotkeys-js/dist/hotkeys-js.umd.cjs">
+</script>
 ```
 
 **ES Module - For modern browsers with module support:**
