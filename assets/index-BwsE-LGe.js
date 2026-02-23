@@ -186,7 +186,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
 [![](https://img.shields.io/github/stars/jaywcjlove/hotkeys-js.svg)](https://github.com/jaywcjlove/hotkeys/stargazers)
 ![no dependencies](http://jaywcjlove.github.io/sb/status/no-dependencies.svg)
 [![GitHub Actions CI](https://github.com/jaywcjlove/hotkeys-js/actions/workflows/ci.yml/badge.svg)](https://github.com/jaywcjlove/hotkeys-js/actions/workflows/ci.yml)
-[![Coverage Status](https://coveralls.io/repos/github/jaywcjlove/hotkeys/badge.svg?branch=master)](https://coveralls.io/github/jaywcjlove/hotkeys?branch=master)
+[![Coverage Status](https://jaywcjlove.github.io/hotkeys-js/coverage.svg)](https://jaywcjlove.github.io/hotkeys-js/lcov-report/index.html)
 [![Chinese](https://jaywcjlove.github.io/sb/lang/chinese.svg)](https://wangchujiang.com/hotkeys-js/?lang=zh)
 [![jaywcjlove/hotkeys-js](https://jaywcjlove.github.io/sb/ico/gitee.svg)](https://gitee.com/jaywcjlove/hotkeys)
 
@@ -737,7 +737,7 @@ Special thanks to [@dimensi](https://github.com/dimensi) for the refactoring of 
 [![](https://img.shields.io/github/stars/jaywcjlove/hotkeys-js.svg)](https://github.com/jaywcjlove/hotkeys/stargazers)
 ![no dependencies](http://jaywcjlove.github.io/sb/status/no-dependencies.svg)
 [![GitHub Actions CI](https://github.com/jaywcjlove/hotkeys-js/actions/workflows/ci.yml/badge.svg)](https://github.com/jaywcjlove/hotkeys-js/actions/workflows/ci.yml)
-[![Coverage Status](https://coveralls.io/repos/github/jaywcjlove/hotkeys/badge.svg?branch=master)](https://coveralls.io/github/jaywcjlove/hotkeys?branch=master)
+[![Coverage Status](https://jaywcjlove.github.io/hotkeys-js/coverage.svg)](https://jaywcjlove.github.io/hotkeys-js/lcov-report/index.html)
 [![English](https://jaywcjlove.github.io/sb/lang/english.svg)](https://jaywcjlove.github.io/hotkeys-js/)
 [![jaywcjlove/hotkeys-js](https://jaywcjlove.github.io/sb/ico/gitee.svg)](https://gitee.com/jaywcjlove/hotkeys)
 
