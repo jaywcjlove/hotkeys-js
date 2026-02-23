@@ -1,0 +1,605 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hotkeys-js Comprehensive Compatibility Test</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 1000px;
+            margin: 20px auto;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        .header {
+            text-align: center;
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            margin-bottom: 30px;
+        }
+        .test-section {
+            background: white;
+            margin: 20px 0;
+            padding: 25px;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        .test-section h2 {
+            margin-top: 0;
+            color: #333;
+            border-bottom: 2px solid #007bff;
+            padding-bottom: 10px;
+        }
+        .test-section h3 {
+            color: #555;
+            margin-top: 25px;
+        }
+        .success {
+            color: #28a745;
+            font-weight: bold;
+        }
+        .error {
+            color: #dc3545;
+            font-weight: bold;
+        }
+        .info {
+            color: #17a2b8;
+        }
+        .warning {
+            color: #ffc107;
+            font-weight: bold;
+        }
+        .log-entry {
+            padding: 8px 12px;
+            margin: 5px 0;
+            border-radius: 4px;
+            border-left: 4px solid #ddd;
+        }
+        .log-entry.success {
+            background: #d4edda;
+            border-left-color: #28a745;
+        }
+        .log-entry.error {
+            background: #f8d7da;
+            border-left-color: #dc3545;
+        }
+        .log-entry.info {
+            background: #d1ecf1;
+            border-left-color: #17a2b8;
+        }
+        .log-entry.warning {
+            background: #fff3cd;
+            border-left-color: #ffc107;
+        }
+        button {
+            background: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            margin: 5px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+        button:hover {
+            background: #0056b3;
+        }
+        kbd {
+            background: #f8f9fa;
+            border: 1px solid #ddd;
+            border-radius: 3px;
+            padding: 2px 6px;
+            font-family: monospace;
+            font-size: 0.9em;
+        }
+        .format-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+        .format-card {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 6px;
+            border: 1px solid #e9ecef;
+        }
+        .format-card h4 {
+            margin-top: 0;
+            color: #495057;
+        }
+        pre {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 5px;
+            overflow-x: auto;
+            font-size: 13px;
+        }
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+        .stat-card {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 6px;
+            text-align: center;
+        }
+        .stat-number {
+            font-size: 2em;
+            font-weight: bold;
+            color: #007bff;
+        }
+        .hotkey-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 10px;
+            margin: 15px 0;
+        }
+        .hotkey-item {
+            background: #f8f9fa;
+            padding: 10px;
+            border-radius: 4px;
+            border-left: 3px solid #007bff;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>🔥 Hotkeys-js Comprehensive Compatibility Test Suite</h1>
+        <p>Test the compatibility of hotkeys-js library across different module formats and environments</p>
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-number" id="total-tests">0</div>
+                <div>Total Tests</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number success" id="passed-tests">0</div>
+                <div>Passed Tests</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number error" id="failed-tests">0</div>
+                <div>Failed Tests</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Module Format Tests -->
+    <div class="test-section">
+        <h2>📦 Module Format Compatibility Tests</h2>
+        <p>Test loading and basic functionality of hotkeys-js library in different build formats</p>
+        
+        <div class="format-grid">
+            <div class="format-card">
+                <h4>IIFE Format (hotkeys-js.min.js)</h4>
+                <p>Immediately Invoked Function Expression, suitable for direct browser use</p>
+                <p>Press <kbd>F1</kbd> to test</p>
+                <div id="iife-status">Loading...</div>
+            </div>
+            
+            <div class="format-card">
+                <h4>UMD Format (hotkeys-js.umd.cjs)</h4>
+                <p>Universal Module Definition, compatible with CommonJS, AMD and global variables</p>
+                <p>Press <kbd>F2</kbd> to test</p>
+                <div id="umd-status">Loading...</div>
+            </div>
+            
+            <div class="format-card">
+                <h4>ES Module Format (hotkeys-js.js)</h4>
+                <p>Modern ES6 module format, requires server environment</p>
+                <p>Press <kbd>F3</kbd> to test</p>
+                <div id="esm-status">Loading...</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Hotkey Functionality Tests -->
+    <div class="test-section">
+        <h2>🎯 Hotkey Functionality Tests</h2>
+        <p>Test various hotkey combinations and functions</p>
+        
+        <div class="hotkey-list">
+            <div class="hotkey-item">
+                <kbd>Ctrl + K</kbd><br>
+                <small>Basic hotkey test</small>
+            </div>
+            <div class="hotkey-item">
+                <kbd>Alt + S</kbd><br>
+                <small>Modifier key combination test</small>
+            </div>
+            <div class="hotkey-item">
+                <kbd>Ctrl + Shift + T</kbd><br>
+                <small>Multiple modifier keys test</small>
+            </div>
+            <div class="hotkey-item">
+                <kbd>Esc</kbd><br>
+                <small>Single key test</small>
+            </div>
+            <div class="hotkey-item">
+                <kbd>Space</kbd><br>
+                <small>Space key test</small>
+            </div>
+            <div class="hotkey-item">
+                <kbd>Enter</kbd><br>
+                <small>Enter key test</small>
+            </div>
+        </div>
+        
+        <div id="hotkey-output"></div>
+    </div>
+
+    <!-- API Tests -->
+    <div class="test-section">
+        <h2>🔧 API Method Tests</h2>
+        <p>Test various API methods provided by hotkeys-js</p>
+        
+        <div>
+            <button onclick="testAPI()">🧪 Run API Tests</button>
+            <button onclick="testScopes()">🎯 Test Scope Functions</button>
+            <button onclick="testKeyMapping()">🗝️ Test Key Mapping</button>
+            <button onclick="clearOutput('api-output')">🧹 Clear Output</button>
+        </div>
+        
+        <div id="api-output"></div>
+    </div>
+
+    <!-- Module Loading Details -->
+    <div class="test-section">
+        <h2>📋 Module Loading Details</h2>
+        <div id="module-details"></div>
+    </div>
+
+    <!-- Usage Examples -->
+    <div class="test-section">
+        <h2>📝 Usage Examples</h2>
+        
+        <h3>ESM Environment (Recommended)</h3>
+        <pre><code>import hotkeys from 'hotkeys-js';
+
+hotkeys('ctrl+k', function(event, handler) {
+  event.preventDefault();
+  console.log('Hotkey pressed!');
+});</code></pre>
+        
+        <h3>CommonJS Environment</h3>
+        <pre><code>const hotkeys = require('hotkeys-js');
+// or
+const hotkeys = require('hotkeys-js').default;
+
+hotkeys('ctrl+k', function(event, handler) {
+  event.preventDefault();
+  console.log('Hotkey pressed!');
+});</code></pre>
+        
+        <h3>Browser Global Environment</h3>
+        <pre><code>&lt;script src="hotkeys-js/dist/hotkeys-js.min.js">&lt;/script>
+&lt;script>
+  hotkeys('ctrl+k', function(event, handler) {
+    event.preventDefault();
+    console.log('Hotkey pressed!');
+  });
+&lt;/script></code></pre>
+    </div>
+
+    <!-- Load all formats for testing -->
+    
+    <!-- 1. Load IIFE format -->
+    <script src="./hotkeys-js.min.js"></script>
+    
+    <!-- 2. Load UMD format (load later to test independence) -->
+    
+    <!-- 3. ES Module will be loaded via import -->
+
+    <script>
+        // Global variables
+        let testStats = { total: 0, passed: 0, failed: 0 };
+        let hotkeysInstance = null;
+
+        // Utility functions
+        function updateStats() {
+            document.getElementById('total-tests').textContent = testStats.total;
+            document.getElementById('passed-tests').textContent = testStats.passed;
+            document.getElementById('failed-tests').textContent = testStats.failed;
+        }
+
+        function logTest(elementId, message, type = 'info', description = '') {
+            testStats.total++;
+            if (type === 'success') testStats.passed++;
+            if (type === 'error') testStats.failed++;
+            updateStats();
+
+            const element = document.getElementById(elementId);
+            if (!element) return;
+            
+            const div = document.createElement('div');
+            div.className = `log-entry ${type}`;
+            const timestamp = new Date().toLocaleTimeString();
+            const fullMessage = `[${timestamp}] ${message}`;
+            if (description) {
+                div.innerHTML = `${fullMessage}<br><small>${description}</small>`;
+            } else {
+                div.textContent = fullMessage;
+            }
+            element.appendChild(div);
+            
+            // Auto scroll to latest message
+            element.scrollTop = element.scrollHeight;
+        }
+
+        function clearOutput(elementId) {
+            const element = document.getElementById(elementId);
+            if (element) {
+                element.innerHTML = '';
+            }
+        }
+
+        // Test IIFE format
+        function testIIFE() {
+            try {
+                if (typeof window.hotkeys !== 'undefined') {
+                    hotkeysInstance = window.hotkeys;
+                    
+                    // Bind F1 hotkey
+                    hotkeys('f1', function(event, handler) {
+                        event.preventDefault();
+                        logTest('hotkey-output', '✅ IIFE Format: F1 hotkey triggered successfully!', 'success');
+                    });
+                    
+                    logTest('iife-status', '✅ IIFE format loaded successfully', 'success', 'Global window.hotkeys available');
+                    logTest('module-details', 'IIFE format: hotkeys type is ' + typeof hotkeys, 'info');
+                    
+                    return true;
+                } else {
+                    throw new Error('window.hotkeys is undefined');
+                }
+            } catch (e) {
+                logTest('iife-status', '❌ IIFE format failed: ' + e.message, 'error');
+                return false;
+            }
+        }
+
+        // Test UMD format
+        function testUMD() {
+            // Create new script tag to load UMD
+            const script = document.createElement('script');
+            script.src = './hotkeys-js.umd.cjs';
+            script.onload = function() {
+                try {
+                    if (typeof hotkeys !== 'undefined') {
+                        // Bind F2 hotkey
+                        hotkeys('f2', function(event, handler) {
+                            event.preventDefault();
+                            logTest('hotkey-output', '✅ UMD Format: F2 hotkey triggered successfully!', 'success');
+                        });
+                        
+                        logTest('umd-status', '✅ UMD format loaded successfully', 'success', 'Supports CommonJS/AMD/Global environments');
+                        logTest('module-details', 'UMD format: hotkeys type is ' + typeof hotkeys, 'info');
+                    } else {
+                        throw new Error('UMD hotkeys is undefined');
+                    }
+                } catch (e) {
+                    logTest('umd-status', '❌ UMD format failed: ' + e.message, 'error');
+                }
+            };
+            script.onerror = function() {
+                logTest('umd-status', '❌ UMD format loading failed', 'error', 'Cannot load hotkeys-js.umd.cjs');
+            };
+            document.head.appendChild(script);
+        }
+
+        // Test ES Module format
+        async function testESM() {
+            try {
+                const { default: hotkeysESM } = await import('./hotkeys-js.js');
+                
+                // Bind F3 hotkey
+                hotkeysESM('f3', function(event, handler) {
+                    event.preventDefault();
+                    logTest('hotkey-output', '✅ ES Module Format: F3 hotkey triggered successfully!', 'success');
+                });
+                
+                // Bind Ctrl+Shift+T (ESM specific test)
+                hotkeysESM('ctrl+shift+t', function(event, handler) {
+                    event.preventDefault();
+                    logTest('hotkey-output', '✅ ESM Format: Ctrl+Shift+T hotkey triggered successfully!', 'success');
+                });
+                
+                logTest('esm-status', '✅ ES Module format loaded successfully', 'success', 'Modern module format with tree-shaking support');
+                logTest('module-details', 'ESM format: hotkeys type is ' + typeof hotkeysESM, 'info');
+                
+            } catch (e) {
+                logTest('esm-status', '❌ ES Module format failed: ' + e.message, 'error', 
+                       'ES Module requires server environment, does not support file:// protocol');
+            }
+        }
+
+        // Setup common hotkey tests
+        function setupCommonHotkeys() {
+            if (!hotkeysInstance) return;
+            
+            // Ctrl+K
+            hotkeysInstance('ctrl+k', function(event, handler) {
+                event.preventDefault();
+                logTest('hotkey-output', '✅ Ctrl+K hotkey triggered', 'success', 'Basic modifier key combination test');
+            });
+            
+            // Alt+S  
+            hotkeysInstance('alt+s', function(event, handler) {
+                event.preventDefault();
+                logTest('hotkey-output', '✅ Alt+S hotkey triggered', 'success', 'Alt modifier key test');
+            });
+            
+            // Esc
+            hotkeysInstance('esc', function(event, handler) {
+                event.preventDefault();
+                logTest('hotkey-output', '✅ Esc key triggered', 'success', 'Single key test');
+            });
+            
+            // Space
+            hotkeysInstance('space', function(event, handler) {
+                event.preventDefault();
+                logTest('hotkey-output', '✅ Space key triggered', 'success', 'Space key test');
+            });
+            
+            // Enter
+            hotkeysInstance('enter', function(event, handler) {
+                event.preventDefault();
+                logTest('hotkey-output', '✅ Enter key triggered', 'success', 'Enter key test');
+            });
+            
+            logTest('hotkey-output', '🎯 Common hotkeys have been set, please test by pressing keys', 'info');
+        }
+
+        // API tests
+        function testAPI() {
+            clearOutput('api-output');
+            
+            if (!hotkeysInstance) {
+                logTest('api-output', '❌ 没有可用的 hotkeys 实例', 'error');
+                return;
+            }
+
+            try {
+                // Test basic API
+                const methods = ['setScope', 'getScope', 'deleteScope', 'unbind', 'trigger', 'isPressed', 
+                               'getPressedKeyCodes', 'getPressedKeyString', 'getAllKeyCodes', 'filter'];
+                
+                logTest('api-output', '🧪 Starting API method tests', 'info');
+                
+                methods.forEach(method => {
+                    if (hotkeysInstance[method]) {
+                        logTest('api-output', `✅ API method ${method} exists`, 'success');
+                    } else {
+                        logTest('api-output', `❌ API method ${method} missing`, 'error');
+                    }
+                });
+                
+                // Test scope functionality
+                const currentScope = hotkeysInstance.getScope();
+                logTest('api-output', `Current scope: ${currentScope}`, 'info');
+                
+                // Test key status
+                const pressedCodes = hotkeysInstance.getPressedKeyCodes();
+                logTest('api-output', `Currently pressed key codes: [${pressedCodes.join(', ')}]`, 'info');
+                
+                // Test key mapping
+                const enterCode = hotkeysInstance.keyMap.enter;
+                logTest('api-output', `Enter key mapping: ${enterCode}`, 'info');
+                
+                // 测试修饰键
+                const ctrlCode = hotkeysInstance.modifier.ctrl;
+                logTest('api-output', `Ctrl modifier key code: ${ctrlCode}`, 'info');
+                
+                logTest('api-output', '✅ API tests completed', 'success');
+                
+            } catch (e) {
+                logTest('api-output', `❌ API tests failed: ${e.message}`, 'error');
+            }
+        }
+
+        // Scope tests
+        function testScopes() {
+            clearOutput('api-output');
+            
+            if (!hotkeysInstance) {
+                logTest('api-output', '❌ 没有可用的 hotkeys 实例', 'error');
+                return;
+            }
+
+            try {
+                logTest('api-output', '🎯 Starting scope tests', 'info');
+                
+                // Get current scope
+                const originalScope = hotkeysInstance.getScope();
+                logTest('api-output', `Original scope: ${originalScope}`, 'info');
+                
+                // Set test scope
+                hotkeysInstance.setScope('test-scope');
+                const newScope = hotkeysInstance.getScope();
+                logTest('api-output', `Set new scope: ${newScope}`, newScope === 'test-scope' ? 'success' : 'error');
+                
+                // Restore original scope
+                hotkeysInstance.setScope(originalScope);
+                const restoredScope = hotkeysInstance.getScope();
+                logTest('api-output', `Restored scope: ${restoredScope}`, restoredScope === originalScope ? 'success' : 'error');
+                
+                logTest('api-output', '✅ Scope tests completed', 'success');
+                
+            } catch (e) {
+                logTest('api-output', `❌ Scope tests failed: ${e.message}`, 'error');
+            }
+        }
+
+        // Key mapping tests
+        function testKeyMapping() {
+            clearOutput('api-output');
+            
+            if (!hotkeysInstance) {
+                logTest('api-output', '❌ 没有可用的 hotkeys 实例', 'error');
+                return;
+            }
+
+            try {
+                logTest('api-output', '🗝️ Starting key mapping tests', 'info');
+                
+                // Test common key mappings
+                const commonKeys = ['enter', 'esc', 'space', 'tab', 'backspace', 'delete'];
+                commonKeys.forEach(key => {
+                    const code = hotkeysInstance.keyMap[key];
+                    if (code !== undefined) {
+                        logTest('api-output', `✅ ${key} -> ${code}`, 'success');
+                    } else {
+                        logTest('api-output', `❌ ${key} mapping missing`, 'error');
+                    }
+                });
+                
+                // Test modifier key mappings
+                const modifiers = ['ctrl', 'alt', 'shift', 'meta'];
+                modifiers.forEach(mod => {
+                    const code = hotkeysInstance.modifier[mod];
+                    if (code !== undefined) {
+                        logTest('api-output', `✅ ${mod} -> ${code}`, 'success');
+                    } else {
+                        logTest('api-output', `❌ ${mod} mapping missing`, 'error');
+                    }
+                });
+                
+                // Count key mappings
+                const keyCount = Object.keys(hotkeysInstance.keyMap).length;
+                const modCount = Object.keys(hotkeysInstance.modifier).length;
+                logTest('api-output', `Total key mappings: ${keyCount}, modifier keys: ${modCount}`, 'info');
+                
+                logTest('api-output', '✅ Key mapping tests completed', 'success');
+                
+            } catch (e) {
+                logTest('api-output', `❌ Key mapping tests failed: ${e.message}`, 'error');
+            }
+        }
+
+        // Run tests after page load
+        document.addEventListener('DOMContentLoaded', function() {
+            logTest('module-details', '🚀 Starting compatibility tests', 'info', 'Loading and testing various module formats');
+            
+            // Test IIFE
+            testIIFE();
+            
+            // Delay UMD test (avoid conflicts)
+            setTimeout(testUMD, 1000);
+            
+            // Delay ESM test
+            setTimeout(testESM, 1500);
+            
+            // Setup common hotkeys
+            setTimeout(() => {
+                setupCommonHotkeys();
+                logTest('module-details', '✅ Initialization completed', 'success', 'All tests are ready');
+            }, 2000);
+        });
+    </script>
+</body>
+</html>
