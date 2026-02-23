@@ -2,6 +2,7 @@ import { defineConfig } from "vite";
 import { resolve } from "path";
 import dts from "vite-plugin-dts";
 import { readFileSync } from "fs";
+import terser from "@rollup/plugin-terser";
 
 const pkg = JSON.parse(readFileSync("./package.json", "utf-8"));
 
@@ -22,13 +23,6 @@ export default defineConfig({
     lib: {
       entry: resolve(__dirname, "src/index.ts"),
       name: "hotkeys",
-      formats: ["es", "umd", "iife"],
-      fileName: (format) => {
-        if (format === "es") return "hotkeys-js.js";
-        if (format === "umd") return "hotkeys-js.umd.cjs";
-        if (format === "iife") return "hotkeys-js.min.js";
-        return `hotkeys-js.${format}.js`;
-      },
     },
     rollupOptions: {
       output: [
@@ -42,18 +36,26 @@ export default defineConfig({
           banner,
           entryFileNames: "hotkeys-js.umd.cjs",
           name: "hotkeys",
-          footer: `if (typeof module === "object" && module.exports) { module.exports.default = module.exports; }`,
+          footer: `
+// CommonJS compatibility
+if (typeof module === "object" && module.exports) {
+  module.exports.default = module.exports;
+}
+// AMD compatibility  
+if (typeof define === "function" && define.amd) {
+  define([], function() { return hotkeys; });
+}`,
         },
         {
           format: "iife",
           banner,
           entryFileNames: "hotkeys-js.min.js",
           name: "hotkeys",
-          compact: true, // UMD 格式进行压缩
+          plugins: [terser()], // 仅对 IIFE 格式进行压缩
         },
       ],
     },
-    minify: true,
+    minify: false,
     sourcemap: true,
     target: "es2015",
     emptyOutDir: false, // Don't empty the output directory

@@ -9,11 +9,13 @@
   "types": "dist/index.d.ts",
   "exports": {
     ".": {
+      "types": "./dist/index.d.ts",
       "import": "./dist/hotkeys-js.js",
       "require": "./dist/hotkeys-js.umd.cjs",
       "browser": "./dist/hotkeys-js.min.js",
-      "types": "./dist/index.d.ts"
-    }
+      "default": "./dist/hotkeys-js.js"
+    },
+    "./package.json": "./package.json"
   },
   "scripts": {
     "prepare": "npm run build:lib && husky install",
@@ -58,6 +60,7 @@
   },
   "devDependencies": {
     "@eslint/js": "^9.39.1",
+    "@rollup/plugin-terser": "^0.4.4",
     "@types/node": "^24.10.1",
     "@types/react": "^19.2.4",
     "@types/react-dom": "^19.2.3",

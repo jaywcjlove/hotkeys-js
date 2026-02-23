@@ -614,5 +614,13 @@ if (typeof window !== 'undefined') {
   (window as any).hotkeys = hotkeys;
 }
 
+// Export for both ESM and CommonJS
 export default hotkeys as HotkeysInterface;
 export type { KeyHandler, HotkeysEvent };
+
+// Additional CommonJS compatibility
+// This will be handled by the build process for UMD builds
+if (typeof module !== 'undefined' && module.exports) {
+  module.exports = hotkeys;
+  module.exports.default = hotkeys;
+}

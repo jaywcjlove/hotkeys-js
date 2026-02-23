@@ -39,7 +39,7 @@
 # Hotkeys
 
 [![Buy me a coffee](https://img.shields.io/badge/Buy%20me%20a%20coffee-048754?logo=buymeacoffee)](https://jaywcjlove.github.io/#/sponsor)
-[![](https://img.shields.io/npm/dm/hotkeys-js?logo=npm)](https://www.npmjs.com/package/hotkeys-js)
+[![](https://img.shields.io/npm/dm/hotkeys-js?logo=npm&label=)](https://www.npmjs.com/package/hotkeys-js)
 [![](https://img.shields.io/github/stars/jaywcjlove/hotkeys-js.svg)](https://github.com/jaywcjlove/hotkeys/stargazers)
 ![no dependencies](http://jaywcjlove.github.io/sb/status/no-dependencies.svg)
 [![GitHub Actions CI](https://github.com/jaywcjlove/hotkeys-js/actions/workflows/ci.yml/badge.svg)](https://github.com/jaywcjlove/hotkeys-js/actions/workflows/ci.yml)
