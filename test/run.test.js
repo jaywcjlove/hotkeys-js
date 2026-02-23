@@ -9,6 +9,9 @@ beforeAll(async () => {
   browser = await puppeteer.launch({ args: ['--no-sandbox'] });
   page = await browser.newPage();
 
+  // Enable coverage collection
+  await page.coverage.startJSCoverage();
+
   // Load the test HTML file
   const htmlPath = path.resolve(__dirname, './index.html');
   await page.goto(`file://${htmlPath}`, { waitUntil: 'networkidle2' });
@@ -512,8 +515,160 @@ describe('\n   Hotkeys.js Test Case\n', () => {
   });
 
   afterAll(async () => {
+    // Collect coverage data
+    const jsCoverage = await page.coverage.stopJSCoverage();
+    
+    // Convert to Istanbul/Jest compatible coverage format
+    global.__coverage__ = global.__coverage__ || {};
+    
+    for (const entry of jsCoverage) {
+      // Only process hotkeys related files
+      if (entry.url.includes('hotkeys') && !entry.url.includes('test')) {
+        // Handle file path correctly, remove file:// prefix
+        const filePath = entry.url.replace(/^file:\/\//, '');
+        const sourceMap = createCoverageMap(entry, filePath);
+        
+        // Add to global coverage object
+        global.__coverage__[filePath] = sourceMap;
+      }
+    }
+    
+    // Calculate total coverage for logging
+    let totalBytes = 0;
+    let usedBytes = 0;
+    for (const entry of jsCoverage) {
+      totalBytes += entry.text.length;
+      for (const range of entry.ranges) {
+        usedBytes += range.end - range.start;
+      }
+    }
+    const coverage = (usedBytes / totalBytes) * 100;
+    console.log(`JS Coverage: ${coverage.toFixed(2)}%`);
+    
+    // Save coverage metrics to file for CI/Actions usage
+    const fs = require('fs');
+    const coverageDir = path.join(process.cwd(), 'coverage');
+    if (!fs.existsSync(coverageDir)) {
+      fs.mkdirSync(coverageDir, { recursive: true });
+    }
+
+    // Save coverage as simple text for easy shell script access
+    fs.writeFileSync(
+      path.join(coverageDir, 'js-coverage.txt'), 
+      `${coverage.toFixed(2)}`
+    );
+    
+    console.log(`Coverage metrics saved to: ${path.join(coverageDir, 'js-coverage.txt')}`);
+    
     await browser.close();
   });
 });
 
 jest.setTimeout(30000);
+
+
+// Helper function to convert Puppeteer coverage data to Istanbul format
+function createCoverageMap(entry, filePath) {
+  const fs = require('fs');
+  
+  // Read source file content to create detailed line mapping
+  let sourceText = '';
+  try {
+    sourceText = fs.readFileSync(filePath, 'utf8');
+  } catch (error) {
+    sourceText = entry.text; // Fallback to entry.text
+  }
+  
+  const lines = sourceText.split('\n');
+  const statements = {};
+  const functions = {};
+  const branches = {};
+  const statementMap = {};
+  const functionMap = {};
+  const branchMap = {};
+  
+  let statementId = 1;
+  
+  // Create statement mapping for each line of code
+  lines.forEach((line, lineIndex) => {
+    const lineNumber = lineIndex + 1;
+    const lineLength = line.length;
+    
+    if (line.trim().length > 0) { // Only process non-empty lines
+      const id = String(statementId++);
+      statementMap[id] = {
+        start: { line: lineNumber, column: 0 },
+        end: { line: lineNumber, column: lineLength }
+      };
+      
+      // Check if this line is covered
+      let covered = 0;
+      let lineStartOffset = lines.slice(0, lineIndex).reduce((acc, l) => acc + l.length + 1, 0);
+      let lineEndOffset = lineStartOffset + lineLength;
+      
+      for (const range of entry.ranges) {
+        if (range.start <= lineEndOffset && range.end >= lineStartOffset) {
+          covered = Math.max(covered, range.count || 1);
+        }
+      }
+      
+      statements[id] = covered;
+    }
+  });
+  
+  // If no statement mappings exist, create default ones
+  if (Object.keys(statements).length === 0) {
+    statementMap['1'] = {
+      start: { line: 1, column: 0 },
+      end: { line: 1, column: 100 }
+    };
+    statements['1'] = entry.ranges.length > 0 ? 1 : 0;
+  }
+  
+  // Add some function mappings (based on simple function detection)
+  lines.forEach((line, lineIndex) => {
+    if (line.includes('function') || line.includes('=>') || line.includes('class')) {
+      const lineNumber = lineIndex + 1;
+      const functionId = String(Object.keys(functionMap).length + 1);
+      
+      functionMap[functionId] = {
+        name: `function_${functionId}`,
+        decl: { 
+          start: { line: lineNumber, column: 0 },
+          end: { line: lineNumber, column: line.length }
+        },
+        loc: { 
+          start: { line: lineNumber, column: 0 },
+          end: { line: lineNumber, column: line.length }
+        },
+        line: lineNumber
+      };
+      
+      // Check if function is executed
+      let functionCovered = 0;
+      let lineStartOffset = lines.slice(0, lineIndex).reduce((acc, l) => acc + l.length + 1, 0);
+      let lineEndOffset = lineStartOffset + line.length;
+      
+      for (const range of entry.ranges) {
+        if (range.start <= lineEndOffset && range.end >= lineStartOffset && range.count > 0) {
+          functionCovered = range.count;
+          break;
+        }
+      }
+      
+      functions[functionId] = functionCovered;
+    }
+  });
+  
+  return {
+    path: filePath,
+    statementMap,
+    fnMap: functionMap,
+    branchMap,
+    s: statements,
+    f: functions,
+    b: branches,
+    _coverageSchema: "1a1c01bbd47fc00a2c39e90264f33305004495a9",
+    hash: "coverage-" + Date.now()
+  };
+}

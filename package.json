@@ -53,11 +53,6 @@
     "type": "git",
     "url": "git+https://github.com/jaywcjlove/hotkeys-js.git"
   },
-  "jest": {
-    "testEnvironmentOptions": {
-      "url": "http://localhost/"
-    }
-  },
   "devDependencies": {
     "@eslint/js": "^9.39.1",
     "@rollup/plugin-terser": "^0.4.4",

@@ -33,6 +33,21 @@ jobs:
     - run: npm run build
     - run: npm run test
     - run: cp -rp dist doc
+    - run: cp -rp coverage/lcov-report doc
+
+    - name: Extract coverage percentage
+      id: coverage
+      run: |
+        COVERAGE=$(cat coverage/js-coverage.txt)
+        echo "coverage=$COVERAGE" >> $GITHUB_OUTPUT
+        echo "Coverage: $COVERAGE%"
+
+    - name: Generate Badges
+      uses: jaywcjlove/generated-badges@main
+      with:
+        label: coverage
+        status: ${{ steps.coverage.outputs.coverage }}%
+        output: doc/coverage.svg
 
     - name: Generate Contributors Images
       uses: jaywcjlove/github-action-contributors@main
