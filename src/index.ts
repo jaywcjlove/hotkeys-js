@@ -24,6 +24,8 @@ let _downKeys: number[] = [];
 /** Whether the window has already listened to the focus event */
 let winListendFocus: { listener: EventListener; capture: boolean } | null =
   null;
+/** Whether we already listen to fullscreen change (to clear stuck _downKeys) */
+let winListendFullscreen: { fullscreen: EventListener; webkit: EventListener } | null = null;
 /** Default hotkey scope */
 let _scope: string = 'all';
 /** Map to record elements with bound events */
@@ -524,6 +526,19 @@ const hotkeys = function hotkeys(
       winListendFocus = { listener, capture };
       addEvent(window, 'focus', listener, capture);
     }
+    // Register fullscreen change once: keyup can be lost when entering fullscreen (e.g. Alt+F), so clear stuck keys
+    if (!winListendFullscreen && typeof document !== 'undefined') {
+      const onFullscreenChange = () => {
+        _downKeys = [];
+        for (const k in _mods) _mods[k] = false;
+        for (const k in _modifier) (hotkeys as any)[k] = false;
+      };
+      const fullscreenListener = onFullscreenChange as EventListener;
+      const webkitListener = onFullscreenChange as EventListener;
+      document.addEventListener('fullscreenchange', fullscreenListener);
+      document.addEventListener('webkitfullscreenchange', webkitListener);
+      winListendFullscreen = { fullscreen: fullscreenListener, webkit: webkitListener };
+    }
   }
 } as HotkeysInterface;
 
@@ -576,6 +591,12 @@ function removeKeyEvent(element: HTMLElement | Document | null): void {
       const { listener, capture } = winListendFocus;
       removeEvent(window, 'focus', listener, capture);
       winListendFocus = null;
+    }
+    // Remove fullscreen change listeners
+    if (winListendFullscreen && typeof document !== 'undefined') {
+      document.removeEventListener('fullscreenchange', winListendFullscreen.fullscreen);
+      document.removeEventListener('webkitfullscreenchange', winListendFullscreen.webkit);
+      winListendFullscreen = null;
     }
   }
 }
