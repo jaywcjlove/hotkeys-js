@@ -49,7 +49,7 @@
 [![English](https://jaywcjlove.github.io/sb/lang/english.svg)](https://jaywcjlove.github.io/hotkeys-js/)
 [![jaywcjlove/hotkeys-js](https://jaywcjlove.github.io/sb/ico/gitee.svg)](https://gitee.com/jaywcjlove/hotkeys)
 
-HotKeys.js 是一个具有一些非常特殊功能的输入捕获库，它易于上手和使用，占用空间合理（[~6kB](https://bundlephobia.com/result?p=hotkeys-js)）（压缩后：**`2.8kB`**），无依赖。它不应该干扰任何 JavaScript 库或框架。官方文档 [演示预览](https://jaywcjlove.github.io/hotkeys-js)。[更多示例](https://github.com/jaywcjlove/hotkeys-js/issues?q=label%3ADemo+)。
+HotKeys.js 是一个具有一些非常特殊功能的输入捕获库，它易于上手和使用，占用空间合理（[~8kB](https://bundlephobia.com/result?p=hotkeys-js)）（压缩后：**`3.8kB`**），无依赖。它不应该干扰任何 JavaScript 库或框架。官方文档 [演示预览](https://jaywcjlove.github.io/hotkeys-js)，[兼容性测试](https://jaywcjlove.github.io/hotkeys-js/dist/compatibility-test.html)。[更多示例](https://github.com/jaywcjlove/hotkeys-js/issues?q=label%3ADemo+)。
 
 ```bash
 ╭┈┈╮          ╭┈┈╮  ╭┈┈╮

@@ -47,7 +47,7 @@
 [![Chinese](https://jaywcjlove.github.io/sb/lang/chinese.svg)](https://wangchujiang.com/hotkeys-js/?lang=zh)
 [![jaywcjlove/hotkeys-js](https://jaywcjlove.github.io/sb/ico/gitee.svg)](https://gitee.com/jaywcjlove/hotkeys)
 
-HotKeys.js is an input capture library with some very special features, it is easy to pick up and use, has a reasonable footprint ([~6kB](https://bundlephobia.com/result?p=hotkeys-js)) (gzipped: **`2.8kB`**), and has no dependencies. It should not interfere with any JavaScript libraries or frameworks. Official document [demo preview](https://jaywcjlove.github.io/hotkeys-js). [More examples](https://github.com/jaywcjlove/hotkeys-js/issues?q=label%3ADemo+).
+HotKeys.js is an input capture library with some very special features, it is easy to pick up and use, has a reasonable footprint ([~8kB](https://bundlephobia.com/result?p=hotkeys-js)) (gzipped: **`3.8kB`**), and has no dependencies. It should not interfere with any JavaScript libraries or frameworks. Official document [demo preview](https://jaywcjlove.github.io/hotkeys-js), [compatibility test](https://jaywcjlove.github.io/hotkeys-js/dist/compatibility-test.html). [More examples](https://github.com/jaywcjlove/hotkeys-js/issues?q=label%3ADemo+).
 
 ```bash
 ╭┈┈╮          ╭┈┈╮  ╭┈┈╮
