@@ -38,10 +38,10 @@
 
 # Hotkeys
 
-[![Buy me a coffee](https://img.shields.io/badge/Buy%20me%20a%20coffee-048754?logo=buymeacoffee)](https://jaywcjlove.github.io/#/sponsor)
+[![Buy me a coffee](https://img.shields.io/badge/Buy_Me_a_Coffee-ffdd00?logo=buy-me-a-coffee&logoColor=black)](https://jaywcjlove.github.io/#/sponsor)
+[![Follow On X](https://img.shields.io/badge/Follow%20on%20X-333333?logo=x&logoColor=white)](https://x.com/jaywcjlove)
 [![](https://img.shields.io/npm/dm/hotkeys-js?logo=npm&label=)](https://www.npmjs.com/package/hotkeys-js)
 [![](https://img.shields.io/github/stars/jaywcjlove/hotkeys-js.svg)](https://github.com/jaywcjlove/hotkeys/stargazers)
-![no dependencies](http://jaywcjlove.github.io/sb/status/no-dependencies.svg)
 [![GitHub Actions CI](https://github.com/jaywcjlove/hotkeys-js/actions/workflows/ci.yml/badge.svg)](https://github.com/jaywcjlove/hotkeys-js/actions/workflows/ci.yml)
 [![Coverage Status](https://jaywcjlove.github.io/hotkeys-js/coverage.svg)](https://jaywcjlove.github.io/hotkeys-js/lcov-report/index.html)
 [![Chinese](https://jaywcjlove.github.io/sb/lang/chinese.svg)](https://wangchujiang.com/hotkeys-js/?lang=zh)
