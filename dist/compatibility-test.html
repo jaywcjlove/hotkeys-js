@@ -394,6 +394,21 @@ hotkeys('ctrl+k', function(event, handler) {
 
         // Test ES Module format
         async function testESM() {
+            if (window.location.protocol === 'file:') {
+                logTest(
+                    'esm-status',
+                    '⚠️ ES Module format skipped under file://',
+                    'warning',
+                    'Open this page through a local HTTP server to test ./hotkeys-js.js'
+                );
+                logTest(
+                    'module-details',
+                    'ESM format was not executed because browsers block module loading from file:// URLs',
+                    'warning'
+                );
+                return;
+            }
+
             try {
                 const { default: hotkeysESM } = await import('./hotkeys-js.js');
                 

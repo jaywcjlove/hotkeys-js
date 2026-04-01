@@ -568,10 +568,6 @@
     };
     window.hotkeys = hotkeys2;
   }
-  if (typeof module !== "undefined" && module.exports) {
-    module.exports = hotkeys2;
-    module.exports.default = hotkeys2;
-  }
   return hotkeys2;
 });
 if (typeof module === "object" && module.exports) {
