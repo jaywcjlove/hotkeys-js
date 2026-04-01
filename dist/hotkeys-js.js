@@ -564,10 +564,6 @@ if (typeof window !== "undefined") {
   };
   window.hotkeys = hotkeys;
 }
-if (typeof module !== "undefined" && module.exports) {
-  module.exports = hotkeys;
-  module.exports.default = hotkeys;
-}
 export {
   hotkeys as default
 };
