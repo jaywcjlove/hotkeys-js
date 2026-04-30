@@ -57,6 +57,9 @@
   }
   function getLayoutIndependentKeyCode(event) {
     let key = event.keyCode || event.which || event.charCode;
+    if (event.key && /^[a-z]$/i.test(event.key)) {
+      return event.key.toUpperCase().charCodeAt(0);
+    }
     if (event.code && /^Key[A-Z]$/.test(event.code)) {
       key = event.code.charCodeAt(3);
     }
