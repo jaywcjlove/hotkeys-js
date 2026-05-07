@@ -3,7 +3,7 @@ on:
   pull_request:
 
 env:
-  SKIP_PREFLIGHT_CHECK: true
+  SKIP_PREFLIGHT_CHECK: 
 
 jobs:
   build-deploy:
