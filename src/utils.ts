@@ -83,11 +83,26 @@ function compareArray(a1: number[], a2: number[]): boolean {
  * For non-Latin layouts, fall back to `event.code` for KeyA-KeyZ so bindings
  * like `ctrl+m` still work on Cyrillic/Greek keyboards.
  */
-function getLayoutIndependentKeyCode(event: KeyboardEvent): number {
+function getLayoutIndependentKeyCode(
+  event: KeyboardEvent,
+  keyMap: Record<string, number>,
+  modifierMap: Record<string, number>
+): number {
   let key = event.keyCode || event.which || event.charCode;
 
-  if (event.key && /^[a-z]$/i.test(event.key)) {
-    return event.key.toUpperCase().charCodeAt(0);
+  if (event.key) {
+    const eventKey = event.key.toLowerCase();
+    if (eventKey in keyMap) {
+      return keyMap[eventKey];
+    }
+
+    if (eventKey in modifierMap) {
+      return modifierMap[eventKey];
+    }
+
+    if (/^[a-z]$/i.test(event.key)) {
+      return event.key.toUpperCase().charCodeAt(0);
+    }
   }
 
   // Convert physical key code (KeyA-KeyZ) to corresponding ASCII code (65-90)
