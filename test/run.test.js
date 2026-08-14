@@ -272,6 +272,7 @@ describe('\n   Hotkeys.js Test Case\n', () => {
         new KeyboardEvent('keydown', {
           key: 'Enter',
           code: 'Enter',
+          // Intentionally conflicting legacy values: modern `key` must take precedence.
           keyCode: 27,
           which: 27,
           bubbles: true,
