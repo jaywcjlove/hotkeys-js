@@ -55,10 +55,19 @@
     }
     return isIndex;
   }
-  function getLayoutIndependentKeyCode(event) {
+  function getLayoutIndependentKeyCode(event, keyMap, modifierMap2) {
     let key = event.keyCode || event.which || event.charCode;
-    if (event.key && /^[a-z]$/i.test(event.key)) {
-      return event.key.toUpperCase().charCodeAt(0);
+    if (event.key) {
+      const eventKey = event.key.toLowerCase();
+      if (eventKey in keyMap) {
+        return keyMap[eventKey];
+      }
+      if (eventKey in modifierMap2) {
+        return modifierMap2[eventKey];
+      }
+      if (/^[a-z]$/i.test(event.key)) {
+        return event.key.toUpperCase().charCodeAt(0);
+      }
     }
     if (event.code && /^Key[A-Z]$/.test(event.code)) {
       key = event.code.charCodeAt(3);
@@ -244,7 +253,7 @@
     if (getScope() === scope) setScope(newScope || "all");
   };
   function clearModifier(event) {
-    let key = getLayoutIndependentKeyCode(event);
+    let key = getLayoutIndependentKeyCode(event, _keyMap, _modifier);
     if (event.key && event.key.toLowerCase() === "capslock") {
       key = code(event.key);
     }
@@ -344,7 +353,7 @@
   }
   function dispatch(event, element) {
     const asterisk = _handlers["*"];
-    let key = getLayoutIndependentKeyCode(event);
+    let key = getLayoutIndependentKeyCode(event, _keyMap, _modifier);
     if (event.key && event.key.toLowerCase() === "capslock") {
       return;
     }

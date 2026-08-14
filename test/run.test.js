@@ -242,6 +242,69 @@ describe('\n   Hotkeys.js Test Case\n', () => {
     expect(result.space).toBeTruthy();
   });
 
+  test('HotKeys modern and legacy Enter events Test Case', async () => {
+    const result = await page.evaluate(async () => {
+      const results = {
+        modernKey: false,
+        modernPreferred: false,
+        legacy: false,
+      };
+
+      window.hotkeys('enter', () => {
+        results.modernKey = true;
+      });
+
+      document.body.dispatchEvent(
+        new KeyboardEvent('keydown', {
+          key: 'Enter',
+          code: 'Enter',
+          bubbles: true,
+          cancelable: true,
+        })
+      );
+      window.hotkeys.unbind('enter');
+
+      window.hotkeys('enter', () => {
+        results.modernPreferred = true;
+      });
+
+      document.body.dispatchEvent(
+        new KeyboardEvent('keydown', {
+          key: 'Enter',
+          code: 'Enter',
+          // Intentionally conflicting legacy values: modern `key` must take precedence.
+          keyCode: 27,
+          which: 27,
+          bubbles: true,
+          cancelable: true,
+        })
+      );
+      window.hotkeys.unbind('enter');
+
+      window.hotkeys('enter', () => {
+        results.legacy = true;
+      });
+
+      document.body.dispatchEvent(
+        new KeyboardEvent('keydown', {
+          keyCode: 13,
+          which: 13,
+          bubbles: true,
+          cancelable: true,
+        })
+      );
+      window.hotkeys.unbind('enter');
+
+      return results;
+    });
+
+    expect(result).toEqual({
+      modernKey: true,
+      modernPreferred: true,
+      legacy: true,
+    });
+  });
+
   test('HotKeys Test Case', async () => {
     const result = await page.evaluate(async () => {
       const results = {};

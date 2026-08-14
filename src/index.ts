@@ -147,7 +147,7 @@ const deleteScope: DeleteScope = (scope, newScope) => {
 
 /** Clear modifier keys */
 function clearModifier(event: KeyboardEvent): void {
-  let key = getLayoutIndependentKeyCode(event);
+  let key = getLayoutIndependentKeyCode(event, _keyMap, _modifier);
 
   if (event.key && event.key.toLowerCase() === 'capslock') {
     // Ensure that when capturing keystrokes in modern browsers,
@@ -304,7 +304,7 @@ function dispatch(
   element: HTMLElement | Document
 ): void {
   const asterisk = _handlers['*'];
-  let key = getLayoutIndependentKeyCode(event);
+  let key = getLayoutIndependentKeyCode(event, _keyMap, _modifier);
 
   // Ensure that when capturing keystrokes in modern browsers,
   // uppercase and lowercase letters (such as R and r) return the same key value.
