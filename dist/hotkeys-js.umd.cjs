@@ -505,7 +505,7 @@
   function trigger(shortcut, scope = "all") {
     Object.keys(_handlers).forEach((key) => {
       const dataList = _handlers[key].filter(
-        (item) => item.scope === scope && item.shortcut === shortcut
+        (item) => item.scope === scope && (item.shortcut === shortcut || item.shortcut === "*")
       );
       dataList.forEach((data) => {
         if (data && data.method) {
