@@ -1,5 +1,5 @@
 /*!
- * hotkeys-js v4.0.5
+ * hotkeys-js v4.0.6
  * A simple micro-library for defining and dispatching keyboard shortcuts. It has no dependencies.
  * 
  * @author kenny wong <wowohoo@qq.com>
@@ -501,7 +501,7 @@ const hotkeys = function hotkeys2(key, option, method) {
 function trigger(shortcut, scope = "all") {
   Object.keys(_handlers).forEach((key) => {
     const dataList = _handlers[key].filter(
-      (item) => item.scope === scope && item.shortcut === shortcut
+      (item) => item.scope === scope && (item.shortcut === shortcut || item.shortcut === "*")
     );
     dataList.forEach((data) => {
       if (data && data.method) {

@@ -2,7 +2,7 @@
   typeof exports === "object" && typeof module !== "undefined" ? module.exports = factory() : typeof define === "function" && define.amd ? define(factory) : (global = typeof globalThis !== "undefined" ? globalThis : global || self, global.hotkeys = factory());
 })(this, function() {
   "use strict";/*!
- * hotkeys-js v4.0.5
+ * hotkeys-js v4.0.6
  * A simple micro-library for defining and dispatching keyboard shortcuts. It has no dependencies.
  * 
  * @author kenny wong <wowohoo@qq.com>
@@ -505,7 +505,7 @@
   function trigger(shortcut, scope = "all") {
     Object.keys(_handlers).forEach((key) => {
       const dataList = _handlers[key].filter(
-        (item) => item.scope === scope && item.shortcut === shortcut
+        (item) => item.scope === scope && (item.shortcut === shortcut || item.shortcut === "*")
       );
       dataList.forEach((data) => {
         if (data && data.method) {
