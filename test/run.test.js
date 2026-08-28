@@ -665,6 +665,34 @@ describe('\n   Hotkeys.js Test Case\n', () => {
     expect(result.pressedKeysDuringI).toEqual(expect.arrayContaining([73]));
   });
 
+    test('Hotkey trigger should also fire wildcard (*) handlers', async () => {
+    const result = await page.evaluate(() => {
+      let wildcardCount = 0;
+      let specificCount = 0;
+
+      window.hotkeys('a', () => {
+        specificCount++;
+      });
+
+      window.hotkeys('*', () => {
+        wildcardCount++;
+      });
+
+      window.hotkeys.trigger('a');
+
+      window.hotkeys.trigger('b');
+
+      window.hotkeys.unbind('a');
+      window.hotkeys.unbind('*');
+
+      return { wildcardCount, specificCount };
+    });
+
+    expect(result.specificCount).toBe(1);
+
+    expect(result.wildcardCount).toBe(2);
+  });
+
   afterAll(async () => {
     if (!browser) {
       return;
