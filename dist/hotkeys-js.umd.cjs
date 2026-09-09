@@ -65,6 +65,9 @@
       if (eventKey in modifierMap2) {
         return modifierMap2[eventKey];
       }
+      if (/^[0-9]$/.test(event.key)) {
+        return event.key.charCodeAt(0);
+      }
       if (/^[a-z]$/i.test(event.key)) {
         return event.key.toUpperCase().charCodeAt(0);
       }
