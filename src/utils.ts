@@ -100,6 +100,10 @@ function getLayoutIndependentKeyCode(
       return modifierMap[eventKey];
     }
 
+    if (/^[0-9]$/.test(event.key)) {
+      return event.key.charCodeAt(0);
+    }
+
     if (/^[a-z]$/i.test(event.key)) {
       return event.key.toUpperCase().charCodeAt(0);
     }

@@ -2,7 +2,7 @@
   typeof exports === "object" && typeof module !== "undefined" ? module.exports = factory() : typeof define === "function" && define.amd ? define(factory) : (global = typeof globalThis !== "undefined" ? globalThis : global || self, global.hotkeys = factory());
 })(this, function() {
   "use strict";/*!
- * hotkeys-js v4.0.6
+ * hotkeys-js v4.0.7
  * A simple micro-library for defining and dispatching keyboard shortcuts. It has no dependencies.
  * 
  * @author kenny wong <wowohoo@qq.com>
@@ -64,6 +64,9 @@
       }
       if (eventKey in modifierMap2) {
         return modifierMap2[eventKey];
+      }
+      if (/^[0-9]$/.test(event.key)) {
+        return event.key.charCodeAt(0);
       }
       if (/^[a-z]$/i.test(event.key)) {
         return event.key.toUpperCase().charCodeAt(0);

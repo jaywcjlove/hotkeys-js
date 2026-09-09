@@ -305,6 +305,30 @@ describe('\n   Hotkeys.js Test Case\n', () => {
     });
   });
 
+  test('HotKeys modern numeric key event Test Case', async () => {
+    const result = await page.evaluate(() => {
+      let triggered = false;
+
+      window.hotkeys('1', () => {
+        triggered = true;
+      });
+
+      document.body.dispatchEvent(
+        new KeyboardEvent('keydown', {
+          key: '1',
+          code: 'Digit1',
+          bubbles: true,
+          cancelable: true,
+        })
+      );
+      window.hotkeys.unbind('1');
+
+      return triggered;
+    });
+
+    expect(result).toBeTruthy();
+  });
+
   test('HotKeys Test Case', async () => {
     const result = await page.evaluate(async () => {
       const results = {};
