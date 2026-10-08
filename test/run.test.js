@@ -53,6 +53,28 @@ beforeAll(async () => {
 }, 1000 * 120);
 
 describe('\n   Hotkeys.js Test Case\n', () => {
+  test('single replaces callbacks with a custom splitKey', async () => {
+    const result = await page.evaluate(() => {
+      const calls = [];
+      const options = { splitKey: '-', single: true, scope: 'custom-separator' };
+      window.hotkeys('ctrl-a', options, () => calls.push('previous'));
+      window.hotkeys('ctrl-a', options, () => calls.push('replacement'));
+      window.hotkeys.setScope('custom-separator');
+
+      document.body.dispatchEvent(new KeyboardEvent('keydown', {
+        key: 'a', code: 'KeyA', keyCode: 65, which: 65, ctrlKey: true, bubbles: true,
+      }));
+      document.body.dispatchEvent(new KeyboardEvent('keyup', {
+        key: 'a', code: 'KeyA', keyCode: 65, which: 65, bubbles: true,
+      }));
+      window.hotkeys.deleteScope('custom-separator');
+
+      return calls;
+    });
+
+    expect(result).toEqual(['replacement']);
+  });
+
   test('HTML loader', async () => {
     const title = await page.title();
     expect(title).toBe('hotkeys.js');
