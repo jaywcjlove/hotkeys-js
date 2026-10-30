@@ -507,8 +507,8 @@ hotkeys()
 要开发，需要安装依赖，获取代码：
 
 ```shell
-$ git https://github.com/jaywcjlove/hotkeys.git
-$ cd hotkeys     # 进入目录
+$ git clone https://github.com/jaywcjlove/hotkeys-js.git
+$ cd hotkeys-js  # 进入目录
 $ npm install    # 或者 yarn install
 ```
 
