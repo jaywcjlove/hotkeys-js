@@ -474,7 +474,7 @@ const hotkeys = function hotkeys(
   if (typeof option === 'string') scope = option;
 
   // If only one callback is allowed, unbind the existing one first
-  if (single) unbind(key, scope);
+  if (single) unbind({ key, scope, splitKey });
 
   // Handle each hotkey
   for (; i < keys.length; i++) {
