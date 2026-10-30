@@ -449,7 +449,7 @@ const hotkeys = function hotkeys2(key, option, method) {
     if (opts.single === true) single = true;
   }
   if (typeof option === "string") scope = option;
-  if (single) unbind(key, scope);
+  if (single) unbind({ key, scope, splitKey });
   for (; i < keys.length; i++) {
     const currentKey = keys[i].split(splitKey);
     mods = [];
