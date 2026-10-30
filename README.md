@@ -507,8 +507,8 @@ hotkeys()
 To develop, Install dependencies, Get the code:
 
 ```shell
-$ git https://github.com/jaywcjlove/hotkeys.git
-$ cd hotkeys     # Into the directory
+$ git clone https://github.com/jaywcjlove/hotkeys-js.git
+$ cd hotkeys-js  # Into the directory
 $ npm install    # or  yarn install
 ```
 
