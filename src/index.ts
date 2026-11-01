@@ -71,12 +71,12 @@ const getPressedKeyString: GetPressedKeyString = () => {
 const getAllKeyCodes: GetAllKeyCodes = () => {
   const result: KeyCodeInfo[] = [];
   Object.keys(_handlers).forEach((k) => {
-    _handlers[k].forEach(({ key, scope, mods, shortcut }) => {
+    _handlers[k].forEach(({ key, scope, mods, shortcut, splitKey }) => {
       result.push({
         scope,
         shortcut,
         mods,
-        keys: key.split('+').map((v) => code(v)),
+        keys: key.split(splitKey).map((v) => code(v)),
       });
     });
   });

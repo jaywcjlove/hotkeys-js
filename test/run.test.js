@@ -213,6 +213,29 @@ describe('\n   Hotkeys.js Test Case\n', () => {
     expect(Array.isArray(result)).toBeTruthy();
   });
 
+  test('getAllKeyCodes respects each binding splitKey', async () => {
+    const result = await page.evaluate(() => {
+      const scope = 'key-code-query';
+      window.hotkeys('ctrl-a', { scope, splitKey: '-' }, () => {});
+      window.hotkeys('ctrl::shift::b', { scope, splitKey: '::' }, () => {});
+      window.hotkeys('ctrl-+', { scope, splitKey: '-' }, () => {});
+      window.hotkeys('ctrl+c', { scope }, () => {});
+      const bindings = window.hotkeys.getAllKeyCodes()
+        .filter((binding) => binding.scope === scope)
+        .map(({ shortcut, keys }) => ({ shortcut, keys }));
+      window.hotkeys.deleteScope(scope);
+      return bindings;
+    });
+
+    expect(result).toHaveLength(4);
+    expect(result).toEqual(expect.arrayContaining([
+      { shortcut: 'ctrl-a', keys: [17, 65] },
+      { shortcut: 'ctrl::shift::b', keys: [17, 16, 66] },
+      { shortcut: 'ctrl-+', keys: [17, 43] },
+      { shortcut: 'ctrl+c', keys: [17, 67] },
+    ]));
+  });
+
   test('HotKeys Special keys Test Case', async () => {
     const result = await page.evaluate(async () => {
       const results = {};
