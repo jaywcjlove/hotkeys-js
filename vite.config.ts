@@ -18,7 +18,11 @@ const banner = `/*!
 
 export default defineConfig({
   publicDir: false,
-  plugins: [dts({ rollupTypes: true, tsconfigPath: "./tsconfig.json" })],
+  // Vite defaults legalComments to "none", which strips the license banner.
+  esbuild: {
+    legalComments: "inline",
+  },
+  plugins: [dts({ bundleTypes: true, tsconfigPath: "./tsconfig.json" })],
   build: {
     lib: {
       entry: resolve(__dirname, "src/index.ts"),
@@ -51,7 +55,13 @@ if (typeof define === "function" && define.amd) {
           banner,
           entryFileNames: "hotkeys-js.min.js",
           name: "hotkeys",
-          plugins: [terser()], // 仅对 IIFE 格式进行压缩
+          plugins: [
+            terser({
+              format: {
+                comments: "some",
+              },
+            }),
+          ], // 仅对 IIFE 格式进行压缩
         },
       ],
     },
