@@ -570,16 +570,8 @@ function removeKeyEvent(element: HTMLElement | Document | null): void {
   const values = Object.values(_handlers).flat();
   const findindex = values.findIndex(({ element: el }) => el === element);
 
-  if (findindex < 0 && element) {
-    const { keydownListener, keyupListenr, capture } =
-      elementEventMap.get(element) || {};
-    if (keydownListener && keyupListenr) {
-      removeEvent(element, 'keyup', keyupListenr, capture);
-      removeEvent(element, 'keydown', keydownListener, capture);
-      elementEventMap.delete(element);
-    }
-  }
-
+  // Full teardown must see the map before the per-element delete. Removing the
+  // last element first left this sweep with an empty map.
   if (values.length <= 0 || elementEventMap.size <= 0) {
     // Remove all event listeners from all elements
     const eventKeys = Array.from(elementEventMap.keys());
@@ -612,6 +604,17 @@ function removeKeyEvent(element: HTMLElement | Document | null): void {
     if (winListendPrint) {
       removeEvent(window, 'afterprint', winListendPrint);
       winListendPrint = null;
+    }
+    return;
+  }
+
+  if (findindex < 0 && element) {
+    const { keydownListener, keyupListenr, capture } =
+      elementEventMap.get(element) || {};
+    if (keydownListener && keyupListenr) {
+      removeEvent(element, 'keyup', keyupListenr, capture);
+      removeEvent(element, 'keydown', keydownListener, capture);
+      elementEventMap.delete(element);
     }
   }
 }

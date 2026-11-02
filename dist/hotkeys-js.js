@@ -525,14 +525,6 @@ function trigger(shortcut, scope = "all") {
 function removeKeyEvent(element) {
   const values = Object.values(_handlers).flat();
   const findindex = values.findIndex(({ element: el }) => el === element);
-  if (findindex < 0 && element) {
-    const { keydownListener, keyupListenr, capture } = elementEventMap.get(element) || {};
-    if (keydownListener && keyupListenr) {
-      removeEvent(element, "keyup", keyupListenr, capture);
-      removeEvent(element, "keydown", keydownListener, capture);
-      elementEventMap.delete(element);
-    }
-  }
   if (values.length <= 0 || elementEventMap.size <= 0) {
     const eventKeys = Array.from(elementEventMap.keys());
     eventKeys.forEach((el) => {
@@ -558,6 +550,15 @@ function removeKeyEvent(element) {
     if (winListendPrint) {
       removeEvent(window, "afterprint", winListendPrint);
       winListendPrint = null;
+    }
+    return;
+  }
+  if (findindex < 0 && element) {
+    const { keydownListener, keyupListenr, capture } = elementEventMap.get(element) || {};
+    if (keydownListener && keyupListenr) {
+      removeEvent(element, "keyup", keyupListenr, capture);
+      removeEvent(element, "keydown", keydownListener, capture);
+      elementEventMap.delete(element);
     }
   }
 }
