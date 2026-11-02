@@ -2,7 +2,7 @@
   typeof exports === "object" && typeof module !== "undefined" ? module.exports = factory() : typeof define === "function" && define.amd ? define(factory) : (global = typeof globalThis !== "undefined" ? globalThis : global || self, global.hotkeys = factory());
 })(this, function() {
   "use strict";/*!
- * hotkeys-js v4.0.11
+ * hotkeys-js v4.0.12
  * A simple micro-library for defining and dispatching keyboard shortcuts. It has no dependencies.
  * 
  * @author kenny wong <wowohoo@qq.com>
@@ -529,14 +529,6 @@
   function removeKeyEvent(element) {
     const values = Object.values(_handlers).flat();
     const findindex = values.findIndex(({ element: el }) => el === element);
-    if (findindex < 0 && element) {
-      const { keydownListener, keyupListenr, capture } = elementEventMap.get(element) || {};
-      if (keydownListener && keyupListenr) {
-        removeEvent(element, "keyup", keyupListenr, capture);
-        removeEvent(element, "keydown", keydownListener, capture);
-        elementEventMap.delete(element);
-      }
-    }
     if (values.length <= 0 || elementEventMap.size <= 0) {
       const eventKeys = Array.from(elementEventMap.keys());
       eventKeys.forEach((el) => {
@@ -562,6 +554,15 @@
       if (winListendPrint) {
         removeEvent(window, "afterprint", winListendPrint);
         winListendPrint = null;
+      }
+      return;
+    }
+    if (findindex < 0 && element) {
+      const { keydownListener, keyupListenr, capture } = elementEventMap.get(element) || {};
+      if (keydownListener && keyupListenr) {
+        removeEvent(element, "keyup", keyupListenr, capture);
+        removeEvent(element, "keydown", keydownListener, capture);
+        elementEventMap.delete(element);
       }
     }
   }
