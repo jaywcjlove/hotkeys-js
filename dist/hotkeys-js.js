@@ -1,5 +1,5 @@
 /*!
- * hotkeys-js v4.0.10
+ * hotkeys-js v4.0.11
  * A simple micro-library for defining and dispatching keyboard shortcuts. It has no dependencies.
  * 
  * @author kenny wong <wowohoo@qq.com>
@@ -174,6 +174,7 @@ for (let k = 1; k < 20; k++) {
 let _downKeys = [];
 let winListendFocus = null;
 let winListendFullscreen = null;
+let winListendPrint = null;
 let _scope = "all";
 const elementEventMap = /* @__PURE__ */ new Map();
 const code = (x) => _keyMap[x.toLowerCase()] || _modifier[x.toLowerCase()] || x.toUpperCase().charCodeAt(0);
@@ -499,6 +500,14 @@ const hotkeys = function hotkeys2(key, option, method) {
       document.addEventListener("webkitfullscreenchange", webkitListener);
       winListendFullscreen = { fullscreen: fullscreenListener, webkit: webkitListener };
     }
+    if (!winListendPrint) {
+      winListendPrint = () => {
+        _downKeys = [];
+        for (const k in _mods) _mods[k] = false;
+        for (const k in _modifier) hotkeys2[k] = false;
+      };
+      addEvent(window, "afterprint", winListendPrint);
+    }
   }
 };
 function trigger(shortcut, scope = "all") {
@@ -545,6 +554,10 @@ function removeKeyEvent(element) {
       document.removeEventListener("fullscreenchange", winListendFullscreen.fullscreen);
       document.removeEventListener("webkitfullscreenchange", winListendFullscreen.webkit);
       winListendFullscreen = null;
+    }
+    if (winListendPrint) {
+      removeEvent(window, "afterprint", winListendPrint);
+      winListendPrint = null;
     }
   }
 }
