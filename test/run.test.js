@@ -420,6 +420,36 @@ describe('\n   Hotkeys.js Test Case\n', () => {
     expect(result).toBeTruthy();
   });
 
+  test('numpad keys match num_* bindings, not the main keyboard keys', async () => {
+    const result = await page.evaluate(() => {
+      const calls = [];
+      const keys = ['num_0', 'num_decimal', 'num_subtract', 'num_divide', '0', '.', '-', '/'];
+      keys.forEach((key) => window.hotkeys(key, () => calls.push(key)));
+
+      const press = (key, code, keyCode) => {
+        ['keydown', 'keyup'].forEach((type) => {
+          document.body.dispatchEvent(new KeyboardEvent(type, {
+            key, code, keyCode, which: keyCode, bubbles: true,
+          }));
+        });
+      };
+      // Numpad keys report the same `key` as the main keyboard row
+      press('0', 'Numpad0', 96);
+      press('.', 'NumpadDecimal', 110);
+      press('-', 'NumpadSubtract', 109);
+      press('/', 'NumpadDivide', 111);
+      press('0', 'Digit0', 48);
+      press('.', 'Period', 190);
+      press('-', 'Minus', 189);
+      press('/', 'Slash', 191);
+
+      keys.forEach((key) => window.hotkeys.unbind(key));
+      return calls;
+    });
+
+    expect(result).toEqual(['num_0', 'num_decimal', 'num_subtract', 'num_divide', '0', '.', '-', '/']);
+  });
+
   test('HotKeys Test Case', async () => {
     const result = await page.evaluate(async () => {
       const results = {};
