@@ -26,6 +26,8 @@ let winListendFocus: { listener: EventListener; capture: boolean } | null =
   null;
 /** Whether we already listen to fullscreen change (to clear stuck _downKeys) */
 let winListendFullscreen: { fullscreen: EventListener; webkit: EventListener } | null = null;
+/** Whether the window has already listened to the afterprint event (to clear stuck _downKeys) */
+let winListendPrint: EventListener | null = null;
 /** Default hotkey scope */
 let _scope: string = 'all';
 /** Map to record elements with bound events */
@@ -539,6 +541,15 @@ const hotkeys = function hotkeys(
       document.addEventListener('webkitfullscreenchange', webkitListener);
       winListendFullscreen = { fullscreen: fullscreenListener, webkit: webkitListener };
     }
+    // Register afterprint once: the print dialog swallows keyup and Chrome sends no focus event after it, so clear stuck keys
+    if (!winListendPrint) {
+      winListendPrint = () => {
+        _downKeys = [];
+        for (const k in _mods) _mods[k] = false;
+        for (const k in _modifier) (hotkeys as any)[k] = false;
+      };
+      addEvent(window, 'afterprint', winListendPrint);
+    }
   }
 } as HotkeysInterface;
 
@@ -597,6 +608,11 @@ function removeKeyEvent(element: HTMLElement | Document | null): void {
       document.removeEventListener('fullscreenchange', winListendFullscreen.fullscreen);
       document.removeEventListener('webkitfullscreenchange', winListendFullscreen.webkit);
       winListendFullscreen = null;
+    }
+    // Remove the afterprint listener
+    if (winListendPrint) {
+      removeEvent(window, 'afterprint', winListendPrint);
+      winListendPrint = null;
     }
   }
 }

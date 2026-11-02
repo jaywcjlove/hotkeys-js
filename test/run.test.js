@@ -762,6 +762,41 @@ describe('\n   Hotkeys.js Test Case\n', () => {
     expect(result.wildcardCount).toBe(2);
   });
 
+  test('afterprint clears keys whose keyup was swallowed by the print dialog', async () => {
+    const result = await page.evaluate(() => {
+      const calls = [];
+      window.hotkeys('ctrl+p', () => calls.push('ctrl+p'));
+      window.hotkeys('a', () => calls.push('a'));
+
+      // The print dialog opened by Ctrl+P receives the keyup events instead of the page
+      document.body.dispatchEvent(new KeyboardEvent('keydown', {
+        key: 'Control', code: 'ControlLeft', keyCode: 17, which: 17, ctrlKey: true, bubbles: true,
+      }));
+      document.body.dispatchEvent(new KeyboardEvent('keydown', {
+        key: 'p', code: 'KeyP', keyCode: 80, which: 80, ctrlKey: true, bubbles: true,
+      }));
+      window.dispatchEvent(new Event('afterprint'));
+      const pressedAfterPrint = window.hotkeys.getPressedKeyCodes();
+      const ctrlAfterPrint = window.hotkeys.ctrl;
+
+      document.body.dispatchEvent(new KeyboardEvent('keydown', {
+        key: 'a', code: 'KeyA', keyCode: 65, which: 65, bubbles: true,
+      }));
+      document.body.dispatchEvent(new KeyboardEvent('keyup', {
+        key: 'a', code: 'KeyA', keyCode: 65, which: 65, bubbles: true,
+      }));
+
+      window.hotkeys.unbind('ctrl+p');
+      window.hotkeys.unbind('a');
+
+      return { calls, pressedAfterPrint, ctrlAfterPrint };
+    });
+
+    expect(result.calls).toEqual(['ctrl+p', 'a']);
+    expect(result.pressedAfterPrint).toEqual([]);
+    expect(result.ctrlAfterPrint).toBe(false);
+  });
+
   afterAll(async () => {
     if (!browser) {
       return;
