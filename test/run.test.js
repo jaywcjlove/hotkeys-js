@@ -53,6 +53,36 @@ beforeAll(async () => {
 }, 1000 * 120);
 
 describe('\n   Hotkeys.js Test Case\n', () => {
+  test('global wildcard handlers remain active after switching scope', async () => {
+    const result = await page.evaluate(() => {
+      const calls = [];
+      const previousScope = window.hotkeys.getScope();
+      const onGlobal = (event) => calls.push(`global:${event.type}`);
+      window.hotkeys('*', { keyup: true }, onGlobal);
+      window.hotkeys('*', { scope: 'wildcard-active', keyup: true },
+        (event) => calls.push(`active:${event.type}`));
+      window.hotkeys('*', { scope: 'wildcard-inactive', keyup: true },
+        () => calls.push('inactive'));
+      window.hotkeys.setScope('wildcard-active');
+
+      for (const type of ['keydown', 'keyup']) {
+        document.body.dispatchEvent(new KeyboardEvent(type, {
+          key: 'a', code: 'KeyA', keyCode: 65, which: 65, bubbles: true,
+        }));
+      }
+
+      window.hotkeys.unbind('*', 'all', onGlobal);
+      window.hotkeys.deleteScope('wildcard-active');
+      window.hotkeys.deleteScope('wildcard-inactive');
+      window.hotkeys.setScope(previousScope);
+      return calls;
+    });
+
+    expect(result).toEqual([
+      'global:keydown', 'active:keydown', 'global:keyup', 'active:keyup',
+    ]);
+  });
+
   test('single replaces callbacks with a custom splitKey', async () => {
     const result = await page.evaluate(() => {
       const calls = [];
