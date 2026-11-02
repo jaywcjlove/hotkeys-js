@@ -178,6 +178,7 @@
   let _downKeys = [];
   let winListendFocus = null;
   let winListendFullscreen = null;
+  let winListendPrint = null;
   let _scope = "all";
   const elementEventMap = /* @__PURE__ */ new Map();
   const code = (x) => _keyMap[x.toLowerCase()] || _modifier[x.toLowerCase()] || x.toUpperCase().charCodeAt(0);
@@ -503,6 +504,14 @@
         document.addEventListener("webkitfullscreenchange", webkitListener);
         winListendFullscreen = { fullscreen: fullscreenListener, webkit: webkitListener };
       }
+      if (!winListendPrint) {
+        winListendPrint = () => {
+          _downKeys = [];
+          for (const k in _mods) _mods[k] = false;
+          for (const k in _modifier) hotkeys22[k] = false;
+        };
+        addEvent(window, "afterprint", winListendPrint);
+      }
     }
   };
   function trigger(shortcut, scope = "all") {
@@ -549,6 +558,10 @@
         document.removeEventListener("fullscreenchange", winListendFullscreen.fullscreen);
         document.removeEventListener("webkitfullscreenchange", winListendFullscreen.webkit);
         winListendFullscreen = null;
+      }
+      if (winListendPrint) {
+        removeEvent(window, "afterprint", winListendPrint);
+        winListendPrint = null;
       }
     }
   }
