@@ -1,6 +1,6 @@
 (function(global, factory) {
   typeof exports === "object" && typeof module !== "undefined" ? module.exports = factory() : typeof define === "function" && define.amd ? define(factory) : (global = typeof globalThis !== "undefined" ? globalThis : global || self, global.hotkeys = factory());
-})(this, function() {
+})(this, (function() {
   "use strict";/*!
  * hotkeys-js v4.0.12
  * A simple micro-library for defining and dispatching keyboard shortcuts. It has no dependencies.
@@ -598,7 +598,7 @@
     window.hotkeys = hotkeys2;
   }
   return hotkeys2;
-});
+}));
 if (typeof module === "object" && module.exports) {
   module.exports.default = module.exports;
 }

@@ -27,17 +27,31 @@ var addSorting = (function() {
     function onFilterInput() {
         const searchValue = document.getElementById('fileSearch').value;
         const rows = document.getElementsByTagName('tbody')[0].children;
+
+        // Try to create a RegExp from the searchValue. If it fails (invalid regex),
+        // it will be treated as a plain text search
+        let searchRegex;
+        try {
+            searchRegex = new RegExp(searchValue, 'i'); // 'i' for case-insensitive
+        } catch (error) {
+            searchRegex = null;
+        }
+
         for (let i = 0; i < rows.length; i++) {
             const row = rows[i];
-            if (
-                row.textContent
-                    .toLowerCase()
-                    .includes(searchValue.toLowerCase())
-            ) {
-                row.style.display = '';
+            let isMatch = false;
+
+            if (searchRegex) {
+                // If a valid regex was created, use it for matching
+                isMatch = searchRegex.test(row.textContent);
             } else {
-                row.style.display = 'none';
+                // Otherwise, fall back to the original plain text search
+                isMatch = row.textContent
+                    .toLowerCase()
+                    .includes(searchValue.toLowerCase());
             }
+
+            row.style.display = isMatch ? '' : 'none';
         }
     }
 
