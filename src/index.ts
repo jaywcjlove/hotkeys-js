@@ -87,7 +87,10 @@ const getAllKeyCodes: GetAllKeyCodes = () => {
 
 /** hotkey is effective only when filter return true */
 const filter: Filter = (event) => {
-  const target = (event.target || event.srcElement) as HTMLElement;
+  // Shadow DOM retargets event.target to the host; composedPath()[0] is the inner element when the root is open.
+  const target = ((event.composedPath && event.composedPath()[0]) ||
+    event.target ||
+    event.srcElement) as HTMLElement;
   const { tagName } = target;
   let flag = true;
   const isInput =

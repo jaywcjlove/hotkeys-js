@@ -997,6 +997,61 @@ describe('\n   Hotkeys.js Test Case\n', () => {
     });
   });
 
+  test('filter ignores text fields inside an open shadow root', async () => {
+    const result = await page.evaluate(() => {
+      const calls = [];
+      window.hotkeys.setScope('all');
+      window.hotkeys('a', () => calls.push('a'));
+
+      const host = document.createElement('div');
+      document.body.appendChild(host);
+      const root = host.attachShadow({ mode: 'open' });
+      // Real key events are composed, so they reach document with target retargeted to the host.
+      const press = (el) => {
+        calls.length = 0;
+        ['keydown', 'keyup'].forEach((type) => {
+          el.dispatchEvent(new KeyboardEvent(type, {
+            key: 'a', code: 'KeyA', keyCode: 65, which: 65, bubbles: true, composed: true,
+          }));
+        });
+        return calls.slice();
+      };
+
+      const text = document.createElement('input');
+      root.appendChild(text);
+      const editable = document.createElement('div');
+      editable.contentEditable = 'true';
+      root.appendChild(editable);
+      const button = document.createElement('button');
+      root.appendChild(button);
+      const readOnly = document.createElement('input');
+      readOnly.readOnly = true;
+      root.appendChild(readOnly);
+      const innerHost = document.createElement('div');
+      root.appendChild(innerHost);
+      const nested = document.createElement('input');
+      innerHost.attachShadow({ mode: 'open' }).appendChild(nested);
+
+      const shadowResult = {
+        text: press(text),
+        editable: press(editable),
+        button: press(button),
+        readOnly: press(readOnly),
+        nested: press(nested),
+      };
+
+      window.hotkeys.unbind('a');
+      host.remove();
+      return shadowResult;
+    });
+
+    expect(result.text).toEqual([]);
+    expect(result.editable).toEqual([]);
+    expect(result.button).toEqual(['a']);
+    expect(result.readOnly).toEqual(['a']);
+    expect(result.nested).toEqual([]);
+  });
+
   test('stuck modifiers, legacy key codes, and focus or fullscreen resets', async () => {
     const result = await page.evaluate(() => {
       const calls = [];
