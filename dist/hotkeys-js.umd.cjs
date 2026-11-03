@@ -2,7 +2,7 @@
   typeof exports === "object" && typeof module !== "undefined" ? module.exports = factory() : typeof define === "function" && define.amd ? define(factory) : (global = typeof globalThis !== "undefined" ? globalThis : global || self, global.hotkeys = factory());
 })(this, (function() {
   "use strict";/*!
- * hotkeys-js v4.0.12
+ * hotkeys-js v4.1.0
  * A simple micro-library for defining and dispatching keyboard shortcuts. It has no dependencies.
  * 
  * @author kenny wong <wowohoo@qq.com>
@@ -57,6 +57,9 @@
   }
   function getLayoutIndependentKeyCode(event, keyMap, modifierMap2) {
     let key = event.keyCode || event.which || event.charCode;
+    if (key && event.code && /^Numpad/.test(event.code)) {
+      return key;
+    }
     if (event.key) {
       const eventKey = event.key.toLowerCase();
       if (eventKey in keyMap) {

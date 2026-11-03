@@ -1,5 +1,5 @@
 /*!
- * hotkeys-js v4.0.12
+ * hotkeys-js v4.1.0
  * A simple micro-library for defining and dispatching keyboard shortcuts. It has no dependencies.
  * 
  * @author kenny wong <wowohoo@qq.com>
@@ -53,6 +53,9 @@ function compareArray(a1, a2) {
 }
 function getLayoutIndependentKeyCode(event, keyMap, modifierMap2) {
   let key = event.keyCode || event.which || event.charCode;
+  if (key && event.code && /^Numpad/.test(event.code)) {
+    return key;
+  }
   if (event.key) {
     const eventKey = event.key.toLowerCase();
     if (eventKey in keyMap) {
