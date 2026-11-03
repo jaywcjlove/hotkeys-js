@@ -57,6 +57,9 @@
   }
   function getLayoutIndependentKeyCode(event, keyMap, modifierMap2) {
     let key = event.keyCode || event.which || event.charCode;
+    if (key && event.code && /^Numpad/.test(event.code)) {
+      return key;
+    }
     if (event.key) {
       const eventKey = event.key.toLowerCase();
       if (eventKey in keyMap) {
