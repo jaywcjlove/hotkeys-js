@@ -90,6 +90,11 @@ function getLayoutIndependentKeyCode(
 ): number {
   let key = event.keyCode || event.which || event.charCode;
 
+  // Numpad keys share `key` with the main row ('0', '.', '-', '/'), so keep their key code.
+  if (key && event.code && /^Numpad/.test(event.code)) {
+    return key;
+  }
+
   if (event.key) {
     const eventKey = event.key.toLowerCase();
     if (eventKey in keyMap) {
