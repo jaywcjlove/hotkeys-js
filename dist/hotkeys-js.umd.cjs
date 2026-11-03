@@ -213,7 +213,7 @@
     return result;
   };
   const filter = (event) => {
-    const target = event.target || event.srcElement;
+    const target = event.composedPath && event.composedPath()[0] || event.target || event.srcElement;
     const { tagName } = target;
     let flag = true;
     const isInput = tagName === "INPUT" && ![
