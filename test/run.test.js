@@ -121,6 +121,46 @@ describe('\n   Hotkeys.js Test Case\n', () => {
     expect(result).toEqual(['replacement']);
   });
 
+  test.each(['+', '::'])('unbind and single preserve distinct chords with %s', async (splitKey) => {
+    await page.evaluate((separator) => {
+      window.chordCalls = [];
+      const options = { scope: 'distinct-chords', splitKey: separator };
+      window.hotkeys(`a${separator}b`, options, () => window.chordCalls.push('removed'));
+      window.hotkeys(`c${separator}b`, options, () => window.chordCalls.push('other'));
+      window.hotkeys.setScope(options.scope);
+    }, splitKey);
+
+    const pressChord = async (first) => {
+      await page.keyboard.down(first);
+      await page.keyboard.press('b');
+      await page.keyboard.up(first);
+    };
+
+    try {
+      await pressChord('c');
+      await page.evaluate((separator) => {
+        window.hotkeys.unbind({ key: `a${separator}b`, scope: 'distinct-chords', splitKey: separator });
+      }, splitKey);
+      await pressChord('a');
+      await pressChord('c');
+      expect(await page.evaluate(() => window.chordCalls)).toEqual(['other', 'other']);
+
+      await page.evaluate((separator) => {
+        const options = { scope: 'distinct-chords', splitKey: separator };
+        window.hotkeys(`a${separator}b`, options, () => window.chordCalls.push('previous'));
+        window.hotkeys(`a${separator}b`, { ...options, single: true }, () => window.chordCalls.push('replacement'));
+      }, splitKey);
+      await pressChord('c');
+      await pressChord('a');
+      expect(await page.evaluate(() => window.chordCalls)).toEqual(['other', 'other', 'other', 'replacement']);
+    } finally {
+      await page.evaluate(() => {
+        window.hotkeys.deleteScope('distinct-chords');
+        delete window.chordCalls;
+      });
+    }
+  });
+
   test('HTML loader', async () => {
     const title = await page.title();
     expect(title).toBe('hotkeys.js');
