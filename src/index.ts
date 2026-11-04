@@ -236,7 +236,7 @@ const eachUnbind = ({
     if (!_handlers[keyCode]) return;
     // If scope is not provided, get the current scope
     if (!scope) scope = getScope();
-    const mods = len > 1 ? getMods(_modifier, unbindKeys) : [];
+    const keyCodes = unbindKeys.map(code);
     const unbindElements: (HTMLElement | Document)[] = [];
     _handlers[keyCode] = _handlers[keyCode].filter((record) => {
       // Check if the method matches; if method is provided, must be equal to unbind
@@ -244,7 +244,7 @@ const eachUnbind = ({
       const isUnbind =
         isMatchingMethod &&
         record.scope === scope &&
-        compareArray(record.mods, mods);
+        compareArray(record.key.split(record.splitKey).map(code), keyCodes);
       if (isUnbind) unbindElements.push(record.element);
       return !isUnbind;
     });

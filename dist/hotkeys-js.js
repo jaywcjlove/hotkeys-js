@@ -317,11 +317,11 @@ const eachUnbind = ({
     const keyCode = lastKey === "*" ? "*" : code(lastKey);
     if (!_handlers[keyCode]) return;
     if (!scope) scope = getScope();
-    const mods = len > 1 ? getMods(_modifier, unbindKeys) : [];
+    const keyCodes = unbindKeys.map(code);
     const unbindElements = [];
     _handlers[keyCode] = _handlers[keyCode].filter((record) => {
       const isMatchingMethod = method ? record.method === method : true;
-      const isUnbind = isMatchingMethod && record.scope === scope && compareArray(record.mods, mods);
+      const isUnbind = isMatchingMethod && record.scope === scope && compareArray(record.key.split(record.splitKey).map(code), keyCodes);
       if (isUnbind) unbindElements.push(record.element);
       return !isUnbind;
     });
