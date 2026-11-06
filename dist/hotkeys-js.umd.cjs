@@ -489,11 +489,15 @@
         addEvent(element, "keyup", keyupListenr, capture);
       }
       if (!winListendFocus) {
-        const listener = () => {
+        const listener = (event) => {
+          if (event.target !== window) return;
           _downKeys = [];
+          for (const k in _mods) _mods[k] = false;
+          for (const k in _modifier) hotkeys22[k] = false;
         };
         winListendFocus = { listener, capture };
         addEvent(window, "focus", listener, capture);
+        addEvent(window, "blur", listener, capture);
       }
       if (!winListendFullscreen && typeof document !== "undefined") {
         const onFullscreenChange = () => {
@@ -547,6 +551,7 @@
       if (winListendFocus) {
         const { listener, capture } = winListendFocus;
         removeEvent(window, "focus", listener, capture);
+        removeEvent(window, "blur", listener, capture);
         winListendFocus = null;
       }
       if (winListendFullscreen && typeof document !== "undefined") {
