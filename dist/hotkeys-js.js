@@ -485,11 +485,15 @@ const hotkeys = function hotkeys2(key, option, method) {
       addEvent(element, "keyup", keyupListenr, capture);
     }
     if (!winListendFocus) {
-      const listener = () => {
+      const listener = (event) => {
+        if (event.target !== window) return;
         _downKeys = [];
+        for (const k in _mods) _mods[k] = false;
+        for (const k in _modifier) hotkeys2[k] = false;
       };
       winListendFocus = { listener, capture };
       addEvent(window, "focus", listener, capture);
+      addEvent(window, "blur", listener, capture);
     }
     if (!winListendFullscreen && typeof document !== "undefined") {
       const onFullscreenChange = () => {
@@ -543,6 +547,7 @@ function removeKeyEvent(element) {
     if (winListendFocus) {
       const { listener, capture } = winListendFocus;
       removeEvent(window, "focus", listener, capture);
+      removeEvent(window, "blur", listener, capture);
       winListendFocus = null;
     }
     if (winListendFullscreen && typeof document !== "undefined") {
