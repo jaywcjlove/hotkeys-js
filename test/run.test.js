@@ -878,6 +878,60 @@ describe('\n   Hotkeys.js Test Case\n', () => {
     expect(result.wildcardCount).toBe(2);
   });
 
+  test('capture mode keeps held modifiers when focus moves within the page', async () => {
+    const isolatedPage = await browser.newPage();
+    try {
+      await isolatedPage.setContent('<button id="first">First</button><button id="second">Second</button>');
+      await isolatedPage.addScriptTag({ path: path.resolve(__dirname, '../dist/hotkeys-js.umd.cjs') });
+      await isolatedPage.evaluate(() => {
+        window.hotkeys('ctrl+a', { capture: true }, () => {});
+        document.querySelector('#first').focus();
+      });
+      await isolatedPage.keyboard.down('Control');
+      const result = await isolatedPage.evaluate(() => {
+        document.querySelector('#second').focus();
+        return {
+          ctrl: window.hotkeys.ctrl,
+          control: window.hotkeys.control,
+          pressed: window.hotkeys.isPressed('ctrl'),
+        };
+      });
+      expect(result).toEqual({ ctrl: true, control: true, pressed: true });
+    } finally {
+      await isolatedPage.close();
+    }
+  });
+
+  test.each(['blur', 'focus'])('%s clears stale pressed keys and modifier aliases', async (type) => {
+    const result = await page.evaluate((eventType) => {
+      let calls = 0;
+      window.hotkeys('a', () => { calls += 1; });
+      const aliases = ['shift', 'ctrl', 'control', 'alt', 'option', 'cmd', 'command'];
+      for (const keyCode of [16, 17, 18, 91]) {
+        document.body.dispatchEvent(new KeyboardEvent('keydown', {
+          keyCode, which: keyCode, shiftKey: true, ctrlKey: true,
+          altKey: true, metaKey: true, bubbles: true,
+        }));
+      }
+      const before = aliases.map((key) => window.hotkeys[key]);
+      window.dispatchEvent(new Event(eventType));
+      const pressed = window.hotkeys.getPressedKeyCodes();
+      const after = aliases.map((key) => window.hotkeys[key]);
+      for (const keyType of ['keydown', 'keyup']) {
+        document.body.dispatchEvent(new KeyboardEvent(keyType, {
+          key: 'a', code: 'KeyA', keyCode: 65, which: 65, bubbles: true,
+        }));
+      }
+      window.hotkeys.unbind('a');
+      return { before, pressed, after, calls };
+    }, type);
+
+    expect(result.before).toEqual(Array(7).fill(true));
+    expect(result.pressed).toEqual([]);
+    expect(result.after).toEqual(Array(7).fill(false));
+    expect(result.calls).toBe(1);
+  });
+
   test('afterprint clears keys whose keyup was swallowed by the print dialog', async () => {
     const result = await page.evaluate(() => {
       const calls = [];

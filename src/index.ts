@@ -21,7 +21,7 @@ import { _keyMap, _modifier, modifierMap, _mods, _handlers } from './var';
 
 /** Record the pressed keys */
 let _downKeys: number[] = [];
-/** Whether the window has already listened to the focus event */
+/** Whether the window has already listened to focus changes */
 let winListendFocus: { listener: EventListener; capture: boolean } | null =
   null;
 /** Whether we already listen to fullscreen change (to clear stuck _downKeys) */
@@ -522,13 +522,17 @@ const hotkeys = function hotkeys(
       addEvent(element, 'keydown', keydownListener, capture);
       addEvent(element, 'keyup', keyupListenr, capture);
     }
-    // Register focus event listener once to clear pressed keys on window focus
+    // Clear keys and modifiers when focus changes because keyup may happen outside the page.
     if (!winListendFocus) {
-      const listener = () => {
+      const listener = (event: Event) => {
+        if (event.target !== window) return;
         _downKeys = [];
+        for (const k in _mods) _mods[k] = false;
+        for (const k in _modifier) (hotkeys as any)[k] = false;
       };
       winListendFocus = { listener, capture };
       addEvent(window, 'focus', listener, capture);
+      addEvent(window, 'blur', listener, capture);
     }
     // Register fullscreen change once: keyup can be lost when entering fullscreen (e.g. Alt+F), so clear stuck keys
     if (!winListendFullscreen && typeof document !== 'undefined') {
@@ -591,10 +595,11 @@ function removeKeyEvent(element: HTMLElement | Document | null): void {
     elementEventMap.clear();
     // Clear all handlers
     Object.keys(_handlers).forEach((key) => delete _handlers[key]);
-    // Remove the global window focus event listener
+    // Remove the global window focus listeners
     if (winListendFocus) {
       const { listener, capture } = winListendFocus;
       removeEvent(window, 'focus', listener, capture);
+      removeEvent(window, 'blur', listener, capture);
       winListendFocus = null;
     }
     // Remove fullscreen change listeners
