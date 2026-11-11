@@ -257,7 +257,9 @@ function eventHandler(
   event: KeyboardEvent,
   handler: HotkeysEvent,
   scope: string,
-  element: HTMLElement | Document
+  element: HTMLElement | Document,
+  downKeys: number[],
+  mods: Record<number, boolean>
 ): void {
   if (handler.element !== element) {
     return;
@@ -269,11 +271,11 @@ function eventHandler(
     // Check whether modifier keys match (returns true if they do)
     modifiersMatch = handler.mods.length > 0;
 
-    for (const y in _mods) {
-      if (Object.prototype.hasOwnProperty.call(_mods, y)) {
+    for (const y in mods) {
+      if (Object.prototype.hasOwnProperty.call(mods, y)) {
         if (
-          (!_mods[y] && handler.mods.indexOf(+y) > -1) ||
-          (_mods[y] && handler.mods.indexOf(+y) === -1)
+          (!mods[y] && handler.mods.indexOf(+y) > -1) ||
+          (mods[y] && handler.mods.indexOf(+y) === -1)
         ) {
           modifiersMatch = false;
         }
@@ -283,15 +285,15 @@ function eventHandler(
     // Call the handler function; ignore if it's only a modifier key
     if (
       (handler.mods.length === 0 &&
-        !_mods[16] &&
-        !_mods[18] &&
-        !_mods[17] &&
-        !_mods[91]) ||
+        !mods[16] &&
+        !mods[18] &&
+        !mods[17] &&
+        !mods[91]) ||
       modifiersMatch ||
       handler.shortcut === '*'
     ) {
       handler.keys = [];
-      handler.keys = handler.keys.concat(_downKeys);
+      handler.keys = handler.keys.concat(downKeys);
       if (handler.method(event, handler) === false) {
         if (event.preventDefault) event.preventDefault();
         else event.returnValue = false;
@@ -397,6 +399,10 @@ function dispatch(
     _mods[18] = true;
   }
 
+  const downKeys = event.type === 'keyup' ? _downKeys.slice() : _downKeys;
+  const mods = event.type === 'keyup' ? { ..._mods } : _mods;
+  if (event.type === 'keyup') clearModifier(event);
+
   // Get the current scope (defaults to 'all')
   const scope = getScope();
   // Handle any hotkeys registered as '*'
@@ -406,7 +412,7 @@ function dispatch(
         (event.type === 'keydown' && asterisk[i].keydown) ||
         (event.type === 'keyup' && asterisk[i].keyup)
       ) {
-        eventHandler(event, asterisk[i], scope, element);
+        eventHandler(event, asterisk[i], scope, element, downKeys, mods);
       }
     }
   }
@@ -428,9 +434,9 @@ function dispatch(
         for (let a = 0; a < keyShortcut.length; a++) {
           _downKeysCurrent.push(code(keyShortcut[a]));
         }
-        if (_downKeysCurrent.sort().join('') === _downKeys.sort().join('')) {
+        if (_downKeysCurrent.sort().join('') === downKeys.sort().join('')) {
           // Match found, call the handler
-          eventHandler(event, record, scope, element);
+          eventHandler(event, record, scope, element, downKeys, mods);
         }
       }
     }

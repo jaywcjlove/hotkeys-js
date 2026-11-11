@@ -1,5 +1,21 @@
+var __defProp = Object.defineProperty;
+var __getOwnPropSymbols = Object.getOwnPropertySymbols;
+var __hasOwnProp = Object.prototype.hasOwnProperty;
+var __propIsEnum = Object.prototype.propertyIsEnumerable;
+var __defNormalProp = (obj, key, value) => key in obj ? __defProp(obj, key, { enumerable: true, configurable: true, writable: true, value }) : obj[key] = value;
+var __spreadValues = (a, b) => {
+  for (var prop in b || (b = {}))
+    if (__hasOwnProp.call(b, prop))
+      __defNormalProp(a, prop, b[prop]);
+  if (__getOwnPropSymbols)
+    for (var prop of __getOwnPropSymbols(b)) {
+      if (__propIsEnum.call(b, prop))
+        __defNormalProp(a, prop, b[prop]);
+    }
+  return a;
+};
 /*!
- * hotkeys-js v4.1.1
+ * hotkeys-js v4.1.2
  * A simple micro-library for defining and dispatching keyboard shortcuts. It has no dependencies.
  * 
  * @author kenny wong <wowohoo@qq.com>
@@ -328,23 +344,23 @@ const eachUnbind = ({
     unbindElements.forEach((element) => removeKeyEvent(element));
   });
 };
-function eventHandler(event, handler, scope, element) {
+function eventHandler(event, handler, scope, element, downKeys, mods) {
   if (handler.element !== element) {
     return;
   }
   let modifiersMatch;
   if (handler.scope === scope || handler.scope === "all") {
     modifiersMatch = handler.mods.length > 0;
-    for (const y in _mods) {
-      if (Object.prototype.hasOwnProperty.call(_mods, y)) {
-        if (!_mods[y] && handler.mods.indexOf(+y) > -1 || _mods[y] && handler.mods.indexOf(+y) === -1) {
+    for (const y in mods) {
+      if (Object.prototype.hasOwnProperty.call(mods, y)) {
+        if (!mods[y] && handler.mods.indexOf(+y) > -1 || mods[y] && handler.mods.indexOf(+y) === -1) {
           modifiersMatch = false;
         }
       }
     }
-    if (handler.mods.length === 0 && !_mods[16] && !_mods[18] && !_mods[17] && !_mods[91] || modifiersMatch || handler.shortcut === "*") {
+    if (handler.mods.length === 0 && !mods[16] && !mods[18] && !mods[17] && !mods[91] || modifiersMatch || handler.shortcut === "*") {
       handler.keys = [];
-      handler.keys = handler.keys.concat(_downKeys);
+      handler.keys = handler.keys.concat(downKeys);
       if (handler.method(event, handler) === false) {
         if (event.preventDefault) event.preventDefault();
         else event.returnValue = false;
@@ -399,11 +415,14 @@ function dispatch(event, element) {
     _mods[17] = true;
     _mods[18] = true;
   }
+  const downKeys = event.type === "keyup" ? _downKeys.slice() : _downKeys;
+  const mods = event.type === "keyup" ? __spreadValues({}, _mods) : _mods;
+  if (event.type === "keyup") clearModifier(event);
   const scope = getScope();
   if (asterisk) {
     for (let i = 0; i < asterisk.length; i++) {
       if (event.type === "keydown" && asterisk[i].keydown || event.type === "keyup" && asterisk[i].keyup) {
-        eventHandler(event, asterisk[i], scope, element);
+        eventHandler(event, asterisk[i], scope, element, downKeys, mods);
       }
     }
   }
@@ -420,8 +439,8 @@ function dispatch(event, element) {
         for (let a = 0; a < keyShortcut.length; a++) {
           _downKeysCurrent.push(code(keyShortcut[a]));
         }
-        if (_downKeysCurrent.sort().join("") === _downKeys.sort().join("")) {
-          eventHandler(event, record, scope, element);
+        if (_downKeysCurrent.sort().join("") === downKeys.sort().join("")) {
+          eventHandler(event, record, scope, element, downKeys, mods);
         }
       }
     }
