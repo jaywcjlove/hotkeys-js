@@ -2,7 +2,7 @@
   typeof exports === "object" && typeof module !== "undefined" ? module.exports = factory() : typeof define === "function" && define.amd ? define(factory) : (global = typeof globalThis !== "undefined" ? globalThis : global || self, global.hotkeys = factory());
 })(this, (function() {
   "use strict";/*!
- * hotkeys-js v4.1.1
+ * hotkeys-js v4.1.2
  * A simple micro-library for defining and dispatching keyboard shortcuts. It has no dependencies.
  * 
  * @author kenny wong <wowohoo@qq.com>
@@ -522,16 +522,72 @@
     }
   };
   function trigger(shortcut, scope = "all") {
-    Object.keys(_handlers).forEach((key) => {
-      const dataList = _handlers[key].filter(
-        (item) => item.scope === scope && (item.shortcut === shortcut || item.shortcut === "*")
-      );
-      dataList.forEach((data) => {
-        if (data && data.method) {
-          data.method({}, data);
-        }
+    const previousKeys = _downKeys;
+    const previousMods = {};
+    for (const k in _mods) previousMods[k] = _mods[k];
+    const previousModifiers = {};
+    for (const k in _modifier) previousModifiers[k] = hotkeys2[k];
+    const handlers = Object.values(_handlers).flat();
+    const binding = handlers.find(
+      (item) => item.scope === scope && item.shortcut === shortcut
+    ) || handlers.find((item) => item.scope === scope && item.shortcut === "*");
+    const keys = shortcut.split(binding ? binding.splitKey : "+");
+    const keyName = keys[keys.length - 1];
+    const keyCode = code(keyName);
+    const eventCode = /^[a-z]$/i.test(keyName) ? `Key${keyName.toUpperCase()}` : /^[0-9]$/.test(keyName) ? `Digit${keyName}` : "";
+    try {
+      _downKeys = keys.map(code);
+      for (const k in _mods) _mods[k] = _downKeys.indexOf(Number(k)) !== -1;
+      for (const k in _modifier) hotkeys2[k] = _mods[_modifier[k]];
+      Object.keys(_handlers).forEach((key) => {
+        const dataList = _handlers[key].filter(
+          (item) => item.scope === scope && (item.shortcut === shortcut || item.shortcut === "*")
+        );
+        dataList.forEach((data) => {
+          if (data && typeof data.method === "function") {
+            let event;
+            try {
+              event = document.createEvent("KeyboardEvent");
+            } catch (e) {
+              event = document.createEvent("Event");
+            }
+            if (event.initKeyboardEvent) {
+              event.initKeyboardEvent(
+                "keydown",
+                false,
+                true,
+                window,
+                keyName,
+                0,
+                _mods[17],
+                _mods[18],
+                _mods[16],
+                _mods[91]
+              );
+            } else {
+              event.initEvent("keydown", false, true);
+            }
+            Object.defineProperties(event, {
+              key: { value: keyName },
+              code: { value: eventCode },
+              keyCode: { value: keyCode },
+              which: { value: keyCode },
+              target: { value: data.element },
+              ctrlKey: { value: _mods[17] },
+              altKey: { value: _mods[18] },
+              shiftKey: { value: _mods[16] },
+              metaKey: { value: _mods[91] }
+            });
+            data.keys = _downKeys.slice(0);
+            data.method(event, data);
+          }
+        });
       });
-    });
+    } finally {
+      _downKeys = previousKeys;
+      for (const k in _mods) _mods[k] = previousMods[k];
+      for (const k in _modifier) hotkeys2[k] = previousModifiers[k];
+    }
   }
   function removeKeyEvent(element) {
     const values = Object.values(_handlers).flat();

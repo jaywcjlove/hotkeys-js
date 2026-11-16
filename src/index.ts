@@ -560,16 +560,73 @@ const hotkeys = function hotkeys(
 } as HotkeysInterface;
 
 function trigger(shortcut: string, scope: string = 'all'): void {
-  Object.keys(_handlers).forEach((key) => {
-    const dataList = _handlers[key].filter(
-      (item) => item.scope === scope && (item.shortcut === shortcut || item.shortcut === '*')
-    );
-    dataList.forEach((data) => {
-      if (data && data.method) {
-        data.method({} as KeyboardEvent, data);
-      }
+  const previousKeys = _downKeys;
+  const previousMods: Record<number, boolean> = {};
+  for (const k in _mods) previousMods[k] = _mods[k];
+  const previousModifiers: Record<string, boolean | undefined> = {};
+  for (const k in _modifier) previousModifiers[k] = (hotkeys as any)[k];
+
+  // Exact separators take priority; wildcard-only triggers use their own.
+  const handlers = Object.values(_handlers).flat();
+  const binding = handlers.find(
+    (item) => item.scope === scope && item.shortcut === shortcut
+  ) || handlers.find((item) => item.scope === scope && item.shortcut === '*');
+  const keys = shortcut.split(binding ? binding.splitKey : '+');
+  const keyName = keys[keys.length - 1];
+  const keyCode = code(keyName);
+  const eventCode = /^[a-z]$/i.test(keyName)
+    ? `Key${keyName.toUpperCase()}`
+    : /^[0-9]$/.test(keyName)
+      ? `Digit${keyName}`
+      : '';
+
+  try {
+    _downKeys = keys.map(code);
+    for (const k in _mods) _mods[k] = _downKeys.indexOf(Number(k)) !== -1;
+    for (const k in _modifier) (hotkeys as any)[k] = _mods[_modifier[k]];
+
+    Object.keys(_handlers).forEach((key) => {
+      const dataList = _handlers[key].filter(
+        (item) => item.scope === scope && (item.shortcut === shortcut || item.shortcut === '*')
+      );
+      dataList.forEach((data) => {
+        if (data && typeof data.method === 'function') {
+          let event: KeyboardEvent;
+          try {
+            event = document.createEvent('KeyboardEvent');
+          } catch {
+            // SAFETY: initEvent and the keyboard fields below provide the legacy Event interface.
+            event = document.createEvent('Event') as KeyboardEvent;
+          }
+          if (event.initKeyboardEvent) {
+            event.initKeyboardEvent(
+              'keydown', false, true, window, keyName, 0,
+              _mods[17], _mods[18], _mods[16], _mods[91]
+            );
+          } else {
+            event.initEvent('keydown', false, true);
+          }
+          Object.defineProperties(event, {
+            key: { value: keyName },
+            code: { value: eventCode },
+            keyCode: { value: keyCode },
+            which: { value: keyCode },
+            target: { value: data.element },
+            ctrlKey: { value: _mods[17] },
+            altKey: { value: _mods[18] },
+            shiftKey: { value: _mods[16] },
+            metaKey: { value: _mods[91] },
+          });
+          data.keys = _downKeys.slice(0);
+          data.method(event, data);
+        }
+      });
     });
-  });
+  } finally {
+    _downKeys = previousKeys;
+    for (const k in _mods) _mods[k] = previousMods[k];
+    for (const k in _modifier) (hotkeys as any)[k] = previousModifiers[k];
+  }
 }
 
 /** Clean up event listeners. After unbinding, check whether the element still has any hotkeys bound. If not, remove its event listeners. */
