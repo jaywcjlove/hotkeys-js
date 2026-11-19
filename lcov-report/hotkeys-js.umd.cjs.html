@@ -23,9 +23,9 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">100% </span>
+                <span class="strong">99.68% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>617/617</span>
+                <span class='fraction'>634/636</span>
             </div>
         
             
@@ -39,14 +39,14 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">100% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>57/57</span>
+                <span class='fraction'>59/59</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">100% </span>
+                <span class="strong">99.68% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>617/617</span>
+                <span class='fraction'>634/636</span>
             </div>
         
             
@@ -681,7 +681,42 @@
 <a name='L616'></a><a href='#L616'>616</a>
 <a name='L617'></a><a href='#L617'>617</a>
 <a name='L618'></a><a href='#L618'>618</a>
-<a name='L619'></a><a href='#L619'>619</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
+<a name='L619'></a><a href='#L619'>619</a>
+<a name='L620'></a><a href='#L620'>620</a>
+<a name='L621'></a><a href='#L621'>621</a>
+<a name='L622'></a><a href='#L622'>622</a>
+<a name='L623'></a><a href='#L623'>623</a>
+<a name='L624'></a><a href='#L624'>624</a>
+<a name='L625'></a><a href='#L625'>625</a>
+<a name='L626'></a><a href='#L626'>626</a>
+<a name='L627'></a><a href='#L627'>627</a>
+<a name='L628'></a><a href='#L628'>628</a>
+<a name='L629'></a><a href='#L629'>629</a>
+<a name='L630'></a><a href='#L630'>630</a>
+<a name='L631'></a><a href='#L631'>631</a>
+<a name='L632'></a><a href='#L632'>632</a>
+<a name='L633'></a><a href='#L633'>633</a>
+<a name='L634'></a><a href='#L634'>634</a>
+<a name='L635'></a><a href='#L635'>635</a>
+<a name='L636'></a><a href='#L636'>636</a>
+<a name='L637'></a><a href='#L637'>637</a>
+<a name='L638'></a><a href='#L638'>638</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
@@ -1299,10 +1334,29 @@
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">(function(global, factory) {
   typeof exports === "object" &amp;&amp; typeof module !== "undefined" ? module.exports = factory() : typeof define === "function" &amp;&amp; define.amd ? define(factory) : (global = typeof globalThis !== "undefined" ? globalThis : global || self, global.hotkeys = factory());
 })(this, (function() {
-  "use strict";/*!
+  "use strict";var __defProp = Object.defineProperty;
+var __getOwnPropSymbols = Object.getOwnPropertySymbols;
+var __hasOwnProp = Object.prototype.hasOwnProperty;
+var __propIsEnum = Object.prototype.propertyIsEnumerable;
+var __defNormalProp = (obj, key, value) =&gt; key in obj ? __defProp(obj, key, { enumerable: true, configurable: true, writable: true, value }) : obj[key] = value;
+var __spreadValues = (a, b) =&gt; {
+  for (var prop in b || (b = {}))
+    if (__hasOwnProp.call(b, prop))
+      __defNormalProp(a, prop, b[prop]);
+  if (__getOwnPropSymbols)
+    for (var prop of __getOwnPropSymbols(b)) {
+<span class="cstat-no" title="statement not covered" >      if (__propIsEnum.call(b, prop))</span>
+<span class="cstat-no" title="statement not covered" >        __defNormalProp(a, prop, b[prop]);</span>
+    }
+  return a;
+};
+/*!
  * hotkeys-js v4.1.2
  * A simple micro-library for defining and dispatching keyboard shortcuts. It has no dependencies.
  * 
@@ -1633,23 +1687,23 @@
       unbindElements.forEach((element) =&gt; removeKeyEvent(element));
     });
   };
-  function eventHandler(event, handler, scope, element) {
+  function eventHandler(event, handler, scope, element, downKeys, mods) {
     if (handler.element !== element) {
       return;
     }
     let modifiersMatch;
     if (handler.scope === scope || handler.scope === "all") {
       modifiersMatch = handler.mods.length &gt; 0;
-      for (const y in _mods) {
-        if (Object.prototype.hasOwnProperty.call(_mods, y)) {
-          if (!_mods[y] &amp;&amp; handler.mods.indexOf(+y) &gt; -1 || _mods[y] &amp;&amp; handler.mods.indexOf(+y) === -1) {
+      for (const y in mods) {
+        if (Object.prototype.hasOwnProperty.call(mods, y)) {
+          if (!mods[y] &amp;&amp; handler.mods.indexOf(+y) &gt; -1 || mods[y] &amp;&amp; handler.mods.indexOf(+y) === -1) {
             modifiersMatch = false;
           }
         }
       }
-      if (handler.mods.length === 0 &amp;&amp; !_mods[16] &amp;&amp; !_mods[18] &amp;&amp; !_mods[17] &amp;&amp; !_mods[91] || modifiersMatch || handler.shortcut === "*") {
+      if (handler.mods.length === 0 &amp;&amp; !mods[16] &amp;&amp; !mods[18] &amp;&amp; !mods[17] &amp;&amp; !mods[91] || modifiersMatch || handler.shortcut === "*") {
         handler.keys = [];
-        handler.keys = handler.keys.concat(_downKeys);
+        handler.keys = handler.keys.concat(downKeys);
         if (handler.method(event, handler) === false) {
           if (event.preventDefault) event.preventDefault();
           else event.returnValue = false;
@@ -1704,11 +1758,14 @@
       _mods[17] = true;
       _mods[18] = true;
     }
+    const downKeys = event.type === "keyup" ? _downKeys.slice() : _downKeys;
+    const mods = event.type === "keyup" ? __spreadValues({}, _mods) : _mods;
+    if (event.type === "keyup") clearModifier(event);
     const scope = getScope();
     if (asterisk) {
       for (let i = 0; i &lt; asterisk.length; i++) {
         if (event.type === "keydown" &amp;&amp; asterisk[i].keydown || event.type === "keyup" &amp;&amp; asterisk[i].keyup) {
-          eventHandler(event, asterisk[i], scope, element);
+          eventHandler(event, asterisk[i], scope, element, downKeys, mods);
         }
       }
     }
@@ -1725,8 +1782,8 @@
           for (let a = 0; a &lt; keyShortcut.length; a++) {
             _downKeysCurrent.push(code(keyShortcut[a]));
           }
-          if (_downKeysCurrent.sort().join("") === _downKeys.sort().join("")) {
-            eventHandler(event, record, scope, element);
+          if (_downKeysCurrent.sort().join("") === downKeys.sort().join("")) {
+            eventHandler(event, record, scope, element, downKeys, mods);
           }
         }
       }
@@ -1924,7 +1981,7 @@ if (typeof define === "function" &amp;&amp; define.amd) {
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2026-11-06T03:22:08.701Z
+                at 2026-11-19T04:22:12.630Z
             </div>
         <script src="prettify.js"></script>
         <script>
