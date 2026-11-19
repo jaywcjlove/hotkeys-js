@@ -898,7 +898,7 @@ describe('\n   Hotkeys.js Test Case\n', () => {
         bPressed: false,
         ctrlFlag: true,
       },
-      after: { pressed: [], aPressed: false, ctrlFlag: undefined },
+      after: { pressed: [], aPressed: false, ctrlFlag: false },
       unrelatedKeydowns: 0,
     });
   });
@@ -1278,6 +1278,186 @@ describe('\n   Hotkeys.js Test Case\n', () => {
         after: [],
       });
     });
+  test('modifier released before a punctuation key reuses the keydown code', async () => {
+    const result = await page.evaluate(() => {
+      window.hotkeys.setScope('all');
+      window.dispatchEvent(new Event('afterprint'));
+
+      let m = 0;
+      let slashUp = 0;
+      let sevenUp = 0;
+      let semiUp = 0;
+      let commaUp = 0;
+      let bracketUp = 0;
+      let eightUp = 0;
+      let hostSlash = 0;
+      const host = document.createElement('div');
+      document.body.appendChild(host);
+
+      window.hotkeys('m', () => { m += 1; });
+      window.hotkeys('/', { keyup: true, keydown: false }, () => { slashUp += 1; });
+      window.hotkeys('7', { keyup: true, keydown: false }, () => { sevenUp += 1; });
+      window.hotkeys(';', { keyup: true, keydown: false }, () => { semiUp += 1; });
+      window.hotkeys(',', { keyup: true, keydown: false }, () => { commaUp += 1; });
+      window.hotkeys('[', { keyup: true, keydown: false }, () => { bracketUp += 1; });
+      window.hotkeys('8', { keyup: true, keydown: false }, () => { eightUp += 1; });
+      window.hotkeys('/', {
+        element: host, keyup: true, keydown: false,
+      }, () => { hostSlash += 1; });
+
+      const send = (type, properties) => {
+        document.body.dispatchEvent(new KeyboardEvent(type, {
+          bubbles: true,
+          cancelable: true,
+          ...properties,
+        }));
+      };
+      const pressed = () => window.hotkeys.getPressedKeyCodes();
+
+      send('keydown', { key: 'Shift', code: 'ShiftLeft', keyCode: 16, which: 16, shiftKey: true });
+      send('keydown', { key: '/', code: 'Digit7', keyCode: 55, which: 55, shiftKey: true });
+      const afterSlashDown = pressed();
+      send('keyup', { key: 'Shift', code: 'ShiftLeft', keyCode: 16, which: 16 });
+      send('keyup', { key: '7', code: 'Digit7', keyCode: 55, which: 55 });
+      const afterGermanSlash = { pressed: pressed(), m, slashUp, sevenUp };
+      send('keydown', { key: 'm', code: 'KeyM', keyCode: 77, which: 77 });
+      send('keyup', { key: 'm', code: 'KeyM', keyCode: 77, which: 77 });
+      const afterM = { pressed: pressed(), m };
+
+      send('keydown', { key: 'Shift', code: 'ShiftLeft', keyCode: 16, which: 16, shiftKey: true });
+      send('keydown', { key: '/', code: 'Digit7', keyCode: 55, which: 55, shiftKey: true });
+      send('keyup', { key: 'Shift', code: 'ShiftLeft', keyCode: 16, which: 16 });
+      send('keydown', { key: '7', code: 'Digit7', keyCode: 55, which: 55, repeat: true });
+      const duringRepeat = pressed();
+      send('keyup', { key: '7', code: 'Digit7', keyCode: 55, which: 55 });
+
+      send('keydown', { key: 'Shift', code: 'ShiftLeft', keyCode: 16, which: 16, shiftKey: true });
+      send('keydown', { key: ';', code: 'Comma', keyCode: 188, which: 188, shiftKey: true });
+      send('keyup', { key: 'Shift', code: 'ShiftLeft', keyCode: 16, which: 16 });
+      send('keyup', { key: ',', code: 'Comma', keyCode: 188, which: 188 });
+      const afterSemi = { pressed: pressed(), semiUp, commaUp };
+
+      send('keydown', {
+        key: '[', code: 'Digit8', keyCode: 56, which: 56, altKey: true, ctrlKey: true,
+      });
+      send('keyup', { key: 'Control', code: 'ControlLeft', keyCode: 17, which: 17 });
+      send('keyup', { key: 'Alt', code: 'AltRight', keyCode: 18, which: 18 });
+      send('keyup', { key: '8', code: 'Digit8', keyCode: 56, which: 56 });
+      const afterBracket = { pressed: pressed(), bracketUp, eightUp };
+
+      send('keydown', { key: 'Shift', code: 'ShiftLeft', keyCode: 16, which: 16, shiftKey: true });
+      send('keydown', { key: '?', code: 'Slash', keyCode: 191, which: 191, shiftKey: true });
+      send('keyup', { key: 'Shift', code: 'ShiftLeft', keyCode: 16, which: 16 });
+      send('keyup', { key: '/', code: 'Slash', keyCode: 191, which: 191 });
+      send('keydown', { key: 'Shift', code: 'ShiftLeft', keyCode: 16, which: 16, shiftKey: true });
+      send('keydown', { key: '{', code: 'BracketLeft', keyCode: 219, which: 219, shiftKey: true });
+      send('keyup', { key: 'Shift', code: 'ShiftLeft', keyCode: 16, which: 16 });
+      send('keyup', { key: '[', code: 'BracketLeft', keyCode: 219, which: 219 });
+      const afterUs = pressed();
+
+      const sevenBeforeLegacy = sevenUp;
+      send('keydown', { key: '7', keyCode: 55, which: 55 });
+      send('keyup', { key: '7', keyCode: 55, which: 55 });
+      const afterLegacy = { pressed: pressed(), sevenUp, sevenBeforeLegacy };
+
+      // IME 229 keeps a physical code but must not become that key's identity.
+      send('keydown', { code: 'Digit7', keyCode: 229, which: 229 });
+      send('keydown', { key: '7', code: 'Digit7', keyCode: 55, which: 55 });
+      const afterImePhysical = pressed();
+      send('keyup', { key: '7', code: 'Digit7', keyCode: 55, which: 55 });
+
+      const input = document.createElement('input');
+      document.body.appendChild(input);
+      input.dispatchEvent(new KeyboardEvent('keydown', {
+        key: '/', code: 'Digit7', keyCode: 55, which: 55, shiftKey: true, bubbles: true,
+      }));
+      const afterFilteredDown = pressed();
+      send('keydown', { key: '7', code: 'Digit7', keyCode: 55, which: 55 });
+      const duringFiltered = pressed();
+      send('keyup', { key: '7', code: 'Digit7', keyCode: 55, which: 55 });
+      const afterFiltered = pressed();
+      input.remove();
+
+      const afterResets = [];
+      const resets = [
+        () => window.dispatchEvent(new Event('blur')),
+        () => window.dispatchEvent(new Event('afterprint')),
+        () => document.dispatchEvent(new Event('fullscreenchange')),
+      ];
+      resets.forEach((reset) => {
+        send('keydown', { key: '/', code: 'Digit7', keyCode: 55, which: 55, shiftKey: true });
+        reset();
+        send('keydown', { key: '/', code: 'Slash', keyCode: 191, which: 191 });
+        send('keyup', { key: '7', code: 'Digit7', keyCode: 55, which: 55 });
+        afterResets.push(pressed());
+        send('keyup', { key: '/', code: 'Slash', keyCode: 191, which: 191 });
+      });
+
+      const beforeHost = { slashUp, sevenUp, hostSlash };
+      const sendHost = (type, properties) => {
+        host.dispatchEvent(new KeyboardEvent(type, {
+          bubbles: true,
+          cancelable: true,
+          ...properties,
+        }));
+      };
+      sendHost('keydown', { key: 'Shift', code: 'ShiftLeft', keyCode: 16, which: 16, shiftKey: true });
+      sendHost('keydown', { key: '/', code: 'Digit7', keyCode: 55, which: 55, shiftKey: true });
+      sendHost('keyup', { key: 'Shift', code: 'ShiftLeft', keyCode: 16, which: 16 });
+      sendHost('keyup', { key: '7', code: 'Digit7', keyCode: 55, which: 55 });
+      const afterHost = { pressed: pressed(), slashUp, sevenUp, hostSlash };
+
+      window.hotkeys.unbind('m');
+      window.hotkeys.unbind('/');
+      window.hotkeys.unbind('7');
+      window.hotkeys.unbind(';');
+      window.hotkeys.unbind(',');
+      window.hotkeys.unbind('[');
+      window.hotkeys.unbind('8');
+      host.remove();
+      window.dispatchEvent(new Event('afterprint'));
+
+      return {
+        afterSlashDown,
+        afterGermanSlash,
+        afterM,
+        duringRepeat,
+        afterSemi,
+        afterBracket,
+        afterUs,
+        afterLegacy,
+        afterImePhysical,
+        afterFilteredDown,
+        duringFiltered,
+        afterFiltered,
+        afterResets,
+        beforeHost,
+        afterHost,
+      };
+    });
+
+    expect(result.afterSlashDown).toEqual([16, 191]);
+    expect(result.afterGermanSlash).toEqual({ pressed: [], m: 0, slashUp: 1, sevenUp: 0 });
+    expect(result.afterM).toEqual({ pressed: [], m: 1 });
+    expect(result.duringRepeat).toEqual([191]);
+    expect(result.afterSemi).toEqual({ pressed: [], semiUp: 1, commaUp: 0 });
+    expect(result.afterBracket).toEqual({ pressed: [], bracketUp: 1, eightUp: 0 });
+    expect(result.afterUs).toEqual([]);
+    expect(result.afterLegacy).toEqual({
+      pressed: [],
+      sevenBeforeLegacy: 0,
+      sevenUp: 1,
+    });
+    expect(result.afterImePhysical).toEqual([55]);
+    expect(result.afterFilteredDown).toEqual([]);
+    expect(result.duringFiltered).toEqual([55]);
+    expect(result.afterFiltered).toEqual([]);
+    expect(result.afterResets).toEqual([[191], [191], [191]]);
+    expect(result.afterHost.pressed).toEqual([]);
+    expect(result.afterHost.hostSlash).toBe(result.beforeHost.hostSlash + 1);
+    expect(result.afterHost.slashUp).toBe(result.beforeHost.slashUp + 1);
+    expect(result.afterHost.sevenUp).toBe(result.beforeHost.sevenUp);
+  });
 
     test('Hotkey trigger should also fire wildcard (*) handlers', async () => {
     const result = await page.evaluate(() => {

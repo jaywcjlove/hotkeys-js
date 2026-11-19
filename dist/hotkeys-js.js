@@ -191,6 +191,8 @@ for (let k = 1; k < 20; k++) {
   _keyMap[`f${k}`] = 111 + k;
 }
 let _downKeys = [];
+const _physicalKeyCodes = /* @__PURE__ */ new Map();
+const _resolvedEventKeys = /* @__PURE__ */ new WeakMap();
 let winListendFocus = null;
 let winListendFullscreen = null;
 let winListendPrint = null;
@@ -271,8 +273,20 @@ const deleteScope = (scope, newScope) => {
   }
   if (getScope() === scope) setScope(newScope || "all");
 };
+function clearPhysicalKeyCodes() {
+  _physicalKeyCodes.clear();
+}
+function eventKeyCode(event) {
+  const cached = _resolvedEventKeys.get(event);
+  if (cached !== void 0) return cached;
+  const physicalCode = event.code;
+  const remembered = physicalCode ? _physicalKeyCodes.get(physicalCode) : void 0;
+  const key = remembered !== void 0 ? remembered : getLayoutIndependentKeyCode(event, _keyMap, _modifier);
+  _resolvedEventKeys.set(event, key);
+  return key;
+}
 function clearModifier(event) {
-  let key = getLayoutIndependentKeyCode(event, _keyMap, _modifier);
+  let key = eventKeyCode(event);
   if (event.key && event.key.toLowerCase() === "capslock") {
     key = code(event.key);
   }
@@ -282,6 +296,9 @@ function clearModifier(event) {
   }
   if (event.key && event.key.toLowerCase() === "meta") {
     _downKeys.splice(0, _downKeys.length);
+    clearPhysicalKeyCodes();
+  } else if (event.code) {
+    _physicalKeyCodes.delete(event.code);
   }
   if (key === 93 || key === 224) key = 91;
   if (key in _mods) {
@@ -372,13 +389,16 @@ function eventHandler(event, handler, scope, element, downKeys, mods) {
 }
 function dispatch(event, element) {
   const asterisk = _handlers["*"];
-  let key = getLayoutIndependentKeyCode(event, _keyMap, _modifier);
+  let key = eventKeyCode(event);
   if (event.key && event.key.toLowerCase() === "capslock") {
     return;
   }
   const filterFn = hotkeys.filter || filter;
   if (!filterFn.call(this, event)) return;
   if (key === 93 || key === 224) key = 91;
+  if (event.type === "keydown" && event.code && key !== 229 && !_physicalKeyCodes.has(event.code)) {
+    _physicalKeyCodes.set(event.code, key);
+  }
   if (_downKeys.indexOf(key) === -1 && key !== 229) _downKeys.push(key);
   ["metaKey", "ctrlKey", "altKey", "shiftKey"].forEach((keyName) => {
     const keyNum = modifierMap[keyName];
@@ -448,6 +468,7 @@ function dispatch(event, element) {
 }
 const hotkeys = function hotkeys2(key, option, method) {
   _downKeys = [];
+  clearPhysicalKeyCodes();
   const keys = getKeys(key);
   let mods = [];
   let scope = "all";
@@ -507,6 +528,7 @@ const hotkeys = function hotkeys2(key, option, method) {
       const listener = (event) => {
         if (event.target !== window) return;
         _downKeys = [];
+        clearPhysicalKeyCodes();
         for (const k in _mods) _mods[k] = false;
         for (const k in _modifier) hotkeys2[k] = false;
       };
@@ -517,6 +539,7 @@ const hotkeys = function hotkeys2(key, option, method) {
     if (!winListendFullscreen && typeof document !== "undefined") {
       const onFullscreenChange = () => {
         _downKeys = [];
+        clearPhysicalKeyCodes();
         for (const k in _mods) _mods[k] = false;
         for (const k in _modifier) hotkeys2[k] = false;
       };
@@ -529,6 +552,7 @@ const hotkeys = function hotkeys2(key, option, method) {
     if (!winListendPrint) {
       winListendPrint = () => {
         _downKeys = [];
+        clearPhysicalKeyCodes();
         for (const k in _mods) _mods[k] = false;
         for (const k in _modifier) hotkeys2[k] = false;
       };

@@ -21,6 +21,14 @@ import { _keyMap, _modifier, modifierMap, _mods, _handlers } from './var';
 
 /** Record the pressed keys */
 let _downKeys: number[] = [];
+/**
+ * Logical code captured for a physical `event.code` on its accepted keydown.
+ * Repeats and keyup reuse it, so a modifier released first cannot rename the
+ * key (`/` on keydown, `7` on keyup) and leave the original code pressed.
+ */
+const _physicalKeyCodes = new Map<string, number>();
+/** One event can reach several elements; each listener must resolve it once. */
+const _resolvedEventKeys = new WeakMap<KeyboardEvent, number>();
 /** Whether the window has already listened to focus changes */
 let winListendFocus: { listener: EventListener; capture: boolean } | null =
   null;
@@ -150,9 +158,32 @@ const deleteScope: DeleteScope = (scope, newScope) => {
   if (getScope() === scope) setScope(newScope || 'all');
 };
 
+function clearPhysicalKeyCodes(): void {
+  _physicalKeyCodes.clear();
+}
+
+/**
+ * Code used for both keydown and keyup.
+ * An accepted keydown stores the code it actually tracked. Later events for
+ * that physical key, including repeats, reuse it until keyup or a reset.
+ * Without `event.code`, resolution stays on the event itself.
+ */
+function eventKeyCode(event: KeyboardEvent): number {
+  const cached = _resolvedEventKeys.get(event);
+  if (cached !== undefined) return cached;
+
+  const physicalCode = event.code;
+  const remembered = physicalCode ? _physicalKeyCodes.get(physicalCode) : undefined;
+  const key = remembered !== undefined
+    ? remembered
+    : getLayoutIndependentKeyCode(event, _keyMap, _modifier);
+  _resolvedEventKeys.set(event, key);
+  return key;
+}
+
 /** Clear modifier keys */
 function clearModifier(event: KeyboardEvent): void {
-  let key = getLayoutIndependentKeyCode(event, _keyMap, _modifier);
+  let key = eventKeyCode(event);
 
   if (event.key && event.key.toLowerCase() === 'capslock') {
     // Ensure that when capturing keystrokes in modern browsers,
@@ -170,6 +201,10 @@ function clearModifier(event: KeyboardEvent): void {
   // Special handling for the command key: fix the issue where keyup only triggers once for command combos
   if (event.key && event.key.toLowerCase() === 'meta') {
     _downKeys.splice(0, _downKeys.length);
+    // Other physical keys never receive keyup while command is held.
+    clearPhysicalKeyCodes();
+  } else if (event.code) {
+    _physicalKeyCodes.delete(event.code);
   }
 
   // Clear modifier keys: shiftKey, altKey, ctrlKey, (command || metaKey)
@@ -311,7 +346,7 @@ function dispatch(
   element: HTMLElement | Document
 ): void {
   const asterisk = _handlers['*'];
-  let key = getLayoutIndependentKeyCode(event, _keyMap, _modifier);
+  let key = eventKeyCode(event);
 
   // Ensure that when capturing keystrokes in modern browsers,
   // uppercase and lowercase letters (such as R and r) return the same key value.
@@ -329,6 +364,16 @@ function dispatch(
   // In Gecko (Firefox), the command key code is 224; unify it with WebKit (Chrome)
   // In WebKit, left and right command keys have different codes
   if (key === 93 || key === 224) key = 91;
+  // Only an accepted keydown owns the physical-key identity. Filtered presses,
+  // CapsLock, and IME 229 are left untracked so keyup can fall back.
+  if (
+    event.type === 'keydown' &&
+    event.code &&
+    key !== 229 &&
+    !_physicalKeyCodes.has(event.code)
+  ) {
+    _physicalKeyCodes.set(event.code, key);
+  }
 
   /**
    * Collect bound keys
@@ -449,6 +494,7 @@ const hotkeys = function hotkeys(
   method?: KeyHandler
 ): void {
   _downKeys = [];
+  clearPhysicalKeyCodes();
   /** List of hotkeys to handle */
   const keys = getKeys(key);
   let mods: number[] = [];
@@ -533,6 +579,7 @@ const hotkeys = function hotkeys(
       const listener = (event: Event) => {
         if (event.target !== window) return;
         _downKeys = [];
+        clearPhysicalKeyCodes();
         for (const k in _mods) _mods[k] = false;
         for (const k in _modifier) (hotkeys as any)[k] = false;
       };
@@ -544,6 +591,7 @@ const hotkeys = function hotkeys(
     if (!winListendFullscreen && typeof document !== 'undefined') {
       const onFullscreenChange = () => {
         _downKeys = [];
+        clearPhysicalKeyCodes();
         for (const k in _mods) _mods[k] = false;
         for (const k in _modifier) (hotkeys as any)[k] = false;
       };
@@ -557,6 +605,7 @@ const hotkeys = function hotkeys(
     if (!winListendPrint) {
       winListendPrint = () => {
         _downKeys = [];
+        clearPhysicalKeyCodes();
         for (const k in _mods) _mods[k] = false;
         for (const k in _modifier) (hotkeys as any)[k] = false;
       };
