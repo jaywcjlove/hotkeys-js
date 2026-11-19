@@ -545,6 +545,111 @@ describe('\n   Hotkeys.js Test Case\n', () => {
     expect(result.isPressed65).toBeTruthy();
   });
 
+  test('keyup handlers observe released key state', async () => {
+    await page.evaluate(() => {
+      window.keyupStates = [];
+      const record = (event, handler) => {
+        if (event.type !== 'keyup') return;
+        window.keyupStates.push({
+          isPressed: window.hotkeys.isPressed('a'),
+          pressed: window.hotkeys.getPressedKeyCodes(),
+          handlerKeys: handler.keys,
+        });
+      };
+      window.hotkeys('*', { keyup: true }, record);
+      window.hotkeys('a', { keyup: true }, record);
+      window.hotkeys('a', { keyup: true }, record);
+    });
+
+    try {
+      await page.keyboard.press('a');
+    } finally {
+      await page.evaluate(() => {
+        window.hotkeys.unbind('*');
+        window.hotkeys.unbind('a');
+      });
+    }
+
+    const result = await page.evaluate(() => ({
+      states: window.keyupStates,
+      after: window.hotkeys.getPressedKeyCodes(),
+    }));
+    expect(result.states).toHaveLength(3);
+    expect(result.states).toEqual(Array(3).fill({
+      isPressed: false,
+      pressed: [],
+      handlerKeys: [65],
+    }));
+    expect(result.after).toEqual([]);
+  });
+
+  test('keyup combinations use pre-release matching with released callback state', async () => {
+    await page.evaluate(() => {
+      window.comboStates = [];
+      window.hotkeys('ctrl+a', { keyup: true }, (event, handler) => {
+        if (event.type !== 'keyup') return;
+        window.comboStates.push({
+          isPressedA: window.hotkeys.isPressed('a'),
+          isPressedCtrl: window.hotkeys.isPressed('ctrl'),
+          pressed: window.hotkeys.getPressedKeyCodes(),
+          handlerKeys: handler.keys,
+        });
+      });
+    });
+
+    let during;
+    try {
+      await page.keyboard.down('Control');
+      await page.keyboard.down('a');
+      await page.keyboard.up('a');
+      during = await page.evaluate(() => window.comboStates);
+    } finally {
+      await page.keyboard.up('Control');
+      await page.evaluate(() => window.hotkeys.unbind('ctrl+a'));
+    }
+
+    expect(during).toEqual([{
+      isPressedA: false,
+      isPressedCtrl: true,
+      pressed: [17],
+      handlerKeys: [17, 65],
+    }]);
+    expect(await page.evaluate(() => window.hotkeys.getPressedKeyCodes())).toEqual([]);
+  });
+
+  test('keydown and keyup preserve the existing sorted key order', async () => {
+    await page.evaluate(() => {
+      window.orderedStates = [];
+      window.hotkeys('z+a', { keyup: true }, (event, handler) => {
+        window.orderedStates.push({
+          type: event.type,
+          handlerKeys: handler.keys,
+          pressed: window.hotkeys.getPressedKeyCodes(),
+          isPressedA: window.hotkeys.isPressed('a'),
+        });
+      });
+    });
+
+    try {
+      await page.keyboard.down('z');
+      await page.keyboard.down('a');
+      await page.keyboard.up('a');
+      await page.keyboard.up('z');
+    } finally {
+      await page.evaluate(() => window.hotkeys.unbind('z+a'));
+    }
+
+    const result = await page.evaluate(() => ({
+      states: window.orderedStates,
+      after: window.hotkeys.getPressedKeyCodes(),
+    }));
+    expect(result.states).toEqual([
+      { type: 'keydown', handlerKeys: [65, 90], pressed: [65, 90], isPressedA: true },
+      { type: 'keyup', handlerKeys: [65, 90], pressed: [90], isPressedA: false },
+    ]);
+    expect(result.after).toEqual([]);
+  });
+
   test('HotKeys Key combination Test Case', async () => {
     const result = await page.evaluate(async () => {
       const results = {};
