@@ -74,6 +74,9 @@ var __spreadValues = (a, b) => {
   function getLayoutIndependentKeyCode(event, keyMap, modifierMap2) {
     let key = event.keyCode || event.which || event.charCode;
     if (key && event.code && /^Numpad/.test(event.code)) {
+      if (event.code === "NumpadEnter" && "num_enter" in keyMap) {
+        return keyMap.num_enter;
+      }
       return key;
     }
     if (event.key) {
