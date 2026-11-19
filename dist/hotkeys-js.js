@@ -15,7 +15,7 @@ var __spreadValues = (a, b) => {
   return a;
 };
 /*!
- * hotkeys-js v4.1.2
+ * hotkeys-js v4.1.3
  * A simple micro-library for defining and dispatching keyboard shortcuts. It has no dependencies.
  * 
  * @author kenny wong <wowohoo@qq.com>
@@ -70,6 +70,9 @@ function compareArray(a1, a2) {
 function getLayoutIndependentKeyCode(event, keyMap, modifierMap2) {
   let key = event.keyCode || event.which || event.charCode;
   if (key && event.code && /^Numpad/.test(event.code)) {
+    if (event.code === "NumpadEnter" && "num_enter" in keyMap) {
+      return keyMap.num_enter;
+    }
     return key;
   }
   if (event.key) {
@@ -191,6 +194,8 @@ for (let k = 1; k < 20; k++) {
   _keyMap[`f${k}`] = 111 + k;
 }
 let _downKeys = [];
+const _physicalKeyCodes = /* @__PURE__ */ new Map();
+const _resolvedEventKeys = /* @__PURE__ */ new WeakMap();
 let winListendFocus = null;
 let winListendFullscreen = null;
 let winListendPrint = null;
@@ -271,8 +276,20 @@ const deleteScope = (scope, newScope) => {
   }
   if (getScope() === scope) setScope(newScope || "all");
 };
+function clearPhysicalKeyCodes() {
+  _physicalKeyCodes.clear();
+}
+function eventKeyCode(event) {
+  const cached = _resolvedEventKeys.get(event);
+  if (cached !== void 0) return cached;
+  const physicalCode = event.code;
+  const remembered = physicalCode ? _physicalKeyCodes.get(physicalCode) : void 0;
+  const key = remembered !== void 0 ? remembered : getLayoutIndependentKeyCode(event, _keyMap, _modifier);
+  _resolvedEventKeys.set(event, key);
+  return key;
+}
 function clearModifier(event) {
-  let key = getLayoutIndependentKeyCode(event, _keyMap, _modifier);
+  let key = eventKeyCode(event);
   if (event.key && event.key.toLowerCase() === "capslock") {
     key = code(event.key);
   }
@@ -282,6 +299,9 @@ function clearModifier(event) {
   }
   if (event.key && event.key.toLowerCase() === "meta") {
     _downKeys.splice(0, _downKeys.length);
+    clearPhysicalKeyCodes();
+  } else if (event.code) {
+    _physicalKeyCodes.delete(event.code);
   }
   if (key === 93 || key === 224) key = 91;
   if (key in _mods) {
@@ -372,13 +392,16 @@ function eventHandler(event, handler, scope, element, downKeys, mods) {
 }
 function dispatch(event, element) {
   const asterisk = _handlers["*"];
-  let key = getLayoutIndependentKeyCode(event, _keyMap, _modifier);
+  let key = eventKeyCode(event);
   if (event.key && event.key.toLowerCase() === "capslock") {
     return;
   }
   const filterFn = hotkeys.filter || filter;
   if (!filterFn.call(this, event)) return;
   if (key === 93 || key === 224) key = 91;
+  if (event.type === "keydown" && event.code && key !== 229 && !_physicalKeyCodes.has(event.code)) {
+    _physicalKeyCodes.set(event.code, key);
+  }
   if (_downKeys.indexOf(key) === -1 && key !== 229) _downKeys.push(key);
   ["metaKey", "ctrlKey", "altKey", "shiftKey"].forEach((keyName) => {
     const keyNum = modifierMap[keyName];
@@ -448,6 +471,7 @@ function dispatch(event, element) {
 }
 const hotkeys = function hotkeys2(key, option, method) {
   _downKeys = [];
+  clearPhysicalKeyCodes();
   const keys = getKeys(key);
   let mods = [];
   let scope = "all";
@@ -507,6 +531,7 @@ const hotkeys = function hotkeys2(key, option, method) {
       const listener = (event) => {
         if (event.target !== window) return;
         _downKeys = [];
+        clearPhysicalKeyCodes();
         for (const k in _mods) _mods[k] = false;
         for (const k in _modifier) hotkeys2[k] = false;
       };
@@ -517,6 +542,7 @@ const hotkeys = function hotkeys2(key, option, method) {
     if (!winListendFullscreen && typeof document !== "undefined") {
       const onFullscreenChange = () => {
         _downKeys = [];
+        clearPhysicalKeyCodes();
         for (const k in _mods) _mods[k] = false;
         for (const k in _modifier) hotkeys2[k] = false;
       };
@@ -529,6 +555,7 @@ const hotkeys = function hotkeys2(key, option, method) {
     if (!winListendPrint) {
       winListendPrint = () => {
         _downKeys = [];
+        clearPhysicalKeyCodes();
         for (const k in _mods) _mods[k] = false;
         for (const k in _modifier) hotkeys2[k] = false;
       };
@@ -537,16 +564,72 @@ const hotkeys = function hotkeys2(key, option, method) {
   }
 };
 function trigger(shortcut, scope = "all") {
-  Object.keys(_handlers).forEach((key) => {
-    const dataList = _handlers[key].filter(
-      (item) => item.scope === scope && (item.shortcut === shortcut || item.shortcut === "*")
-    );
-    dataList.forEach((data) => {
-      if (data && data.method) {
-        data.method({}, data);
-      }
+  const previousKeys = _downKeys;
+  const previousMods = {};
+  for (const k in _mods) previousMods[k] = _mods[k];
+  const previousModifiers = {};
+  for (const k in _modifier) previousModifiers[k] = hotkeys[k];
+  const handlers = Object.values(_handlers).flat();
+  const binding = handlers.find(
+    (item) => item.scope === scope && item.shortcut === shortcut
+  ) || handlers.find((item) => item.scope === scope && item.shortcut === "*");
+  const keys = shortcut.split(binding ? binding.splitKey : "+");
+  const keyName = keys[keys.length - 1];
+  const keyCode = code(keyName);
+  const eventCode = /^[a-z]$/i.test(keyName) ? `Key${keyName.toUpperCase()}` : /^[0-9]$/.test(keyName) ? `Digit${keyName}` : "";
+  try {
+    _downKeys = keys.map(code);
+    for (const k in _mods) _mods[k] = _downKeys.indexOf(Number(k)) !== -1;
+    for (const k in _modifier) hotkeys[k] = _mods[_modifier[k]];
+    Object.keys(_handlers).forEach((key) => {
+      const dataList = _handlers[key].filter(
+        (item) => item.scope === scope && (item.shortcut === shortcut || item.shortcut === "*")
+      );
+      dataList.forEach((data) => {
+        if (data && typeof data.method === "function") {
+          let event;
+          try {
+            event = document.createEvent("KeyboardEvent");
+          } catch (e) {
+            event = document.createEvent("Event");
+          }
+          if (event.initKeyboardEvent) {
+            event.initKeyboardEvent(
+              "keydown",
+              false,
+              true,
+              window,
+              keyName,
+              0,
+              _mods[17],
+              _mods[18],
+              _mods[16],
+              _mods[91]
+            );
+          } else {
+            event.initEvent("keydown", false, true);
+          }
+          Object.defineProperties(event, {
+            key: { value: keyName },
+            code: { value: eventCode },
+            keyCode: { value: keyCode },
+            which: { value: keyCode },
+            target: { value: data.element },
+            ctrlKey: { value: _mods[17] },
+            altKey: { value: _mods[18] },
+            shiftKey: { value: _mods[16] },
+            metaKey: { value: _mods[91] }
+          });
+          data.keys = _downKeys.slice(0);
+          data.method(event, data);
+        }
+      });
     });
-  });
+  } finally {
+    _downKeys = previousKeys;
+    for (const k in _mods) _mods[k] = previousMods[k];
+    for (const k in _modifier) hotkeys[k] = previousModifiers[k];
+  }
 }
 function removeKeyEvent(element) {
   const values = Object.values(_handlers).flat();
