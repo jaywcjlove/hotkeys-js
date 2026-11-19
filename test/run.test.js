@@ -720,6 +720,225 @@ describe('\n   Hotkeys.js Test Case\n', () => {
     expect(result).toBe(1);
   });
 
+  test('Hotkey trigger ignores bindings without a callback', async () => {
+    const result = await page.evaluate(() => {
+      window.hotkeys('a');
+      let error = null;
+      try {
+        window.hotkeys.trigger('a');
+      } catch (exception) {
+        error = exception.message;
+      }
+      window.hotkeys.unbind('a');
+      return error;
+    });
+
+    expect(result).toBeNull();
+  });
+
+  test('Hotkey trigger supports the generic Event fallback', async () => {
+    const result = await page.evaluate(() => {
+      const createEvent = document.createEvent;
+      let snapshot;
+      document.createEvent = function (type) {
+        if (type === 'KeyboardEvent') throw new Error('KeyboardEvent unsupported');
+        return createEvent.call(this, type);
+      };
+
+      try {
+        window.hotkeys('alt+b', (event, handler) => {
+          snapshot = {
+            isEvent: event instanceof Event,
+            isKeyboardEvent: event instanceof KeyboardEvent,
+            type: event.type,
+            key: event.key,
+            code: event.code,
+            keyCode: event.keyCode,
+            altKey: event.altKey,
+            cancelable: event.cancelable,
+            targetIsDocument: event.target === document,
+            handlerKeys: handler.keys,
+            pressed: window.hotkeys.getPressedKeyCodes(),
+          };
+        });
+        window.hotkeys.trigger('alt+b');
+      } finally {
+        document.createEvent = createEvent;
+        window.hotkeys.unbind('alt+b');
+      }
+
+      return { snapshot, after: window.hotkeys.getPressedKeyCodes() };
+    });
+
+    expect(result).toEqual({
+      snapshot: {
+        isEvent: true,
+        isKeyboardEvent: false,
+        type: 'keydown',
+        key: 'b',
+        code: 'KeyB',
+        keyCode: 66,
+        altKey: true,
+        cancelable: true,
+        targetIsDocument: true,
+        handlerKeys: [18, 66],
+        pressed: [18, 66],
+      },
+      after: [],
+    });
+  });
+
+  test('Hotkey trigger preserves modifier-only callbacks', async () => {
+    const result = await page.evaluate(() => {
+      let snapshot;
+      window.hotkeys('ctrl', (event) => {
+        snapshot = {
+          key: event.key,
+          keyCode: event.keyCode,
+          ctrlKey: event.ctrlKey,
+          pressed: window.hotkeys.getPressedKeyCodes(),
+        };
+      });
+      window.hotkeys.trigger('ctrl');
+      window.hotkeys.unbind('ctrl');
+      return { snapshot, after: window.hotkeys.getPressedKeyCodes() };
+    });
+
+    expect(result).toEqual({
+      snapshot: {
+        key: 'ctrl',
+        keyCode: 17,
+        ctrlKey: true,
+        pressed: [17],
+      },
+      after: [],
+    });
+  });
+
+  test('Hotkey trigger provides event and pressed state', async () => {
+    const result = await page.evaluate(() => {
+      const scope = 'manual-trigger-event';
+      let snapshot;
+      let unrelatedKeydowns = 0;
+      const onKeydown = () => unrelatedKeydowns++;
+      document.addEventListener('keydown', onKeydown);
+
+      window.hotkeys('ctrl+a', { scope }, (event, handler) => {
+        snapshot = {
+          isKeyboardEvent: event instanceof KeyboardEvent,
+          type: event.type,
+          key: event.key,
+          code: event.code,
+          keyCode: event.keyCode,
+          which: event.which,
+          ctrlKey: event.ctrlKey,
+          ctrlModifier: event.getModifierState('Control'),
+          altModifier: event.getModifierState('Alt'),
+          targetIsDocument: event.target === document,
+          handlerKeys: handler.keys,
+          pressed: window.hotkeys.getPressedKeyCodes(),
+          ctrlPressed: window.hotkeys.isPressed('ctrl'),
+          aPressed: window.hotkeys.isPressed('a'),
+          bPressed: window.hotkeys.isPressed('b'),
+          ctrlFlag: window.hotkeys.ctrl,
+        };
+      });
+
+      window.hotkeys.trigger('ctrl+a', scope);
+
+      const after = {
+        pressed: window.hotkeys.getPressedKeyCodes(),
+        aPressed: window.hotkeys.isPressed('a'),
+        ctrlFlag: window.hotkeys.ctrl,
+      };
+      window.hotkeys.deleteScope(scope);
+      document.removeEventListener('keydown', onKeydown);
+      return { snapshot, after, unrelatedKeydowns };
+    });
+
+    expect(result).toEqual({
+      snapshot: {
+        isKeyboardEvent: true,
+        type: 'keydown',
+        key: 'a',
+        code: 'KeyA',
+        keyCode: 65,
+        which: 65,
+        ctrlKey: true,
+        ctrlModifier: true,
+        altModifier: false,
+        targetIsDocument: true,
+        handlerKeys: [17, 65],
+        pressed: [17, 65],
+        ctrlPressed: true,
+        aPressed: true,
+        bPressed: false,
+        ctrlFlag: true,
+      },
+      after: { pressed: [], aPressed: false, ctrlFlag: undefined },
+      unrelatedKeydowns: 0,
+    });
+  });
+
+  test('Hotkey trigger restores physical state after an error', async () => {
+    const result = await page.evaluate(() => {
+      const scope = 'manual-trigger-error';
+      window.hotkeys('ctrl+a', { scope }, () => {
+        throw new Error('manual trigger failure');
+      });
+
+      document.body.dispatchEvent(new KeyboardEvent('keydown', {
+        key: 'Control', code: 'ControlLeft', keyCode: 17, which: 17,
+        ctrlKey: true, bubbles: true,
+      }));
+      document.body.dispatchEvent(new KeyboardEvent('keydown', {
+        key: 'b', code: 'KeyB', keyCode: 66, which: 66,
+        ctrlKey: true, bubbles: true,
+      }));
+      const before = window.hotkeys.getPressedKeyCodes();
+
+      let message;
+      try {
+        window.hotkeys.trigger('ctrl+a', scope);
+      } catch (error) {
+        message = error.message;
+      }
+
+      const after = {
+        pressed: window.hotkeys.getPressedKeyCodes(),
+        aPressed: window.hotkeys.isPressed('a'),
+        bPressed: window.hotkeys.isPressed('b'),
+        ctrlPressed: window.hotkeys.isPressed('ctrl'),
+        ctrlFlag: window.hotkeys.ctrl,
+      };
+
+      for (const [key, code, keyCode] of [['b', 'KeyB', 66], ['Control', 'ControlLeft', 17]]) {
+        document.body.dispatchEvent(new KeyboardEvent('keyup', {
+          key, code, keyCode, which: keyCode, bubbles: true,
+        }));
+      }
+      const cleared = {
+        pressed: window.hotkeys.getPressedKeyCodes(),
+        ctrlFlag: window.hotkeys.ctrl,
+      };
+      window.hotkeys.deleteScope(scope);
+      return { before, message, after, cleared };
+    });
+
+    expect(result).toEqual({
+      before: [17, 66],
+      message: 'manual trigger failure',
+      after: {
+        pressed: [17, 66],
+        aPressed: false,
+        bPressed: true,
+        ctrlPressed: true,
+        ctrlFlag: true,
+      },
+      cleared: { pressed: [], ctrlFlag: false },
+    });
+  });
+
   test('Hotkey trigger with multi shortcut', async () => {
     const result = await page.evaluate(() => {
       let count = 0;
@@ -954,6 +1173,88 @@ describe('\n   Hotkeys.js Test Case\n', () => {
     expect(result.cTriggered).toBeFalsy();
     expect(result.pressedKeysDuringI).toEqual(expect.arrayContaining([73]));
   });
+
+    test('Hotkey trigger uses wildcard-only custom separators', async () => {
+      const result = await page.evaluate(() => {
+        const scope = 'wildcard-only-custom-separator';
+        let snapshot;
+        window.hotkeys('*', { scope, splitKey: '-' }, (event, handler) => {
+          snapshot = {
+            key: event.key,
+            code: event.code,
+            keyCode: event.keyCode,
+            ctrlKey: event.ctrlKey,
+            handlerKeys: handler.keys,
+            pressed: window.hotkeys.getPressedKeyCodes(),
+          };
+        });
+
+        window.hotkeys.trigger('ctrl-a', scope);
+        const after = window.hotkeys.getPressedKeyCodes();
+        window.hotkeys.deleteScope(scope);
+        return { snapshot, after };
+      });
+
+      expect(result).toEqual({
+        snapshot: {
+          key: 'a',
+          code: 'KeyA',
+          keyCode: 65,
+          ctrlKey: true,
+          handlerKeys: [17, 65],
+          pressed: [17, 65],
+        },
+        after: [],
+      });
+    });
+
+    test('Hotkey trigger shares custom separators with wildcard handlers', async () => {
+      const result = await page.evaluate(() => {
+        const scope = 'custom-separator-wildcard';
+        const calls = [];
+        const capture = (name) => (event, handler) => calls.push({
+          name,
+          key: event.key,
+          code: event.code,
+          keyCode: event.keyCode,
+          ctrlKey: event.ctrlKey,
+          handlerKeys: handler.keys,
+          pressed: window.hotkeys.getPressedKeyCodes(),
+        });
+
+        window.hotkeys('ctrl-a', { scope, splitKey: '-' }, capture('exact'));
+        window.hotkeys('*', { scope }, capture('wildcard'));
+        window.hotkeys.trigger('ctrl-a', scope);
+
+        const after = window.hotkeys.getPressedKeyCodes();
+        window.hotkeys.deleteScope(scope);
+        return { calls, after };
+      });
+
+      expect(result).toEqual({
+        calls: [
+          {
+            name: 'exact',
+            key: 'a',
+            code: 'KeyA',
+            keyCode: 65,
+            ctrlKey: true,
+            handlerKeys: [17, 65],
+            pressed: [17, 65],
+          },
+          {
+            name: 'wildcard',
+            key: 'a',
+            code: 'KeyA',
+            keyCode: 65,
+            ctrlKey: true,
+            handlerKeys: [17, 65],
+            pressed: [17, 65],
+          },
+        ],
+        after: [],
+      });
+    });
 
     test('Hotkey trigger should also fire wildcard (*) handlers', async () => {
     const result = await page.evaluate(() => {
