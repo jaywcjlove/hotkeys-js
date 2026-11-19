@@ -332,23 +332,23 @@
       unbindElements.forEach((element) => removeKeyEvent(element));
     });
   };
-  function eventHandler(event, handler, scope, element) {
+  function eventHandler(event, handler, scope, element, downKeys, mods) {
     if (handler.element !== element) {
       return;
     }
     let modifiersMatch;
     if (handler.scope === scope || handler.scope === "all") {
       modifiersMatch = handler.mods.length > 0;
-      for (const y in _mods) {
-        if (Object.prototype.hasOwnProperty.call(_mods, y)) {
-          if (!_mods[y] && handler.mods.indexOf(+y) > -1 || _mods[y] && handler.mods.indexOf(+y) === -1) {
+      for (const y in mods) {
+        if (Object.prototype.hasOwnProperty.call(mods, y)) {
+          if (!mods[y] && handler.mods.indexOf(+y) > -1 || mods[y] && handler.mods.indexOf(+y) === -1) {
             modifiersMatch = false;
           }
         }
       }
-      if (handler.mods.length === 0 && !_mods[16] && !_mods[18] && !_mods[17] && !_mods[91] || modifiersMatch || handler.shortcut === "*") {
+      if (handler.mods.length === 0 && !mods[16] && !mods[18] && !mods[17] && !mods[91] || modifiersMatch || handler.shortcut === "*") {
         handler.keys = [];
-        handler.keys = handler.keys.concat(_downKeys);
+        handler.keys = handler.keys.concat(downKeys);
         if (handler.method(event, handler) === false) {
           if (event.preventDefault) event.preventDefault();
           else event.returnValue = false;
@@ -403,11 +403,14 @@
       _mods[17] = true;
       _mods[18] = true;
     }
+    const downKeys = event.type === "keyup" ? _downKeys.slice() : _downKeys;
+    const mods = event.type === "keyup" ? __spreadValues({}, _mods) : _mods;
+    if (event.type === "keyup") clearModifier(event);
     const scope = getScope();
     if (asterisk) {
       for (let i = 0; i < asterisk.length; i++) {
         if (event.type === "keydown" && asterisk[i].keydown || event.type === "keyup" && asterisk[i].keyup) {
-          eventHandler(event, asterisk[i], scope, element);
+          eventHandler(event, asterisk[i], scope, element, downKeys, mods);
         }
       }
     }
@@ -424,8 +427,8 @@
           for (let a = 0; a < keyShortcut.length; a++) {
             _downKeysCurrent.push(code(keyShortcut[a]));
           }
-          if (_downKeysCurrent.sort().join("") === _downKeys.sort().join("")) {
-            eventHandler(event, record, scope, element);
+          if (_downKeysCurrent.sort().join("") === downKeys.sort().join("")) {
+            eventHandler(event, record, scope, element, downKeys, mods);
           }
         }
       }
