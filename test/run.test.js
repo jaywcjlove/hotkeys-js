@@ -490,6 +490,29 @@ describe('\n   Hotkeys.js Test Case\n', () => {
     expect(result).toEqual(['num_0', 'num_decimal', 'num_subtract', 'num_divide', '0', '.', '-', '/']);
   });
 
+  test('numpad enter matches num_enter, the main enter key matches enter', async () => {
+    const result = await page.evaluate(() => {
+      const calls = [];
+      ['num_enter', 'enter'].forEach((key) => window.hotkeys(key, () => calls.push(key)));
+
+      const press = (code) => {
+        ['keydown', 'keyup'].forEach((type) => {
+          document.body.dispatchEvent(new KeyboardEvent(type, {
+            key: 'Enter', code, keyCode: 13, which: 13, bubbles: true,
+          }));
+        });
+      };
+      // Browsers report keyCode 13 for both Enter keys
+      press('NumpadEnter');
+      press('Enter');
+
+      ['num_enter', 'enter'].forEach((key) => window.hotkeys.unbind(key));
+      return calls;
+    });
+
+    expect(result).toEqual(['num_enter', 'enter']);
+  });
+
   test('HotKeys Test Case', async () => {
     const result = await page.evaluate(async () => {
       const results = {};

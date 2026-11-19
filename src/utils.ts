@@ -92,6 +92,10 @@ function getLayoutIndependentKeyCode(
 
   // Numpad keys share `key` with the main row ('0', '.', '-', '/'), so keep their key code.
   if (key && event.code && /^Numpad/.test(event.code)) {
+    // Numpad Enter reports keyCode 13 like the main Enter key; map it to `num_enter`.
+    if (event.code === 'NumpadEnter' && 'num_enter' in keyMap) {
+      return keyMap.num_enter;
+    }
     return key;
   }
 
