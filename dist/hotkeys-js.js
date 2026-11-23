@@ -15,7 +15,7 @@ var __spreadValues = (a, b) => {
   return a;
 };
 /*!
- * hotkeys-js v4.1.2
+ * hotkeys-js v4.1.3
  * A simple micro-library for defining and dispatching keyboard shortcuts. It has no dependencies.
  * 
  * @author kenny wong <wowohoo@qq.com>
@@ -369,6 +369,7 @@ function eventHandler(event, handler, scope, element, downKeys, mods) {
     return;
   }
   let modifiersMatch;
+  const isModifierOnly = handler.mods.length === 0 && handler.key.split(handler.splitKey).length === 1 && code(handler.key) in _mods;
   if (handler.scope === scope || handler.scope === "all") {
     modifiersMatch = handler.mods.length > 0;
     for (const y in mods) {
@@ -378,7 +379,7 @@ function eventHandler(event, handler, scope, element, downKeys, mods) {
         }
       }
     }
-    if (handler.mods.length === 0 && !mods[16] && !mods[18] && !mods[17] && !mods[91] || modifiersMatch || handler.shortcut === "*") {
+    if (handler.mods.length === 0 && (isModifierOnly || !mods[16] && !mods[18] && !mods[17] && !mods[91]) || modifiersMatch || handler.shortcut === "*") {
       handler.keys = [];
       handler.keys = handler.keys.concat(downKeys);
       if (handler.method(event, handler) === false) {
@@ -421,7 +422,7 @@ function dispatch(event, element) {
         hotkeys[k] = event[eventKey];
       }
     }
-    if (!asterisk) return;
+    if (!asterisk && !(key in _handlers)) return;
   }
   for (const e in _mods) {
     if (Object.prototype.hasOwnProperty.call(_mods, e)) {
@@ -440,6 +441,10 @@ function dispatch(event, element) {
   }
   const downKeys = event.type === "keyup" ? _downKeys.slice() : _downKeys;
   const mods = event.type === "keyup" ? __spreadValues({}, _mods) : _mods;
+  if (event.type === "keyup" && key in _mods) {
+    if (downKeys.indexOf(key) === -1) downKeys.push(key);
+    mods[key] = true;
+  }
   if (event.type === "keyup") clearModifier(event);
   const scope = getScope();
   if (asterisk) {
