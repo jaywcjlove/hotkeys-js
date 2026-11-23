@@ -300,6 +300,10 @@ function eventHandler(
     return;
   }
   let modifiersMatch: boolean;
+  const isModifierOnly =
+    handler.mods.length === 0 &&
+    handler.key.split(handler.splitKey).length === 1 &&
+    code(handler.key) in _mods;
 
   // Check if it is within the current scope
   if (handler.scope === scope || handler.scope === 'all') {
@@ -317,13 +321,9 @@ function eventHandler(
       }
     }
 
-    // Call the handler function; ignore if it's only a modifier key
     if (
       (handler.mods.length === 0 &&
-        !mods[16] &&
-        !mods[18] &&
-        !mods[17] &&
-        !mods[91]) ||
+        (isModifierOnly || (!mods[16] && !mods[18] && !mods[17] && !mods[91]))) ||
       modifiersMatch ||
       handler.shortcut === '*'
     ) {
@@ -412,7 +412,7 @@ function dispatch(
       }
     }
 
-    if (!asterisk) return;
+    if (!asterisk && !(key in _handlers)) return;
   }
 
   // Bind the modifier keys in modifierMap to the event
@@ -446,6 +446,10 @@ function dispatch(
 
   const downKeys = event.type === 'keyup' ? _downKeys.slice() : _downKeys;
   const mods = event.type === 'keyup' ? { ..._mods } : _mods;
+  if (event.type === 'keyup' && key in _mods) {
+    if (downKeys.indexOf(key) === -1) downKeys.push(key);
+    mods[key] = true;
+  }
   if (event.type === 'keyup') clearModifier(event);
 
   // Get the current scope (defaults to 'all')

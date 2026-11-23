@@ -838,6 +838,48 @@ describe('\n   Hotkeys.js Test Case\n', () => {
     });
   });
 
+  test.each([
+    { shortcut: 'ctrl', key: 'Control', code: 'ControlLeft', keyCode: 17, modifierKey: 'ctrlKey' },
+    { shortcut: 'shift', key: 'Shift', code: 'ShiftLeft', keyCode: 16, modifierKey: 'shiftKey' },
+    { shortcut: 'alt', key: 'Alt', code: 'AltLeft', keyCode: 18, modifierKey: 'altKey' },
+    { shortcut: 'command', key: 'Meta', code: 'MetaLeft', keyCode: 91, modifierKey: 'metaKey' },
+  ])('dispatches $shortcut-only handlers with and without wildcard bindings', async (fixture) => {
+    const calls = await page.evaluate(({ shortcut, key, code, keyCode, modifierKey }) => {
+      const result = [];
+      for (const withWildcard of [false, true]) {
+        window.hotkeys(shortcut, { keyup: true }, (event, handler) => {
+          result.push({
+            withWildcard,
+            type: event.type,
+            shortcut: handler.shortcut,
+            keys: handler.keys,
+            pressed: window.hotkeys.getPressedKeyCodes(),
+          });
+        });
+        if (withWildcard) window.hotkeys('*', () => {});
+        for (const type of ['keydown', 'keyup']) {
+          document.body.dispatchEvent(new KeyboardEvent(type, {
+            key, code, keyCode, which: keyCode, [modifierKey]: type === 'keydown', bubbles: true,
+          }));
+        }
+        window.hotkeys.unbind(shortcut);
+        if (withWildcard) window.hotkeys.unbind('*');
+      }
+      return result;
+    }, fixture);
+
+    const expected = [false, true].flatMap((withWildcard) =>
+      ['keydown', 'keyup'].map((type) => ({
+        withWildcard,
+        type,
+        shortcut: fixture.shortcut,
+        keys: [fixture.keyCode],
+        pressed: type === 'keydown' ? [fixture.keyCode] : [],
+      }))
+    );
+    expect(calls).toEqual(expected);
+  });
+
   test('Hotkey trigger provides event and pressed state', async () => {
     const result = await page.evaluate(() => {
       const scope = 'manual-trigger-event';
