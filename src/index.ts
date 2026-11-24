@@ -483,7 +483,7 @@ function dispatch(
         for (let a = 0; a < keyShortcut.length; a++) {
           _downKeysCurrent.push(code(keyShortcut[a]));
         }
-        if (_downKeysCurrent.sort().join('') === downKeys.sort().join('')) {
+        if (_downKeysCurrent.sort().join('') === downKeys.slice().sort().join('')) {
           // Match found, call the handler
           eventHandler(event, record, scope, element, downKeys, mods);
         }

@@ -640,7 +640,7 @@ describe('\n   Hotkeys.js Test Case\n', () => {
     expect(await page.evaluate(() => window.hotkeys.getPressedKeyCodes())).toEqual([]);
   });
 
-  test('keydown and keyup preserve the existing sorted key order', async () => {
+  test('keydown and keyup preserve physical key order', async () => {
     await page.evaluate(() => {
       window.orderedStates = [];
       window.hotkeys('z+a', { keyup: true }, (event, handler) => {
@@ -667,8 +667,8 @@ describe('\n   Hotkeys.js Test Case\n', () => {
       after: window.hotkeys.getPressedKeyCodes(),
     }));
     expect(result.states).toEqual([
-      { type: 'keydown', handlerKeys: [65, 90], pressed: [65, 90], isPressedA: true },
-      { type: 'keyup', handlerKeys: [65, 90], pressed: [90], isPressedA: false },
+      { type: 'keydown', handlerKeys: [90, 65], pressed: [90, 65], isPressedA: true },
+      { type: 'keyup', handlerKeys: [90, 65], pressed: [90], isPressedA: false },
     ]);
     expect(result.after).toEqual([]);
   });
