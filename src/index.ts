@@ -445,7 +445,17 @@ function dispatch(
   }
 
   const downKeys = event.type === 'keyup' ? _downKeys.slice() : _downKeys;
-  const mods = event.type === 'keyup' ? { ..._mods } : _mods;
+  // Keyup handlers must see modifiers from before clearModifier. A copy lets
+  // the released modifier stay set for this event only.
+  let mods: Record<number, boolean> = _mods;
+  if (event.type === 'keyup') {
+    mods = {};
+    for (const modKey in _mods) {
+      if (Object.prototype.hasOwnProperty.call(_mods, modKey)) {
+        mods[modKey] = _mods[modKey];
+      }
+    }
+  }
   if (event.type === 'keyup' && key in _mods) {
     if (downKeys.indexOf(key) === -1) downKeys.push(key);
     mods[key] = true;

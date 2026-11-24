@@ -1,23 +1,7 @@
 (function(global, factory) {
   typeof exports === "object" && typeof module !== "undefined" ? module.exports = factory() : typeof define === "function" && define.amd ? define(factory) : (global = typeof globalThis !== "undefined" ? globalThis : global || self, global.hotkeys = factory());
 })(this, (function() {
-  "use strict";var __defProp = Object.defineProperty;
-var __getOwnPropSymbols = Object.getOwnPropertySymbols;
-var __hasOwnProp = Object.prototype.hasOwnProperty;
-var __propIsEnum = Object.prototype.propertyIsEnumerable;
-var __defNormalProp = (obj, key, value) => key in obj ? __defProp(obj, key, { enumerable: true, configurable: true, writable: true, value }) : obj[key] = value;
-var __spreadValues = (a, b) => {
-  for (var prop in b || (b = {}))
-    if (__hasOwnProp.call(b, prop))
-      __defNormalProp(a, prop, b[prop]);
-  if (__getOwnPropSymbols)
-    for (var prop of __getOwnPropSymbols(b)) {
-      if (__propIsEnum.call(b, prop))
-        __defNormalProp(a, prop, b[prop]);
-    }
-  return a;
-};
-/*!
+  "use strict";/*!
  * hotkeys-js v4.1.3
  * A simple micro-library for defining and dispatching keyboard shortcuts. It has no dependencies.
  * 
@@ -444,7 +428,15 @@ var __spreadValues = (a, b) => {
       _mods[18] = true;
     }
     const downKeys = event.type === "keyup" ? _downKeys.slice() : _downKeys;
-    const mods = event.type === "keyup" ? __spreadValues({}, _mods) : _mods;
+    let mods = _mods;
+    if (event.type === "keyup") {
+      mods = {};
+      for (const modKey in _mods) {
+        if (Object.prototype.hasOwnProperty.call(_mods, modKey)) {
+          mods[modKey] = _mods[modKey];
+        }
+      }
+    }
     if (event.type === "keyup" && key in _mods) {
       if (downKeys.indexOf(key) === -1) downKeys.push(key);
       mods[key] = true;

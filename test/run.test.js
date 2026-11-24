@@ -759,6 +759,58 @@ describe('\n   Hotkeys.js Test Case\n', () => {
     expect(result).toBeNull();
   });
 
+  test('Hotkey trigger uses a digit code for numeric shortcuts', async () => {
+    const result = await page.evaluate(() => {
+      let snapshot;
+      window.hotkeys('ctrl+5', (event) => {
+        snapshot = {
+          key: event.key,
+          code: event.code,
+          keyCode: event.keyCode,
+          ctrlKey: event.ctrlKey,
+          pressed: window.hotkeys.getPressedKeyCodes(),
+        };
+      });
+      window.hotkeys.trigger('ctrl+5');
+      const after = window.hotkeys.getPressedKeyCodes();
+      window.hotkeys.unbind('ctrl+5');
+      return { snapshot, after };
+    });
+
+    expect(result).toEqual({
+      snapshot: {
+        key: '5',
+        code: 'Digit5',
+        keyCode: 53,
+        ctrlKey: true,
+        pressed: [17, 53],
+      },
+      after: [],
+    });
+  });
+
+  test('Hotkey trigger without a matching binding keeps the current pressed keys', async () => {
+    const result = await page.evaluate(() => {
+      let calls = 0;
+      window.hotkeys('a', { scope: 'elsewhere' }, () => {
+        calls += 1;
+      });
+      document.body.dispatchEvent(new KeyboardEvent('keydown', {
+        key: 'b', code: 'KeyB', keyCode: 66, which: 66, bubbles: true,
+      }));
+      const before = window.hotkeys.getPressedKeyCodes();
+      window.hotkeys.trigger('ctrl+9', 'empty-trigger-scope');
+      const after = window.hotkeys.getPressedKeyCodes();
+      window.hotkeys.deleteScope('elsewhere');
+      document.body.dispatchEvent(new KeyboardEvent('keyup', {
+        key: 'b', code: 'KeyB', keyCode: 66, which: 66, bubbles: true,
+      }));
+      return { calls, before, after };
+    });
+
+    expect(result).toEqual({ calls: 0, before: [66], after: [66] });
+  });
+
   test('Hotkey trigger supports the generic Event fallback', async () => {
     const result = await page.evaluate(() => {
       const createEvent = document.createEvent;
@@ -1583,6 +1635,31 @@ describe('\n   Hotkeys.js Test Case\n', () => {
     expect(result.calls).toBe(1);
   });
 
+  test('focus on a page element does not clear keys held for the window', async () => {
+    const result = await page.evaluate(() => {
+      window.hotkeys('a', () => {});
+      document.body.dispatchEvent(new KeyboardEvent('keydown', {
+        key: 'a', code: 'KeyA', keyCode: 65, which: 65, bubbles: true,
+      }));
+      const button = document.createElement('button');
+      document.body.appendChild(button);
+      const before = window.hotkeys.getPressedKeyCodes();
+      button.dispatchEvent(new FocusEvent('focus', { bubbles: true }));
+      const afterInnerFocus = window.hotkeys.getPressedKeyCodes();
+      window.dispatchEvent(new Event('focus'));
+      const afterWindowFocus = window.hotkeys.getPressedKeyCodes();
+      button.remove();
+      window.hotkeys.unbind('a');
+      return { before, afterInnerFocus, afterWindowFocus };
+    });
+
+    expect(result).toEqual({
+      before: [65],
+      afterInnerFocus: [65],
+      afterWindowFocus: [],
+    });
+  });
+
   test('afterprint clears keys whose keyup was swallowed by the print dialog', async () => {
     const result = await page.evaluate(() => {
       const calls = [];
@@ -2306,6 +2383,31 @@ describe('\n   Hotkeys.js Test Case\n', () => {
     expect(browserGlobal.semicolon).toBe(186);
     expect(withoutNavigator.overridden).toBe(true);
     expect(withoutNavigator.type).toBe('function');
+
+    const withoutGlobalThis = await page.evaluate(() => new Promise((resolve) => {
+      globalThis = undefined;
+      delete window.module;
+      delete window.exports;
+      delete window.define;
+      const script = document.createElement('script');
+      script.src = '../dist/hotkeys-js.umd.cjs';
+      script.onload = () => {
+        const loaded = {
+          type: typeof window.hotkeys,
+          minus: window.hotkeys.keyMap['-'],
+        };
+        globalThis = window;
+        resolve(loaded);
+      };
+      script.onerror = () => {
+        globalThis = window;
+        resolve({ type: 'error', minus: 0 });
+      };
+      document.body.appendChild(script);
+    }));
+
+    expect(withoutGlobalThis.type).toBe('function');
+    expect(withoutGlobalThis.minus).toBe(189);
   });
 
   afterAll(async () => {
